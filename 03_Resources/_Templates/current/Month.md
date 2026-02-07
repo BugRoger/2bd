@@ -4,6 +4,10 @@ quarter: Q[1-4] [YYYY]
 year: [YYYY]
 ---
 
+[[00_Brain/Home|Home]] | [[Day]] | [[Week]] | [[Quarter]]
+
+---
+
 ## Month Overview
 
 ### Key Outcomes This Month
@@ -69,3 +73,4 @@ year: [YYYY]
 
 ### Patterns & Trends
 [Recurring themes across weeks, team dynamics evolution, organizational trends, seasonal patterns in your work or life]
+

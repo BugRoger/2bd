@@ -9,6 +9,10 @@ focus_hours: 0
 meetings: 0
 ---
 
+[[00_Brain/Home|Home]] | [[Week]] | [[Month]] | [[Quarter]]
+
+---
+
 ## Focus
 
 ### Top Priorities (Outcomes)
@@ -103,3 +107,4 @@ meetings: 0
 
 ### Team/Org Observations
 [Patterns in team dynamics, organizational trends, leadership lessons, people to check in with]
+

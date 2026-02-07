@@ -6,6 +6,10 @@ quarter: Q[1-4] [YYYY]
 year: [YYYY]
 ---
 
+[[00_Brain/Home|Home]] | [[Day]] | [[Month]] | [[Quarter]]
+
+---
+
 ## Week Overview
 
 ### Key Outcomes This Week
@@ -74,3 +78,4 @@ year: [YYYY]
 
 ### Patterns Observed
 [Recurring themes, team dynamics, organizational trends, seasonal patterns in your work]
+
