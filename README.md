@@ -12,6 +12,8 @@ The real issue is that traditional productivity systems depend on you being the 
 
 2bd flips the script. Instead of you serving your system, your system serves you. Rituals run on schedule, Living Notes evolve with your life, and everything stays organized in plain markdown files you truly own. This is a second brain that actually remembers—so you don't have to.
 
+And because everything is plain markdown on your filesystem, AI integration is trivial. No plugins. No APIs. No MCPs. You just point Claude Code at a folder, and you're done. The filesystem is the API, plaintext is the format. Apps come and go, but plain text lasts forever.
+
 ---
 
 ## What is 2bd?
@@ -53,7 +55,7 @@ Syncs automatically (cloud services or custom ritual)
 
 **Key Principles:**
 - **No Databases, No Servers:** Everything is a markdown file in your filesystem
-- **Data Ownership:** Your files live on your machine, sync is optional
+- **Data Ownership:** Your files live on your machine—plain text that outlasts any app. While other tools require complex integrations for AI, you just point Claude at a folder.
 - **Claude as Processor:** Claude reads, processes, and writes back—every run is stateless
 - **Skills as Programs:** Rituals drive the engine, Actions are one-shot helpers
 
@@ -101,13 +103,24 @@ Rituals often compose actions as building blocks.
 
 ### Living Notes
 
-Living Notes are continuously evolving documents (Today.md, Week.md, etc.) that get updated by rituals. Instead of creating new files daily, a single file gets refreshed and the previous version is archived.
+Living Notes are continuously evolving documents (Day.md, Week.md, etc.) that get updated by rituals—inspired by the [Forever Notes](https://www.myforevernotes.com/docs/journal) philosophy of treating notes as living documents rather than static snapshots. Instead of creating new files daily, a single file gets refreshed and the previous version is archived.
 
 **The Hybrid Approach:** Before updating, 2bd saves a snapshot to Archives. You get a living dashboard AND a historical record.
 
 ### PARA Method
 
 2bd follows Tiago Forte's PARA method (Projects, Areas, Resources, Archives) for organizing information by actionability.
+
+### Hubs
+
+Hubs are central navigation notes that organize content by domain, inspired by [Forever Notes](https://www.myforevernotes.com/docs/hubs). Each Hub acts as a map for a specific area:
+
+- **✱ Home** - Central Hub linking all domains
+- **✱ Projects** - Active projects navigation (user + rituals)
+- **✱ People** - Relationship tracking (user + rituals)
+- **✱ Insights** - AI-generated thematic learnings (rituals only)
+
+Hubs use bidirectional linking and dataview queries to keep navigation dynamic and interconnected.
 
 ---
 
@@ -130,12 +143,12 @@ Living Notes are continuously evolving documents (Today.md, Week.md, etc.) that 
 │   ├── 2026-06-30-q2-okrs.md
 │   └── 2026-12-31-home-renovation.md
 │
-├── 02_Areas/                # PARA: Insights and People living notes
-│   ├── Insights/            # Theme-based insights extracted from temporal notes
+├── 02_Areas/                # PARA: People and Insights
+│   ├── Insights/            # AI-generated thematic patterns from Cold (rituals only)
 │   │   ├── leadership.md
 │   │   ├── productivity.md
 │   │   └── team-dynamics.md
-│   └── People/              # Living notes for individuals
+│   └── People/              # Living notes for individuals (user + rituals)
 │       ├── john-doe.md
 │       ├── jane-smith.md
 │       └── sarah-chen.md
@@ -228,9 +241,19 @@ Living Notes are continuously evolving documents (Today.md, Week.md, etc.) that 
 
 **System Architecture:**
 
-**Two-Tier Brain System:**
-- **Tier 1 (00_Brain/Current/)** - Your active working space. Write here throughout the day/week/month/quarter. Messy, unstructured, stream of consciousness is OK. Rituals read from here.
-- **Tier 2 (03_Resources/Brain/)** - Living historical notes that accumulate synthesis **across years**. Rituals write synthesized content here. Structured, curated, high-signal.
+**Hot/Cold Brain System:**
+- **Hot (00_Brain/Current/)** - Your active working space. This is the **only place you write**. Messy, unstructured, stream of consciousness is OK. Hot notes are living direction documents—ongoing intentions and work-in-progress. Rituals read from here.
+- **Cold (03_Resources/Brain/)** - Living historical notes that accumulate synthesis **across years**. **Rituals write here exclusively**—you never edit Cold directly. Structured, curated, high-signal.
+
+**Editing Modes:**
+
+| Location | Who Writes | Purpose |
+|----------|------------|---------|
+| **Hot/** | User only | Active workspace—capture, plan, reflect |
+| **Cold/** | Rituals only | Year-agnostic temporal synthesis |
+| **Insights/** | Rituals only | AI-generated thematic patterns from Cold |
+| **People/** | Both | Rituals extract from Day.md (1:1s), user adds context |
+| **Projects/** | Both | Rituals update status, user adds details |
 
 **Year-Agnostic Accumulation:**
 - `03_Resources/Brain/Days/02-15.md` contains synthesis from **ALL** Feb 15ths (2026, 2027, 2028...)
@@ -239,19 +262,33 @@ Living Notes are continuously evolving documents (Today.md, Week.md, etc.) that 
 - Multi-year insights emerge naturally over time
 
 **Synthesis Workflow:**
-1. User works in `00_Brain/Current/` notes (Day, Week, Month, Quarter)
-2. Review rituals extract and synthesize:
-   - Temporal patterns → append to `03_Resources/Brain/{period}/{file}.md`
-   - Thematic insights → append to `02_Areas/Insights/{theme}.md`
-   - People mentions → append to `02_Areas/People/{person}.md`
-   - Project updates → append to `01_Projects/{project}.md`
-3. Week notes get backed up to `04_Archives/Brain/Weekly/` (ephemeral safety net)
-4. Current note cleared for next period
+
+```
+User Domain (Hot)              Ritual Domain
+─────────────────              ─────────────
+Hot/                           Cold/ (ritual-only)
+├── Day.md    ──rituals──►     ├── Days/MM-DD.md
+├── Week.md   ──rituals──►     └── Archives only (ephemeral)
+├── Month.md  ──rituals──►     ├── Months/NN-month.md
+├── Quarter.md──rituals──►     └── Quarters/qN.md
+└── Year.md
+                               Insights/ (AI-generated from Cold)
+People/   ◄── both
+Projects/ ◄── both
+```
+
+1. **User works in Hot/** - Day.md, Week.md, Month.md, Quarter.md
+2. **Rituals read Hot, write Cold** - Temporal synthesis to year-agnostic files
+3. **Rituals read Cold, generate Insights** - AI synthesizes thematic patterns
+4. **Rituals extract to People/** - 1:1 conversations from Day.md → person files
+5. **Rituals update Projects/** - Status updates from Hot notes
+6. **Week notes archived** - Backed up to `04_Archives/Brain/Weekly/` (ephemeral)
 
 **Ephemeral vs. Living:**
-- **Week notes** are ephemeral → backed up to Archives, synthesis goes to monthly Resources note
-- **Day/Month/Quarter notes** go directly to Resources (living, accumulating notes)
-- No archives needed for Day/Month/Quarter - they live forever in Resources/Brain
+- **Week notes** are ephemeral → backed up to Archives only, no Cold representation
+- **Day/Month/Quarter notes** synthesize to Cold (living, accumulating notes)
+- **People/Projects** are collaborative → rituals contribute, user can edit directly
+- **Insights** are derived → AI-generated from Cold, user does not edit
 
 **Inspiration:** This organization is inspired by Tiago Forte's PARA method, adapted for automated ritual-driven maintenance with year-agnostic pattern recognition.
 
@@ -338,19 +375,16 @@ cp 03_Resources/_Templates/para/project.md 01_Projects/2026-12-31-my-project.md
 
 **For People Notes:**
 ```bash
-# Create new person note
+# Create new person note (user can edit, rituals also extract from 1:1s)
 cp 03_Resources/_Templates/para/person.md 02_Areas/People/john-doe.md
 ```
 
 **For Insights:**
-```bash
-# Create new insight theme
-cp 03_Resources/_Templates/para/insight.md 02_Areas/Insights/leadership.md
-```
+Insights are AI-generated from Cold storage—you don't create them manually. Rituals analyze your accumulated temporal notes and generate thematic insights automatically.
 
 Templates use placeholder text in brackets `[like this]` to guide what content to add. Replace placeholders with your actual content.
 
-**Note on Synthesis Templates:** The `_Templates/resources/` templates are used by rituals when appending synthesized content to year-agnostic living notes. You typically won't copy these manually—rituals use them as reference for the structure when creating new entries.
+**Note on Synthesis Templates:** The `_Templates/resources/` templates are used by rituals when appending synthesized content to year-agnostic living notes. You typically won't copy these manually—rituals use them as reference for the structure when creating new entries. Similarly, `_Templates/para/insight.md` is used by rituals to create new insight files.
 
 ---
 
@@ -397,11 +431,15 @@ Actions are one-shot helpers you invoke on-demand:
 
 **Trust the Rituals:** Run them even when you don't feel like it. The magic is in the rhythm, not the motivation.
 
-**Living Notes Are Messy:** They're working documents, not publications. The archives preserve history; the Living Note is for right now.
+**Work Only in Hot:** Your Hot notes are living direction documents—messy, unstructured work-in-progress. Everything else (Cold, Insights) is ritual-generated.
+
+**1:1s Go to Day.md:** Capture conversations in your daily note. Rituals extract relevant content to People/ files automatically.
+
+**Insights Are Derived:** You don't write insights—the AI generates them from your accumulated Cold storage. Patterns emerge over time.
 
 **Archive Liberally:** Keep your workspace lean and focused on what matters now.
 
-**The System Augments:** It scaffolds your thinking, but you supply the insights.
+**The System Augments:** It scaffolds your thinking, but you supply the content.
 
 *"2bd is not a second brain—it's scaffolding for your first brain. The rituals create rhythm, the Living Notes provide continuity, and the markdown keeps you in control."*
 
@@ -415,7 +453,7 @@ Actions are one-shot helpers you invoke on-demand:
 - **Andy Matuschak** for [Evergreen Notes](https://notes.andymatuschak.org/Evergreen_notes) - inspiration for Living Notes
 - **Niklas Luhmann** for the [Zettelkasten Method](https://zettelkasten.de/introduction/) - interconnected notes
 - **The Obsidian Community** for [Periodic Notes](https://github.com/liamcain/obsidian-periodic-notes) - temporal organization
-- **Matthias Hilse** for [Forever Notes](https://www.myforevernotes.com/) - organized note systems
+- **Matthias Hilse** for [Forever Notes](https://www.myforevernotes.com/) - inspiration for Hubs (`✱` prefix navigation notes), journal navigation links (Daily → Monthly → Quarterly → Yearly hierarchy), and the living document philosophy
 - **Anthropic** for Claude Skills
 
 ---
