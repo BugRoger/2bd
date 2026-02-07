@@ -101,7 +101,7 @@ meetings: [Number of meetings]
    - Leave Completed, Actions, Wins, and Insights sections as templates
    - These will be filled during or at the end of the day
 
-5. **Use the template structure** from `template.md` in this skill folder as a reference
+5. **Use the template structure** from `03_Resources/_Templates/current/Day.md` as a reference
 
 ### 5. Write and Confirm
 
