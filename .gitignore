@@ -1,0 +1,46 @@
+# Personal Content (ignore actual notes, keep structure)
+
+# Brain - Current working notes (personal daily work)
+00_Brain/Current/*.md
+
+# Projects - Active projects (deadline-driven work)
+01_Projects/*.md
+!01_Projects/.gitkeep
+
+# Areas - People and Insights (personal relationships and learnings)
+02_Areas/People/*.md
+!02_Areas/People/.gitkeep
+02_Areas/Insights/*.md
+!02_Areas/Insights/.gitkeep
+
+# Resources Brain - Living historical notes (personal synthesis)
+03_Resources/Brain/Days/*.md
+03_Resources/Brain/Months/*.md
+03_Resources/Brain/Quarters/*.md
+03_Resources/Brain/Year.md
+
+# Keep templates - these are meta-resources for the system
+!03_Resources/_Templates/**/*.md
+
+# Archives - Backup snapshots (ephemeral personal data)
+04_Archives/**/*.md
+!04_Archives/**/.gitkeep
+
+# Claude Code settings (personal configuration)
+.claude/settings.local.json
+
+# Editor and IDE files
+.obsidian/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# System files
+Thumbs.db
+desktop.ini
+
+# Keep example/sample files for documentation
+!**/example-*.md
+!**/sample-*.md

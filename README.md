@@ -118,82 +118,72 @@ Living Notes are continuously evolving documents (Today.md, Week.md, etc.) that 
 ```
 2bd/
 │
-├── 00_Brain/                # System files and temporal organization
-│   ├── Current/             # Active Living Notes
-│   │   ├── Today.md
-│   │   ├── Week.md
-│   │   ├── Month.md
-│   │   ├── Quarter.md
-│   │   └── Year.md
-│   ├── Day/                 # Daily templates for each day of the month (01-31)
-│   │   ├── day-01.md
-│   │   ├── day-02.md
-│   │   ├── day-15.md
-│   │   └── ...
-│   ├── Month/               # Monthly templates (january-december)
-│   │   ├── january.md
-│   │   ├── june.md
-│   │   └── ...
-│   └── Quarter/             # Quarterly templates (q1-q4)
-│       ├── q1.md
-│       ├── q2.md
-│       └── ...
+├── 00_Brain/                # User's active working space
+│   └── Current/             # Living temporal notes (user works here)
+│       ├── Day.md           # Today's working note
+│       ├── Week.md          # This week's working note
+│       ├── Month.md         # This month's working note
+│       └── Quarter.md       # This quarter's working note
 │
 ├── 01_Projects/             # PARA: Active projects (deadline-driven)
 │   ├── 2026-06-30-launch-2bd.md
 │   ├── 2026-06-30-q2-okrs.md
 │   └── 2026-12-31-home-renovation.md
 │
-├── 02_Areas/                # PARA: Ongoing responsibilities (no end date)
-│   ├── Health/
-│   │   ├── fitness.md
-│   │   ├── nutrition.md
-│   │   └── mental-health.md
-│   ├── Career/
-│   │   ├── skills.md
-│   │   ├── networking.md
-│   │   └── goals.md
-│   └── Relationships/
-│       ├── family.md
-│       ├── friends.md
-│       └── partner.md
+├── 02_Areas/                # PARA: Insights and People living notes
+│   ├── Insights/            # Theme-based insights extracted from temporal notes
+│   │   ├── leadership.md
+│   │   ├── productivity.md
+│   │   └── team-dynamics.md
+│   └── People/              # Living notes for individuals
+│       ├── john-doe.md
+│       ├── jane-smith.md
+│       └── sarah-chen.md
 │
-├── 03_Resources/            # PARA: Reference materials and interests
-│   ├── productivity-methods.md
-│   ├── leadership-notes.md
-│   └── technical-reading.md
+├── 03_Resources/            # PARA: Living historical brain (year-agnostic)
+│   ├── _Templates/          # Meta-resource: Template library (underscore prefix)
+│   │   ├── current/         # Templates for 00_Brain/Current/ notes
+│   │   │   ├── Day.md
+│   │   │   ├── Week.md
+│   │   │   ├── Month.md
+│   │   │   └── Quarter.md
+│   │   ├── para/            # Templates for PARA method files
+│   │   │   ├── project.md
+│   │   │   ├── person.md
+│   │   │   └── insight.md
+│   │   ├── resources/       # Templates for Resources/Brain/ synthesis notes
+│   │   │   ├── day.md
+│   │   │   ├── month.md
+│   │   │   ├── quarter.md
+│   │   │   └── year.md
+│   │   └── archives/
+│   │       └── week.md
+│   └── Brain/
+│       ├── Days/            # 366 files: 01-01.md through 12-31.md
+│       │   ├── 01-01.md     # Accumulates all Jan 1 synthesis across years
+│       │   ├── 01-02.md     # Accumulates all Jan 2 synthesis across years
+│       │   ├── 02-05.md
+│       │   └── ...          # (through 12-31.md)
+│       ├── Months/          # 12 files: 01-january.md through 12-december.md
+│       │   ├── 01-january.md   # Accumulates all January synthesis across years
+│       │   ├── 02-february.md
+│       │   └── ...             # (through 12-december.md)
+│       ├── Quarters/        # 4 files: q1.md through q4.md
+│       │   ├── q1.md        # Accumulates all Q1 synthesis across years
+│       │   ├── q2.md
+│       │   ├── q3.md
+│       │   └── q4.md
+│       └── Year.md          # Multi-year accumulation of yearly synthesis
 │
-├── 04_Archives/             # PARA: Completed/inactive items
-│   ├── Daily/               # Archived daily notes (year/month subfolder structure)
-│   │   ├── 2026/
-│   │   │   ├── 02/
-│   │   │   │   ├── 2026-02-01.md
-│   │   │   │   └── 2026-02-15.md
-│   │   │   └── 01/
-│   │   │       └── 2026-01-15.md
-│   │   └── 2025/
-│   │       └── 12/
-│   │           └── 2025-12-31.md
-│   ├── Monthly/             # Archived monthly notes (year subfolder structure)
-│   │   ├── 2026/
-│   │   │   ├── 2026-02.md
-│   │   │   └── 2026-01.md
-│   │   └── 2025/
-│   │       └── 2025-12.md
-│   ├── Quarterly/           # Archived quarterly notes (ISO 8601: YYYY-Qn)
-│   │   ├── 2026-Q1.md
-│   │   ├── 2025-Q4.md
-│   │   └── 2025-Q3.md
-│   ├── Yearly/              # Archived yearly notes (ISO 8601: YYYY)
-│   │   ├── 2026.md
-│   │   ├── 2025.md
-│   │   └── 2024.md
-│   ├── Projects/
-│   │   └── 2025-12-15-old-website.md
-│   ├── Areas/
-│   │   └── side-business.md
-│   └── Resources/
-│       └── old-frameworks.md
+├── 04_Archives/             # PARA: Backup snapshots (ephemeral notes only)
+│   ├── Brain/
+│   │   └── Weekly/          # Archived weekly notes (ISO 8601: YYYY-Www.md)
+│   │       └── 2026/
+│   │           ├── 2026-W01.md
+│   │           ├── 2026-W02.md
+│   │           └── ...
+│   └── Projects/            # Completed projects
+│       └── 2025-12-15-old-website.md
 │
 └── .claude/                 # Claude-specific configuration
     └── skills/
@@ -222,26 +212,48 @@ Living Notes are continuously evolving documents (Today.md, Week.md, etc.) that 
 ```
 
 **Naming Conventions:**
-- **Living Notes:** In `00_Brain/Current/`, singular capitalized (Today.md, Week.md, Month.md, Quarter.md, Year.md)
-- **Archived Notes:**
-  - Daily: `YYYY/MM/YYYY-MM-DD.md` (year/month subfolder structure)
-  - Monthly: `YYYY/YYYY-MM.md` (year subfolder structure)
-  - Quarterly: `YYYY-Qn.md` (flat structure)
-  - Yearly: `YYYY.md` (flat structure)
+- **Meta-resources:** Underscore prefix for system/template files: `_Templates/`, `_Guides/`
+- **Current Working Notes:** In `00_Brain/Current/`, capitalized (Day.md, Week.md, Month.md, Quarter.md)
+- **Resources Brain (Year-Agnostic Living Notes):**
+  - Days: `MM-DD.md` format (01-01.md through 12-31.md, includes leap day 02-29.md)
+  - Months: `NN-monthname.md` format (01-january.md through 12-december.md)
+  - Quarters: `qN.md` format (q1.md through q4.md)
+  - Year: `Year.md` (single file, multi-year accumulation)
+- **People:** In `02_Areas/People/`, lowercase-with-hyphens (john-doe.md, jane-smith.md)
+- **Insights:** In `02_Areas/Insights/`, lowercase-with-hyphens (leadership.md, productivity.md)
 - **Projects:** End-date first for lexical sorting: `YYYY-MM-DD-project-name.md`
-- **Areas:** Organized in subfolders by life domain with related files
-- **Resources:** Single file: `topic-name.md`
+- **Archives (Weekly):** ISO 8601 week format: `YYYY/YYYY-Www.md` (e.g., 2026/2026-W06.md)
 - **Folders:** Numbered for sorting (`00_`, `01_`, `02_`, `03_`, `04_`)
 - **Skills:** Each skill in own folder with `SKILL.md` and optional supporting files (templates, examples, scripts)
 
-**System Folders:**
-- `00_Brain/Current/` - Active Living Notes updated by rituals
-- `00_Brain/Day/` - Daily templates (day-01.md through day-31.md) for each day of the month
-- `00_Brain/Month/` - Monthly templates (january.md through december.md)
-- `00_Brain/Quarter/` - Quarterly templates (q1.md through q4.md)
-- Yearly ritual condenses and archives at year-end
+**System Architecture:**
 
-**Inspiration:** This organization is inspired by Tiago Forte's PARA method, adapted for automated ritual-driven maintenance.
+**Two-Tier Brain System:**
+- **Tier 1 (00_Brain/Current/)** - Your active working space. Write here throughout the day/week/month/quarter. Messy, unstructured, stream of consciousness is OK. Rituals read from here.
+- **Tier 2 (03_Resources/Brain/)** - Living historical notes that accumulate synthesis **across years**. Rituals write synthesized content here. Structured, curated, high-signal.
+
+**Year-Agnostic Accumulation:**
+- `03_Resources/Brain/Days/02-15.md` contains synthesis from **ALL** Feb 15ths (2026, 2027, 2028...)
+- `03_Resources/Brain/Months/03-march.md` contains synthesis from **ALL** Marchs across years
+- Enables long-term pattern recognition: "What do I always work on in Q4?" or "What happens every February 15th?"
+- Multi-year insights emerge naturally over time
+
+**Synthesis Workflow:**
+1. User works in `00_Brain/Current/` notes (Day, Week, Month, Quarter)
+2. Review rituals extract and synthesize:
+   - Temporal patterns → append to `03_Resources/Brain/{period}/{file}.md`
+   - Thematic insights → append to `02_Areas/Insights/{theme}.md`
+   - People mentions → append to `02_Areas/People/{person}.md`
+   - Project updates → append to `01_Projects/{project}.md`
+3. Week notes get backed up to `04_Archives/Brain/Weekly/` (ephemeral safety net)
+4. Current note cleared for next period
+
+**Ephemeral vs. Living:**
+- **Week notes** are ephemeral → backed up to Archives, synthesis goes to monthly Resources note
+- **Day/Month/Quarter notes** go directly to Resources (living, accumulating notes)
+- No archives needed for Day/Month/Quarter - they live forever in Resources/Brain
+
+**Inspiration:** This organization is inspired by Tiago Forte's PARA method, adapted for automated ritual-driven maintenance with year-agnostic pattern recognition.
 
 ---
 
@@ -280,6 +292,65 @@ claude skill run rituals/daily-review
 ```
 
 Open [00_Brain/Current/Today.md](00_Brain/Current/Today.md) to see your first Living Note. Run this ritual every morning or evening to keep it current.
+
+---
+
+## Quick Start: Using Templates
+
+2bd includes comprehensive templates for all note types in [03_Resources/_Templates/](03_Resources/_Templates/). Templates provide structure, YAML frontmatter, and placeholder text to guide your usage.
+
+### Template Categories
+
+**Current Working Notes** (`_Templates/current/`)
+- [Day.md](03_Resources/_Templates/current/Day.md) - Daily working note with priorities, meetings, wins, and insights
+- [Week.md](03_Resources/_Templates/current/Week.md) - Weekly planning and daily journaling
+- [Month.md](03_Resources/_Templates/current/Month.md) - Monthly overview and weekly progress tracking
+- [Quarter.md](03_Resources/_Templates/current/Quarter.md) - Quarterly strategic planning and monthly progress
+
+**PARA Method** (`_Templates/para/`)
+- [project.md](03_Resources/_Templates/para/project.md) - Project template with outcomes, milestones, and updates
+- [person.md](03_Resources/_Templates/para/person.md) - People note with interactions and relationship tracking
+- [insight.md](03_Resources/_Templates/para/insight.md) - Theme-based insights with patterns and learnings
+
+**Synthesis Notes** (`_Templates/resources/`)
+- [day.md](03_Resources/_Templates/resources/day.md) - Year-agnostic daily synthesis template
+- [month.md](03_Resources/_Templates/resources/month.md) - Year-agnostic monthly synthesis template
+- [quarter.md](03_Resources/_Templates/resources/quarter.md) - Year-agnostic quarterly synthesis template
+- [year.md](03_Resources/_Templates/resources/year.md) - Multi-year accumulation template
+
+**Archives** (`_Templates/archives/`)
+- [week.md](03_Resources/_Templates/archives/week.md) - Weekly archive snapshot template
+
+### Using Templates
+
+**For Current Working Notes:**
+```bash
+# Copy template to start a new working note
+cp 03_Resources/_Templates/current/Day.md 00_Brain/Current/Day.md
+```
+
+**For Projects:**
+```bash
+# Create new project from template
+cp 03_Resources/_Templates/para/project.md 01_Projects/2026-12-31-my-project.md
+# Edit to fill in your project details
+```
+
+**For People Notes:**
+```bash
+# Create new person note
+cp 03_Resources/_Templates/para/person.md 02_Areas/People/john-doe.md
+```
+
+**For Insights:**
+```bash
+# Create new insight theme
+cp 03_Resources/_Templates/para/insight.md 02_Areas/Insights/leadership.md
+```
+
+Templates use placeholder text in brackets `[like this]` to guide what content to add. Replace placeholders with your actual content.
+
+**Note on Synthesis Templates:** The `_Templates/resources/` templates are used by rituals when appending synthesized content to year-agnostic living notes. You typically won't copy these manually—rituals use them as reference for the structure when creating new entries.
 
 ---
 
