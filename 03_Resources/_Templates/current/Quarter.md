@@ -4,6 +4,10 @@ year: [YYYY]
 months: [Month 1, Month 2, Month 3]
 ---
 
+[[00_Brain/Home|Home]] | [[Day]] | [[Week]] | [[Month]]
+
+---
+
 ## Quarter Overview
 
 ### Key Outcomes This Quarter
@@ -64,3 +68,4 @@ months: [Month 1, Month 2, Month 3]
 
 ### Strategic Patterns
 [Long-term themes emerging, organizational direction, leadership insights, market or team trends]
+

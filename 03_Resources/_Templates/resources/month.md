@@ -1,3 +1,7 @@
+[[00_Brain/Home|Home]] | [[qN|QN]] | [[Year]] | [[NN-monthname|←]] • [[NN-monthname|→]]
+
+---
+
 # [Month]
 *Living note - accumulates synthesis across years*
 
@@ -57,3 +61,4 @@
 
 - [[NN-monthname]] - [Connection or contrast]
 - [[NN-monthname]] - [Related pattern]
+

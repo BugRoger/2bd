@@ -1,3 +1,7 @@
+[[00_Brain/Home|Home]] | [[MM-monthname|Mon]] | [[qN|QN]] | [[MM-DD|←]] • [[MM-DD|→]]
+
+---
+
 # [Month Day]
 *Living note - accumulates synthesis across years*
 
@@ -48,3 +52,4 @@
 
 - [[MM-DD]] - [Connection]
 - [[MM-DD]] - [Related pattern]
+

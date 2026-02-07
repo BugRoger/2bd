@@ -1,3 +1,7 @@
+[[00_Brain/Home|Home]] | [[q1|Q1]] | [[q2|Q2]] | [[q3|Q3]] | [[q4|Q4]]
+
+---
+
 # Year
 *Living note - accumulates synthesis across years*
 
@@ -76,3 +80,4 @@
 *Long-term view of major life and career chapters*
 
 [When you have many years accumulated, this section helps you see the bigger arc - career phases, major transitions, lasting impacts]
+
