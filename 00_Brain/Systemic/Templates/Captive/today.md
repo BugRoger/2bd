@@ -65,7 +65,6 @@ meetings: 0
 ---
 
 ## Capture
-
 - *Links, articles, videos, ideas - dump here, process later*
 
 ---

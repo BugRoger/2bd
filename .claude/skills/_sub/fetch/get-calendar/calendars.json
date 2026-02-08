@@ -1,0 +1,15 @@
+{
+  "calendars": [
+    "work"
+  ],
+  "default_scope": "today",
+  "user_name": "Michi",
+  "settings": {
+    "work_hours": {
+      "start": "09:00",
+      "end": "18:00"
+    },
+    "min_focus_block_minutes": 30,
+    "one_on_one_patterns": ["1:1", "1-1", "one on one"]
+  }
+}
