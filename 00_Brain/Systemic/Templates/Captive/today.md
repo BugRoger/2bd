@@ -1,15 +1,16 @@
 ---
 date: YYYY-MM-DD
 day: [Day of week]
-week: Week [W] of [YYYY]
-quarter: Q[1-4] [YYYY]
+week: YYYY-Www
+month: YYYY-MM
+quarter: YYYY-QN
 energy: [High/Medium/Low]
 location: [Home/Office/Travel/Other]
 focus_hours: 0
 meetings: 0
 ---
 
-[[03_Resources/Brain/✱ Home|✱ Home]] | [[Week]] | [[Month]] | [[Quarter]]
+[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Week|Week]] | [[00_Brain/Captive/Month|Month]] | [[00_Brain/Captive/Quarter|Quarter]]
 
 ---
 
@@ -107,4 +108,3 @@ meetings: 0
 
 ### Team/Org Observations
 [Patterns in team dynamics, organizational trends, leadership lessons, people to check in with]
-

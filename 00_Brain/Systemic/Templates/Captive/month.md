@@ -1,10 +1,10 @@
 ---
-month: [Month YYYY]
-quarter: Q[1-4] [YYYY]
-year: [YYYY]
+month: YYYY-MM
+quarter: YYYY-QN
+year: YYYY
 ---
 
-[[03_Resources/Brain/✱ Home|✱ Home]] | [[Day]] | [[Week]] | [[Quarter]]
+[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Week|Week]] | [[00_Brain/Captive/Quarter|Quarter]]
 
 ---
 
@@ -73,4 +73,3 @@ year: [YYYY]
 
 ### Patterns & Trends
 [Recurring themes across weeks, team dynamics evolution, organizational trends, seasonal patterns in your work or life]
-

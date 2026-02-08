@@ -1,12 +1,12 @@
 ---
-week: Week [W] of [YYYY]
-dates: [Start Date] - [End Date]
-month: [Month YYYY]
-quarter: Q[1-4] [YYYY]
-year: [YYYY]
+week: YYYY-Www
+dates: YYYY-MM-DD to YYYY-MM-DD
+month: YYYY-MM
+quarter: YYYY-QN
+year: YYYY
 ---
 
-[[03_Resources/Brain/✱ Home|✱ Home]] | [[Day]] | [[Month]] | [[Quarter]]
+[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Month|Month]] | [[00_Brain/Captive/Quarter|Quarter]]
 
 ---
 
@@ -78,4 +78,3 @@ year: [YYYY]
 
 ### Patterns Observed
 [Recurring themes, team dynamics, organizational trends, seasonal patterns in your work]
-
