@@ -1,9 +1,31 @@
 # Personal Content (ignore actual notes, keep structure)
 
-# Brain Hot - Active working notes (personal daily work)
-03_Resources/Brain/Hot/*.md
+# Captive - Active working notes (volatile, personal)
+00_Brain/Captive/*.md
+00_Brain/Captive/Flash/*
+!00_Brain/Captive/.gitkeep
+!00_Brain/Captive/Flash/.gitkeep
 
-# Brain Cold - Year-agnostic historical notes (personal synthesis)
+# Periodic - Timeline archives (personal history)
+00_Brain/Periodic/Daily/*.md
+00_Brain/Periodic/Weekly/*.md
+00_Brain/Periodic/Monthly/*.md
+00_Brain/Periodic/Quarterly/*.md
+00_Brain/Periodic/Yearly/*.md
+!00_Brain/Periodic/**/.gitkeep
+
+# Semantic - Crystallized knowledge (personal reference)
+00_Brain/Semantic/*.md
+00_Brain/Semantic/**/*.md
+!00_Brain/Semantic/.gitkeep
+
+# Synthetic - Active drafts and project work (personal WIP)
+00_Brain/Synthetic/*.md
+00_Brain/Synthetic/**/*.md
+!00_Brain/Synthetic/.gitkeep
+
+# Legacy Brain structure (can remove once migrated)
+03_Resources/Brain/Hot/*.md
 03_Resources/Brain/Cold/Days/*.md
 03_Resources/Brain/Cold/Months/*.md
 03_Resources/Brain/Cold/Quarters/*.md
