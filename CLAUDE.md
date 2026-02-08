@@ -23,11 +23,12 @@ The note-taking architecture mirrors human cognitive biology. Information is cat
 ### Core Concepts
 
 - **Rituals**: Scheduled routines that drive the engine (planning prepares Captive, review archives to Periodic)
-- **Actions**: Discrete one-shot helpers triggered on-demand (e.g., create-project)
+- **Actions**: Discrete one-shot helpers triggered on-demand (e.g., create-project, generate-newsletter)
+- **Sub-skills**: Composable building blocks that rituals and actions use for common operations
 - **Captive Notes**: Working documents (Today.md, Week.md, Month.md, Quarter.md, Year.md)
 - **Periodic Notes**: Unique consecutive archives (2026-02-08.md, 2026-W06.md, etc.)
 - **Hubs**: Central navigation notes that organize content by domain (✱ Home, ✱ Projects, ✱ People, ✱ Insights)
-- **Skills**: Claude Skills that implement rituals and actions, callable from Claude Code CLI or Claude.ai
+- **Skills**: Claude Skills that implement rituals, actions, and sub-skills
 
 ### Repository Structure
 
@@ -78,7 +79,12 @@ The note-taking architecture mirrors human cognitive biology. Information is cat
 └── .claude/                     # Claude-specific configuration
     └── skills/
         ├── rituals/             # Scheduled routine skills
-        └── actions/             # One-shot helper skills
+        │   ├── planning/        # Forward-looking (prepare Captive)
+        │   └── review/          # Reflective (archive to Periodic)
+        ├── actions/             # One-shot helper skills
+        └── _sub/                # Composable sub-skills
+            ├── synthesis/       # Content synthesis operations
+            └── fetch/           # Data fetching operations
 ```
 
 ### Naming Conventions
@@ -246,6 +252,43 @@ When adding a new action skill:
    - Write clear, specific `description` so Claude knows when to use it
 3. Test with `claude skill run actions/action-name`
 
+### Sub-Skills
+
+Sub-skills are composable building blocks that rituals and actions reference to perform common operations. They live in `.claude/skills/_sub/` (underscore prefix follows the `_Templates/` convention for internal/system resources).
+
+**Categories:**
+
+| Category | Purpose | Examples |
+|----------|---------|----------|
+| **`_sub/synthesis/`** | Content combination and transformation | gather-context, extract-actions, summarize-period |
+| **`_sub/fetch/`** | Data retrieval from system or external sources | get-dates, get-calendar, get-template |
+
+**Creating Sub-Skills:**
+
+1. Create folder in `.claude/skills/_sub/synthesis/` or `.claude/skills/_sub/fetch/`
+2. Add `SKILL.md` with frontmatter:
+   - Set `disable-model-invocation: true` (invoked by other skills, not directly)
+   - Keep scope narrow—one well-defined operation per sub-skill
+3. Design for composition: stateless input/output, no side effects
+4. Test in isolation before using in rituals/actions
+
+**Referencing Sub-Skills:**
+
+Rituals and actions reference sub-skills by instruction in their `SKILL.md`:
+
+```markdown
+### 1. Gather Context
+
+**Use sub-skill: `_sub/fetch/get-dates`**
+- Get today's date information in all required formats
+
+**Use sub-skill: `_sub/synthesis/gather-context`**
+- Scope: day
+- Returns: yesterday's work, recent archives, active projects
+```
+
+When Claude executes a ritual, it reads the sub-skill's `SKILL.md` and follows those instructions, then returns to the parent skill with the results.
+
 ## Working with 2bd
 
 ### Key Files
@@ -263,7 +306,7 @@ When adding a new action skill:
   - `01_Projects/✱ Projects.md` - Projects navigation
   - `02_Areas/People/✱ People.md` - People navigation
   - `02_Areas/Insights/✱ Insights.md` - Insights navigation
-- **Skills:** `.claude/skills/rituals/` and `.claude/skills/actions/`
+- **Skills:** `.claude/skills/rituals/`, `.claude/skills/actions/`, and `.claude/skills/_sub/`
 
 ### Metabolic Interaction Guidelines
 
@@ -311,3 +354,104 @@ Templater automatically applies templates when creating files:
 - New file in `01_Projects/` → uses project.md
 - New file in `02_Areas/People/` → uses person.md
 - New file in `02_Areas/Insights/` → uses insight.md
+
+## Calendar Integration (macOS)
+
+2bd can fetch calendar events from macOS Calendar to inform daily planning using the `ekctl` CLI tool.
+
+### Prerequisites
+
+- **macOS 13.0** (Ventura) or later
+- **ekctl** CLI tool
+
+### Setup
+
+#### 1. Install ekctl
+
+```bash
+# Using Homebrew
+brew install schappim/tap/ekctl
+
+# Or build from source
+git clone https://github.com/schappim/ekctl.git
+cd ekctl && swift build -c release
+```
+
+#### 2. Grant Calendar Access
+
+On first run, ekctl will prompt for calendar access. Grant permission when asked, or manually enable in:
+**System Settings → Privacy & Security → Calendars → Terminal** (or your terminal app)
+
+#### 3. List Your Calendars
+
+```bash
+ekctl list calendars
+```
+
+This returns JSON with all calendars (iCloud, Exchange, subscribed, etc.):
+```json
+{
+  "calendars": [
+    { "id": "ABC123...", "title": "Work", "source": "Exchange" },
+    { "id": "DEF456...", "title": "Personal", "source": "iCloud" }
+  ]
+}
+```
+
+#### 4. Create Calendar Aliases
+
+Create friendly aliases for calendars you want to sync:
+
+```bash
+# Main work calendar
+ekctl alias set work "YOUR-WORK-CALENDAR-ID"
+
+# Personal calendar
+ekctl alias set personal "YOUR-PERSONAL-CALENDAR-ID"
+
+# Team/shared calendar (optional)
+ekctl alias set team "YOUR-TEAM-CALENDAR-ID"
+```
+
+Aliases are stored in `~/.ekctl/config.json`.
+
+#### 5. Configure the Skill
+
+Edit `.claude/skills/_sub/fetch/get-calendar/calendars.json`:
+
+```json
+{
+  "calendars": ["work", "personal"],
+  "default_scope": "today",
+  "settings": {
+    "work_hours": { "start": "09:00", "end": "18:00" },
+    "min_focus_block_minutes": 30,
+    "one_on_one_patterns": ["1:1", "1-1"]
+  }
+}
+```
+
+#### 6. Test
+
+```bash
+# List events for today
+ekctl list events --calendar work \
+  --from "$(date -v0H -v0M -v0S +%Y-%m-%dT%H:%M:%S%z)" \
+  --to "$(date -v23H -v59M -v59S +%Y-%m-%dT%H:%M:%S%z)"
+```
+
+### Recommended Calendar Setup
+
+| Alias | Calendar | Purpose |
+|-------|----------|---------|
+| `work` | Main work calendar | Meetings, reviews, standups |
+| `personal` | Personal calendar | Personal appointments |
+| `team` | Team/shared calendar | Team events, OOO |
+
+### Usage in Rituals
+
+The `get-calendar` sub-skill is used by planning rituals to:
+- Pre-populate the Meetings section in Today.md
+- Identify 1:1s and apply the 1:1 template format
+- Calculate focus blocks between meetings
+- Set the `meetings` count in frontmatter
