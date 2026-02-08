@@ -17,9 +17,9 @@ meetings: 0
 ## Focus
 
 ### Top Priorities (Outcomes)
-1. [Most critical outcome - what will success look like by end of day?]
-2. [Second priority - strategic/team work]
-3. [Third priority - operational/personal task]
+1. *What's the ONE thing that, if completed, makes today a success?*
+2. *What strategic/team work will move the needle this week?*
+3. *What small task have you been avoiding that you can knock out?*
 
 ### Leadership Intention
 [One word or short phrase - your mode/stance for today: e.g., Focused, Collaborative, Strategic, Supportive, Decisive]
@@ -32,59 +32,55 @@ meetings: 0
 **Decisions:**
 - [Decision made with context]
 
-**Actions:**
+**Next Steps:**
 - [ ] [Owner]: [Action item with deadline if relevant]
 
 **Notes:**
 - [Key discussion points]
 - [Important context]
 
-### [Another Meeting]
-**Decisions:**
--
+### [[PersonName]]
+**Check-in**
+- Mood/Energy:
+- *Anything I should know?*
 
-**Actions:**
-- [ ] [Owner]:
+**Their Agenda**
+- *What's on your mind?*
 
-**Notes:**
--
+**Work**
+- Wins:
+- Blockers: *Where can I help?*
+
+**Growth**
+- *What are you learning/developing?*
+
+**Feedback**
+- → Them:
+- ← Me: *What can I do better?*
+
+**Commitments**
+- [ ] Me:
+- [ ] Them:
 
 ---
 
-## Completed
+## Capture
 
-- [Actual work completed today]
-- [Including unplanned/reactive work]
-- [Decisions made]
-- [Problems solved]
-
----
-
-## Actions
-
-### Mine
-- [ ] [Task to complete]
-- [ ] [Another task]
-
-### Handoffs
-- [ ] [Person]: [Task delegated with context]
-
-### Waiting For
-- [ ] [Person]: [What you're waiting for and why]
+- *Links, articles, videos, ideas - dump here, process later*
 
 ---
 
 ## Wins
 
 ### Personal
-- [Personal achievement or growth moment]
-- [Good decision or effective leadership action]
-- [Time well-spent or boundary protected]
+- *Did you protect your energy or time today? How?*
+- *What decision did you make that you're proud of?*
+- *Where did you show up as the leader you want to be?*
 
 ### Team
-- [Team collaboration or achievement]
-- [Individual team member success]
-- [Positive team dynamics observed]
+- *Who on the team did something worth recognizing?*
+- *What collaboration made work better today?*
+- *What progress would the team not notice without you pointing it out?*
 
 ### Project Progress
 - [[project-name]]: [Specific progress made]
@@ -96,15 +92,13 @@ meetings: 0
 ## Insights
 
 ### What Went Well
-- [What worked today?]
-- [What patterns were effective?]
+- *What gave you energy today?*
+- *What pattern or habit paid off?*
 
 ### What Could Be Better
-- [What could have gone differently?]
-- [What will you adjust tomorrow?]
+- *What friction could become a system or process?*
+- *Where did you react instead of respond?*
+- *What would you tell your yesterday-self?*
 
 ### Key Insight of the Day
-[One synthesized learning - the most important thing you learned today]
-
-### Team/Org Observations
-[Patterns in team dynamics, organizational trends, leadership lessons, people to check in with]
+*If you could only remember ONE thing from today in 5 years, what would it be?*
