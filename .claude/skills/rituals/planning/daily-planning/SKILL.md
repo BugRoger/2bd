@@ -27,15 +27,19 @@ Collect information to inform today's planning:
    - Use bash commands: `date +"%Y-%m-%d"`, `date +"%A"`, `date +"%V"`, etc.
 
 2. **Review yesterday's work** (if it exists):
-   - Read `03_Resources/Brain/Hot/Day.md` to see yesterday's content
+   - Read `00_Brain/Captive/Today.md` to see yesterday's content
    - Note completed items, wins, and any actions that need follow-up
    - Look for unfinished priorities that may carry forward
 
-3. **Scan active projects**:
+3. **Review recent Periodic archives** (for context):
+   - Check recent files in `00_Brain/Periodic/Daily/` for patterns
+   - Review `00_Brain/Captive/Week.md` for weekly context
+
+4. **Scan active projects**:
    - List files in `01_Projects/` to see current commitments
    - Optionally read project files if user mentions specific projects
 
-4. **Check ongoing areas**:
+5. **Check ongoing areas**:
    - List files in `02_Areas/Insights/` and `02_Areas/People/` to understand ongoing themes and relationships
    - Consider what areas need attention today
 
@@ -80,8 +84,9 @@ Create the structured daily plan using the gathered information:
 ---
 date: [YYYY-MM-DD from Step 2]
 day: [Day name from Step 2]
-week: Week [W] of [YYYY]
-quarter: Q[1-4] [YYYY]
+week: [YYYY-Www format]
+month: [YYYY-MM format]
+quarter: [YYYY-QN format]
 energy: [User's response]
 location: [User's response]
 focus_hours: 0
@@ -101,11 +106,11 @@ meetings: [Number of meetings]
    - Leave Completed, Actions, Wins, and Insights sections as templates
    - These will be filled during or at the end of the day
 
-5. **Use the template structure** from `03_Resources/_Templates/current/Day.md` as a reference
+5. **Use the template structure** from `00_Brain/Systemic/Templates/Captive/today.md` as a reference
 
 ### 5. Write and Confirm
 
-1. Write the complete daily plan to `03_Resources/Brain/Hot/Day.md`
+1. Write the complete daily plan to `00_Brain/Captive/Today.md`
 2. Confirm with the user:
    - Summarize the 3 priorities
    - Highlight the leadership intention
@@ -125,7 +130,7 @@ meetings: [Number of meetings]
 
 ## Integration with Other Skills
 
-- **daily-review** (future): Evening counterpart that reflects on the day, fills Completed/Wins/Insights, and archives to Brain/Cold
-- **weekly-planning** (future): Higher-level planning that daily-planning aligns with
-- **weekly-review** (future): Review that synthesizes the week and archives to Brain/Cold
-- **create-project** (future): Action to create new project files that show up in context gathering
+- **daily-review**: Evening counterpart that reflects on the day, fills Completed/Wins/Insights, and archives to Periodic/Daily/
+- **weekly-planning**: Higher-level planning that daily-planning aligns with
+- **weekly-review**: Review that synthesizes the week and archives to Periodic/Weekly/
+- **create-project**: Action to create new project files that show up in context gathering

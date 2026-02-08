@@ -6,9 +6,21 @@
 
 Traditional productivity systems depend on you being the engine. They're passive containers waiting for you to fill them. You set up elaborate workflows, miss a day, then a week, and suddenly your second brain is out of date.
 
-2bd flips the script. Instead of you serving your system, your system serves you. **Rituals** run on schedule, **Living Notes** evolve with your life, and everything stays organized in plain markdown files you truly own.
+2bd flips the script. Instead of you serving your system, your system serves you. **Rituals** run on schedule, the **metabolic architecture** keeps knowledge flowing, and everything stays organized in plain markdown files you truly own.
 
 And because everything is plain markdown on your filesystem, AI integration is trivial. No plugins. No APIs. No MCPs. You just point Claude at a folder.
+
+## Core Philosophy
+
+The note-taking architecture mirrors human cognitive biology. Information is categorized by its **metabolic state**—energy velocity and temporal density rather than just topic.
+
+| State | Purpose |
+|-------|---------|
+| **Captive** | Sensory/Intake - high-velocity, volatile working notes |
+| **Synthetic** | Short-term/Executive - active project work, drafts |
+| **Periodic** | Episodic/Rhythm - timeline archives (the heartbeat) |
+| **Semantic** | Long-term/Reference - crystallized knowledge |
+| **Systemic** | Procedural/Structure - templates, SOPs, workflows |
 
 ## How It Works
 
@@ -22,10 +34,8 @@ wins      review    synthesis   reflection   planning
 ```
 
 **Core rituals** drive the engine:
-- **Daily Planning/Review** – What's today? What happened?
-- **Weekly Planning/Review** – Tactics and accomplishments
-- **Monthly/Quarterly Review** – Patterns and direction
-- **Yearly Planning/Review** – Vision and goals
+- **Planning Rituals** – Prepare Captive notes from templates, synthesize prior knowledge
+- **Review Rituals** – Archive Captive to Periodic, synthesize forward
 
 Run rituals from the CLI:
 ```bash
@@ -39,68 +49,69 @@ claude skill run rituals/review/daily-review
 
 **Actions** are one-shot helpers triggered on-demand—create a project, etc.
 
-**Living Notes** (Day.md, Week.md, Month.md, Quarter.md) are continuously evolving documents updated by rituals.
+**Captive Notes** (Today.md, Week.md, Month.md, Quarter.md, Year.md) are your active working space.
 
-**Hot/Cold System** separates where you work from where synthesis accumulates:
-- **Hot** (`03_Resources/Brain/Hot/`) – Your active workspace. Write here.
-- **Cold** (`03_Resources/Brain/Cold/`) – Year-agnostic synthesis. Rituals write here.
+**Periodic Notes** are unique, consecutive archives (2026-02-08.md, 2026-W06.md, etc.) that form the timeline.
 
-**PARA Method** organizes everything: Projects, Areas, Resources, Archives.
+**PARA Method** organizes Projects, Areas, Resources, Archives alongside the metabolic Brain.
 
 ## File Organization
 
 ```
 2bd/
 │
-├── 01_Projects/             # Active projects (deadline-driven)
-│   ├── ✱ Projects.md        # Projects Hub
-│   └── YYYY-MM-DD-name.md   # Project files (end-date prefix)
+├── 00_Brain/                    # Metabolic state hierarchy
+│   ├── ✱ Home.md                # Central Hub
+│   ├── Captive/                 # Working notes (user writes here)
+│   │   ├── Today.md
+│   │   ├── Week.md
+│   │   ├── Month.md
+│   │   ├── Quarter.md
+│   │   ├── Year.md
+│   │   └── Flash/               # Raw unstructured stimuli
+│   ├── Synthetic/               # Active project work
+│   ├── Periodic/                # Timeline archives (rituals write here)
+│   │   ├── Daily/               # YYYY-MM-DD.md
+│   │   ├── Weekly/              # YYYY-Www.md
+│   │   ├── Monthly/             # YYYY-MM.md
+│   │   ├── Quarterly/           # YYYY-QN.md
+│   │   └── Yearly/              # YYYY.md
+│   ├── Semantic/                # Crystallized knowledge
+│   └── Systemic/                # Templates, SOPs
+│       └── Templates/
 │
-├── 02_Areas/                # People and Insights
-│   ├── Insights/            # AI-generated thematic patterns (rituals only)
-│   │   ├── ✱ Insights.md    # Insights Hub
-│   │   └── topic.md
-│   └── People/              # Living notes for individuals (user + rituals)
-│       ├── ✱ People.md      # People Hub
-│       └── FirstNameL.md    # Person files (FirstName + LastInitial)
+├── 01_Projects/                 # Active projects (deadline-driven)
+│   ├── ✱ Projects.md            # Projects Hub
+│   └── YYYY-MM-DD-name.md       # Project files (end-date prefix)
 │
-├── 03_Resources/            # Brain and templates
-│   ├── _Templates/          # Template library
-│   │   ├── current/         # Hot note templates
-│   │   ├── para/            # PARA file templates
-│   │   ├── resources/       # Cold synthesis templates
-│   │   └── archives/        # Archive templates
-│   └── Brain/
-│       ├── ✱ Home.md        # Central Hub
-│       ├── Hot/             # Active workspace (user writes here)
-│       │   ├── Day.md
-│       │   ├── Week.md
-│       │   ├── Month.md
-│       │   ├── Quarter.md
-│       │   └── Year.md
-│       └── Cold/            # Year-agnostic synthesis (rituals write here)
-│           ├── Days/        # 366 files: 01-01.md through 12-31.md
-│           ├── Months/      # 12 files: 01-january.md through 12-december.md
-│           └── Quarters/    # 4 files: q1.md through q4.md
+├── 02_Areas/                    # People and Insights
+│   ├── Insights/                # AI-generated thematic patterns
+│   │   └── ✱ Insights.md        # Insights Hub
+│   └── People/                  # Living notes for individuals
+│       └── ✱ People.md          # People Hub
 │
-├── 04_Archives/             # Backup snapshots
-│   ├── Brain/Weekly/        # Archived weekly notes (YYYY/YYYY-Www.md)
-│   └── Projects/            # Completed projects
+├── 03_Resources/                # PARA templates
+│   └── _Templates/para/
 │
-└── .claude/skills/          # Claude Skills
-    ├── rituals/             # Scheduled routines
-    │   ├── planning/        # Forward-looking (daily, weekly, yearly)
-    │   └── review/          # Reflective (daily, weekly, monthly, quarterly, yearly)
-    └── actions/             # One-shot helpers
+├── 04_Archives/                 # Completed projects
+│   └── Projects/
+│
+└── .claude/skills/              # Claude Skills
+    ├── rituals/
+    │   ├── planning/            # Forward-looking
+    │   └── review/              # Reflective
+    └── actions/                 # One-shot helpers
 ```
 
 **Naming Conventions:**
 - **Hubs:** `✱` prefix with Title Case (`✱ Home.md`, `✱ Projects.md`)
 - **Projects:** End-date first (`YYYY-MM-DD-project-name.md`)
 - **People:** FirstName + LastInitial (`EstherS.md`, `JonnyB.md`)
-- **Cold Days:** `MM-DD.md` (01-01.md through 12-31.md)
-- **Cold Months:** `NN-monthname.md` (01-january.md through 12-december.md)
-- **Cold Quarters:** `qN.md` (q1.md through q4.md)
+- **Periodic Daily:** `YYYY-MM-DD.md` (2026-02-08.md)
+- **Periodic Weekly:** `YYYY-Www.md` (2026-W06.md)
+- **Periodic Monthly:** `YYYY-MM.md` (2026-02.md)
+- **Periodic Quarterly:** `YYYY-QN.md` (2026-Q1.md)
+- **Periodic Yearly:** `YYYY.md` (2026.md)
 
 ## Getting Started
 
@@ -120,7 +131,7 @@ cd 2bd
 claude skill run rituals/planning/daily-planning
 ```
 
-Open `03_Resources/Brain/Hot/Day.md` to see your living note.
+Open `00_Brain/Captive/Today.md` to see your working note.
 
 ### Sync
 
@@ -129,8 +140,8 @@ Open `03_Resources/Brain/Hot/Day.md` to see your living note.
 ## Documentation
 
 See [CLAUDE.md](CLAUDE.md) for complete documentation:
-- Hot/Cold brain system details
-- Editing modes and synthesis workflow
+- Metabolic state system details
+- Synthesis workflow (Captive → Periodic)
 - Creating new rituals and actions
 - Obsidian integration and hotkeys
 
@@ -138,7 +149,7 @@ See [CLAUDE.md](CLAUDE.md) for complete documentation:
 
 **Trust the Rituals.** Run them even when you don't feel like it. The magic is in the rhythm.
 
-**Work Only in Hot.** Your Hot notes are messy work-in-progress. Cold and Insights are ritual-generated.
+**Capture in Captive.** Your Captive notes are volatile, high-velocity intake. Periodic is the permanent record.
 
 **The System Augments.** It scaffolds your thinking, but you supply the content.
 
