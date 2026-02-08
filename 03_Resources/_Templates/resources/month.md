@@ -1,4 +1,4 @@
-[[00_Brain/Home|Home]] | [[qN|QN]] | [[Year]] | [[NN-monthname|←]] • [[NN-monthname|→]]
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[qN|QN]] | [[Year]] | [[NN-monthname|←]] • [[NN-monthname|→]]
 
 ---
 

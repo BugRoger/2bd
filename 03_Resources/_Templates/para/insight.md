@@ -4,6 +4,10 @@ created: YYYY-MM-DD
 tags: [tag1, tag2, tag3]
 ---
 
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[01_Projects/✱ Projects|✱ Projects]] | [[02_Areas/People/✱ People|✱ People]] | [[02_Areas/Insights/✱ Insights|✱ Insights]]
+
+---
+
 # [Theme Name]
 
 ## Overview

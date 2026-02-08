@@ -27,7 +27,7 @@ Collect information to inform today's planning:
    - Use bash commands: `date +"%Y-%m-%d"`, `date +"%A"`, `date +"%V"`, etc.
 
 2. **Review yesterday's work** (if it exists):
-   - Read `00_Brain/Current/Day.md` to see yesterday's content
+   - Read `03_Resources/Brain/Hot/Day.md` to see yesterday's content
    - Note completed items, wins, and any actions that need follow-up
    - Look for unfinished priorities that may carry forward
 
@@ -36,7 +36,7 @@ Collect information to inform today's planning:
    - Optionally read project files if user mentions specific projects
 
 4. **Check ongoing areas**:
-   - List subdirectories in `02_Areas/Insights/` and `02_Areas/People/` to understand ongoing themes and relationships
+   - List files in `02_Areas/Insights/` and `02_Areas/People/` to understand ongoing themes and relationships
    - Consider what areas need attention today
 
 ### 3. Interactive Planning Session
@@ -105,7 +105,7 @@ meetings: [Number of meetings]
 
 ### 5. Write and Confirm
 
-1. Write the complete daily plan to `00_Brain/Current/Day.md`
+1. Write the complete daily plan to `03_Resources/Brain/Hot/Day.md`
 2. Confirm with the user:
    - Summarize the 3 priorities
    - Highlight the leadership intention
@@ -125,7 +125,7 @@ meetings: [Number of meetings]
 
 ## Integration with Other Skills
 
-- **daily-review** (future): Evening counterpart that reflects on the day, fills Completed/Wins/Insights, and archives to Resources/Brain
+- **daily-review** (future): Evening counterpart that reflects on the day, fills Completed/Wins/Insights, and archives to Brain/Cold
 - **weekly-planning** (future): Higher-level planning that daily-planning aligns with
-- **weekly-review** (future): Review that synthesizes the week and archives to Resources/Brain
+- **weekly-review** (future): Review that synthesizes the week and archives to Brain/Cold
 - **create-project** (future): Action to create new project files that show up in context gathering

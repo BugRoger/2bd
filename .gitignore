@@ -1,7 +1,12 @@
 # Personal Content (ignore actual notes, keep structure)
 
-# Brain - Current working notes (personal daily work)
-00_Brain/Current/*.md
+# Brain Hot - Active working notes (personal daily work)
+03_Resources/Brain/Hot/*.md
+
+# Brain Cold - Year-agnostic historical notes (personal synthesis)
+03_Resources/Brain/Cold/Days/*.md
+03_Resources/Brain/Cold/Months/*.md
+03_Resources/Brain/Cold/Quarters/*.md
 
 # Projects - Active projects (deadline-driven work)
 01_Projects/*.md
@@ -12,12 +17,6 @@
 !02_Areas/People/.gitkeep
 02_Areas/Insights/*.md
 !02_Areas/Insights/.gitkeep
-
-# Resources Brain - Living historical notes (personal synthesis)
-03_Resources/Brain/Days/*.md
-03_Resources/Brain/Months/*.md
-03_Resources/Brain/Quarters/*.md
-03_Resources/Brain/Year.md
 
 # Keep templates - these are meta-resources for the system
 !03_Resources/_Templates/**/*.md

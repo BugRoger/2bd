@@ -1,4 +1,4 @@
-[[00_Brain/Home|Home]] | [[MM-monthname|Mon]] | [[qN|QN]] | [[MM-DD|←]] • [[MM-DD|→]]
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[MM-monthname|Mon]] | [[qN|QN]] | [[MM-DD|←]] • [[MM-DD|→]]
 
 ---
 

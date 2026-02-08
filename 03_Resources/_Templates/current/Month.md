@@ -4,7 +4,7 @@ quarter: Q[1-4] [YYYY]
 year: [YYYY]
 ---
 
-[[00_Brain/Home|Home]] | [[Day]] | [[Week]] | [[Quarter]]
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[Day]] | [[Week]] | [[Quarter]]
 
 ---
 
