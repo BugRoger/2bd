@@ -2,68 +2,17 @@
 
 **A personal knowledge system that runs itself—powered by Claude Skills, driven by rituals, stored in markdown.**
 
----
-
 ## Why 2bd?
 
-You've tried bullet journals, Notion templates, and weekly reminders. They work... until they don't. The problem isn't your system—it's that systems require constant manual maintenance. You set up elaborate workflows, create beautiful templates, and promise yourself you'll stick with it this time. But life gets busy, you miss a day, then a week, and suddenly your second brain is out of date and useless.
+Traditional productivity systems depend on you being the engine. They're passive containers waiting for you to fill them. You set up elaborate workflows, miss a day, then a week, and suddenly your second brain is out of date.
 
-The real issue is that traditional productivity systems depend on you being the engine. They're passive containers waiting for you to fill them. But what if your system could run itself? What if scheduled rituals automatically updated living documents, synthesizing your work into insights without you lifting a finger?
+2bd flips the script. Instead of you serving your system, your system serves you. **Rituals** run on schedule, **Living Notes** evolve with your life, and everything stays organized in plain markdown files you truly own.
 
-2bd flips the script. Instead of you serving your system, your system serves you. Rituals run on schedule, Living Notes evolve with your life, and everything stays organized in plain markdown files you truly own. This is a second brain that actually remembers—so you don't have to.
-
-And because everything is plain markdown on your filesystem, AI integration is trivial. No plugins. No APIs. No MCPs. You just point Claude Code at a folder, and you're done. The filesystem is the API, plaintext is the format. Apps come and go, but plain text lasts forever.
-
----
-
-## What is 2bd?
-
-**2bd is a personal knowledge system that uses Claude Skills to automate productivity rituals.** It maintains **Living Notes** (Today.md, Week.md, etc.) through scheduled **Rituals**, organizing everything using the **PARA method** in plain markdown files.
-
-Think of it as:
-- **A self-running second brain** that doesn't rely on your memory or discipline
-- **An automated journaling system** that reflects on your life at multiple time scales
-- **A knowledge synthesis engine** that turns scattered information into coherent insights
-
-**Who it's for:** Power users, productivity enthusiasts, second brain practitioners, and anyone comfortable with CLI tools who wants their knowledge system to work *for* them, not the other way around.
-
----
+And because everything is plain markdown on your filesystem, AI integration is trivial. No plugins. No APIs. No MCPs. You just point Claude at a folder.
 
 ## How It Works
 
-2bd is built on a simple architecture:
-
-```
-User
-  ↓
-Invokes Skill ──→ Claude (via CLI or Web)
-  ↓
-Skill reads context:
-  • Previous Living Notes
-  • Calendar events
-  • Task lists
-  • Project status
-  ↓
-Claude generates/updates content
-  ↓
-Archives old version
-  ↓
-Writes new content to Living Note
-  ↓
-Syncs automatically (cloud services or custom ritual)
-```
-
-**Key Principles:**
-- **No Databases, No Servers:** Everything is a markdown file in your filesystem
-- **Data Ownership:** Your files live on your machine—plain text that outlasts any app. While other tools require complex integrations for AI, you just point Claude at a folder.
-- **Claude as Processor:** Claude reads, processes, and writes back—every run is stateless
-- **Skills as Programs:** Rituals drive the engine, Actions are one-shot helpers
-
----
-
-## The Productivity Loop
-
-2bd operates on multiple nested time scales, each feeding into the next:
+2bd operates on nested time scales, each feeding into the next:
 
 ```
 Daily ──▶ Weekly ──▶ Monthly ──▶ Quarterly ──▶ Yearly
@@ -72,396 +21,134 @@ Small     Tactics   Strategy    Direction    Vision
 wins      review    synthesis   reflection   planning
 ```
 
-**How it works:**
-- **Daily:** What happened today? What's next? (5-10 min) → feeds Weekly
-- **Weekly:** What did I accomplish? What's this week's priority? (20-30 min) → feeds Monthly
-- **Monthly:** What patterns emerged? What needs adjustment? (45-60 min) → feeds Quarterly
-- **Quarterly:** Am I on track? What's working? What isn't? (1-2 hrs) → feeds Yearly
-- **Yearly:** What's my vision? What will define this year? (2-3 hrs) → sets context for Daily
+**Core rituals** drive the engine:
+- **Daily Planning/Review** – What's today? What happened?
+- **Weekly Planning/Review** – Tactics and accomplishments
+- **Monthly/Quarterly Review** – Patterns and direction
+- **Yearly Planning/Review** – Vision and goals
 
-**Compound Clarity:** Small wins become patterns, patterns become insights, insights become strategy, strategy becomes vision.
-
-You're not just logging—you're synthesizing. And rituals automate the synthesis.
-
----
+Run rituals from the CLI:
+```bash
+claude skill run rituals/planning/daily-planning
+claude skill run rituals/review/daily-review
+```
 
 ## Key Concepts
 
-### Claude Skills
+**Rituals** are scheduled routines that drive the system—daily planning, weekly review, etc.
 
-Claude Skills are specialized capabilities that Claude invokes like programs. In 2bd, every ritual and action is a skill that Claude runs autonomously.
+**Actions** are one-shot helpers triggered on-demand—create a project, etc.
 
-### Rituals vs. Actions
+**Living Notes** (Day.md, Week.md, Month.md, Quarter.md) are continuously evolving documents updated by rituals.
 
-**Rituals** are scheduled, recurring operations that drive the engine:
-- Daily Planning, Daily Review, Weekly Planning, Weekly Review, Monthly Review, Quarterly Review, Yearly Planning, Yearly Review
+**Hot/Cold System** separates where you work from where synthesis accumulates:
+- **Hot** (`03_Resources/Brain/Hot/`) – Your active workspace. Write here.
+- **Cold** (`03_Resources/Brain/Cold/`) – Year-agnostic synthesis. Rituals write here.
 
-**Actions** are discrete, one-shot helpers you trigger when needed:
-- Create New Project
-
-Rituals often compose actions as building blocks.
-
-### Living Notes
-
-Living Notes are continuously evolving documents (Day.md, Week.md, etc.) that get updated by rituals—inspired by the [Forever Notes](https://www.myforevernotes.com/docs/journal) philosophy of treating notes as living documents rather than static snapshots. Instead of creating new files daily, a single file gets refreshed and the previous version is archived.
-
-**The Hybrid Approach:** Before updating, 2bd saves a snapshot to Archives. You get a living dashboard AND a historical record.
-
-### PARA Method
-
-2bd follows Tiago Forte's PARA method (Projects, Areas, Resources, Archives) for organizing information by actionability.
-
-### Hubs
-
-Hubs are central navigation notes that organize content by domain, inspired by [Forever Notes](https://www.myforevernotes.com/docs/hubs). Each Hub acts as a map for a specific area:
-
-- **✱ Home** - Central Hub linking all domains
-- **✱ Projects** - Active projects navigation (user + rituals)
-- **✱ People** - Relationship tracking (user + rituals)
-- **✱ Insights** - AI-generated thematic learnings (rituals only)
-
-Hubs use bidirectional linking and dataview queries to keep navigation dynamic and interconnected.
-
----
+**PARA Method** organizes everything: Projects, Areas, Resources, Archives.
 
 ## File Organization
-
-2bd creates and maintains this structure:
 
 ```
 2bd/
 │
-├── 00_Brain/                # User's active working space
-│   └── Current/             # Living temporal notes (user works here)
-│       ├── Day.md           # Today's working note
-│       ├── Week.md          # This week's working note
-│       ├── Month.md         # This month's working note
-│       └── Quarter.md       # This quarter's working note
+├── 01_Projects/             # Active projects (deadline-driven)
+│   ├── ✱ Projects.md        # Projects Hub
+│   └── YYYY-MM-DD-name.md   # Project files (end-date prefix)
 │
-├── 01_Projects/             # PARA: Active projects (deadline-driven)
-│   ├── 2026-06-30-launch-2bd.md
-│   ├── 2026-06-30-q2-okrs.md
-│   └── 2026-12-31-home-renovation.md
-│
-├── 02_Areas/                # PARA: People and Insights
-│   ├── Insights/            # AI-generated thematic patterns from Cold (rituals only)
-│   │   ├── leadership.md
-│   │   ├── productivity.md
-│   │   └── team-dynamics.md
+├── 02_Areas/                # People and Insights
+│   ├── Insights/            # AI-generated thematic patterns (rituals only)
+│   │   ├── ✱ Insights.md    # Insights Hub
+│   │   └── topic.md
 │   └── People/              # Living notes for individuals (user + rituals)
-│       ├── john-doe.md
-│       ├── jane-smith.md
-│       └── sarah-chen.md
+│       ├── ✱ People.md      # People Hub
+│       └── FirstNameL.md    # Person files (FirstName + LastInitial)
 │
-├── 03_Resources/            # PARA: Living historical brain (year-agnostic)
-│   ├── _Templates/          # Meta-resource: Template library (underscore prefix)
-│   │   ├── current/         # Templates for 00_Brain/Current/ notes
-│   │   │   ├── Day.md
-│   │   │   ├── Week.md
-│   │   │   ├── Month.md
-│   │   │   └── Quarter.md
-│   │   ├── para/            # Templates for PARA method files
-│   │   │   ├── project.md
-│   │   │   ├── person.md
-│   │   │   └── insight.md
-│   │   ├── resources/       # Templates for Resources/Brain/ synthesis notes
-│   │   │   ├── day.md
-│   │   │   ├── month.md
-│   │   │   ├── quarter.md
-│   │   │   └── year.md
-│   │   └── archives/
-│   │       └── week.md
+├── 03_Resources/            # Brain and templates
+│   ├── _Templates/          # Template library
+│   │   ├── current/         # Hot note templates
+│   │   ├── para/            # PARA file templates
+│   │   ├── resources/       # Cold synthesis templates
+│   │   └── archives/        # Archive templates
 │   └── Brain/
-│       ├── Days/            # 366 files: 01-01.md through 12-31.md
-│       │   ├── 01-01.md     # Accumulates all Jan 1 synthesis across years
-│       │   ├── 01-02.md     # Accumulates all Jan 2 synthesis across years
-│       │   ├── 02-05.md
-│       │   └── ...          # (through 12-31.md)
-│       ├── Months/          # 12 files: 01-january.md through 12-december.md
-│       │   ├── 01-january.md   # Accumulates all January synthesis across years
-│       │   ├── 02-february.md
-│       │   └── ...             # (through 12-december.md)
-│       ├── Quarters/        # 4 files: q1.md through q4.md
-│       │   ├── q1.md        # Accumulates all Q1 synthesis across years
-│       │   ├── q2.md
-│       │   ├── q3.md
-│       │   └── q4.md
-│       └── Year.md          # Multi-year accumulation of yearly synthesis
+│       ├── ✱ Home.md        # Central Hub
+│       ├── Hot/             # Active workspace (user writes here)
+│       │   ├── Day.md
+│       │   ├── Week.md
+│       │   ├── Month.md
+│       │   ├── Quarter.md
+│       │   └── Year.md
+│       └── Cold/            # Year-agnostic synthesis (rituals write here)
+│           ├── Days/        # 366 files: 01-01.md through 12-31.md
+│           ├── Months/      # 12 files: 01-january.md through 12-december.md
+│           └── Quarters/    # 4 files: q1.md through q4.md
 │
-├── 04_Archives/             # PARA: Backup snapshots (ephemeral notes only)
-│   ├── Brain/
-│   │   └── Weekly/          # Archived weekly notes (ISO 8601: YYYY-Www.md)
-│   │       └── 2026/
-│   │           ├── 2026-W01.md
-│   │           ├── 2026-W02.md
-│   │           └── ...
+├── 04_Archives/             # Backup snapshots
+│   ├── Brain/Weekly/        # Archived weekly notes (YYYY/YYYY-Www.md)
 │   └── Projects/            # Completed projects
-│       └── 2025-12-15-old-website.md
 │
-└── .claude/                 # Claude-specific configuration
-    └── skills/
-        ├── rituals/         # Scheduled routine skills
-        │   ├── planning/    # Forward-looking rituals
-        │   │   ├── daily-planning/
-        │   │   │   └── SKILL.md
-        │   │   ├── weekly-planning/
-        │   │   │   └── SKILL.md
-        │   │   └── yearly-planning/
-        │   │       └── SKILL.md
-        │   └── review/      # Reflective rituals
-        │       ├── daily-review/
-        │       │   └── SKILL.md
-        │       ├── weekly-review/
-        │       │   └── SKILL.md
-        │       ├── monthly-review/
-        │       │   └── SKILL.md
-        │       ├── quarterly-review/
-        │       │   └── SKILL.md
-        │       └── yearly-review/
-        │           └── SKILL.md
-        └── actions/         # One-shot helper skills
-            └── create-project/
-                └── SKILL.md
+└── .claude/skills/          # Claude Skills
+    ├── rituals/             # Scheduled routines
+    │   ├── planning/        # Forward-looking (daily, weekly, yearly)
+    │   └── review/          # Reflective (daily, weekly, monthly, quarterly, yearly)
+    └── actions/             # One-shot helpers
 ```
 
 **Naming Conventions:**
-- **Meta-resources:** Underscore prefix for system/template files: `_Templates/`, `_Guides/`
-- **Current Working Notes:** In `00_Brain/Current/`, capitalized (Day.md, Week.md, Month.md, Quarter.md)
-- **Resources Brain (Year-Agnostic Living Notes):**
-  - Days: `MM-DD.md` format (01-01.md through 12-31.md, includes leap day 02-29.md)
-  - Months: `NN-monthname.md` format (01-january.md through 12-december.md)
-  - Quarters: `qN.md` format (q1.md through q4.md)
-  - Year: `Year.md` (single file, multi-year accumulation)
-- **People:** In `02_Areas/People/`, lowercase-with-hyphens (john-doe.md, jane-smith.md)
-- **Insights:** In `02_Areas/Insights/`, lowercase-with-hyphens (leadership.md, productivity.md)
-- **Projects:** End-date first for lexical sorting: `YYYY-MM-DD-project-name.md`
-- **Archives (Weekly):** ISO 8601 week format: `YYYY/YYYY-Www.md` (e.g., 2026/2026-W06.md)
-- **Folders:** Numbered for sorting (`00_`, `01_`, `02_`, `03_`, `04_`)
-- **Skills:** Each skill in own folder with `SKILL.md` and optional supporting files (templates, examples, scripts)
-
-**System Architecture:**
-
-**Hot/Cold Brain System:**
-- **Hot (00_Brain/Current/)** - Your active working space. This is the **only place you write**. Messy, unstructured, stream of consciousness is OK. Hot notes are living direction documents—ongoing intentions and work-in-progress. Rituals read from here.
-- **Cold (03_Resources/Brain/)** - Living historical notes that accumulate synthesis **across years**. **Rituals write here exclusively**—you never edit Cold directly. Structured, curated, high-signal.
-
-**Editing Modes:**
-
-| Location | Who Writes | Purpose |
-|----------|------------|---------|
-| **Hot/** | User only | Active workspace—capture, plan, reflect |
-| **Cold/** | Rituals only | Year-agnostic temporal synthesis |
-| **Insights/** | Rituals only | AI-generated thematic patterns from Cold |
-| **People/** | Both | Rituals extract from Day.md (1:1s), user adds context |
-| **Projects/** | Both | Rituals update status, user adds details |
-
-**Year-Agnostic Accumulation:**
-- `03_Resources/Brain/Days/02-15.md` contains synthesis from **ALL** Feb 15ths (2026, 2027, 2028...)
-- `03_Resources/Brain/Months/03-march.md` contains synthesis from **ALL** Marchs across years
-- Enables long-term pattern recognition: "What do I always work on in Q4?" or "What happens every February 15th?"
-- Multi-year insights emerge naturally over time
-
-**Synthesis Workflow:**
-
-```
-User Domain (Hot)              Ritual Domain
-─────────────────              ─────────────
-Hot/                           Cold/ (ritual-only)
-├── Day.md    ──rituals──►     ├── Days/MM-DD.md
-├── Week.md   ──rituals──►     └── Archives only (ephemeral)
-├── Month.md  ──rituals──►     ├── Months/NN-month.md
-├── Quarter.md──rituals──►     └── Quarters/qN.md
-└── Year.md
-                               Insights/ (AI-generated from Cold)
-People/   ◄── both
-Projects/ ◄── both
-```
-
-1. **User works in Hot/** - Day.md, Week.md, Month.md, Quarter.md
-2. **Rituals read Hot, write Cold** - Temporal synthesis to year-agnostic files
-3. **Rituals read Cold, generate Insights** - AI synthesizes thematic patterns
-4. **Rituals extract to People/** - 1:1 conversations from Day.md → person files
-5. **Rituals update Projects/** - Status updates from Hot notes
-6. **Week notes archived** - Backed up to `04_Archives/Brain/Weekly/` (ephemeral)
-
-**Ephemeral vs. Living:**
-- **Week notes** are ephemeral → backed up to Archives only, no Cold representation
-- **Day/Month/Quarter notes** synthesize to Cold (living, accumulating notes)
-- **People/Projects** are collaborative → rituals contribute, user can edit directly
-- **Insights** are derived → AI-generated from Cold, user does not edit
-
-**Inspiration:** This organization is inspired by Tiago Forte's PARA method, adapted for automated ritual-driven maintenance with year-agnostic pattern recognition.
-
----
+- **Hubs:** `✱` prefix with Title Case (`✱ Home.md`, `✱ Projects.md`)
+- **Projects:** End-date first (`YYYY-MM-DD-project-name.md`)
+- **People:** FirstName + LastInitial (`EstherS.md`, `JonnyB.md`)
+- **Cold Days:** `MM-DD.md` (01-01.md through 12-31.md)
+- **Cold Months:** `NN-monthname.md` (01-january.md through 12-december.md)
+- **Cold Quarters:** `qN.md` (q1.md through q4.md)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Claude Code CLI or Claude.ai with Skills enabled
-- Markdown editor (VS Code, Obsidian, any text editor)
-- Cloud storage (iCloud, OneDrive, Dropbox) or Git for sync (optional but recommended)
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) or Claude.ai with Skills
+- Markdown editor (Obsidian recommended, any editor works)
 
-### Installation
+### Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/2bd.git
+git clone https://github.com/bugroger/2bd.git
 cd 2bd
 
-# Initialize the PARA structure
-./scripts/init-para.sh
+# Run your first ritual
+claude skill run rituals/planning/daily-planning
 ```
+
+Open `03_Resources/Brain/Hot/Day.md` to see your living note.
 
 ### Sync
 
-2bd files are just markdown on your filesystem. Sync happens automatically if you store the folder in:
-- **iCloud Drive** (`~/Library/Mobile Documents/com~apple~CloudDocs/2bd`)
-- **OneDrive** (`~/OneDrive/2bd`)
-- **Dropbox** (`~/Dropbox/2bd`)
+2bd files are just markdown. Store the folder in iCloud, Dropbox, OneDrive, or use Git—sync is an extension, not a requirement.
 
-Alternatively, use Git and add a custom ritual that commits and pushes changes. Sync is an extension—the core system doesn't care where files live.
+## Documentation
 
-### Run Your First Ritual
-
-```bash
-claude skill run rituals/daily-review
-```
-
-Open [00_Brain/Current/Today.md](00_Brain/Current/Today.md) to see your first Living Note. Run this ritual every morning or evening to keep it current.
-
----
-
-## Quick Start: Using Templates
-
-2bd includes comprehensive templates for all note types in [03_Resources/_Templates/](03_Resources/_Templates/). Templates provide structure, YAML frontmatter, and placeholder text to guide your usage.
-
-### Template Categories
-
-**Current Working Notes** (`_Templates/current/`)
-- [Day.md](03_Resources/_Templates/current/Day.md) - Daily working note with priorities, meetings, wins, and insights
-- [Week.md](03_Resources/_Templates/current/Week.md) - Weekly planning and daily journaling
-- [Month.md](03_Resources/_Templates/current/Month.md) - Monthly overview and weekly progress tracking
-- [Quarter.md](03_Resources/_Templates/current/Quarter.md) - Quarterly strategic planning and monthly progress
-
-**PARA Method** (`_Templates/para/`)
-- [project.md](03_Resources/_Templates/para/project.md) - Project template with outcomes, milestones, and updates
-- [person.md](03_Resources/_Templates/para/person.md) - People note with interactions and relationship tracking
-- [insight.md](03_Resources/_Templates/para/insight.md) - Theme-based insights with patterns and learnings
-
-**Synthesis Notes** (`_Templates/resources/`)
-- [day.md](03_Resources/_Templates/resources/day.md) - Year-agnostic daily synthesis template
-- [month.md](03_Resources/_Templates/resources/month.md) - Year-agnostic monthly synthesis template
-- [quarter.md](03_Resources/_Templates/resources/quarter.md) - Year-agnostic quarterly synthesis template
-- [year.md](03_Resources/_Templates/resources/year.md) - Multi-year accumulation template
-
-**Archives** (`_Templates/archives/`)
-- [week.md](03_Resources/_Templates/archives/week.md) - Weekly archive snapshot template
-
-### Using Templates
-
-**For Current Working Notes:**
-```bash
-# Copy template to start a new working note
-cp 03_Resources/_Templates/current/Day.md 00_Brain/Current/Day.md
-```
-
-**For Projects:**
-```bash
-# Create new project from template
-cp 03_Resources/_Templates/para/project.md 01_Projects/2026-12-31-my-project.md
-# Edit to fill in your project details
-```
-
-**For People Notes:**
-```bash
-# Create new person note (user can edit, rituals also extract from 1:1s)
-cp 03_Resources/_Templates/para/person.md 02_Areas/People/john-doe.md
-```
-
-**For Insights:**
-Insights are AI-generated from Cold storage—you don't create them manually. Rituals analyze your accumulated temporal notes and generate thematic insights automatically.
-
-Templates use placeholder text in brackets `[like this]` to guide what content to add. Replace placeholders with your actual content.
-
-**Note on Synthesis Templates:** The `_Templates/resources/` templates are used by rituals when appending synthesized content to year-agnostic living notes. You typically won't copy these manually—rituals use them as reference for the structure when creating new entries. Similarly, `_Templates/para/insight.md` is used by rituals to create new insight files.
-
----
-
-## Core Rituals
-
-Each ritual is a scheduled operation that drives the productivity loop:
-
-| Ritual | When | Purpose | Duration |
-|--------|------|---------|----------|
-| **Daily Planning** | Every morning | Plan today's priorities and intentions | 5-10 min |
-| **Daily Review** | Every evening | Reflect on yesterday, capture learnings | 5-10 min |
-| **Weekly Planning** | Every Monday | Set this week's priorities and focus | 20-30 min |
-| **Weekly Review** | Every Sunday | Reflect on last week, synthesize wins and lessons | 20-30 min |
-| **Monthly Review** | First of month | Synthesize patterns, review projects | 45-60 min |
-| **Quarterly Review** | Every 3 months | Assess direction, review goals | 1-2 hrs |
-| **Yearly Planning** | January 1 | Set vision, define annual goals | 2-3 hrs |
-| **Yearly Review** | December 31 | Reflect on the year, capture insights | 2-3 hrs |
-
-**Usage:**
-```bash
-claude skill run rituals/planning/daily-planning
-claude skill run rituals/review/daily-review
-claude skill run rituals/planning/weekly-planning
-claude skill run rituals/review/weekly-review
-claude skill run rituals/review/monthly-review
-claude skill run rituals/review/quarterly-review
-claude skill run rituals/planning/yearly-planning
-claude skill run rituals/review/yearly-review
-```
-
----
-
-## Common Actions
-
-Actions are one-shot helpers you invoke on-demand:
-
-| Action | Purpose | Usage |
-|--------|---------|-------|
-| **Create Project** | Initialize new project file with end-date | `claude skill run actions/create-project --args "Project Name" --end-date "2026-12-31"` |
-
----
+See [CLAUDE.md](CLAUDE.md) for complete documentation:
+- Hot/Cold brain system details
+- Editing modes and synthesis workflow
+- Creating new rituals and actions
+- Obsidian integration and hotkeys
 
 ## Philosophy
 
-**Trust the Rituals:** Run them even when you don't feel like it. The magic is in the rhythm, not the motivation.
+**Trust the Rituals.** Run them even when you don't feel like it. The magic is in the rhythm.
 
-**Work Only in Hot:** Your Hot notes are living direction documents—messy, unstructured work-in-progress. Everything else (Cold, Insights) is ritual-generated.
+**Work Only in Hot.** Your Hot notes are messy work-in-progress. Cold and Insights are ritual-generated.
 
-**1:1s Go to Day.md:** Capture conversations in your daily note. Rituals extract relevant content to People/ files automatically.
-
-**Insights Are Derived:** You don't write insights—the AI generates them from your accumulated Cold storage. Patterns emerge over time.
-
-**Archive Liberally:** Keep your workspace lean and focused on what matters now.
-
-**The System Augments:** It scaffolds your thinking, but you supply the content.
-
-*"2bd is not a second brain—it's scaffolding for your first brain. The rituals create rhythm, the Living Notes provide continuity, and the markdown keeps you in control."*
-
----
+**The System Augments.** It scaffolds your thinking, but you supply the content.
 
 ## Acknowledgments
 
-**2bd stands on the shoulders of giants:**
-
-- **Tiago Forte** for the [PARA Method](https://fortelabs.com/blog/para/) - organizational framework
-- **Andy Matuschak** for [Evergreen Notes](https://notes.andymatuschak.org/Evergreen_notes) - inspiration for Living Notes
-- **Niklas Luhmann** for the [Zettelkasten Method](https://zettelkasten.de/introduction/) - interconnected notes
-- **The Obsidian Community** for [Periodic Notes](https://github.com/liamcain/obsidian-periodic-notes) - temporal organization
-- **Matthias Hilse** for [Forever Notes](https://www.myforevernotes.com/) - inspiration for Hubs (`✱` prefix navigation notes), journal navigation links (Daily → Monthly → Quarterly → Yearly hierarchy), and the living document philosophy
-- **Anthropic** for Claude Skills
-
----
+- **Tiago Forte** – [PARA Method](https://fortelabs.com/blog/para/)
+- **Andy Matuschak** – [Evergreen Notes](https://notes.andymatuschak.org/Evergreen_notes)
+- **Matthias Hilse** – [Forever Notes](https://www.myforevernotes.com/) (Hubs, living documents)
+- **Anthropic** – Claude Skills
 
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
-
----
-
-**Welcome to 2bd. Your second brain just learned to run itself.*

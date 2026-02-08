@@ -1,4 +1,4 @@
-[[00_Brain/Home|Home]] | [[q1|Q1]] | [[q2|Q2]] | [[q3|Q3]] | [[q4|Q4]]
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[q1|Q1]] | [[q2|Q2]] | [[q3|Q3]] | [[q4|Q4]]
 
 ---
 

@@ -1,4 +1,4 @@
-[[00_Brain/Home|Home]] | [[Year]] | [[qN|←]] • [[qN|→]]
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[Year]] | [[qN|←]] • [[qN|→]]
 
 ---
 

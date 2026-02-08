@@ -4,7 +4,7 @@ year: [YYYY]
 months: [Month 1, Month 2, Month 3]
 ---
 
-[[00_Brain/Home|Home]] | [[Day]] | [[Week]] | [[Month]]
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[Day]] | [[Week]] | [[Month]]
 
 ---
 

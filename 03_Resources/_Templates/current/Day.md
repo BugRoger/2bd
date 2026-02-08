@@ -9,7 +9,7 @@ focus_hours: 0
 meetings: 0
 ---
 
-[[00_Brain/Home|Home]] | [[Week]] | [[Month]] | [[Quarter]]
+[[03_Resources/Brain/✱ Home|✱ Home]] | [[Week]] | [[Month]] | [[Quarter]]
 
 ---
 
