@@ -1,9 +1,6 @@
 ---
 name: daily-planning
 description: Morning ritual to plan the day. Sets top 3 priorities, leadership intention, and prepares for scheduled meetings. Use when the user wants to plan their day, set daily priorities, or prepare their daily focus.
-disable-model-invocation: true
-allowed-tools: Read, Write, Bash(*), Grep, Glob
-argument-hint: "[optional: specific focus area or constraint]"
 ---
 
 # Daily Planning Ritual
