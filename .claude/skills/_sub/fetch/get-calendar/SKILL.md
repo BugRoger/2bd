@@ -21,10 +21,15 @@ This sub-skill requires:
 
 | Argument | Values | Default | Description |
 |----------|--------|---------|-------------|
-| scope | `today`, `tomorrow`, `week`, `month` | `today` | Time range to fetch |
+| scope | `today`, `tomorrow`, `week`, `month`, `monday`-`sunday`, `YYYY-MM-DD` | `today` | Time range to fetch |
 | format | `json`, `markdown` | `json` | Output format |
 
 Parse arguments from `$ARGUMENTS` if provided.
+
+**Scope Resolution:**
+- `today`, `tomorrow`, `week`, `month` - Relative to current date
+- `monday`, `tuesday`, etc. - Next occurrence of that weekday (including today if it matches)
+- `YYYY-MM-DD` - Specific date (e.g., `2026-02-14`)
 
 ## Execution Steps
 
@@ -69,6 +74,24 @@ TO=$(date -v+7d -v23H -v59M -v59S +"%Y-%m-%dT%H:%M:%S%z")
 ```bash
 FROM=$(date -v1d -v0H -v0M -v0S +"%Y-%m-%dT%H:%M:%S%z")
 TO=$(date -v1d -v+1m -v-1d -v23H -v59M -v59S +"%Y-%m-%dT%H:%M:%S%z")
+```
+
+**For weekday (`monday`, `tuesday`, etc.):**
+
+Calculate the next occurrence of that weekday (including today if it matches). Use the weekday name to determine the target date, then calculate FROM/TO for that single day:
+```bash
+# Example for "monday" - find next Monday's date, then use single-day range
+FROM=$(date -v+Xd -v0H -v0M -v0S +"%Y-%m-%dT%H:%M:%S%z")  # where X = days until target weekday
+TO=$(date -v+Xd -v23H -v59M -v59S +"%Y-%m-%dT%H:%M:%S%z")
+```
+
+**For specific date (`YYYY-MM-DD`):**
+
+Parse the provided date and calculate the range for that single day:
+```bash
+# Example for "2026-02-14"
+FROM=$(date -j -f "%Y-%m-%d" "2026-02-14" +"%Y-%m-%dT00:00:00%z")
+TO=$(date -j -f "%Y-%m-%d" "2026-02-14" +"%Y-%m-%dT23:59:59%z")
 ```
 
 ### 3. Fetch Events from Each Calendar
