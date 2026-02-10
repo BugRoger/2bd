@@ -19,6 +19,20 @@ quarters: [YYYY-Q1, YYYY-Q2, YYYY-Q3, YYYY-Q4]
 
 ---
 
+## Leadership Development
+
+### Current Focus
+- **Primary:** [Leadership competency actively developing - e.g., "Listening deeply before responding"]
+- **Secondary:** [Secondary growth area - e.g., "Delegating with trust, not micromanaging"]
+
+### Leadership Identity
+[The leader you are becoming - 1-2 sentences. E.g., "I am a leader who creates clarity, develops people, and builds sustainable high-performing teams."]
+
+### Growth Edge
+[Where discomfort lives - the stretch you're working on. E.g., "Having difficult conversations early instead of avoiding them."]
+
+---
+
 ## Quarterly Progress
 
 ### Q1 (January - March)
