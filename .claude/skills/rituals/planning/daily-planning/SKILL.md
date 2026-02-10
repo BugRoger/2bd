@@ -90,6 +90,15 @@ Collect information to inform today's planning:
    - List files in `02_Areas/Insights/` and `02_Areas/People/` to understand ongoing themes and relationships
    - Consider what areas need attention today
 
+7. **Load coaching context**:
+   - Read `00_Brain/Captive/Year.md` for:
+     - Key Annual Goals
+     - Leadership Development (current focus, leadership identity, growth edge)
+   - Read `00_Brain/Captive/Quarter.md` for:
+     - Key Outcomes This Quarter
+     - Coaching Themes (patterns to watch, questions that serve me)
+   - If sections are empty or contain only placeholders, note this for later and use generic prompts
+
 ### 3. Interactive Planning Session
 
 Engage the user to plan their day:
@@ -133,6 +142,44 @@ Engage the user to plan their day:
 
    Present suggestions with brief reasoning, then let user choose or provide their own.
 
+5. **Generate coaching prompts** (context-aware):
+
+   Based on gathered context (goals, day type, priorities), generate personalized prompts for the Wins and Insights sections. Act as an experienced executive coach developing the user according to their stated leadership and unit goals.
+
+   **Determine day type:**
+   - Heavy meeting day (4+ meetings): Focus on presence, listening, energy protection
+   - 1:1 heavy day (2+ 1:1s): Focus on coaching vs. solving, feedback, development
+   - Deadline/delivery day: Focus on delivery, recognition, sustainable effort
+   - Low energy day: Focus on boundaries, sustainability, delegation
+   - Strategic/light calendar day: Focus on clarity, long-term thinking, creative work
+
+   **Generate Wins prompts** (2-3 total across Personal, Team, Project Progress):
+
+   Connect to:
+   - Today's priorities → "If you complete [Priority 1], what will that prove about your capability?"
+   - Leadership intention → "How will you know if you successfully embodied '[intention]' today?"
+   - 1:1 meetings → "What opportunity does your 1:1 with [Person] give you to practice [leadership focus]?"
+   - Growth edge → "Where might '[growth edge]' show up today? What's your plan?"
+   - Unit goals → "What progress today connects to [Key Outcome]?"
+
+   **Generate Insights prompts** (2-3 total across What Went Well, What Could Be Better, Key Insight):
+
+   Connect to:
+   - Patterns to watch → "Did you notice '[pattern]' today? What triggered it?"
+   - Leadership development → "Where did you practice '[leadership focus]' today? What worked?"
+   - Questions that serve me → Select 1 relevant question for Key Insight of the Day
+   - Day type context:
+     - Heavy meeting day: "Which meeting energized vs. drained you? Why?"
+     - 1:1 day: "What question unlocked something for someone today?"
+     - Deadline day: "What was the hidden cost of today's push? Worth it?"
+
+   **Prompt generation rules:**
+   - Maximum 2-3 prompts per section
+   - Each prompt should be specific to today's context, not generic
+   - Connect prompts to stated goals when available
+   - Frame Wins as celebration/recognition; Insights as learning/pattern-recognition
+   - If goals are empty, use thoughtful generic prompts and suggest filling in Year.md/Quarter.md
+
 ### 4. Generate Daily Plan
 
 Read `00_Brain/Systemic/Templates/Captive/today.md` as the single source of truth for structure.
@@ -153,6 +200,21 @@ Read `00_Brain/Systemic/Templates/Captive/today.md` as the single source of trut
    - Replace placeholder values with actual event data
 
 4. **Keep remaining sections as-is** from template (Capture, Wins, Insights)
+
+5. **Fill Wins section** with generated coaching prompts:
+   - Keep the section structure from template (Personal, Team, Project Progress)
+   - Replace generic prompts with the context-aware prompts generated in step 3.5
+   - Personal: 1-2 prompts connecting to leadership intention and growth edge
+   - Team: 1 prompt connecting to 1:1s or team development
+   - Project Progress: Keep the [[project-name]] placeholder format for user to fill
+
+6. **Fill Insights section** with generated coaching prompts:
+   - Keep the section structure from template (What Went Well, What Could Be Better, Key Insight)
+   - What Went Well: 1-2 prompts about patterns, energy, or leadership practice
+   - What Could Be Better: 1-2 prompts connecting to patterns to watch or growth edge
+   - Key Insight of the Day: Use one question from "Questions That Serve Me" or a powerful coaching question relevant to the day
+
+7. **Keep Capture section as-is** from template
 
 ### 5. Write and Confirm
 

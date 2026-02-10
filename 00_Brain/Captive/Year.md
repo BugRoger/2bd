@@ -19,6 +19,20 @@ quarters: [2026-Q1, 2026-Q2, 2026-Q3, 2026-Q4]
 
 ---
 
+## Leadership Development
+
+### Current Focus
+- **Primary:** [Leadership competency actively developing - e.g., "Listening deeply before responding"]
+- **Secondary:** [Secondary growth area - e.g., "Delegating with trust, not micromanaging"]
+
+### Leadership Identity
+[The leader you are becoming - 1-2 sentences]
+
+### Growth Edge
+[Where discomfort lives - the stretch you're working on]
+
+---
+
 ## Quarterly Progress
 
 ### Q1 (January - March)
