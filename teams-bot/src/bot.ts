@@ -2,6 +2,26 @@ import { sendActivity } from "./teams-api";
 import type { Activity, OutgoingActivity } from "./types";
 
 /**
+ * Allowed users by Azure AD Object ID
+ * Only these users can interact with the bot
+ */
+const ALLOWED_USERS: string[] = [
+  process.env.ALLOWED_AAD_OBJECT_ID || "",
+].filter(Boolean);
+
+/**
+ * Check if a user is authorized to use the bot
+ */
+function isAuthorizedUser(aadObjectId: string | undefined): boolean {
+  if (!aadObjectId) return false;
+  if (ALLOWED_USERS.length === 0) {
+    console.warn("⚠️ No ALLOWED_AAD_OBJECT_ID configured - allowing all users");
+    return true;
+  }
+  return ALLOWED_USERS.includes(aadObjectId);
+}
+
+/**
  * Main activity handler - processes incoming activities from Teams
  */
 export async function handleActivity(activity: Activity): Promise<void> {
@@ -29,8 +49,24 @@ export async function handleActivity(activity: Activity): Promise<void> {
 async function handleMessage(activity: Activity): Promise<void> {
   const text = activity.text?.trim() || "";
   const userName = activity.from?.name || "User";
+  const aadObjectId = activity.from?.aadObjectId;
 
-  console.log(`Message from ${userName}: ${text}`);
+  console.log(`Message from ${userName} (${aadObjectId || "no-aad-id"}): ${text}`);
+
+  // Check authorization
+  if (!isAuthorizedUser(aadObjectId)) {
+    console.log(`Unauthorized user: ${userName} (${aadObjectId})`);
+    const reply: OutgoingActivity = {
+      type: "message",
+      from: activity.recipient,
+      recipient: activity.from,
+      conversation: { id: activity.conversation.id },
+      text: "Sorry, this bot is private and not available for general use.",
+      textFormat: "plain",
+    };
+    await sendActivity(activity.serviceUrl, activity.conversation.id, reply);
+    return;
+  }
 
   // Remove bot mention from message if present
   const cleanedText = removeBotMention(text, activity);
