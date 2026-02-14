@@ -47,6 +47,16 @@ phases:
         output: PROJECTS
         optional: true
         on_error: "No active projects found."
+      - skill: _sub/fetch/get-today-content
+        type: explore
+        output: CURRENT_DAY
+        optional: true
+        on_error: "Current Today.md not found. Fresh day."
+      - skill: _sub/fetch/get-quarter-content
+        type: explore
+        output: QUARTER
+        optional: true
+        on_error: "Quarter.md not found. Coaching context unavailable."
 
   # Phase 2: Pre-flight Check (inline)
   - name: preflight

@@ -93,6 +93,31 @@ Return structured JSON:
 
 ---
 
+## Daily Resolution (default scope)
+
+When `scope=daily` is passed or no scope is specified, the skill operates in daily mode.
+
+### Daily Input Formats
+- `(empty)` → today
+- `today` → today
+- `tomorrow` → tomorrow
+- `monday`, `tuesday`, etc. → next occurrence (including today if matches)
+- `next monday`, `next tuesday`, etc. → next occurrence after today
+- `YYYY-MM-DD` → specific date
+
+### Daily Output
+
+The base output (lines 59-76 above) is the default for daily scope. No additional fields are needed beyond the standard date fields.
+
+### Daily Scope Behavior
+
+When `scope=daily`:
+- Returns standard date fields (target_date, day_name, week, month, quarter, year)
+- Does NOT include extended week/month/quarter/year fields
+- Simpler output optimized for daily planning context
+
+---
+
 ## Week Resolution (for weekly rituals)
 
 When `scope=week` is passed in arguments or the input contains an ISO week format:

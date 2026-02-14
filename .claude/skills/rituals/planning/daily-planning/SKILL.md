@@ -1,6 +1,6 @@
 ---
 name: daily-planning
-description: Plan a day's priorities, meetings, and intentions.
+description: Use when starting your workday to set priorities, review calendar, and align with weekly outcomes.
 argument-hint: "[target-date: today|tomorrow|monday|YYYY-MM-DD]"
 metadata:
   orchestrated: true
@@ -46,6 +46,10 @@ Present context from higher-level planning if available:
 **Monthly Context** (from Month.md):
 - Monthly Theme — What this month is about
 - Key Outcomes — The three monthly outcomes
+
+**Quarterly Context** (from Quarter.md):
+- Patterns to Watch — Self-awareness patterns for coaching
+- Questions That Serve Me — Coaching questions for reflection
 
 **Active Projects** (from 01_Projects/):
 - List all active projects with timeline urgency
