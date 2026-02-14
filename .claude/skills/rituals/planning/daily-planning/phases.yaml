@@ -11,7 +11,7 @@ phases:
         output: VAULT
       - skill: _sub/fetch/get-dates
         type: explore
-        args: "target={{ARGUMENTS}}"
+        args: "target={{ARGUMENTS}} scope=daily"
         output: DATES
       - skill: _sub/fetch/get-directives
         type: explore
@@ -31,6 +31,22 @@ phases:
         optional: true
         fallback: inline
         on_error: "Calendar unavailable. Add meetings manually."
+      - skill: _sub/fetch/get-week-content
+        type: explore
+        output: WEEK
+        optional: true
+        on_error: "Week.md not found. Weekly context unavailable."
+      - skill: _sub/fetch/get-month-content
+        type: explore
+        output: MONTH
+        optional: true
+        on_error: "Month.md not found. Monthly context unavailable."
+      - skill: _sub/fetch/get-active-projects
+        type: explore
+        args: "filter=all"
+        output: PROJECTS
+        optional: true
+        on_error: "No active projects found."
 
   # Phase 2: Pre-flight Check (inline)
   - name: preflight
