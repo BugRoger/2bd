@@ -96,13 +96,6 @@ meetings: 0
 
 ---
 
-## Carry Forward
-*Items to move to tomorrow:*
-- [ ]
-- [ ]
-
----
-
 ## Wins
 
 ### Personal

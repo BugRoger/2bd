@@ -61,13 +61,6 @@ year: YYYY
 
 ---
 
-## Carry Forward
-*Items to move to next week:*
-- [ ]
-- [ ]
-
----
-
 ## Wins This Week
 
 ### Personal

@@ -57,13 +57,6 @@ months: [YYYY-MM, YYYY-MM, YYYY-MM]
 
 ---
 
-## Carry Forward
-*Items to move to next quarter:*
-- [ ]
-- [ ]
-
----
-
 ## Wins This Quarter
 
 ### Personal
