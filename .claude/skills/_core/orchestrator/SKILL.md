@@ -44,9 +44,20 @@ Read the skill's frontmatter and extract the `phases` array. Build a context sto
 context = {
   ARGUMENTS: <arguments passed to skill>,
   TODAY: <current date YYYY-MM-DD>,
-  TARGET_DATE: <resolved from arguments if applicable>
+  TARGET_DATE: <resolved from arguments if applicable>,
+
+  # From resolution metadata (if present in frontmatter):
+  RESOLUTION: {
+    scope: <metadata.resolution.scope>,
+    note_name: <metadata.resolution.note_name>,
+    template_path: <metadata.resolution.template_path>,
+    archive_path: <metadata.resolution.archive_path>,
+    context_from: <metadata.resolution.context_from>
+  }
 }
 ```
+
+If `metadata.resolution` exists in frontmatter, extract all resolution keys into `context.RESOLUTION`. This enables planning/review skills to be resolution-agnostic by using `{{RESOLUTION.*}}` variables.
 
 ### 2. Build Dependency Graph
 
