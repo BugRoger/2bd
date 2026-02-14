@@ -4,6 +4,9 @@ dates: YYYY-MM-DD to YYYY-MM-DD
 month: YYYY-MM
 quarter: YYYY-QN
 year: YYYY
+week_type: [balanced|meeting-heavy|focus|travel|deadline]
+energy_trend: [rising|stable|declining]
+leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 ---
 
 [[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Month|Month]] | [[00_Brain/Captive/Quarter|Quarter]] | [[00_Brain/Captive/Year|Year]]
@@ -17,6 +20,22 @@ year: YYYY
 
 ---
 
+## Synthesis from Prior Week
+
+### Carryover Priorities
+- [ ] [Incomplete items from last week]
+
+### Patterns Observed
+- [Synthesized from prior week's daily archives]
+
+### Leadership Development Progress
+- [Progress on growth edge from last week]
+
+### Key Relationships to Nurture
+- [People needing attention this week]
+
+---
+
 ## Week Overview
 
 ### Key Outcomes This Week
@@ -27,36 +46,46 @@ year: YYYY
 ### Focus Theme
 [One theme or area of focus for the week - e.g., "Team building," "Strategic planning," "Execution mode"]
 
+### Leadership Intention
+[One word or short phrase - your stance for this week: e.g., Decisive, Collaborative, Strategic, Supportive, Present]
+
 ---
 
-## Daily Notes
+## Weekly Commitments
 
-### Monday
-- [Quick capture of the day - what happened, what you worked on, how you felt]
-- [Wins, challenges, observations]
+### Key Decisions to Make
+- [ ] [Decision needing resolution this week]
 
-### Tuesday
-- [Daily capture continues]
+### People I Need to Connect With
+- [ ] [[PersonName]] — [reason/topic]
 
-### Wednesday
--
+### Boundaries I Will Maintain
+- [Energy/time boundary to protect]
 
-### Thursday
--
+### One Growth Challenge I Will Embrace
+- [Connected to your growth edge]
 
-### Friday
--
+---
 
-### Weekend (Optional)
--
+## People & Relationships
+
+### 1:1 Highlights
+- [[PersonName]] — [Key theme/outcome from this week's 1:1s]
+
+### Relationships Needing Attention
+- [[PersonName]] — [Why/what needs attention]
+
+### Feedback Given/Received
+- → [Given to whom, what feedback]
+- ← [Received from whom, what feedback]
 
 ---
 
 ## Coaching Check-in
-*Looking at your Quarter's "Patterns to Watch" — where did these show up this week?*
+*Looking at your Quarter's "Patterns to Watch" — where might these show up this week?*
 -
 
-*What would next week look like if you were operating at your best?*
+*What would this week look like if you were operating at your best?*
 -
 
 ---
@@ -64,34 +93,53 @@ year: YYYY
 ## Wins This Week
 
 ### Personal
-- [Personal growth or achievement]
-- [Effective leadership moment]
-- [Work-life balance win]
+- *What personal habit or boundary will you protect?*
+- *Where will you show up as the leader you want to be?*
+- *What decision will you make that you'll be proud of?*
 
 ### Organisational
-- [Team collaboration or success]
-- [Individual team member highlight]
-- [Cultural or morale win]
+- *Who on the team deserves recognition?*
+- *What collaboration made an impact?*
+- *What progress would the team not notice without you pointing it out?*
 
 ### Strategic
 - [[project-name]]: [Progress this week]
 - [[another-project]]: [Key milestone or decision]
-- [Initiative progress]
 
 ---
 
 ## Reflections
 
 ### What Went Well
-- [What patterns were effective this week?]
-- [What decisions paid off?]
+- *What patterns were effective this week?*
+- *What decisions paid off?*
 
 ### What Could Be Better
-- [What could have gone differently?]
-- [What will you adjust next week?]
+- *What could have gone differently?*
+- *What will you adjust next week?*
 
 ### Key Learning
 [One synthesized learning from the week - the most important insight]
 
 ### Patterns Observed
 [Recurring themes, team dynamics, organizational trends, seasonal patterns in your work]
+
+---
+
+## Insights to Extract (Optional)
+
+### Leadership Themes to Surface
+- [Themes worth crystallizing into Semantic knowledge]
+
+### Team Dynamics to Note
+- [Patterns in team behavior/performance worth tracking]
+
+---
+
+## Next Week Setup
+**Theme:** [Working title for next week]
+
+**Carry Forward:**
+- [ ] [Items moving to next week]
+
+**One thing for success:** [Single most important thing to protect or accomplish]
