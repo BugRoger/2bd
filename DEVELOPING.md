@@ -107,6 +107,50 @@ Skills are organized by type:
 
 ## Creating Skills
 
+### Skill Writing Style
+
+Skills should read as plain prose describing *what happens*, not scripts with execution directives.
+
+**Do:**
+- Write descriptive prose: "Load config to get the vault path. Validate the structure exists."
+- Organize into sections describing the flow: Setup, Interview, Output
+- Reference sub-skills naturally: "Load config using `_sub/fetch/get-config`"
+- Keep skills scannable — a reader should understand the flow without running it
+
+**Don't:**
+- Use template syntax: `{{VAULT}}`, `{{#if}}`, `{{#each}}`
+- Use phase markers: `<!-- phase:name -->`
+- Use imperative directives: "Ask:", "Check:", "Write:", numbered steps
+- Include bash code blocks for file operations
+- Embed file structure examples inline (reference templates instead)
+
+**Example — Before (bad):**
+```markdown
+### 1. Get Vault Path
+
+Check for `--vault=` argument, otherwise ask:
+
+"Where should I create your vault?"
+
+Store as `$VAULT`.
+
+### 2. Validate Path
+
+- Ensure parent directory exists
+- Warn if path is inside a git repo: "This path appears to be inside a git repository."
+```
+
+**Example — After (good):**
+```markdown
+### Vault Path
+
+Get the vault path from `--vault=` argument or ask the user. The path should be a folder that syncs (OneDrive, iCloud, Dropbox).
+
+Validate the path exists. Warn if inside a git repo (vaults should not be in repos).
+```
+
+**Guideline:** If someone can read your SKILL.md and understand the workflow without template noise, you've done it right.
+
 ### Skill File Structure
 
 Each skill is in its own folder with:
@@ -227,7 +271,7 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 
 ## Orchestrated Skills
 
-Skills can use subagent orchestration for parallel execution and context isolation.
+Skills can use subagent orchestration for parallel execution and context isolation. The orchestration logic lives in `phases.yaml`, keeping SKILL.md clean prose.
 
 ### Enabling Orchestration
 
@@ -244,7 +288,7 @@ Skills can use subagent orchestration for parallel execution and context isolati
 
 2. Create `phases.yaml` in the skill's directory with phase definitions
 
-3. Add `<!-- phase:name -->` markers in SKILL.md to delimit phase content
+3. Keep SKILL.md as plain prose describing the workflow — no phase markers or template syntax
 
 ### Phase Configuration (phases.yaml)
 
@@ -311,35 +355,14 @@ phases:
 | `fallback` | string | `inline` to execute in main context on failure |
 | `on_error` | string | Message to show on failure |
 
-### Phase Markers in SKILL.md
+### Variable Interpolation in phases.yaml
 
-Use HTML comments to delimit phase content:
-
-```markdown
-<!-- phase:setup -->
-## Setup Complete
-
-Configuration loaded:
-- Vault: `{{VAULT}}`
-- Directives: {{#if DIRECTIVES.success}}Loaded{{else}}Not found{{/if}}
-<!-- /phase:setup -->
-
-<!-- phase:interact:inline -->
-## Interactive Planning
-
-[This section runs in main conversation context]
-<!-- /phase:interact -->
-```
-
-### Variable Interpolation
-
-Use `{{VARIABLE}}` syntax to reference context values:
+Use `{{VARIABLE}}` syntax in `phases.yaml` args to reference context values:
 
 - `{{VAULT}}` — Simple variable
 - `{{DATES.target_date}}` — Nested property
-- `{{CALENDAR.events.length}}` — Array length
-- `{{#if CONDITION}}...{{else}}...{{/if}}` — Conditionals
-- `{{#each ARRAY}}{{this.property}}{{/each}}` — Iteration
+
+Variables are interpolated when spawning subagents. SKILL.md itself should not contain template syntax.
 
 ### Execution Flow
 

@@ -6,229 +6,118 @@ argument-hint: "[fresh --vault=/path | reconnect --vault=/path | profile]"
 
 # Init Action
 
-This action manages the connection between the 2bd engine and your vault.
+Manages the connection between the 2bd engine and the user's vault.
 
 ## Mode Detection
 
-Parse `$ARGUMENTS` to determine mode:
+Parse arguments to determine mode:
 
-1. If contains `fresh` → **Fresh Install** (set up new vault)
-2. If contains `reconnect` → **Reconnect** (link existing vault)
-3. If contains `profile` → **Profile Only** (update user profile)
-4. If no mode specified → Auto-detect based on current state
+- **fresh** — Set up a new vault from scratch
+- **reconnect** — Link an existing vault (e.g., after moving to a new computer)
+- **profile** — Update user profile without changing vault connection
+- **no mode** — Auto-detect based on current state
 
-**Auto-detection logic:**
-- If `.claude/config.md` exists and vault path is valid → offer to update profile
-- If `.claude/config.md` exists but vault missing → suggest reconnect
-- If no config exists → suggest fresh install
+Auto-detection checks whether config exists and vault path is valid, then suggests the appropriate mode.
 
 ---
 
-## Mode: Fresh Install
+## Fresh Install
 
 Set up a new vault from scratch.
 
-### 1. Get Vault Path
+### Vault Path
 
-Check for `--vault=` argument, otherwise ask:
+Get the vault path from `--vault=` argument or ask the user. The path should be a folder that syncs (OneDrive, iCloud, Dropbox). Example: `~/OneDrive/2bd-vault`.
 
-"Where should I create your vault? This should be a folder that syncs (e.g., OneDrive, iCloud, Dropbox).
+Validate the path exists. Warn if inside a git repo (vaults should not be in repos). Warn if the folder already has files and offer to merge or choose a different path.
 
-Example: `~/OneDrive/2bd-vault`"
+### Scaffold
 
-Store as `$VAULT`.
-
-### 2. Validate Path
-
-- Ensure parent directory exists
-- Warn if path is inside a git repo: "This path appears to be inside a git repository. Vaults should NOT be in git repos. Continue anyway?"
-- Warn if path already has files: "This folder already has files. Should I merge the scaffold structure, or choose a different path?"
-
-### 3. Create Vault Structure
-
-```bash
-cp -r scaffold/* "$VAULT/"
-```
-
-This copies:
+Copy the scaffold structure to the vault path. This creates:
 - Hub files (✱ Home.md, ✱ Projects.md, ✱ People.md, ✱ Insights.md)
 - Templates (Captive + Periodic + PARA)
 - Directory structure with .gitkeep placeholders
 
-### 4. Write Engine Config
+### Engine Config
 
-Write `.claude/config.md`:
+Write `.claude/config.md` with the vault path.
 
-```markdown
-# 2bd Engine Configuration
+### Profile
 
-## Vault
+Run the profile interview (see below).
 
-vault_path: $VAULT
-```
+### Confirmation
 
-### 5. Run Profile Interview
-
-[Execute the Profile Interview workflow below]
-
-### 6. Confirmation
-
-"Your vault is ready at: `$VAULT`
-
-Next steps:
-- Open the vault in Obsidian
-- Run `/daily-planning` to start your first planned day
-- The engine always runs from this directory (~/Code/2bd-engine)"
+Confirm the vault is ready and suggest next steps: open in Obsidian, run `/daily-planning`.
 
 ---
 
-## Mode: Reconnect
+## Reconnect
 
-Link an existing vault (e.g., after moving to a new computer).
+Link an existing vault.
 
-### 1. Get Vault Path
+### Vault Path
 
-Check for `--vault=` argument, otherwise ask:
+Get the vault path from `--vault=` argument or ask the user.
 
-"Where is your existing vault located?
+Validate the vault structure exists (00_Brain/, Systemic/Templates/). If missing, suggest fresh install instead.
 
-Example: `~/OneDrive/2bd-vault`"
+### Engine Config
 
-Store as `$VAULT`.
+Write `.claude/config.md` with the vault path.
 
-### 2. Validate Vault Exists
+### Directives Check
 
-Check that these exist:
-- `$VAULT/00_Brain/`
-- `$VAULT/00_Brain/Systemic/Templates/`
+Check if user-profile.md exists in Directives. If not, offer to run the profile interview.
 
-If missing: "This doesn't look like a 2bd vault. Did you mean to run `fresh` instead?"
+### Confirmation
 
-### 3. Write Engine Config
-
-Write `.claude/config.md`:
-
-```markdown
-# 2bd Engine Configuration
-
-## Vault
-
-vault_path: $VAULT
-```
-
-### 4. Check Directives
-
-Check if `$VAULT/00_Brain/Systemic/Directives/user-profile.md` exists:
-- If yes: "Found your existing profile. You're all set!"
-- If no: Ask "Would you like to set up your profile now?" → run Profile Interview if yes
-
-### 5. Confirmation
-
-"Reconnected to vault at: `$VAULT`
-
-You can now run `/daily-planning` and other skills."
+Confirm reconnection and suggest `/daily-planning`.
 
 ---
 
-## Mode: Profile Only
+## Profile Only
 
 Update user profile without changing vault connection.
 
-### 1. Get Config
+### Prerequisites
 
-**Use sub-skill: `_sub/fetch/get-config`**
+Load config using `_sub/fetch/get-config`. Error if no vault is configured.
 
-If no config exists, error: "No vault configured. Run `/init fresh` or `/init reconnect` first."
+Check for existing profiles in Directives. Ask for confirmation before overwriting.
 
-### 2. Check Existing Profiles
+### Interview
 
-Check `$VAULT/00_Brain/Systemic/Directives/`:
-- If profiles exist: "I found existing profiles. Do you want to update them? This will overwrite current settings."
-- Proceed only if user confirms
-
-### 3. Run Profile Interview
-
-[Execute the Profile Interview workflow below]
+Run the profile interview (see below).
 
 ---
 
 ## Profile Interview
 
-Conduct a conversational interview to gather user information.
+Conversational interview to gather user information. Ask questions one section at a time.
 
-### Part 1: User Profile
+### User Profile
 
-Ask questions one section at a time, waiting for responses.
+**Basic Identity** — Name, preferred name, role, what they do.
 
-**Section 1: Basic Identity**
+**Work Context** — Primary focus areas, team/org context, communication style.
 
-"Let's start with some basics about you."
+**Goals & Growth** — Key goals for the year, leadership identity (the leader they're becoming), growth edge (where discomfort lives).
 
-- "What's your name?" (full name)
-- "What should I call you?" (preferred name/nickname)
-- "What's your current role or title?"
-- "In a sentence or two, what do you do?"
+**Coaching Context** — Patterns to watch (behaviors that don't serve them), grounding questions, what success looks like.
 
-**Section 2: Work Context**
+Write to `$VAULT/00_Brain/Systemic/Directives/user-profile.md` using the template.
 
-"Now let's understand your work context."
+### AI Personality
 
-- "What are your primary focus areas or responsibilities?"
-- "Tell me about your team or org context—who do you work with?"
-- "How would you describe your communication style? (e.g., direct, collaborative, analytical)"
+**Communication Style** — Formality level, directness, humor preference.
 
-**Section 3: Goals & Growth**
+**Coaching Approach** — Support vs challenge balance, proactive input level, feedback delivery style.
 
-"Let's talk about where you're headed."
+**Interaction Patterns** — Questions vs suggestions, autonomy level, disagreement handling.
 
-- "What are you working toward this year? (1-3 key goals)"
-- "Describe the leader you're becoming—your leadership identity in 1-2 sentences"
-- "Where does discomfort live for you? What's your growth edge—the stretch you're working on?"
+Write to `$VAULT/00_Brain/Systemic/Directives/ai-personality.md` using the template.
 
-**Section 4: Coaching Context**
+### Summary
 
-"Finally, let's capture some coaching context."
-
-- "What patterns or tendencies should I watch for—behaviors that don't serve you well?"
-- "What questions help ground you or bring clarity when you're stuck?"
-- "What does success look like for you this year?"
-
-Generate `user-profile.md` using the template at `templates/user-profile.md`.
-Write to: `$VAULT/00_Brain/Systemic/Directives/user-profile.md`
-
-### Part 2: AI Personality
-
-"Now let's customize how I should interact with you."
-
-**Section 1: Communication Style**
-
-- "How formal should our conversations be?" (Very formal / Professional but relaxed / Casual)
-- "How direct do you want me to be?" (Very direct—don't soften / Balanced—direct but tactful / Gentle—ease into feedback)
-- "How do you feel about humor in our interactions?" (Keep it serious / Occasional is fine / Bring it on)
-
-**Section 2: Coaching Approach**
-
-- "What balance of support vs challenge do you want?" (Mostly supportive / Balanced / Push me hard)
-- "How much proactive input should I offer?" (Wait for me to ask / Suggest when relevant / Actively coach me)
-- "How should I deliver feedback?" (Direct critique / Sandwich method / Through questions)
-
-**Section 3: Interaction Patterns**
-
-- "Should I ask questions or make suggestions?" (Mostly questions—help me think / Balanced / Mostly suggestions—save me time)
-- "How much autonomy should I have when executing tasks?" (Check with me on everything / Check on important decisions / Just get it done)
-- "How should I handle disagreement?" (Tell me directly / Offer alternatives / Ask questions to explore)
-
-Generate `ai-personality.md` using the template at `templates/ai-personality.md`.
-Write to: `$VAULT/00_Brain/Systemic/Directives/ai-personality.md`
-
-### Part 3: Summary
-
-After creating both files:
-
-1. Summarize what was created:
-   - User profile highlights (name, role, goals, growth edge)
-   - AI personality settings (communication style, coaching approach)
-
-2. Suggest next steps:
-   - "Run `/daily-planning` to start your first planned day"
-   - "These profiles will be loaded for all conversations to personalize your experience"
+After creating both files, summarize what was captured (profile highlights, personality settings) and suggest running `/daily-planning`.

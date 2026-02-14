@@ -6,152 +6,61 @@ argument-hint: "--vault=/path/to/new/vault"
 
 # Migrate Action
 
-This action helps existing 2bd users migrate from a combined repository to the separated engine+vault architecture.
+Helps existing 2bd users migrate from a combined repository to the separated engine+vault architecture.
 
 ## Overview
 
-**Before:** Single repo with engine code + personal content
+**Before:** Single repo with engine code + personal content mixed together.
+
 **After:**
 - Engine repo (here) — clean, shareable, git-tracked
-- Vault (OneDrive) — personal content, no git
+- Vault (synced folder) — personal content, no git
 
 ---
 
 ## Workflow
 
-### 1. Get Vault Path
+### Vault Path
 
-Check for `--vault=` argument, otherwise ask:
+Get the vault path from `--vault=` argument or ask the user. The path should be a folder that syncs (OneDrive, iCloud, Dropbox).
 
-"Where should I create your vault? This should be a folder that syncs with OneDrive/iCloud/Dropbox.
+Validate the path exists. Warn if inside a git repo (vaults should not be in repos). Error if the folder already has files.
 
-Example: `~/OneDrive/2bd-vault`"
+### Scaffold
 
-Store as `$VAULT`.
+Create the vault from the scaffold structure.
 
-### 2. Validate Path
+### Content Migration
 
-- Ensure parent directory exists
-- Warn if path is inside a git repo: "This path is inside a git repository. Vaults should NOT be in git repos."
-- If path already exists with files: "This folder already has files. Choose a different path or empty it first."
+Copy existing personal content from the repo to the vault:
 
-### 3. Create Vault from Scaffold
+- **Captive notes** — Daily working files, Flash captures
+- **Periodic archives** — Daily, Weekly, Monthly, Quarterly, Yearly
+- **Semantic & Synthetic** — Long-term knowledge and active drafts
+- **Directives** — User profile and AI personality
+- **Projects** — Active project files
+- **Areas** — People and Insights
+- **Archives** — Completed/inactive content
 
-```bash
-mkdir -p "$VAULT"
-cp -r scaffold/* "$VAULT/"
-```
+### Engine Config
 
-### 4. Copy Personal Content
+Write `.claude/config.md` with the vault path.
 
-Copy existing personal content from this repo to the vault:
+### Report
 
-**Captive notes:**
-```bash
-cp 00_Brain/Captive/*.md "$VAULT/00_Brain/Captive/" 2>/dev/null || true
-cp -r 00_Brain/Captive/Flash/* "$VAULT/00_Brain/Captive/Flash/" 2>/dev/null || true
-```
+Count and report what was copied: Captive notes, Periodic archives, Projects, People files, Directives.
 
-**Periodic archives:**
-```bash
-cp 00_Brain/Periodic/Daily/*.md "$VAULT/00_Brain/Periodic/Daily/" 2>/dev/null || true
-cp 00_Brain/Periodic/Weekly/*.md "$VAULT/00_Brain/Periodic/Weekly/" 2>/dev/null || true
-cp 00_Brain/Periodic/Monthly/*.md "$VAULT/00_Brain/Periodic/Monthly/" 2>/dev/null || true
-cp 00_Brain/Periodic/Quarterly/*.md "$VAULT/00_Brain/Periodic/Quarterly/" 2>/dev/null || true
-cp 00_Brain/Periodic/Yearly/*.md "$VAULT/00_Brain/Periodic/Yearly/" 2>/dev/null || true
-```
+### Cleanup Instructions
 
-**Semantic & Synthetic:**
-```bash
-cp -r 00_Brain/Semantic/* "$VAULT/00_Brain/Semantic/" 2>/dev/null || true
-cp -r 00_Brain/Synthetic/* "$VAULT/00_Brain/Synthetic/" 2>/dev/null || true
-```
-
-**Directives:**
-```bash
-cp -r 00_Brain/Systemic/Directives/*.md "$VAULT/00_Brain/Systemic/Directives/" 2>/dev/null || true
-```
-
-**Projects:**
-```bash
-cp 01_Projects/*.md "$VAULT/01_Projects/" 2>/dev/null || true
-```
-
-**Areas:**
-```bash
-cp 02_Areas/People/*.md "$VAULT/02_Areas/People/" 2>/dev/null || true
-cp 02_Areas/Insights/*.md "$VAULT/02_Areas/Insights/" 2>/dev/null || true
-```
-
-**Archives:**
-```bash
-cp -r 04_Archives/* "$VAULT/04_Archives/" 2>/dev/null || true
-```
-
-### 5. Write Engine Config
-
-Write `.claude/config.md`:
-
-```markdown
-# 2bd Engine Configuration
-
-## Vault
-
-vault_path: $VAULT
-```
-
-### 6. Report What Was Copied
-
-Count and report:
-- Number of Captive notes copied
-- Number of Periodic archives copied
-- Number of Projects copied
-- Number of People files copied
-- Whether Directives were found and copied
-
-### 7. Cleanup Instructions
-
-Print instructions for cleaning up the engine repo:
-
-"Migration complete! Your vault is at: `$VAULT`
-
-**Next steps to clean up the engine repo:**
-
-1. Delete personal content from this repo (it's now in your vault):
-   ```bash
-   rm -rf 00_Brain/Captive/*.md
-   rm -rf 00_Brain/Periodic/Daily/*.md 00_Brain/Periodic/Weekly/*.md
-   rm -rf 00_Brain/Periodic/Monthly/*.md 00_Brain/Periodic/Quarterly/*.md
-   rm -rf 00_Brain/Periodic/Yearly/*.md
-   rm -rf 00_Brain/Semantic/* 00_Brain/Synthetic/*
-   rm -rf 00_Brain/Systemic/Directives/*.md
-   rm -rf 01_Projects/*.md
-   rm -rf 02_Areas/People/*.md 02_Areas/Insights/*.md
-   rm -rf 04_Archives/*
-   ```
-
-2. Remove content directories (they now live only in scaffold/):
-   ```bash
-   rm -rf 00_Brain 01_Projects 02_Areas 03_Resources 04_Archives
-   ```
-
-3. Commit the cleaned engine:
-   ```bash
-   git add -A
-   git commit -m 'Clean engine for public sharing'
-   ```
-
-4. Open your vault in Obsidian and verify everything looks correct.
-
-5. Test skills work:
-   ```bash
-   claude skill run rituals/planning/daily-planning
-   ```
-
-**Important:** From now on, always run Claude from this engine directory, not from your vault."
+Provide cleanup commands for the user to run manually:
+- Delete personal content from the engine repo (now in vault)
+- Remove content directories (now only in scaffold/)
+- Commit the cleaned engine
+- Open vault in Obsidian and verify
+- Test skills work
 
 ---
 
-## Rollback
+## Safety
 
-If something went wrong, your original files are still here. The migrate action only *copies* files to the vault, it doesn't delete anything from the engine until you manually clean up.
+The migrate action only *copies* files to the vault. Nothing is deleted from the engine until the user manually runs the cleanup commands. Original files remain as a rollback option.
