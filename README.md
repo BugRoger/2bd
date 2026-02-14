@@ -1,71 +1,48 @@
 # 2bd (Second Brain Daemon)
 
-**A personal knowledge system that runs itself—powered by Claude Skills, driven by rituals, stored in markdown.**
+A personal knowledge system that runs itself—powered by Claude, driven by daily rituals, stored in markdown.
 
 ## Why 2bd?
 
-Traditional productivity systems depend on you being the engine. They're passive containers waiting for you to fill them. You set up elaborate workflows, miss a day, then a week, and suddenly your second brain is out of date.
+Most productivity systems fail because they depend on you to maintain them. Miss a few days, and everything falls out of date.
 
-2bd flips the script. Instead of you serving your system, your system serves you. **Rituals** run on schedule, the **metabolic architecture** keeps knowledge flowing, and everything stays organized in plain markdown files you truly own.
-
-And because everything is plain markdown on your filesystem, AI integration is trivial. No plugins. No APIs. No MCPs. You just point Claude at a folder.
+2bd runs itself. Daily **rituals** archive your notes, synthesize insights, and prepare tomorrow's workspace. You write in markdown files that sync to the cloud. Claude handles the housekeeping.
 
 ## Core Philosophy
 
-The note-taking architecture mirrors human cognitive biology. Information is categorized by its **metabolic state**—energy velocity and temporal density rather than just topic.
+Notes are organized by **metabolic state**—how active and volatile they are—rather than by topic.
 
 | State | Purpose |
 |-------|---------|
-| **Captive** | Sensory/Intake - high-velocity, volatile working notes |
-| **Synthetic** | Short-term/Executive - active project work, drafts |
-| **Periodic** | Episodic/Rhythm - timeline archives (the heartbeat) |
-| **Semantic** | Long-term/Reference - crystallized knowledge |
-| **Systemic** | Procedural/Structure - templates, SOPs, workflows |
+| **Captive** | Working notes — high-velocity, volatile intake |
+| **Synthetic** | Active drafts — projects in progress |
+| **Periodic** | Archives — the permanent timeline |
+| **Semantic** | Reference — crystallized knowledge |
+| **Systemic** | Structure — templates, workflows |
 
 ## How It Works
 
-2bd operates on nested time scales, each feeding into the next:
+Time scales nest inside each other, each feeding into the next:
 
 ```
-Daily ──▶ Weekly ──▶ Monthly ──▶ Quarterly ──▶ Yearly
-  ↓          ↓          ↓            ↓            ↓
-Small     Tactics   Strategy    Direction    Vision
-wins      review    synthesis   reflection   planning
+Daily → Weekly → Monthly → Quarterly → Yearly
+  ↓        ↓        ↓          ↓          ↓
+Small   Tactics  Strategy  Direction   Vision
+wins    review   synthesis reflection planning
 ```
 
-**Core rituals** drive the engine:
-- **Planning Rituals** – Prepare Captive notes from templates, synthesize prior knowledge
-- **Review Rituals** – Archive Captive to Periodic, synthesize forward
+Two rituals drive the system:
 
-Run rituals from the CLI:
+- **Planning** — Prepares your working notes from templates, synthesizes prior knowledge
+- **Review** — Archives working notes to Periodic, synthesizes forward
+
 ```bash
 cd ~/Code/2bd-engine
-claude skill run rituals/planning/daily-planning
-claude skill run rituals/review/daily-review
+claude skill run rituals/planning/daily-planning   # morning
+claude skill run rituals/review/daily-review       # evening
 ```
 
-## Architecture
-
-2bd separates **engine** (this repo) from **vault** (your notes):
-
-```
-~/Code/2bd-engine/                  ~/OneDrive/2bd-vault/
-├── .claude/                        ├── 00_Brain/
-│   ├── skills/                     │   ├── Captive/ (your notes)
-│   └── config.md  ← vault path     │   ├── Periodic/ (archives)
-├── scaffold/   ← vault template    │   └── Systemic/
-├── CLAUDE.md                       │       ├── Templates/
-└── README.md                       │       └── Directives/
-                                    ├── 01_Projects/
-                                    ├── 02_Areas/
-                                    └── .obsidian/
-```
-
-**Key principles:**
-- **Engine** = Skills, scaffold, documentation — public, git-tracked
-- **Vault** = Your notes, archives, projects — private, cloud-synced
-- **Always run Claude from the engine directory**
-- **Templates are yours** — copied once during setup, customize freely
+---
 
 ## Getting Started
 
@@ -73,87 +50,103 @@ claude skill run rituals/review/daily-review
 
 - [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
 - Markdown editor (Obsidian recommended)
-- A sync folder (OneDrive, iCloud, Dropbox)
+- Cloud sync folder (OneDrive, iCloud, Dropbox)
 
 ### Quick Start
 
 ```bash
-# 1. Clone the engine
+# Clone the engine
 git clone https://github.com/bugroger/2bd ~/Code/2bd-engine
 cd ~/Code/2bd-engine
 
-# 2. Set up your vault
+# Create your vault
 claude skill run actions/init --args "fresh --vault=~/OneDrive/2bd-vault"
 
-# 3. (Optional) Create a symlink for convenience
+# Optional: symlink for convenience
 ln -s ~/OneDrive/2bd-vault ./vault
 
-# 4. Open the vault in Obsidian
-
-# 5. Start planning!
+# Open vault in Obsidian, then start planning
 claude skill run rituals/planning/daily-planning
 ```
 
-### Daily Usage
+### New Computer
 
-Always run Claude from the engine directory:
-
-```bash
-cd ~/Code/2bd-engine
-
-# Morning
-claude skill run rituals/planning/daily-planning
-
-# Evening
-claude skill run rituals/review/daily-review
-```
-
-### Reconnecting (New Computer)
-
-If you've moved to a new computer and your vault already exists:
+If your vault already exists elsewhere:
 
 ```bash
 cd ~/Code/2bd-engine
 claude skill run actions/init --args "reconnect --vault=~/OneDrive/2bd-vault"
-
-# Recreate the symlink
 ln -s ~/OneDrive/2bd-vault ./vault
 ```
 
-### Updating Your Profile
+### Migrating from Combined Repo
+
+If you have an existing 2bd repo with personal content mixed in:
 
 ```bash
-cd ~/Code/2bd-engine
+claude skill run actions/migrate --args "--vault=~/OneDrive/2bd-vault"
+```
+
+### Configuration
+
+The engine stores vault path in `.claude/config.md` (git-ignored):
+
+```markdown
+# 2bd Engine Configuration
+
+## Vault
+
+vault_path: /Users/you/OneDrive/2bd-vault
+```
+
+All skills read this config to find your vault. If you move your vault:
+
+```bash
+claude skill run actions/init --args "reconnect --vault=/new/path"
+ln -sf /new/path ./vault
+```
+
+### Update Your Profile
+
+```bash
 claude skill run actions/init --args "profile"
 ```
 
-## Key Concepts
+---
 
-**Rituals** are scheduled routines that drive the system—daily planning, weekly review, etc.
+## Architecture
 
-**Actions** are one-shot helpers triggered on-demand—create a project, init, migrate, etc.
+### Engine + Vault
 
-**Captive Notes** (Today.md, Week.md, Month.md, Quarter.md, Year.md) are your active working space.
+2bd separates **system** (engine) from **content** (vault):
 
-**Periodic Notes** are unique, consecutive archives (2026-02-08.md, 2026-W06.md, etc.) that form the timeline.
+```
+~/Code/2bd-engine/                  ~/OneDrive/2bd-vault/
+├── .claude/                        ├── 00_Brain/
+│   ├── skills/                     │   ├── Captive/ (working notes)
+│   └── config.md  ← vault path     │   ├── Periodic/ (archives)
+├── scaffold/   ← vault template    │   └── Systemic/
+└── README.md                       │       └── Templates/
+                                    ├── 01_Projects/
+                                    └── 02_Areas/
+```
 
-**PARA Method** organizes Projects, Areas, Resources, Archives alongside the metabolic Brain.
+- **Engine** = Skills, templates, docs — git-tracked
+- **Vault** = Your notes, archives, projects — cloud-synced
+- **Always run Claude from the engine directory**
 
-## Vault Structure
-
-Your vault (in OneDrive/iCloud) looks like:
+### Vault Structure
 
 ```
 2bd-vault/
 ├── 00_Brain/
-│   ├── ✱ Home.md                # Central Hub
+│   ├── ✱ Home.md                # Central hub
 │   ├── Captive/                 # Working notes (you write here)
 │   │   ├── Today.md
 │   │   ├── Week.md
 │   │   ├── Month.md
 │   │   ├── Quarter.md
-│   │   ├── Year.md
-│   │   └── Flash/
+│   │   └── Year.md
 │   ├── Periodic/                # Archives (rituals write here)
 │   │   ├── Daily/               # YYYY-MM-DD.md
 │   │   ├── Weekly/              # YYYY-Www.md
@@ -163,9 +156,9 @@ Your vault (in OneDrive/iCloud) looks like:
 │   ├── Semantic/                # Crystallized knowledge
 │   ├── Synthetic/               # Active drafts
 │   └── Systemic/
-│       ├── Templates/           # Your templates (customize freely)
+│       ├── Templates/           # Customize freely
 │       └── Directives/          # Your profile & AI personality
-├── 01_Projects/                 # Active projects
+├── 01_Projects/
 │   └── ✱ Projects.md
 ├── 02_Areas/
 │   ├── People/                  # Relationship notes
@@ -178,40 +171,261 @@ Your vault (in OneDrive/iCloud) looks like:
 └── .obsidian/
 ```
 
-**Naming Conventions:**
-- **Hubs:** `✱` prefix with Title Case (`✱ Home.md`, `✱ Projects.md`)
-- **Projects:** End-date first (`YYYY-MM-DD-project-name.md`)
-- **People:** FirstName + LastInitial (`EstherS.md`, `JonnyB.md`)
-- **Daily:** `YYYY-MM-DD.md` (2026-02-08.md)
-- **Weekly:** `YYYY-Www.md` (2026-W06.md)
-- **Monthly:** `YYYY-MM.md` (2026-02.md)
-- **Quarterly:** `YYYY-QN.md` (2026-Q1.md)
-- **Yearly:** `YYYY.md` (2026.md)
+---
 
-## Documentation
+## Working with 2bd
 
-See [CLAUDE.md](CLAUDE.md) for complete documentation:
-- Engine + Vault architecture
-- Metabolic state system details
-- Creating new rituals and actions
-- Calendar integration
-- Obsidian integration and hotkeys
+### Daily Usage
+
+**Always run Claude from the engine directory:**
+
+```bash
+cd ~/Code/2bd-engine
+
+# Morning planning
+claude skill run rituals/planning/daily-planning
+
+# Evening review
+claude skill run rituals/review/daily-review
+```
+
+### Obsidian Integration
+
+2bd uses Obsidian as the primary interface for writing and browsing, while Claude CLI handles ritual execution.
+
+**Morning:**
+1. Terminal: `claude skill run rituals/planning/daily-planning`
+2. Obsidian: Open Today.md (`Cmd+Shift+D`) and work through the day
+
+**Throughout Day:**
+- Write in Today.md (meetings, 1:1s, completed work, actions)
+- Capture 1:1 conversations—rituals will extract to People/
+- Navigate projects via ✱ Projects.md
+
+**Evening:**
+1. Obsidian: Complete Today.md sections (Wins, Insights, Completed)
+2. Terminal: `claude skill run rituals/review/daily-review`
+
+#### Hotkeys
+
+| Hotkey | Action |
+|--------|--------|
+| `Cmd+Shift+D` | Open Today.md |
+| `Cmd+Shift+W` | Open Week.md |
+| `Cmd+Shift+M` | Open Month.md |
+| `Cmd+Shift+Q` | Open Quarter.md |
+| `Cmd+Shift+H` | Open ✱ Home.md |
+| `Cmd+Shift+G` | Open graph view |
+
+#### Templater
+
+Templater automatically applies templates when creating files:
+- New file in `01_Projects/` → uses project.md
+- New file in `02_Areas/People/` → uses person.md
+- New file in `02_Areas/Insights/` → uses insight.md
+
+### Key Files
+
+**In Vault:**
+- **Central Hub:** `00_Brain/✱ Home.md`
+- **Working notes:** `00_Brain/Captive/` (Today.md, Week.md, etc.)
+- **Archives:** `00_Brain/Periodic/` (Daily/, Weekly/, etc.)
+- **Templates:** `00_Brain/Systemic/Templates/`
+
+**In Engine:**
+- **Skills:** `.claude/skills/`
+- **Scaffold:** `scaffold/`
+- **Config:** `.claude/config.md`
+
+---
+
+## Concepts
+
+### Captive Notes
+
+Your active working space in `00_Brain/Captive/`:
+- **Today.md** — Daily capture, meetings, tasks
+- **Week.md** — Weekly focus and progress
+- **Month.md** — Monthly themes and goals
+- **Quarter.md** — Quarterly direction
+- **Year.md** — Annual vision
+
+High-velocity, volatile. Planning rituals prepare these from templates.
+
+### Periodic Notes
+
+Timeline-based archives in `00_Brain/Periodic/`. Each period gets a unique, consecutive note:
+- `2026-02-08.md`, `2026-02-09.md`, ...
+- `2026-W06.md`, `2026-W07.md`, ...
+
+Review rituals archive Captive notes here. This is the permanent record.
+
+### Hubs
+
+Central navigation notes that organize content by domain:
+- **✱ Home** — Central hub in `00_Brain/`
+- **✱ Projects** — Active work in `01_Projects/`
+- **✱ People** — Relationships in `02_Areas/People/`
+- **✱ Insights** — Thematic learnings in `02_Areas/Insights/`
+
+### Rituals
+
+Scheduled operations that drive the productivity loop:
+
+| Ritual | When | Purpose |
+|--------|------|---------|
+| **Daily Planning** | Every morning | Prepare Today.md with priorities |
+| **Daily Review** | Every evening | Archive Today.md, synthesize forward |
+| **Weekly Planning** | Every Monday | Prepare Week.md with weekly focus |
+| **Weekly Review** | Every Sunday | Archive Week.md, synthesize to Month |
+| **Monthly Review** | First of month | Archive Month.md, synthesize patterns |
+| **Quarterly Review** | Every 3 months | Archive Quarter.md, assess direction |
+| **Yearly Planning** | January 1 | Set vision, prepare Year.md |
+| **Yearly Review** | December 31 | Archive Year.md, capture insights |
+
+### Actions
+
+One-shot helpers you invoke on-demand:
+
+| Action | Purpose | Usage |
+|--------|---------|-------|
+| **init** | Bootstrap or configure vault | `claude skill run actions/init` |
+| **create-project** | Initialize new project file | `claude skill run actions/create-project --args "Name"` |
+
+---
+
+## Integrations
+
+### Calendar (macOS)
+
+2bd can fetch calendar events from macOS Calendar using the `ekctl` CLI tool.
+
+#### Setup
+
+1. **Install ekctl:**
+   ```bash
+   brew install schappim/tap/ekctl
+   ```
+
+2. **Grant Calendar Access:**
+   On first run, grant permission when asked.
+
+3. **List calendars:**
+   ```bash
+   ekctl list calendars
+   ```
+
+4. **Create aliases:**
+   ```bash
+   ekctl alias set work "YOUR-WORK-CALENDAR-ID"
+   ekctl alias set personal "YOUR-PERSONAL-CALENDAR-ID"
+   ```
+
+5. **Configure the skill:**
+   Edit `.claude/skills/_sub/fetch/get-calendar/calendars.json`:
+   ```json
+   {
+     "calendars": ["work", "personal"],
+     "default_scope": "today",
+     "settings": {
+       "work_hours": { "start": "09:00", "end": "18:00" },
+       "min_focus_block_minutes": 30,
+       "one_on_one_patterns": ["1:1", "1-1"]
+     }
+   }
+   ```
+
+6. **Test:**
+   ```bash
+   ekctl list events --calendar work \
+     --from "$(date -v0H -v0M -v0S +%Y-%m-%dT%H:%M:%S%z)" \
+     --to "$(date -v23H -v59M -v59S +%Y-%m-%dT%H:%M:%S%z)"
+   ```
+
+Planning rituals use calendar data to:
+- Pre-populate the Meetings section in Today.md
+- Identify 1:1s and apply the 1:1 template
+- Calculate focus blocks between meetings
+
+### GitHub
+
+Use the `gh` CLI for all GitHub interactions:
+
+```bash
+# Issues
+gh issue create --title "Title" --body "Description"
+gh issue list
+gh issue view 123
+
+# Pull Requests
+gh pr create --title "Title" --body "Description"
+gh pr list
+gh pr view 123
+```
+
+If not authenticated: `gh auth login`
+
+---
+
+## Customization
+
+### Directives
+
+Personalize how Claude interacts with you. Located in `00_Brain/Systemic/Directives/`:
+
+| File | Purpose |
+|------|---------|
+| `user-profile.md` | Who you are — name, role, goals, growth edge |
+| `ai-personality.md` | How Claude communicates — tone, directness, coaching style |
+
+Update your profile:
+```bash
+claude skill run actions/init --args "profile"
+```
+
+### Templates
+
+Templates are yours to customize. Located in `00_Brain/Systemic/Templates/`:
+
+- **Captive/** — Templates for working notes (today.md, week.md, etc.)
+- **Periodic/** — Templates for archive notes (daily.md, weekly.md, etc.)
+
+PARA templates in `03_Resources/_Templates/para/`:
+- project.md, person.md, insight.md
+
+---
+
+## Naming Conventions
+
+| Type | Format | Example |
+|------|--------|---------|
+| Hubs | `✱ Title.md` | `✱ Home.md`, `✱ Projects.md` |
+| Daily | `YYYY-MM-DD.md` | `2026-02-08.md` |
+| Weekly | `YYYY-Www.md` | `2026-W06.md` |
+| Monthly | `YYYY-MM.md` | `2026-02.md` |
+| Quarterly | `YYYY-QN.md` | `2026-Q1.md` |
+| Yearly | `YYYY.md` | `2026.md` |
+| Projects | `YYYY-MM-DD-name.md` | `2026-03-15-launch.md` |
+| People | `FirstNameLastInitial.md` | `EstherS.md` |
+
+---
 
 ## Philosophy
 
-**Trust the Rituals.** Run them even when you don't feel like it. The magic is in the rhythm.
+**Trust the rituals.** Run them even when you don't feel like it. The magic is in the rhythm.
 
-**Capture in Captive.** Your Captive notes are volatile, high-velocity intake. Periodic is the permanent record.
+**Capture in Captive.** Your working notes are volatile. Periodic is the permanent record.
 
-**The System Augments.** It scaffolds your thinking, but you supply the content.
+**The system augments.** It scaffolds your thinking. You supply the content.
+
+---
 
 ## Acknowledgments
 
 - **Tiago Forte** – [PARA Method](https://fortelabs.com/blog/para/)
 - **Andy Matuschak** – [Evergreen Notes](https://notes.andymatuschak.org/Evergreen_notes)
-- **Matthias Hilse** – [Forever Notes](https://www.myforevernotes.com/) (Hubs, living documents)
-- **Anthropic** – Claude Skills
+- **Matthias Hilse** – [Forever Notes](https://www.myforevernotes.com/)
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License. See [LICENSE](LICENSE).
