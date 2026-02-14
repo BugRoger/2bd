@@ -181,11 +181,12 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 | Category | Purpose | Examples |
 |----------|---------|----------|
 | `_sub/synthesis/` | Content combination and transformation | gather-context, extract-actions |
-| `_sub/fetch/` | Data retrieval from system or external sources | get-dates, get-calendar, get-template |
+| `_sub/fetch/` | Data retrieval from system or external sources | get-dates, get-calendar, get-config, get-directives |
+| `_sub/write/` | Write operations with validation | captive-note |
 
 **Creating:**
 
-1. Create folder in `.claude/skills/_sub/synthesis/` or `.claude/skills/_sub/fetch/`
+1. Create folder in `.claude/skills/_sub/synthesis/`, `.claude/skills/_sub/fetch/`, or `.claude/skills/_sub/write/`
 
 2. Add `SKILL.md`:
    ```yaml
@@ -201,7 +202,15 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 
 4. Design for composition: stateless input/output, no side effects
 
-**Referencing in rituals/actions:**
+5. Return structured JSON output for orchestrator consumption:
+   ```json
+   {
+     "success": true,
+     "key": "value"
+   }
+   ```
+
+**Referencing in rituals/actions (legacy pattern):**
 
 ```markdown
 ### 1. Gather Context
@@ -213,6 +222,152 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 - Scope: day
 - Returns: yesterday's work, recent archives, active projects
 ```
+
+---
+
+## Orchestrated Skills
+
+Skills can use subagent orchestration for parallel execution and context isolation.
+
+### Enabling Orchestration
+
+1. Add `metadata.orchestrated: true` to SKILL.md frontmatter:
+   ```yaml
+   ---
+   name: daily-planning
+   description: Plan a day's priorities...
+   metadata:
+     orchestrated: true
+     phases_file: phases.yaml
+   ---
+   ```
+
+2. Create `phases.yaml` in the skill's directory with phase definitions
+
+3. Add `<!-- phase:name -->` markers in SKILL.md to delimit phase content
+
+### Phase Configuration (phases.yaml)
+
+```yaml
+phases:
+  # Phase 0: Setup (parallel, read-only)
+  - name: setup
+    parallel: true           # Spawn all subagents simultaneously
+    subagents:
+      - skill: _sub/fetch/get-config
+        type: explore        # Read-only subagent
+        output: VAULT        # Variable name to store result
+      - skill: _sub/fetch/get-directives
+        type: explore
+        output: DIRECTIVES
+        optional: true       # Continue if this fails
+        on_error: "Directives not found. Using defaults."
+
+  # Phase 1: Gather (depends on setup)
+  - name: gather
+    depends_on: [setup]      # Wait for setup to complete
+    parallel: true
+    subagents:
+      - skill: _sub/fetch/get-calendar
+        type: explore
+        args: "scope={{DATES.target_date}}"  # Variable interpolation
+        output: CALENDAR
+        optional: true
+        fallback: inline     # Execute in main context on failure
+
+  # Phase 2: Interactive (inline)
+  - name: interact
+    depends_on: [gather]
+    inline: true             # Execute in main conversation context
+
+  # Phase 3: Write (write-capable)
+  - name: write
+    depends_on: [interact]
+    subagents:
+      - skill: _sub/write/captive-note
+        type: general-purpose  # Can modify files
+        args: "path={{VAULT}}/Today.md content={{PLAN}}"
+```
+
+### Phase Schema Reference
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Phase identifier |
+| `parallel` | boolean | Spawn subagents simultaneously (default: false) |
+| `depends_on` | [string] | Phases that must complete first |
+| `inline` | boolean | Run in main context, not as subagent |
+| `subagents` | array | List of subagents to spawn |
+
+**Subagent fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `skill` | string | Path to sub-skill (e.g., `_sub/fetch/get-config`) |
+| `type` | string | `explore` (read-only) or `general-purpose` (can write) |
+| `args` | string | Arguments with `{{VAR}}` interpolation |
+| `output` | string | Variable name to store result |
+| `optional` | boolean | Continue if this fails |
+| `fallback` | string | `inline` to execute in main context on failure |
+| `on_error` | string | Message to show on failure |
+
+### Phase Markers in SKILL.md
+
+Use HTML comments to delimit phase content:
+
+```markdown
+<!-- phase:setup -->
+## Setup Complete
+
+Configuration loaded:
+- Vault: `{{VAULT}}`
+- Directives: {{#if DIRECTIVES.success}}Loaded{{else}}Not found{{/if}}
+<!-- /phase:setup -->
+
+<!-- phase:interact:inline -->
+## Interactive Planning
+
+[This section runs in main conversation context]
+<!-- /phase:interact -->
+```
+
+### Variable Interpolation
+
+Use `{{VARIABLE}}` syntax to reference context values:
+
+- `{{VAULT}}` — Simple variable
+- `{{DATES.target_date}}` — Nested property
+- `{{CALENDAR.events.length}}` — Array length
+- `{{#if CONDITION}}...{{else}}...{{/if}}` — Conditionals
+- `{{#each ARRAY}}{{this.property}}{{/each}}` — Iteration
+
+### Execution Flow
+
+```
+Parse phases.yaml
+    ↓
+Build dependency graph
+    ↓
+For each phase in topological order:
+    ├─ If inline: true → execute in main context
+    └─ If subagents → spawn via Task tool
+        ├─ type: explore → subagent_type="Explore"
+        └─ type: general-purpose → subagent_type="general-purpose"
+    ↓
+Capture outputs into context store
+    ↓
+Continue to next phase
+```
+
+### Benefits of Orchestration
+
+| Benefit | Description |
+|---------|-------------|
+| **Parallel execution** | Independent operations run simultaneously |
+| **Context isolation** | Large file operations don't exhaust conversation context |
+| **Formal contracts** | Structured JSON outputs between phases |
+| **Error handling** | Optional fallbacks and graceful degradation |
+| **Backwards compatible** | Skills without phases.yaml work as before |
 
 ### Creating Dev Skills
 
