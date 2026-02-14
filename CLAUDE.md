@@ -75,6 +75,59 @@ Apply directives throughout:
 
 If directives don't exist (user hasn't run `/init`), proceed with defaults and suggest running `/init` at the end.
 
+### Orchestrated Skills
+
+Skills with `metadata.orchestrated: true` in frontmatter use subagent orchestration via `phases.yaml`.
+
+**Detecting orchestrated skills:**
+```yaml
+metadata:
+  orchestrated: true
+  phases_file: phases.yaml
+```
+
+**Executing orchestrated skills:**
+
+1. Read `phases.yaml` from the skill's directory
+2. Parse phase definitions and build dependency graph
+3. Execute phases in topological order:
+
+| Phase Type | Execution |
+|------------|-----------|
+| `inline: true` | Execute in main conversation context |
+| `subagents: [...]` | Spawn via Task tool |
+| `parallel: true` | Spawn all subagents simultaneously |
+
+**Subagent type mapping:**
+- `type: explore` → `subagent_type: "Explore"` (read-only)
+- `type: general-purpose` → `subagent_type: "general-purpose"` (can write files)
+
+**Variable interpolation:**
+Replace `{{VARIABLE}}` patterns in args and markdown with values from the context store.
+
+**Error handling:**
+| Declaration | Behavior |
+|-------------|----------|
+| `optional: true` | Log warning, continue if subagent fails |
+| `fallback: inline` | Execute skill in main context on failure |
+
+**Example execution flow:**
+```
+Phase: setup (parallel)
+├─ Task(explore): get-config → VAULT
+├─ Task(explore): get-dates → DATES
+└─ Task(explore): get-directives → DIRECTIVES
+
+Phase: gather (depends_on: setup)
+└─ Task(explore): get-calendar → CALENDAR
+
+Phase: interact (inline)
+└─ [User dialogue in main context]
+
+Phase: write
+└─ Task(general-purpose): captive-note
+```
+
 ### Key Paths
 
 **Vault path:** Read from `.claude/config.md`
