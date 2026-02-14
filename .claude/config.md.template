@@ -1,0 +1,8 @@
+# 2bd Engine Configuration Template
+#
+# Copy this file to config.md and update the vault_path to your vault location.
+# config.md is git-ignored (contains your personal path).
+
+## Vault
+
+vault_path: /path/to/your/vault
