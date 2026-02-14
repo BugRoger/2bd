@@ -31,6 +31,20 @@ When making changes to 2bd, update documentation as instructed by the user:
 
 **Both files:** Major architectural changes affecting both users and development.
 
+### Diagram Maintenance
+
+Diagrams in `docs/` visualize concepts from documentation. The image alt text serves as the source of truth—when alt text changes, regenerate the diagram.
+
+| Diagram | Alt Text Contains | Update When |
+|---------|-------------------|-------------|
+| `how-it-works.svg` | Time scales, ritual purposes, Planning/Review flow | Alt text content changes |
+
+**Process:**
+1. Update the alt text in README.md to reflect new content
+2. Edit the `.excalidraw.json` source file via subagent to match
+3. Re-export to `.svg` for GitHub rendering
+4. Both diagram files live in `docs/`
+
 ---
 
 ## Claude-Specific Guidance
