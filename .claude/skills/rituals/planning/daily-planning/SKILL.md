@@ -2,61 +2,93 @@
 name: daily-planning
 description: Plan a day's priorities, meetings, and intentions. Accepts an optional target date (default: today). Use with date arguments like "tomorrow", "Monday", "2026-02-12", or "next Tuesday". Reads current Today.md as context for prior work.
 argument-hint: "[target-date: today|tomorrow|monday|YYYY-MM-DD]"
+metadata:
+  orchestrated: true
+  phases_file: phases.yaml
 ---
 
 # Daily Planning Ritual
 
 This skill guides you through a planning ritual that helps set intentions, prioritize outcomes, and prepare for a target day. By default it plans for today, but accepts a target date argument to plan ahead (e.g., planning Friday for Monday).
 
-## Target Date Resolution
+**Orchestration**: This skill uses subagent orchestration. See `phases.yaml` for phase definitions.
 
-Parse `$ARGUMENTS` to determine the target date. If no argument provided, default to today.
+---
 
-| Input | Interpretation |
-|-------|----------------|
-| (empty) | Today |
-| `today` | Today |
-| `tomorrow` | Tomorrow |
-| `monday`, `tuesday`, etc. | Next occurrence of that weekday (including today if it matches) |
-| `next monday`, `next tuesday`, etc. | Next occurrence after today (always future) |
-| `YYYY-MM-DD` (e.g., `2026-02-14`) | Specific date |
+<!-- phase:setup -->
+## Setup Complete
 
-Use macOS `date` command to resolve relative dates to `YYYY-MM-DD` format. Store the resolved target date for use throughout the workflow.
+The orchestrator has loaded configuration and context:
 
-## Workflow
+- **Vault**: `{{VAULT}}`
+- **Target Date**: {{DATES.target_date}} ({{DATES.day_name}})
+- **Week**: {{DATES.week}}, **Month**: {{DATES.month}}, **Quarter**: {{DATES.quarter}}
+- **Relative**: {{#if DATES.is_today}}Today{{else if DATES.is_future}}{{DATES.days_from_today}} day(s) from now{{else}}In the past{{/if}}
 
-### 0. Get Configuration
-
-**Use sub-skill: `_sub/fetch/get-config`**
-
-Store the vault path as `$VAULT` for all file operations in this skill.
-
-If no config exists, error: "No vault configured. Run `/init` first to set up your vault."
-
-### 0.1 Load Directives
-
-**Use sub-skill: `_sub/fetch/get-directives`**
-
+{{#if DIRECTIVES.success}}
+**Directives loaded** for {{DIRECTIVES.user.preferred_name}}.
 Apply throughout this ritual:
-- Use `user.preferred_name` in greetings and prompts (e.g., "Good morning, Michi!")
-- Reference `user.leadership_identity` when suggesting leadership intentions
-- Use `user.growth_edge` and `user.patterns_to_watch` when generating coaching prompts
-- Include `user.grounding_questions` in the Insights section prompts
-- Adapt communication style based on `ai.formality`, `ai.directness`, `ai.humor`
-- If not loaded, proceed with defaults and suggest running `/init` at the end
+- Use `{{DIRECTIVES.user.preferred_name}}` in greetings and prompts
+- Reference `{{DIRECTIVES.user.leadership_identity}}` when suggesting leadership intentions
+- Use growth edge and patterns_to_watch when generating coaching prompts
+- Adapt communication style based on formality={{DIRECTIVES.ai.formality}}, directness={{DIRECTIVES.ai.directness}}
+{{else}}
+**No directives found.** Using default communication style.
+Suggest running `/init` at the end.
+{{/if}}
+<!-- /phase:setup -->
 
-### 1. Pre-flight Check
+---
+
+<!-- phase:gather -->
+## Context Gathered
+
+### Calendar for {{DATES.target_date}} ({{DATES.day_name}})
+
+{{#if CALENDAR.events}}
+Found {{CALENDAR.events.length}} meetings:
+
+{{#each CALENDAR.events}}
+- **{{this.start_time}}-{{this.end_time}}**: {{this.title}} {{#if this.is_one_on_one}}→ [[{{this.other_person}}]] template{{else}}→ [Meeting] template{{/if}}
+{{/each}}
+
+**Focus hours available**: ~{{CALENDAR.summary.focus_hours}}h
+{{else}}
+No calendar data available. Meetings can be added manually.
+{{/if}}
+
+### Prior Work Context
+
+Read from `{{VAULT}}/00_Brain/Captive/Today.md` for:
+- Completed items and recent wins
+- Unfinished priorities that may carry forward
+- Actions that need follow-up
+
+### Additional Context Sources
+
+Scan these locations for context:
+- Recent `{{VAULT}}/00_Brain/Periodic/Daily/` files
+- `{{VAULT}}/00_Brain/Captive/Week.md` for weekly context
+- `{{VAULT}}/01_Projects/` for active projects
+- `{{VAULT}}/02_Areas/Insights/` and `People/` for themes
+- `{{VAULT}}/00_Brain/Captive/Year.md` and `Quarter.md` for coaching context
+<!-- /phase:gather -->
+
+---
+
+<!-- phase:preflight:inline -->
+## Pre-flight Check
 
 Before planning, handle the current Today.md appropriately:
 
 1. Get **today's actual date** using `date +"%Y-%m-%d"` (current calendar date)
-2. Get the **target date** from the Target Date Resolution above
-3. Read `$VAULT/00_Brain/Captive/Today.md` and extract the `date` from frontmatter (if it exists)
+2. Compare to **target date**: {{DATES.target_date}}
+3. Read `{{VAULT}}/00_Brain/Captive/Today.md` and extract the `date` from frontmatter (if it exists)
 
 **If target date is TODAY:**
    a. If Today.md date matches today → note was already created, ask user if they want to regenerate
    b. If Today.md date is older:
-      - Check if archive exists at `$VAULT/00_Brain/Periodic/Daily/{Today.md date}.md`
+      - Check if archive exists at `{{VAULT}}/00_Brain/Periodic/Daily/{Today.md date}.md`
       - If archive exists and content matches → already digested, proceed
       - If archive exists but content differs → **STOP**: "The note from {date} has changes that aren't archived yet. Please run daily-review first, or confirm you want to discard those changes."
       - If no archive exists → **STOP**: "The note from {date} hasn't been digested yet. Please run daily-review first, or confirm you want to skip archiving."
@@ -64,218 +96,190 @@ Before planning, handle the current Today.md appropriately:
 
 **If target date is FUTURE (tomorrow, Monday, specific future date):**
    a. Read Today.md content as **context source** (work completed before target date)
-   b. Check if target date already has an archive at `$VAULT/00_Brain/Periodic/Daily/{target-date}.md`:
+   b. Check if target date already has an archive at `{{VAULT}}/00_Brain/Periodic/Daily/{target-date}.md`:
       - If archive exists → Ask: "A plan for {target-date} already exists in the archive. Do you want to regenerate it?"
    c. Warn user: "Planning for {target-date} will overwrite Today.md. The current Today.md ({Today.md date}) content will be used as context. Make sure yesterday's work is archived if needed."
    d. Proceed only if user confirms
+<!-- /phase:preflight -->
 
-### 2. Gather Context
+---
 
-Collect information to inform planning for the **target date**:
+<!-- phase:interact:inline -->
+## Interactive Planning Session
 
-1. **Get target date information**:
-   - Calculate all date fields for the **target date** (not today):
-   - Target date (`YYYY-MM-DD`), day of week, week number (`YYYY-Www`), month (`YYYY-MM`), quarter (`YYYY-QN`)
-   - Use bash commands with the resolved target date
+Engage the user to plan for **{{DATES.target_date}} ({{DATES.day_name}})**:
 
-2. **Fetch and filter calendar events for target date**:
+### 1. Present Calendar Overview
 
-   **Use sub-skill: `_sub/fetch/get-calendar`**
-   - Scope: Use the resolved target date (e.g., `tomorrow`, `monday`, or `YYYY-MM-DD`)
-   - Format: json
+- Show: "I found X meetings on your calendar for **{{DATES.target_date}} ({{DATES.day_name}})**:"
+- List by time with detected template:
+  - "09:30-10:00: 1:1 Simone/Michi → [[Simone]] template"
+  - "13:00-13:55: CE Leadership Weekly → [Meeting] template"
+- For uncertain matches, note: "(needs confirmation)"
+- Note filtered events: "Filtered out X events (OOO notices, blockers, lunch)"
+- Ask: "Does this look right? Any template assignments to change?"
 
-   **Filter out events that don't need meeting notes:**
+### 2. Contextual Questions
 
-   EXCLUDE if any of:
-   - All-day events (these are typically vacation notices, blockers, deadlines)
-   - Title is empty or whitespace only
-   - Title contains vacation/OOO patterns: "vacation", "OoO", "OOO", "out of office", "holiday", "stand-in:", "standin:"
-   - Title contains blocker patterns: "lunch", "focus", "blocker", "physio", "travel"
-   - Title starts with "[INVITATION]" (FYI broadcasts, not actual meetings to attend)
-   - Title contains "placeholder"
+- "What's your expected energy level **on {{DATES.day_name}}**?" (High/Medium/Low)
+- "Where will you be working **on {{DATES.target_date}}**?" (Office/Home/Travel/Other)
+- "Are there any deadlines, events, or constraints **on {{DATES.target_date}}**?"
+- For [[PersonName]] meetings: "What do you want to focus on with [PersonName]?"
 
-   INCLUDE all-day events only if they're actual workshops/offsites to attend (rare).
+### 3. Priority Discussion
 
-   **Discover meeting types from template:**
+- Review prior work and progress from Today.md context
+- Discuss active projects and areas that need attention
+- Help user identify the **top 3 outcomes** for the target date:
+  - Priority 1: Most critical outcome that must happen
+  - Priority 2: Team/strategic work
+  - Priority 3: Personal/operational task
+- Frame priorities as **outcomes**, not just tasks (what will be different by end of the target day?)
 
-   Read `$VAULT/00_Brain/Systemic/Templates/Captive/today.md` and parse the `## Meetings` section.
-   For each `### ...` heading found, extract:
-   - The heading pattern (e.g., `[Meeting Name/Topic]`, `[[PersonName]]`)
-   - The template content (everything until next `###` or `---`)
+### 4. Leadership Intention (Context-Aware)
 
-   **Match each calendar event to best template:**
+Based on gathered context for the target date, suggest 2-3 relevant intentions with reasoning:
 
-   For each event, analyze the title and infer which template fits best:
-   - `### [[PersonName]]` pattern: Events that appear to be 1:1 conversations (two people meeting)
-   - `### [Meeting Name/Topic]` pattern: Group meetings, syncs, reviews, etc.
-   - If template has other patterns, use semantic matching to find best fit
+- Heavy meeting day (4+ meetings) → "Present", "Listening", "Patient"
+- Many [[PersonName]] meetings scheduled → "Supportive", "Coaching", "Curious"
+- Big deadline or presentation → "Decisive", "Confident", "Clear"
+- Low energy reported → "Sustainable", "Boundaries", "Selective"
+- High energy + light calendar → "Creative", "Ambitious", "Momentum"
+- Yesterday had unfinished priorities → "Focused", "Finishing", "Discipline"
+- Conflict or difficult conversations pending → "Calm", "Direct", "Empathetic"
 
-   **When uncertain, ask the user:**
+Present suggestions with brief reasoning, then let user choose or provide their own.
 
-   If confidence is low (e.g., ambiguous title like "Quick chat" or "Alignment"), present options:
-   "I'm not sure which format to use for 'Quick chat'. Is this:
-    1. A 1:1 with someone? (I'll use the [[PersonName]] format)
-    2. A standard meeting? (I'll use the [Meeting Name] format)"
+### 5. Generate Coaching Prompts (Context-Aware)
 
-   For `[[PersonName]]` templates, extract the other person's name using `user_name` from calendars.json.
+Based on gathered context (goals, day type, priorities), generate personalized prompts for the Wins and Insights sections. Act as an experienced executive coach developing the user according to their stated leadership and unit goals.
 
-3. **Review prior work** (context from Today.md):
-   - Read `$VAULT/00_Brain/Captive/Today.md` to see the most recent work content
-   - This serves as context regardless of whether target date is today or future
-   - Note completed items, wins, and any actions that need follow-up
-   - Look for unfinished priorities that may carry forward to target date
+**Determine day type for target date:**
+- Heavy meeting day (4+ meetings): Focus on presence, listening, energy protection
+- 1:1 heavy day (2+ 1:1s): Focus on coaching vs. solving, feedback, development
+- Deadline/delivery day: Focus on delivery, recognition, sustainable effort
+- Low energy day: Focus on boundaries, sustainability, delegation
+- Strategic/light calendar day: Focus on clarity, long-term thinking, creative work
 
-4. **Review recent Periodic archives** (for context):
-   - Check recent files in `$VAULT/00_Brain/Periodic/Daily/` relative to the target date
-   - Review `$VAULT/00_Brain/Captive/Week.md` for weekly context
+**Generate Wins prompts** (2-3 total across Personal, Team, Project Progress):
 
-5. **Scan active projects**:
-   - List files in `$VAULT/01_Projects/` to see current commitments
-   - Optionally read project files if user mentions specific projects
+Connect to:
+- Target date priorities → "If you complete [Priority 1], what will that prove about your capability?"
+- Leadership intention → "How will you know if you successfully embodied '[intention]' on {{DATES.target_date}}?"
+- 1:1 meetings → "What opportunity does your 1:1 with [Person] give you to practice [leadership focus]?"
+- Growth edge → "Where might '[growth edge]' show up today? What's your plan?"
+- Unit goals → "What progress today connects to [Key Outcome]?"
 
-6. **Check ongoing areas**:
-   - List files in `$VAULT/02_Areas/Insights/` and `$VAULT/02_Areas/People/` to understand ongoing themes and relationships
-   - Consider what areas need attention today
+**Generate Insights prompts** (2-3 total across What Went Well, What Could Be Better, Key Insight):
 
-7. **Load coaching context**:
-   - Read `$VAULT/00_Brain/Captive/Year.md` for:
-     - Key Annual Goals
-     - Leadership Development (current focus, leadership identity, growth edge)
-   - Read `$VAULT/00_Brain/Captive/Quarter.md` for:
-     - Key Outcomes This Quarter
-     - Coaching Themes (patterns to watch, questions that serve me)
-   - If sections are empty or contain only placeholders, note this for later and use generic prompts
+Connect to:
+- Patterns to watch → "Did you notice '[pattern]' on {{DATES.target_date}}? What triggered it?"
+- Leadership development → "Where did you practice '[leadership focus]' on {{DATES.target_date}}? What worked?"
+- Questions that serve me → Select 1 relevant question for Key Insight of the Day
+- Day type context:
+  - Heavy meeting day: "Which meeting energized vs. drained you? Why?"
+  - 1:1 day: "What question unlocked something for someone today?"
+  - Deadline day: "What was the hidden cost of today's push? Worth it?"
 
-### 3. Interactive Planning Session
+**Prompt generation rules:**
+- Maximum 2-3 prompts per section
+- Each prompt should be specific to the target date's context, not generic
+- Connect prompts to stated goals when available
+- Frame Wins as celebration/recognition; Insights as learning/pattern-recognition
+- If goals are empty, use thoughtful generic prompts and suggest filling in Year.md/Quarter.md
+<!-- /phase:interact -->
 
-Engage the user to plan for the **target date**:
+---
 
-1. **Present calendar overview**:
-   - Show: "I found X meetings on your calendar for **{target_date} ({day_name})**:"
-   - List by time with detected template:
-     - "09:30-10:00: 1:1 Simone/Michi → [[Simone]] template"
-     - "13:00-13:55: CE Leadership Weekly → [Meeting] template"
-   - For uncertain matches, note: "(needs confirmation)"
-   - Note filtered events: "Filtered out X events (OOO notices, blockers, lunch)"
-   - Ask: "Does this look right? Any template assignments to change?"
+<!-- phase:generate:inline -->
+## Generate Daily Plan
 
-2. **Contextual questions**:
-   - "What's your expected energy level **on {day_name}**?" (High/Medium/Low)
-   - "Where will you be working **on {target_date}**?" (Office/Home/Travel/Other)
-   - "Are there any deadlines, events, or constraints **on {target_date}**?"
-   - For [[PersonName]] meetings: "What do you want to focus on with [PersonName]?"
-   - Optional: Consider any additional arguments passed with `$ARGUMENTS`
+Read `{{VAULT}}/00_Brain/Systemic/Templates/Captive/today.md` as the single source of truth for structure.
 
-3. **Priority discussion**:
-   - Review prior work and progress from Today.md context
-   - Discuss active projects and areas that need attention
-   - Help user identify the **top 3 outcomes** for the target date:
-     - Priority 1: Most critical outcome that must happen
-     - Priority 2: Team/strategic work
-     - Priority 3: Personal/operational task
-   - Frame priorities as **outcomes**, not just tasks (what will be different by end of the target day?)
+### 1. Fill Frontmatter
 
-4. **Leadership intention** (context-aware):
+Using the template's frontmatter keys:
+- Copy the exact keys from the template (date, day, week, month, quarter, energy, location, focus_hours, meetings)
+- Fill values using the **target date** ({{DATES.target_date}}), not today's date
 
-   Based on gathered context for the target date, suggest 2-3 relevant intentions with reasoning:
+### 2. Fill Focus Section
 
-   - Heavy meeting day (4+ meetings) → "Present", "Listening", "Patient"
-   - Many [[PersonName]] meetings scheduled → "Supportive", "Coaching", "Curious"
-   - Big deadline or presentation → "Decisive", "Confident", "Clear"
-   - Low energy reported → "Sustainable", "Boundaries", "Selective"
-   - High energy + light calendar → "Creative", "Ambitious", "Momentum"
-   - Yesterday had unfinished priorities → "Focused", "Finishing", "Discipline"
-   - Conflict or difficult conversations pending → "Calm", "Direct", "Empathetic"
+- Replace priority prompts with user's actual priorities
+- Replace Leadership Intention placeholder with user's chosen intention
 
-   Present suggestions with brief reasoning, then let user choose or provide their own.
+### 3. Fill Meetings Section
 
-5. **Generate coaching prompts** (context-aware):
+From calendar events:
+- Parse all meeting templates from the template's `## Meetings` section
+- Each `### ...` heading defines a template type
+- Sort events by start time
+- For each meeting, use the template assigned during calendar overview
+- Replace placeholder values with actual event data
 
-   Based on gathered context (goals, day type, priorities), generate personalized prompts for the Wins and Insights sections. Act as an experienced executive coach developing the user according to their stated leadership and unit goals.
+**Template discovery:**
+Read `{{VAULT}}/00_Brain/Systemic/Templates/Captive/today.md` and parse the `## Meetings` section.
+For each `### ...` heading found, extract:
+- The heading pattern (e.g., `[Meeting Name/Topic]`, `[[PersonName]]`)
+- The template content (everything until next `###` or `---`)
 
-   **Determine day type for target date:**
-   - Heavy meeting day (4+ meetings): Focus on presence, listening, energy protection
-   - 1:1 heavy day (2+ 1:1s): Focus on coaching vs. solving, feedback, development
-   - Deadline/delivery day: Focus on delivery, recognition, sustainable effort
-   - Low energy day: Focus on boundaries, sustainability, delegation
-   - Strategic/light calendar day: Focus on clarity, long-term thinking, creative work
+**Match each calendar event to best template:**
+- `### [[PersonName]]` pattern: Events that appear to be 1:1 conversations
+- `### [Meeting Name/Topic]` pattern: Group meetings, syncs, reviews, etc.
+- For `[[PersonName]]` templates, extract the other person's name using `user_name` from calendars.json
 
-   **Generate Wins prompts** (2-3 total across Personal, Team, Project Progress):
+### 4. Fill Wins Section
 
-   Connect to:
-   - Target date priorities → "If you complete [Priority 1], what will that prove about your capability?"
-   - Leadership intention → "How will you know if you successfully embodied '[intention]' on {target_date}?"
-   - 1:1 meetings → "What opportunity does your 1:1 with [Person] give you to practice [leadership focus]?"
-   - Growth edge → "Where might '[growth edge]' show up today? What's your plan?"
-   - Unit goals → "What progress today connects to [Key Outcome]?"
+With generated coaching prompts:
+- Keep the section structure from template (Personal, Team, Project Progress)
+- Replace generic prompts with the context-aware prompts generated in Phase 3
+- Personal: 1-2 prompts connecting to leadership intention and growth edge
+- Team: 1 prompt connecting to 1:1s or team development
+- Project Progress: Keep the [[project-name]] placeholder format for user to fill
 
-   **Generate Insights prompts** (2-3 total across What Went Well, What Could Be Better, Key Insight):
+### 5. Fill Insights Section
 
-   Connect to:
-   - Patterns to watch → "Did you notice '[pattern]' on {target_date}? What triggered it?"
-   - Leadership development → "Where did you practice '[leadership focus]' on {target_date}? What worked?"
-   - Questions that serve me → Select 1 relevant question for Key Insight of the Day
-   - Day type context:
-     - Heavy meeting day: "Which meeting energized vs. drained you? Why?"
-     - 1:1 day: "What question unlocked something for someone today?"
-     - Deadline day: "What was the hidden cost of today's push? Worth it?"
+With generated coaching prompts:
+- Keep the section structure from template (What Went Well, What Could Be Better, Key Insight)
+- What Went Well: 1-2 prompts about patterns, energy, or leadership practice
+- What Could Be Better: 1-2 prompts connecting to patterns to watch or growth edge
+- Key Insight of the Day: Use one question from "Questions That Serve Me" or a powerful coaching question
 
-   **Prompt generation rules:**
-   - Maximum 2-3 prompts per section
-   - Each prompt should be specific to the target date's context, not generic
-   - Connect prompts to stated goals when available
-   - Frame Wins as celebration/recognition; Insights as learning/pattern-recognition
-   - If goals are empty, use thoughtful generic prompts and suggest filling in Year.md/Quarter.md
+### 6. Keep Remaining Sections
 
-### 4. Generate Daily Plan
+- **Capture section**: Keep as-is from template (user fills during day)
 
-Read `$VAULT/00_Brain/Systemic/Templates/Captive/today.md` as the single source of truth for structure.
+Store the complete generated content as `{{PLAN}}` for the write phase.
+<!-- /phase:generate -->
 
-1. **Fill frontmatter** using the template's frontmatter keys:
-   - Copy the exact keys from the template (date, day, week, month, quarter, energy, location, focus_hours, meetings)
-   - Fill values using the **target date** (not today's date)
+---
 
-2. **Fill Focus section**:
-   - Replace priority prompts with user's actual priorities
-   - Replace Leadership Intention placeholder with user's chosen intention
+<!-- phase:write -->
+## Write and Confirm
 
-3. **Fill Meetings section** from calendar events:
-   - Parse all meeting templates from the template's `## Meetings` section
-   - Each `### ...` heading defines a template type
-   - Sort events by start time
-   - For each meeting, use the template assigned during calendar overview
-   - Replace placeholder values with actual event data
+The orchestrator writes the plan via subagent:
+- Path: `{{VAULT}}/00_Brain/Captive/Today.md`
+- Content: `{{PLAN}}`
 
-4. **Keep remaining sections as-is** from template (Capture, Wins, Insights)
+### Confirm with User
 
-5. **Fill Wins section** with generated coaching prompts:
-   - Keep the section structure from template (Personal, Team, Project Progress)
-   - Replace generic prompts with the context-aware prompts generated in step 3.5
-   - Personal: 1-2 prompts connecting to leadership intention and growth edge
-   - Team: 1 prompt connecting to 1:1s or team development
-   - Project Progress: Keep the [[project-name]] placeholder format for user to fill
+After successful write:
+- Show the target date: "Plan created for **{{DATES.target_date}} ({{DATES.day_name}})**"
+- Summarize the 3 priorities
+- Highlight the leadership intention
+- Note any meetings prepared
 
-6. **Fill Insights section** with generated coaching prompts:
-   - Keep the section structure from template (What Went Well, What Could Be Better, Key Insight)
-   - What Went Well: 1-2 prompts about patterns, energy, or leadership practice
-   - What Could Be Better: 1-2 prompts connecting to patterns to watch or growth edge
-   - Key Insight of the Day: Use one question from "Questions That Serve Me" or a powerful coaching question relevant to the day
+### Optional Suggestions
 
-7. **Keep Capture section as-is** from template
+- Time blocking specific focus hours
+- When to tackle highest-priority items
+- Breaks or energy management strategies
 
-### 5. Write and Confirm
+{{#unless DIRECTIVES.success}}
+**Tip**: Run `/init` to personalize your planning experience with leadership context and coaching prompts.
+{{/unless}}
+<!-- /phase:write -->
 
-1. Write the complete daily plan to `$VAULT/00_Brain/Captive/Today.md`
-   - Note: Today.md represents "the active working day" which is now the target date
-2. Confirm with the user:
-   - Show the target date: "Plan created for **{target_date} ({day_name})**"
-   - Summarize the 3 priorities
-   - Highlight the leadership intention
-   - Note any meetings prepared
-3. Optionally suggest:
-   - Time blocking specific focus hours
-   - When to tackle highest-priority items
-   - Breaks or energy management strategies
+---
 
 ## Tips for Effective Planning
 

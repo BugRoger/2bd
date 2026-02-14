@@ -1,0 +1,57 @@
+# Orchestration phases for daily-planning ritual
+# The orchestrator reads this file to determine subagent execution
+
+phases:
+  # Phase 0: Setup (parallel, read-only)
+  - name: setup
+    parallel: true
+    subagents:
+      - skill: _sub/fetch/get-config
+        type: explore
+        output: VAULT
+      - skill: _sub/fetch/get-dates
+        type: explore
+        args: "target={{ARGUMENTS}}"
+        output: DATES
+      - skill: _sub/fetch/get-directives
+        type: explore
+        output: DIRECTIVES
+        optional: true
+        on_error: "Directives not found. Using defaults."
+
+  # Phase 1: Gather Context (parallel, read-only)
+  - name: gather
+    depends_on: [setup]
+    parallel: true
+    subagents:
+      - skill: _sub/fetch/get-calendar
+        type: explore
+        args: "scope={{DATES.target_date}} format=json"
+        output: CALENDAR
+        optional: true
+        fallback: inline
+        on_error: "Calendar unavailable. Add meetings manually."
+
+  # Phase 2: Pre-flight Check (inline)
+  - name: preflight
+    depends_on: [gather]
+    inline: true
+
+  # Phase 3: Interactive Planning (inline - requires user)
+  - name: interact
+    depends_on: [preflight]
+    inline: true
+
+  # Phase 4: Generate Plan (inline)
+  - name: generate
+    depends_on: [interact]
+    inline: true
+
+  # Phase 5: Write Output (write-capable subagent)
+  - name: write
+    depends_on: [generate]
+    subagents:
+      - skill: _sub/write/captive-note
+        type: general-purpose
+        args: "path={{VAULT}}/00_Brain/Captive/Today.md content={{PLAN}}"
+        output: WRITE_RESULT
