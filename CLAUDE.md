@@ -2,9 +2,101 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Documentation Maintenance
+
+When making changes to the 2bd engine (skills, scaffold, architecture), keep documentation in sync:
+
+- **README.md** — User-facing quick start and overview. Update when:
+  - Installation process changes
+  - New skills/actions are added that users should know about
+  - Architecture changes (e.g., new directories, changed workflows)
+  - Vault structure changes
+
+- **CLAUDE.md** — Complete technical reference. Update when:
+  - Any skill behavior changes
+  - Path patterns or naming conventions change
+  - New sub-skills are added
+  - Integration points change (calendar, GitHub, etc.)
+
+README.md should remain concise and approachable. CLAUDE.md is the comprehensive reference.
+
 ## Project Overview
 
 **2bd (Second Brain Daemon)** is a personal knowledge system that runs itself—powered by Claude Skills, driven by rituals, stored in markdown. It uses Claude Skills to automate productivity rituals, organizing information by **Metabolic State** (energy velocity and temporal density) rather than just topic.
+
+## Installation
+
+### Quick Start
+
+```bash
+# 1. Clone the engine
+git clone https://github.com/bugroger/2bd ~/Code/2bd-engine
+cd ~/Code/2bd-engine
+
+# 2. Set up your vault (run from engine directory)
+claude skill run actions/init --args "fresh --vault=~/OneDrive/2bd-vault"
+
+# 3. (Optional) Create a symlink for convenience
+ln -s ~/OneDrive/2bd-vault ./vault
+
+# 4. Open the vault in Obsidian
+# 5. Start planning!
+claude skill run rituals/planning/daily-planning
+```
+
+### Engine + Vault Architecture
+
+2bd separates **system** (engine) from **content** (vault):
+
+```
+~/Code/2bd-engine/                  ~/OneDrive/2bd-vault/
+├── .claude/                        ├── 00_Brain/
+│   ├── skills/                     │   ├── Captive/ (your notes)
+│   └── config.md  ← vault path     │   ├── Periodic/ (archives)
+├── scaffold/   ← vault template    │   └── Systemic/
+├── CLAUDE.md                       │       ├── Templates/ (your templates)
+└── README.md                       │       └── Directives/ (your profile)
+                                    ├── 01_Projects/
+                                    ├── 02_Areas/
+                                    └── .obsidian/
+```
+
+**Key principles:**
+- **Engine** (this repo) = Skills, scaffold, documentation — public, git-tracked
+- **Vault** (OneDrive) = Your notes, archives, projects — private, cloud-synced
+- **Always run Claude from the engine directory** — skills read vault path from config
+- **Templates are yours** — copied once during setup, customize freely
+
+### Configuration
+
+The engine stores vault path in `.claude/config.md` (git-ignored):
+
+```markdown
+# 2bd Engine Configuration
+
+## Vault
+
+vault_path: /Users/you/OneDrive/2bd-vault
+```
+
+All skills read this config to find your vault. If you move your vault, run:
+
+```bash
+claude skill run actions/init --args "reconnect --vault=/new/path"
+
+# Recreate the symlink if you use one
+ln -sf /new/path ./vault
+```
+
+### Migrating from Combined Repo
+
+If you have an existing 2bd repo with personal content mixed in:
+
+```bash
+claude skill run actions/migrate --args "--vault=~/OneDrive/2bd-vault"
+```
+
+This copies your content to the vault and sets up the config.
 
 ## Architecture
 
@@ -30,61 +122,77 @@ The note-taking architecture mirrors human cognitive biology. Information is cat
 - **Hubs**: Central navigation notes that organize content by domain (✱ Home, ✱ Projects, ✱ People, ✱ Insights)
 - **Skills**: Claude Skills that implement rituals, actions, and sub-skills
 
-### Repository Structure
+### Repository Structure (Engine)
 
 ```
-2bd/
+2bd-engine/
+├── .claude/
+│   ├── config.md             # Vault path configuration (git-ignored)
+│   └── skills/
+│       ├── rituals/          # Scheduled routine skills
+│       │   ├── planning/     # Forward-looking (daily-planning, etc.)
+│       │   └── review/       # Reflective (daily-review, etc.)
+│       ├── actions/          # One-shot helper skills
+│       │   ├── init/         # Bootstrap or configure vault
+│       │   └── migrate/      # Migrate from combined repo
+│       ├── _sub/             # Composable sub-skills
+│       │   ├── synthesis/    # Content operations
+│       │   └── fetch/        # Data retrieval (get-config, get-directives, etc.)
+│       └── _dev/             # Development-time skills (engine maintenance)
+│           └── sync-templates/ # Bidirectional template sync
 │
-├── 00_Brain/                    # Metabolic state hierarchy
-│   ├── ✱ Home.md                # Central Hub - links to all domains
-│   ├── Captive/                 # Sensory/Intake - working notes
-│   │   ├── Today.md             # Current day working note
-│   │   ├── Week.md              # Current week working note
-│   │   ├── Month.md             # Current month working note
-│   │   ├── Quarter.md           # Current quarter working note
-│   │   ├── Year.md              # Current year working note
-│   │   └── Flash/               # Raw unstructured stimuli
-│   ├── Synthetic/               # Short-term/Executive - active project work
-│   ├── Periodic/                # Episodic/Rhythm - timeline archives
-│   │   ├── Daily/               # YYYY-MM-DD.md (e.g., 2026-02-08.md)
-│   │   ├── Weekly/              # gggg-[W]ww.md (e.g., 2026-W06.md)
-│   │   ├── Monthly/             # YYYY-MM.md (e.g., 2026-02.md)
-│   │   ├── Quarterly/           # YYYY-[Q]Q.md (e.g., 2026-Q1.md)
-│   │   └── Yearly/              # YYYY.md (e.g., 2026.md)
-│   ├── Semantic/                # Long-term/Reference - crystallized knowledge
-│   └── Systemic/                # Procedural/Structure - templates, SOPs
-│       └── Templates/
-│           ├── Captive/         # Templates for working notes
-│           └── Periodic/        # Templates for archives
+├── scaffold/                 # Complete vault template (copied during /init)
+│   ├── 00_Brain/
+│   │   ├── ✱ Home.md
+│   │   ├── Captive/
+│   │   ├── Periodic/
+│   │   ├── Semantic/
+│   │   ├── Synthetic/
+│   │   └── Systemic/
+│   │       ├── Templates/
+│   │       │   ├── Captive/  # today.md, week.md, etc.
+│   │       │   └── Periodic/ # daily.md, weekly.md, etc.
+│   │       └── Directives/
+│   ├── 01_Projects/
+│   ├── 02_Areas/
+│   ├── 03_Resources/
+│   └── 04_Archives/
 │
-├── 01_Projects/                 # PARA: Active projects (deadline-driven)
-│   ├── ✱ Projects.md            # Projects Hub - navigation for all projects
-│   └── ...
-│
-├── 02_Areas/                    # PARA: People and Insights
-│   ├── Insights/                # AI-generated thematic patterns
-│   │   ├── ✱ Insights.md        # Insights Hub - navigation for themes
-│   │   └── ...
-│   └── People/                  # Living notes for individuals
-│       ├── ✱ People.md          # People Hub - navigation for relationships
-│       └── ...
-│
-├── 03_Resources/                # PARA: Templates
-│   └── _Templates/
-│       └── para/                # Templates for PARA method files
-│
-├── 04_Archives/                 # PARA: Completed projects
-│   └── Projects/                # Completed projects
-│
-└── .claude/                     # Claude-specific configuration
-    └── skills/
-        ├── rituals/             # Scheduled routine skills
-        │   ├── planning/        # Forward-looking (prepare Captive)
-        │   └── review/          # Reflective (archive to Periodic)
-        ├── actions/             # One-shot helper skills
-        └── _sub/                # Composable sub-skills
-            ├── synthesis/       # Content synthesis operations
-            └── fetch/           # Data fetching operations
+├── CLAUDE.md                 # This file
+└── README.md                 # User-facing documentation
+```
+
+### Vault Structure (User's OneDrive)
+
+```
+2bd-vault/                    # Obsidian opens this as vault
+├── 00_Brain/
+│   ├── ✱ Home.md             # Central Hub
+│   ├── Captive/              # Active working notes
+│   │   ├── Today.md
+│   │   ├── Week.md
+│   │   ├── Month.md
+│   │   ├── Quarter.md
+│   │   ├── Year.md
+│   │   └── Flash/
+│   ├── Periodic/             # Timeline archives
+│   │   ├── Daily/
+│   │   ├── Weekly/
+│   │   ├── Monthly/
+│   │   ├── Quarterly/
+│   │   └── Yearly/
+│   ├── Semantic/             # Crystallized knowledge
+│   ├── Synthetic/            # Active drafts
+│   └── Systemic/
+│       ├── Templates/        # User-owned templates
+│       └── Directives/       # User profile & AI personality
+├── 01_Projects/
+├── 02_Areas/
+│   ├── People/
+│   └── Insights/
+├── 03_Resources/
+├── 04_Archives/
+└── .obsidian/                # Obsidian configuration
 ```
 
 ### Naming Conventions
@@ -139,6 +247,34 @@ Templates are stored in two locations:
 
 **PARA templates** (`03_Resources/_Templates/para/`):
 - project.md, person.md, insight.md
+
+### Template Structure
+
+All Captive templates follow a consistent structure with **nested context** and **coaching integration**:
+
+**Standard sections:**
+1. **Context From Above** — Shows parent timescale goals (e.g., Week.md shows Month/Quarter themes)
+2. **Key Outcomes** — 3 priorities using Personal → Organisational → Strategic framework
+3. **Progress tracking** — Nested period summaries (e.g., Week.md has Daily Notes section)
+4. **Coaching Check-in** — Self-reflection prompts (week.md and month.md)
+5. **Carry Forward** — Items to move to next period
+6. **Wins** — Personal → Organisational → Strategic categories
+7. **Reflections** — What went well, what could be better, key insights
+
+**The three categories (order matters):**
+
+| Category | Focus | Examples |
+|----------|-------|----------|
+| **Personal** | Individual growth, energy, leadership | Executive presence, boundaries, habits |
+| **Organisational** | Team, structure, culture, people | Hiring, LT team, delegation, team health |
+| **Strategic** | Initiatives, projects, business outcomes | SCI delivery, SCOS/Pegasus, roadmap |
+
+*Order rationale: Personal first counters the pattern of "putting yourself last."*
+
+**Special sections by timescale:**
+- **today.md**: Leadership Intention, Meetings (with 1:1 and Interview templates), Capture
+- **quarter.md**: Coaching Themes (Patterns to Watch, Questions That Serve Me)
+- **year.md**: Leadership Development (Current Focus, Identity, Growth Edge)
 
 ### Metabolic State System
 
@@ -289,24 +425,108 @@ Rituals and actions reference sub-skills by instruction in their `SKILL.md`:
 
 When Claude executes a ritual, it reads the sub-skill's `SKILL.md` and follows those instructions, then returns to the parent skill with the results.
 
+### Development Skills (`_dev/`)
+
+Development skills are for engine maintenance—not part of the production system. They live in `.claude/skills/_dev/` (underscore prefix signals internal/system).
+
+**Available dev skills:**
+
+| Skill | Purpose | Usage |
+|-------|---------|-------|
+| **sync-templates** | Bidirectional sync between scaffold and vault templates | `claude skill run _dev/sync-templates` |
+
+**Creating Dev Skills:**
+
+1. Create folder in `.claude/skills/_dev/`
+2. Add `SKILL.md` with frontmatter:
+   - Set `disable-model-invocation: true` (manual trigger only)
+   - Define `allowed-tools` explicitly
+3. Test with `claude skill run _dev/skill-name`
+
+**sync-templates workflow:**
+
+Compares templates between `scaffold/` (engine) and `$VAULT/` (user vault):
+- Shows diff for each changed file
+- Prompts per-file: `← Pull` (vault → scaffold), `→ Push` (scaffold → vault), or `Skip`
+- Use after modifying templates in either location to keep them in sync
+
+### Directives (User Profile & AI Personality)
+
+Directives personalize how Claude interacts with the user. They're stored in `00_Brain/Systemic/Directives/`:
+
+| File | Purpose | Content |
+|------|---------|---------|
+| `user-profile.md` | WHO the user is | Name, role, goals, leadership identity, growth edge, patterns to watch |
+| `ai-personality.md` | HOW Claude communicates | Formality, directness, humor, coaching approach, feedback style |
+
+**Loading Directives in Skills:**
+
+All user-facing skills should load directives as their first step:
+
+```markdown
+### 0. Load Directives
+
+**Use sub-skill: `_sub/fetch/get-directives`**
+
+Apply throughout this ritual:
+- Use `user.preferred_name` in greetings
+- Reference `user.leadership_identity` for intentions
+- Use `user.growth_edge` and `user.patterns_to_watch` for coaching
+- Adapt tone based on `ai.formality`, `ai.directness`, `ai.humor`
+```
+
+**When to load directives:**
+
+| Skill Type | Load Directives? | Reason |
+|------------|-----------------|--------|
+| **Rituals** | Always | Coaching context is essential |
+| **Actions** | Usually | Personalization improves UX |
+| **Sub-skills** | Rarely | Data operations, not conversations |
+
+**Graceful degradation:**
+
+If directives don't exist (user hasn't run `/init`), skills should proceed with defaults and suggest running `/init` at the end.
+
 ## Working with 2bd
 
-### Key Files
+### Daily Usage
 
-- **Central Hub:** `00_Brain/✱ Home.md`
-- **Captive notes (active workspace):** `00_Brain/Captive/`
+**Always run Claude from the engine directory:**
+
+```bash
+cd ~/Code/2bd-engine
+
+# Morning planning
+claude skill run rituals/planning/daily-planning
+
+# Evening review
+claude skill run rituals/review/daily-review
+```
+
+Skills automatically read `$VAULT` from `.claude/config.md` and operate on your vault files.
+
+### Key Files (in Vault)
+
+- **Central Hub:** `$VAULT/00_Brain/✱ Home.md`
+- **Captive notes (active workspace):** `$VAULT/00_Brain/Captive/`
   - Today.md, Week.md, Month.md, Quarter.md, Year.md
-- **Periodic archives:** `00_Brain/Periodic/`
+- **Periodic archives:** `$VAULT/00_Brain/Periodic/`
   - Daily/, Weekly/, Monthly/, Quarterly/, Yearly/
-- **Templates:**
-  - `00_Brain/Systemic/Templates/Captive/` - Working note templates
-  - `00_Brain/Systemic/Templates/Periodic/` - Archive templates
-  - `03_Resources/_Templates/para/` - PARA templates
+- **Templates:** `$VAULT/00_Brain/Systemic/Templates/`
+  - Captive/ - Working note templates
+  - Periodic/ - Archive templates
+- **PARA templates:** `$VAULT/03_Resources/_Templates/para/`
 - **Hubs:**
-  - `01_Projects/✱ Projects.md` - Projects navigation
-  - `02_Areas/People/✱ People.md` - People navigation
-  - `02_Areas/Insights/✱ Insights.md` - Insights navigation
-- **Skills:** `.claude/skills/rituals/`, `.claude/skills/actions/`, and `.claude/skills/_sub/`
+  - `$VAULT/01_Projects/✱ Projects.md` - Projects navigation
+  - `$VAULT/02_Areas/People/✱ People.md` - People navigation
+  - `$VAULT/02_Areas/Insights/✱ Insights.md` - Insights navigation
+
+### Key Files (in Engine)
+
+- **Skills:** `.claude/skills/rituals/`, `.claude/skills/actions/`, `.claude/skills/_sub/`
+- **Scaffold:** `scaffold/` - Template for new vaults
+- **Config:** `.claude/config.md` - Vault path (git-ignored)
+- **Vault symlink:** `./vault` - Optional symlink to vault (git-ignored)
 
 ### Metabolic Interaction Guidelines
 
@@ -455,3 +675,78 @@ The `get-calendar` sub-skill is used by planning rituals to:
 - Identify 1:1s and apply the 1:1 template format
 - Calculate focus blocks between meetings
 - Set the `meetings` count in frontmatter
+
+## GitHub Integration
+
+Use the `gh` CLI for all GitHub interactions (issues, PRs, repos, etc.) instead of MCP GitHub tools.
+
+### Common Commands
+
+```bash
+# Issues
+gh issue create --title "Title" --body "Description"
+gh issue list
+gh issue view 123
+
+# Pull Requests
+gh pr create --title "Title" --body "Description"
+gh pr list
+gh pr view 123
+
+# Repository
+gh repo view
+```
+
+### Authentication
+
+The `gh` CLI uses your local GitHub authentication. If not authenticated:
+
+```bash
+gh auth login
+```
+
+### Issue Labels
+
+The repository uses a hierarchical label system following Scrum methodology:
+
+**Type labels (hierarchy):**
+
+```
+type:epic    → Strategic initiative spanning multiple stories
+  └── type:story   → Shippable user value, fits in a sprint
+        └── type:task    → Implementation work item (≤1 day)
+```
+
+| Label | Description | Color |
+|-------|-------------|-------|
+| `type:epic` | Large initiative spanning multiple stories | Purple #8b5cf6 |
+| `type:story` | User-facing capability, shippable increment | Blue #3b82f6 |
+| `type:task` | Implementation work item | Cyan #06b6d4 |
+| `type:bug` | Something isn't working | Red #ef4444 |
+| `type:chore` | Maintenance, refactoring, dependencies | Gray #6b7280 |
+| `type:docs` | Documentation improvements | Green #10b981 |
+
+**Scope labels (2bd-specific):**
+
+| Label | Description | Color |
+|-------|-------------|-------|
+| `scope:skill` | Claude skill implementation | Light Pink #f9a8d4 |
+| `scope:ritual` | Planning or review ritual | Pink #f472b6 |
+| `scope:template` | Template files | Hot Pink #ec4899 |
+| `scope:integration` | External tool integration | Deep Pink #db2777 |
+
+**Filtering examples:**
+
+```bash
+# View by hierarchy level
+gh issue list --label "type:epic"      # Strategic initiatives
+gh issue list --label "type:story"     # Sprint-level work
+gh issue list --label "type:task"      # Implementation tasks
+
+# View by scope
+gh issue list --label "scope:skill"
+gh issue list --label "scope:integration"
+
+# Combined filters
+gh issue list --label "type:story" --label "scope:skill"
+```

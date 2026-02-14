@@ -39,15 +39,99 @@ wins      review    synthesis   reflection   planning
 
 Run rituals from the CLI:
 ```bash
+cd ~/Code/2bd-engine
 claude skill run rituals/planning/daily-planning
 claude skill run rituals/review/daily-review
+```
+
+## Architecture
+
+2bd separates **engine** (this repo) from **vault** (your notes):
+
+```
+~/Code/2bd-engine/                  ~/OneDrive/2bd-vault/
+├── .claude/                        ├── 00_Brain/
+│   ├── skills/                     │   ├── Captive/ (your notes)
+│   └── config.md  ← vault path     │   ├── Periodic/ (archives)
+├── scaffold/   ← vault template    │   └── Systemic/
+├── CLAUDE.md                       │       ├── Templates/
+└── README.md                       │       └── Directives/
+                                    ├── 01_Projects/
+                                    ├── 02_Areas/
+                                    └── .obsidian/
+```
+
+**Key principles:**
+- **Engine** = Skills, scaffold, documentation — public, git-tracked
+- **Vault** = Your notes, archives, projects — private, cloud-synced
+- **Always run Claude from the engine directory**
+- **Templates are yours** — copied once during setup, customize freely
+
+## Getting Started
+
+### Prerequisites
+
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
+- Markdown editor (Obsidian recommended)
+- A sync folder (OneDrive, iCloud, Dropbox)
+
+### Quick Start
+
+```bash
+# 1. Clone the engine
+git clone https://github.com/bugroger/2bd ~/Code/2bd-engine
+cd ~/Code/2bd-engine
+
+# 2. Set up your vault
+claude skill run actions/init --args "fresh --vault=~/OneDrive/2bd-vault"
+
+# 3. (Optional) Create a symlink for convenience
+ln -s ~/OneDrive/2bd-vault ./vault
+
+# 4. Open the vault in Obsidian
+
+# 5. Start planning!
+claude skill run rituals/planning/daily-planning
+```
+
+### Daily Usage
+
+Always run Claude from the engine directory:
+
+```bash
+cd ~/Code/2bd-engine
+
+# Morning
+claude skill run rituals/planning/daily-planning
+
+# Evening
+claude skill run rituals/review/daily-review
+```
+
+### Reconnecting (New Computer)
+
+If you've moved to a new computer and your vault already exists:
+
+```bash
+cd ~/Code/2bd-engine
+claude skill run actions/init --args "reconnect --vault=~/OneDrive/2bd-vault"
+
+# Recreate the symlink
+ln -s ~/OneDrive/2bd-vault ./vault
+```
+
+### Updating Your Profile
+
+```bash
+cd ~/Code/2bd-engine
+claude skill run actions/init --args "profile"
 ```
 
 ## Key Concepts
 
 **Rituals** are scheduled routines that drive the system—daily planning, weekly review, etc.
 
-**Actions** are one-shot helpers triggered on-demand—create a project, etc.
+**Actions** are one-shot helpers triggered on-demand—create a project, init, migrate, etc.
 
 **Captive Notes** (Today.md, Week.md, Month.md, Quarter.md, Year.md) are your active working space.
 
@@ -55,94 +139,62 @@ claude skill run rituals/review/daily-review
 
 **PARA Method** organizes Projects, Areas, Resources, Archives alongside the metabolic Brain.
 
-## File Organization
+## Vault Structure
+
+Your vault (in OneDrive/iCloud) looks like:
 
 ```
-2bd/
-│
-├── 00_Brain/                    # Metabolic state hierarchy
+2bd-vault/
+├── 00_Brain/
 │   ├── ✱ Home.md                # Central Hub
-│   ├── Captive/                 # Working notes (user writes here)
+│   ├── Captive/                 # Working notes (you write here)
 │   │   ├── Today.md
 │   │   ├── Week.md
 │   │   ├── Month.md
 │   │   ├── Quarter.md
 │   │   ├── Year.md
-│   │   └── Flash/               # Raw unstructured stimuli
-│   ├── Synthetic/               # Active project work
-│   ├── Periodic/                # Timeline archives (rituals write here)
+│   │   └── Flash/
+│   ├── Periodic/                # Archives (rituals write here)
 │   │   ├── Daily/               # YYYY-MM-DD.md
 │   │   ├── Weekly/              # YYYY-Www.md
 │   │   ├── Monthly/             # YYYY-MM.md
 │   │   ├── Quarterly/           # YYYY-QN.md
 │   │   └── Yearly/              # YYYY.md
 │   ├── Semantic/                # Crystallized knowledge
-│   └── Systemic/                # Templates, SOPs
-│       └── Templates/
-│
-├── 01_Projects/                 # Active projects (deadline-driven)
-│   ├── ✱ Projects.md            # Projects Hub
-│   └── YYYY-MM-DD-name.md       # Project files (end-date prefix)
-│
-├── 02_Areas/                    # People and Insights
-│   ├── Insights/                # AI-generated thematic patterns
-│   │   └── ✱ Insights.md        # Insights Hub
-│   └── People/                  # Living notes for individuals
-│       └── ✱ People.md          # People Hub
-│
-├── 03_Resources/                # PARA templates
+│   ├── Synthetic/               # Active drafts
+│   └── Systemic/
+│       ├── Templates/           # Your templates (customize freely)
+│       └── Directives/          # Your profile & AI personality
+├── 01_Projects/                 # Active projects
+│   └── ✱ Projects.md
+├── 02_Areas/
+│   ├── People/                  # Relationship notes
+│   │   └── ✱ People.md
+│   └── Insights/                # Thematic learnings
+│       └── ✱ Insights.md
+├── 03_Resources/
 │   └── _Templates/para/
-│
-├── 04_Archives/                 # Completed projects
-│   └── Projects/
-│
-└── .claude/skills/              # Claude Skills
-    ├── rituals/
-    │   ├── planning/            # Forward-looking
-    │   └── review/              # Reflective
-    └── actions/                 # One-shot helpers
+├── 04_Archives/
+└── .obsidian/
 ```
 
 **Naming Conventions:**
 - **Hubs:** `✱` prefix with Title Case (`✱ Home.md`, `✱ Projects.md`)
 - **Projects:** End-date first (`YYYY-MM-DD-project-name.md`)
 - **People:** FirstName + LastInitial (`EstherS.md`, `JonnyB.md`)
-- **Periodic Daily:** `YYYY-MM-DD.md` (2026-02-08.md)
-- **Periodic Weekly:** `YYYY-Www.md` (2026-W06.md)
-- **Periodic Monthly:** `YYYY-MM.md` (2026-02.md)
-- **Periodic Quarterly:** `YYYY-QN.md` (2026-Q1.md)
-- **Periodic Yearly:** `YYYY.md` (2026.md)
-
-## Getting Started
-
-### Prerequisites
-
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) or Claude.ai with Skills
-- Markdown editor (Obsidian recommended, any editor works)
-
-### Quick Start
-
-```bash
-# Clone the repository
-git clone https://github.com/bugroger/2bd.git
-cd 2bd
-
-# Run your first ritual
-claude skill run rituals/planning/daily-planning
-```
-
-Open `00_Brain/Captive/Today.md` to see your working note.
-
-### Sync
-
-2bd files are just markdown. Store the folder in iCloud, Dropbox, OneDrive, or use Git—sync is an extension, not a requirement.
+- **Daily:** `YYYY-MM-DD.md` (2026-02-08.md)
+- **Weekly:** `YYYY-Www.md` (2026-W06.md)
+- **Monthly:** `YYYY-MM.md` (2026-02.md)
+- **Quarterly:** `YYYY-QN.md` (2026-Q1.md)
+- **Yearly:** `YYYY.md` (2026.md)
 
 ## Documentation
 
 See [CLAUDE.md](CLAUDE.md) for complete documentation:
+- Engine + Vault architecture
 - Metabolic state system details
-- Synthesis workflow (Captive → Periodic)
 - Creating new rituals and actions
+- Calendar integration
 - Obsidian integration and hotkeys
 
 ## Philosophy
