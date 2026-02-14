@@ -21,12 +21,36 @@ This sub-skill reads the engine configuration file to get the vault path.
 
 ## Output
 
-Provide the vault path as `$VAULT` for the calling skill to use in all file operations.
+Return structured JSON for the orchestrator to capture:
 
-Example: If config contains `vault_path: /Users/me/OneDrive/vault`, then `$VAULT` = `/Users/me/OneDrive/vault`
+**Success:**
+```json
+{
+  "success": true,
+  "VAULT": "/Users/me/OneDrive/vault",
+  "config_path": ".claude/config.md"
+}
+```
+
+**Error:**
+```json
+{
+  "success": false,
+  "error": "error_code",
+  "message": "Human-readable error message",
+  "suggestion": "Run `/init` to configure."
+}
+```
+
+For backwards compatibility, also output the vault path in plain text:
+```
+$VAULT = /Users/me/OneDrive/vault
+```
 
 ## Error Cases
 
-- **Config file missing**: "No config.md found. Run `/init fresh --vault=/path` to set up."
-- **vault_path not set**: "vault_path not configured. Run `/init` to configure."
-- **Vault directory missing**: "Vault not found at {path}. Check path or run `/init reconnect`."
+| Error Code | Condition | Message |
+|------------|-----------|---------|
+| `config_missing` | Config file not found | "No config.md found. Run `/init fresh --vault=/path` to set up." |
+| `vault_path_missing` | vault_path not in config | "vault_path not configured. Run `/init` to configure." |
+| `vault_not_found` | Directory doesn't exist | "Vault not found at {path}. Check path or run `/init reconnect`." |

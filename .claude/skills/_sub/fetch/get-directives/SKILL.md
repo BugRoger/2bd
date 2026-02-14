@@ -61,9 +61,57 @@ If `ai-personality.md` exists, read the file and extract:
 
 ### 4. Return Structured Result
 
-Return the loaded context to the parent skill:
+Return JSON output for the orchestrator to capture:
 
-**If both files loaded:**
+**Success (both files loaded):**
+```json
+{
+  "success": true,
+  "user": {
+    "name": "Michael Rüger",
+    "preferred_name": "Michi",
+    "role": "Senior Engineering Manager",
+    "leadership_identity": "Coach and multiplier...",
+    "growth_edge": "Delegation and trust...",
+    "patterns_to_watch": ["Over-engineering", "Context switching"],
+    "grounding_questions": ["What would make this week a win?"],
+    "key_goals": ["Scale the team", "Improve delivery"],
+    "success_definition": "Team thriving independently"
+  },
+  "ai": {
+    "formality": "casual",
+    "directness": "direct",
+    "humor": "medium",
+    "feedback_style": "direct",
+    "proactive_input": true,
+    "autonomy_level": "high"
+  }
+}
+```
+
+**Partial (some files missing):**
+```json
+{
+  "success": true,
+  "partial": true,
+  "missing": ["ai-personality.md"],
+  "user": { ... },
+  "ai": null,
+  "message": "Directives partially loaded. Run `/init` to complete setup."
+}
+```
+
+**No files:**
+```json
+{
+  "success": false,
+  "error": "no_directives",
+  "message": "No directives found. Using default communication style.",
+  "suggestion": "Run `/init` to personalize your 2bd experience."
+}
+```
+
+For backwards compatibility, also output human-readable summary:
 ```
 Directives loaded successfully.
 
@@ -76,18 +124,6 @@ User: {preferred_name} ({role})
 AI Style: {formality}, {directness}, humor={humor}
 - Feedback Style: {feedback_style}
 - Autonomy: {autonomy_level}
-```
-
-**If files missing:**
-```
-Directives partially loaded. Missing: {missing_files}
-Tip: Run `/init` to set up your profile.
-```
-
-**If no files exist:**
-```
-No directives found. Using default communication style.
-Run `/init` to personalize your 2bd experience.
 ```
 
 ## Usage Guide for Parent Skills
