@@ -59,13 +59,6 @@ year: YYYY
 
 ---
 
-## Carry Forward
-*Items to move to next month:*
-- [ ]
-- [ ]
-
----
-
 ## Wins This Month
 
 ### Personal

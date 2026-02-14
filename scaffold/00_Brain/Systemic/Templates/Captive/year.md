@@ -50,13 +50,6 @@ quarters: [YYYY-Q1, YYYY-Q2, YYYY-Q3, YYYY-Q4]
 
 ---
 
-## Carry Forward
-*Items to carry into next year:*
-- [ ]
-- [ ]
-
----
-
 ## Annual Wins
 
 ### Personal
