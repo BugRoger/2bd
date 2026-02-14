@@ -24,12 +24,7 @@ Notes are organized by **metabolic state**—how active and volatile they are—
 
 Time scales nest inside each other, each feeding into the next:
 
-```
-Daily → Weekly → Monthly → Quarterly → Yearly
-  ↓        ↓        ↓          ↓          ↓
-Small   Tactics  Strategy  Direction   Vision
-wins    review   synthesis reflection planning
-```
+![Daily──▶Weekly──▶Monthly──▶Quarterly──▶Yearly: Small wins→Tactics review→Strategy synthesis→Direction reflection→Vision planning | Planning: prepares Captive from Templates | Review: archives Captive to Periodic](docs/how-it-works.svg)
 
 Two rituals drive the system:
 
