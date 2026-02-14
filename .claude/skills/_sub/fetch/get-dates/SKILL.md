@@ -90,3 +90,68 @@ Return structured JSON:
 | `monday` | 2026-02-16 | Next Monday (including today if Monday) |
 | `next monday` | 2026-02-16 | Next Monday (always future) |
 | `2026-02-20` | 2026-02-20 | Specific date |
+
+---
+
+## Week Resolution (for weekly rituals)
+
+When `scope=week` is passed in arguments or the input contains an ISO week format:
+
+### Week Input Formats
+- `(empty)` → current week
+- `last week` → previous week
+- `YYYY-Www` → specific ISO week (e.g., 2026-W07)
+
+### Week Calculations
+
+```bash
+# Get current ISO week
+date +"%G-W%V"
+
+# Get week start (Monday) from ISO week
+# Use: date command with week calculation
+
+# Get week end (Sunday) from ISO week
+# week_end = week_start + 6 days
+```
+
+### Extended Output for Weekly Scope
+
+When resolving weeks, include these additional fields:
+
+```json
+{
+  "target_date": "2026-02-14",
+  "day_name": "Saturday",
+  "day_short": "Sat",
+  "week": "2026-W07",
+  "week_start": "2026-02-09",
+  "week_end": "2026-02-15",
+  "is_current_week": true,
+  "is_past_week": false,
+  "month": "2026-02",
+  "month_name": "February",
+  "quarter": "2026-Q1",
+  "year": "2026",
+  "is_today": false,
+  "is_future": true,
+  "is_past": false,
+  "days_from_today": 1
+}
+```
+
+### Week Resolution Examples
+
+| Input | Target Week | Week Start | Week End |
+|-------|-------------|------------|----------|
+| `(empty)` scope=week | 2026-W07 | 2026-02-09 | 2026-02-15 |
+| `last week` | 2026-W06 | 2026-02-02 | 2026-02-08 |
+| `2026-W05` | 2026-W05 | 2026-01-26 | 2026-02-01 |
+
+### Week Resolution Logic
+
+1. If input matches `YYYY-Www` pattern → use directly
+2. If input is `last week` → current week minus 1
+3. If `scope=week` with empty input → current week
+4. Calculate `week_start` as the Monday of that week
+5. Calculate `week_end` as the Sunday of that week
