@@ -25,18 +25,38 @@ Use macOS `date` command to resolve relative dates to `YYYY-MM-DD` format. Store
 
 ## Workflow
 
+### 0. Get Configuration
+
+**Use sub-skill: `_sub/fetch/get-config`**
+
+Store the vault path as `$VAULT` for all file operations in this skill.
+
+If no config exists, error: "No vault configured. Run `/init` first to set up your vault."
+
+### 0.1 Load Directives
+
+**Use sub-skill: `_sub/fetch/get-directives`**
+
+Apply throughout this ritual:
+- Use `user.preferred_name` in greetings and prompts (e.g., "Good morning, Michi!")
+- Reference `user.leadership_identity` when suggesting leadership intentions
+- Use `user.growth_edge` and `user.patterns_to_watch` when generating coaching prompts
+- Include `user.grounding_questions` in the Insights section prompts
+- Adapt communication style based on `ai.formality`, `ai.directness`, `ai.humor`
+- If not loaded, proceed with defaults and suggest running `/init` at the end
+
 ### 1. Pre-flight Check
 
 Before planning, handle the current Today.md appropriately:
 
 1. Get **today's actual date** using `date +"%Y-%m-%d"` (current calendar date)
 2. Get the **target date** from the Target Date Resolution above
-3. Read `00_Brain/Captive/Today.md` and extract the `date` from frontmatter (if it exists)
+3. Read `$VAULT/00_Brain/Captive/Today.md` and extract the `date` from frontmatter (if it exists)
 
 **If target date is TODAY:**
    a. If Today.md date matches today → note was already created, ask user if they want to regenerate
    b. If Today.md date is older:
-      - Check if archive exists at `00_Brain/Periodic/Daily/{Today.md date}.md`
+      - Check if archive exists at `$VAULT/00_Brain/Periodic/Daily/{Today.md date}.md`
       - If archive exists and content matches → already digested, proceed
       - If archive exists but content differs → **STOP**: "The note from {date} has changes that aren't archived yet. Please run daily-review first, or confirm you want to discard those changes."
       - If no archive exists → **STOP**: "The note from {date} hasn't been digested yet. Please run daily-review first, or confirm you want to skip archiving."
@@ -44,7 +64,7 @@ Before planning, handle the current Today.md appropriately:
 
 **If target date is FUTURE (tomorrow, Monday, specific future date):**
    a. Read Today.md content as **context source** (work completed before target date)
-   b. Check if target date already has an archive at `00_Brain/Periodic/Daily/{target-date}.md`:
+   b. Check if target date already has an archive at `$VAULT/00_Brain/Periodic/Daily/{target-date}.md`:
       - If archive exists → Ask: "A plan for {target-date} already exists in the archive. Do you want to regenerate it?"
    c. Warn user: "Planning for {target-date} will overwrite Today.md. The current Today.md ({Today.md date}) content will be used as context. Make sure yesterday's work is archived if needed."
    d. Proceed only if user confirms
@@ -78,7 +98,7 @@ Collect information to inform planning for the **target date**:
 
    **Discover meeting types from template:**
 
-   Read `00_Brain/Systemic/Templates/Captive/today.md` and parse the `## Meetings` section.
+   Read `$VAULT/00_Brain/Systemic/Templates/Captive/today.md` and parse the `## Meetings` section.
    For each `### ...` heading found, extract:
    - The heading pattern (e.g., `[Meeting Name/Topic]`, `[[PersonName]]`)
    - The template content (everything until next `###` or `---`)
@@ -100,28 +120,28 @@ Collect information to inform planning for the **target date**:
    For `[[PersonName]]` templates, extract the other person's name using `user_name` from calendars.json.
 
 3. **Review prior work** (context from Today.md):
-   - Read `00_Brain/Captive/Today.md` to see the most recent work content
+   - Read `$VAULT/00_Brain/Captive/Today.md` to see the most recent work content
    - This serves as context regardless of whether target date is today or future
    - Note completed items, wins, and any actions that need follow-up
    - Look for unfinished priorities that may carry forward to target date
 
 4. **Review recent Periodic archives** (for context):
-   - Check recent files in `00_Brain/Periodic/Daily/` relative to the target date
-   - Review `00_Brain/Captive/Week.md` for weekly context
+   - Check recent files in `$VAULT/00_Brain/Periodic/Daily/` relative to the target date
+   - Review `$VAULT/00_Brain/Captive/Week.md` for weekly context
 
 5. **Scan active projects**:
-   - List files in `01_Projects/` to see current commitments
+   - List files in `$VAULT/01_Projects/` to see current commitments
    - Optionally read project files if user mentions specific projects
 
 6. **Check ongoing areas**:
-   - List files in `02_Areas/Insights/` and `02_Areas/People/` to understand ongoing themes and relationships
+   - List files in `$VAULT/02_Areas/Insights/` and `$VAULT/02_Areas/People/` to understand ongoing themes and relationships
    - Consider what areas need attention today
 
 7. **Load coaching context**:
-   - Read `00_Brain/Captive/Year.md` for:
+   - Read `$VAULT/00_Brain/Captive/Year.md` for:
      - Key Annual Goals
      - Leadership Development (current focus, leadership identity, growth edge)
-   - Read `00_Brain/Captive/Quarter.md` for:
+   - Read `$VAULT/00_Brain/Captive/Quarter.md` for:
      - Key Outcomes This Quarter
      - Coaching Themes (patterns to watch, questions that serve me)
    - If sections are empty or contain only placeholders, note this for later and use generic prompts
@@ -209,7 +229,7 @@ Engage the user to plan for the **target date**:
 
 ### 4. Generate Daily Plan
 
-Read `00_Brain/Systemic/Templates/Captive/today.md` as the single source of truth for structure.
+Read `$VAULT/00_Brain/Systemic/Templates/Captive/today.md` as the single source of truth for structure.
 
 1. **Fill frontmatter** using the template's frontmatter keys:
    - Copy the exact keys from the template (date, day, week, month, quarter, energy, location, focus_hours, meetings)
@@ -245,7 +265,7 @@ Read `00_Brain/Systemic/Templates/Captive/today.md` as the single source of trut
 
 ### 5. Write and Confirm
 
-1. Write the complete daily plan to `00_Brain/Captive/Today.md`
+1. Write the complete daily plan to `$VAULT/00_Brain/Captive/Today.md`
    - Note: Today.md represents "the active working day" which is now the target date
 2. Confirm with the user:
    - Show the target date: "Plan created for **{target_date} ({day_name})**"
