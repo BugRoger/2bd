@@ -27,6 +27,14 @@ year: YYYY
 
 ---
 
+## Key Dates
+
+- [Populated during monthly planning from Quarter + Year + Calendar + Projects]
+
+*Key deadlines, workshops, conferences, All-Hands for this month*
+
+---
+
 ## Weekly Progress
 
 ### Week 1
