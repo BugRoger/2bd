@@ -8,7 +8,7 @@ argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
 
 Help the user plan their day.
 
-## What I Need
+## Context
 
 - Calendar events for the day
 - User's directives and preferences
@@ -19,7 +19,7 @@ Help the user plan their day.
 - People files for anyone with 1:1 meetings
 - Active project files
 
-## Pre-Flight Check
+## Validate
 
 Check if Today.md already exists for the target date. If it does:
 - Check if its date is in the past (older than target date)
@@ -30,48 +30,33 @@ Check if Today.md already exists for the target date. If it does:
   - Update existing plan
   - Start fresh (clear and rewrite)
 
-If calendar is unavailable, note that and proceed without it.
-
-## Planning Session
+## Session
 
 Greet the user using their preferred name from directives.
 
 We're planning their day for the target date.
 
-### Review Context
+### Context From Above
 
-**Calendar:** Review the calendar. What meetings do they have?
+Present a focused Top 3 Context Summary (this will go directly into the template's "Context From Above" section):
 
-**Weekly Context:** Review Week.md. Present:
-- Focus Theme — What this week is about
-- Key Outcomes — The three weekly outcomes
-- Leadership Intention — Weekly stance
-- Patterns to Watch — From coaching check-in
+1. **This Week's Focus**
+   - Key outcome (from Week.md Key Outcomes - pick most relevant)
+   - Weekly theme (from Week.md Focus Theme)
 
-**Monthly Context:** Review Month.md if available. Present:
-- Monthly Theme — What this month is about
-- Key Outcomes — The three monthly outcomes
+2. **Critical Projects**
+   - List ONLY overdue or due-soon projects (no icons)
+   - Include next milestone for each
+   - If none are urgent, list top 1-2 active projects
 
-**Quarterly Context:** Review Quarter.md if available. Present:
-- Patterns to Watch — Self-awareness patterns for coaching
-- Questions That Serve Me — Coaching questions for reflection
+3. **Growth Edge**
+   - Single most relevant pattern to watch (from Quarter.md or Week.md)
 
-**Active Projects:** Review active project files.
-- List all active projects with timeline urgency
-- Flag overdue (❗️) and due-soon (⚠️) projects
-- Show next milestone for each
+### Focus
 
-**1:1 Meeting Context:** For each 1:1 meeting on the calendar:
-- Review their People file
-- Mention context (last interaction, ongoing topics)
+Ask about energy level, work location, and any deadlines or constraints. These will populate the frontmatter (energy: High/Medium/Low, location: Home/Office/Travel/Other). Also calculate focus_hours from calendar gaps and count meetings.
 
-### Context Questions
-
-Ask about energy level, work location, and any deadlines or constraints. For scheduled 1:1s, ask what the user wants to focus on with that person.
-
-### Priorities
-
-Review hierarchical context and active projects. Identify three outcomes:
+**Priorities:** Review hierarchical context and active projects. Identify three outcomes (these become "Top Priorities" in the template):
 
 1. **Must happen** — The critical outcome that defines success. Connect to weekly key outcomes or overdue/due-soon projects when relevant.
 2. **Team/strategic** — Work that moves the team or strategy forward. Align with monthly theme or weekly focus.
@@ -79,9 +64,7 @@ Review hierarchical context and active projects. Identify three outcomes:
 
 Frame these as outcomes, not tasks. What will be different by end of day?
 
-### Leadership Intention
-
-Suggest 2-3 intentions based on the day's shape:
+**Leadership Intention:** Suggest 2-3 intentions based on the day's shape (user chooses one for the template):
 
 - Heavy meetings → Present, Listening, Patient
 - Many 1:1s → Supportive, Coaching, Curious
@@ -89,68 +72,48 @@ Suggest 2-3 intentions based on the day's shape:
 - Low energy → Sustainable, Boundaries, Selective
 - Light calendar → Creative, Ambitious, Momentum
 
-### Coaching Prompts
+### Meetings
 
-Generate personalized prompts for Wins and Insights sections, connecting to:
+**Calendar Review:** Review the calendar. What meetings do they have (exclude routine items that don't need notes: Lunch, Focus Work/Time, Prep/Preparation, Blockers, Break, Coffee)?
 
-**For Wins:**
+**1:1 Context:** For each 1:1 meeting on the calendar:
+- Review their People file thoroughly
+- Present enriched context:
+  - Last interaction date
+  - Active topics or ongoing conversations
+  - Related projects they're involved in
+  - Recent wins, blockers, or updates worth mentioning
+  - If direct report: current team/project status context
+- Ask what the user wants to focus on with that person
+
+In the template, create a section for each meeting using the appropriate format (Person template for 1:1s with enriched context as a comment above, standard meeting template for group meetings, interview template if applicable).
+
+### Wins
+
+Generate personalized coaching prompts for the Wins section of the template, connecting to:
 - Priorities and leadership intention
 - Weekly key outcomes and focus theme
 - Active project milestones approaching
 - Key interactions and 1:1 opportunities
 
-**For Insights:**
+### Insights
+
+Generate personalized coaching prompts for the Insights section of the template, connecting to:
 - Patterns to watch (from Week.md coaching check-in)
 - Monthly theme alignment
 - Leadership development themes
 - Day-type context (meeting-heavy, deadline, creative)
 
-## Generate Plan
+## Compose
 
-Use the Today.md template as the source of truth. Fill:
+Build the complete Today.md file using all content from the session above:
+- Fill frontmatter with calculated date fields (YYYY-MM-DD, day name, ISO week, month, quarter)
+- Include standard navigation links
+- Write all sections in template order: Context From Above, Focus, Meetings, Capture (empty), Wins, Insights, Changelog (empty)
 
-**Frontmatter:**
-- date: Target date (YYYY-MM-DD)
-- day: Day of week name
-- week: ISO week (YYYY-Www)
-- month: YYYY-MM
-- quarter: YYYY-QN
-- energy: Ask user (High/Medium/Low)
-- location: Ask user (Home/Office/Travel/Other)
-- focus_hours: Calculate from calendar gaps
-- meetings: Count from calendar
+## Persist
 
-**Context From Above:**
-- Week Theme (from Week.md focus theme)
-- Week Outcomes (from Week.md key outcomes)
-- Month Theme (from Month.md monthly theme)
-- Quarter Patterns to Watch (from Quarter.md)
-- Active Projects (urgent/due-soon projects flagged ❗️⚠️)
-
-**Focus:**
-- Fill Top Priorities with the three outcomes discussed
-- Fill Leadership Intention with chosen stance
-
-**Meetings:**
-- For each calendar event, add appropriate template section
-- 1:1s use the Person template with check-in structure
-- Group meetings use standard meeting template
-- Interviews use interview template if applicable
-
-**Wins:**
-- Fill with generated coaching prompts from planning session
-
-**Insights:**
-- Fill with generated coaching prompts from planning session
-
-**Capture, Changelog:**
-- Leave empty for user to fill during the day
-
-Build the complete Today.md content.
-
-## Save Plan
-
-Write Today.md to Captive with the generated plan content.
+Write Today.md to Captive.
 
 ## Confirm
 
