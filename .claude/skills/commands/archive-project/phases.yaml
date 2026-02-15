@@ -9,7 +9,7 @@ phases:
       - skill: _sub/fetch-config
         type: explore
         output: VAULT
-      - skill: _sub/fetch-projects
+      - skill: _sub/fetch-projects-vault
         type: explore
         args: "scope=active"
         output: PROJECTS
