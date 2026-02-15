@@ -22,7 +22,18 @@ An annual ritual to set vision, theme, annual goals, and leadership development 
 
 ---
 
-## Pre-flight
+## Context
+
+The orchestrator loads:
+- Vault configuration and target year resolution
+- User directives and preferences
+- Prior year synthesis (if available from gather-year-context)
+- Active projects
+- Current Year.md state
+
+---
+
+## Validate
 
 Before overwriting the current Year.md, verify its state:
 
@@ -32,7 +43,7 @@ Before overwriting the current Year.md, verify its state:
 
 ---
 
-## Planning Session
+## Session
 
 ### Prior Year Synthesis
 
@@ -171,7 +182,7 @@ This sketch provides context but doesn't lock in commitments.
 
 ---
 
-## Generate
+## Compose
 
 Use the Year.md template as the source of truth. Fill:
 
@@ -182,6 +193,12 @@ Use the Year.md template as the source of truth. Fill:
 - **Quarterly Progress** sections with the sketched direction (to be filled during quarterly reviews)
 - **Annual Wins** sections empty (filled during yearly review)
 - **Reflections** sections empty (filled during yearly review)
+
+---
+
+## Persist
+
+Write the generated Year.md to `$VAULT/00_Brain/Captive/Year.md`.
 
 ---
 
