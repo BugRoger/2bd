@@ -36,33 +36,33 @@ If calendar is unavailable, note that and proceed without it.
 
 Greet the user using their preferred name from directives.
 
-We're planning their day for the target date from memory.md.
+We're planning their day for the target date.
 
 ### Review Context
 
-**Calendar:** Load the calendar from session. What meetings do they have?
+**Calendar:** Review the calendar. What meetings do they have?
 
-**Weekly Context:** Load Week.md from vault (path in memory.md). Present:
+**Weekly Context:** Review Week.md. Present:
 - Focus Theme — What this week is about
 - Key Outcomes — The three weekly outcomes
 - Leadership Intention — Weekly stance
 - Patterns to Watch — From coaching check-in
 
-**Monthly Context:** Load Month.md if available (path in memory.md). Present:
+**Monthly Context:** Review Month.md if available. Present:
 - Monthly Theme — What this month is about
 - Key Outcomes — The three monthly outcomes
 
-**Quarterly Context:** Load Quarter.md if available (path in memory.md). Present:
+**Quarterly Context:** Review Quarter.md if available. Present:
 - Patterns to Watch — Self-awareness patterns for coaching
 - Questions That Serve Me — Coaching questions for reflection
 
-**Active Projects:** Review active project files (paths in memory.md).
+**Active Projects:** Review active project files.
 - List all active projects with timeline urgency
 - Flag overdue (❗️) and due-soon (⚠️) projects
 - Show next milestone for each
 
 **1:1 Meeting Context:** For each 1:1 meeting on the calendar:
-- Load that person's file (path in memory.md)
+- Review their People file
 - Mention context (last interaction, ongoing topics)
 
 ### Context Questions
