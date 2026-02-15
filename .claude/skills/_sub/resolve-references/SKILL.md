@@ -55,7 +55,7 @@ The skill writes to stdout as markdown (orchestrator captures this via Task tool
 - **team-restructure**: /path/to/vault/01_Projects/2026-04-15-team-restructure.md ✓
 ```
 
-The orchestrator includes this output in memory.md for the inline phase to reference.
+The orchestrator includes this output in the conversation history.
 
 ## Error Handling
 
@@ -112,21 +112,21 @@ The orchestrator:
 2. Spawns fetch-calendar sub-skill if calendar data needed (writes to temp file)
 3. Spawns this skill with target_date and optional calendar file path
 4. Captures stdout markdown output via Task tool result
-5. Includes output in memory.md under "## Vault References" section
-6. Inline phase reads memory.md to see what's available
+5. Includes output in conversation history
+6. Skills reference context naturally from conversation
 
-The inline phase skill instructions can naturally reference:
-- "Load Week.md for context" → skill reads path from memory.md
-- "For each 1:1 person, check their file" → paths listed in memory.md
-- "Review active projects" → paths available in memory.md
+Skills can naturally reference:
+- "Load Week.md for context" → path already in conversation
+- "For each 1:1 person, check their file" → paths listed in conversation
+- "Review active projects" → paths available in conversation
 
 ## Notes
 
 - Uses bash test commands for file existence checks
 - Uses grep and sed for parsing markdown and frontmatter
 - Gracefully handles missing optional files (calendar, people, projects)
-- Output is designed to be included directly in memory.md
-- All paths are absolute for easy reference by inline phase
+- Output is included directly in conversation history
+- All paths are absolute for easy reference
 - Status indicators (✓/✗) provide immediate visibility
 - People extraction uses fuzzy matching (case-insensitive find)
 - Projects are filtered to active status only
