@@ -46,7 +46,7 @@ Skills are organized by type:
 .claude/skills/
 ├── rituals/              # Scheduled routines (planning-daily, review-weekly, etc.)
 ├── commands/             # One-shot helpers (init, migrate, onboard-person)
-├── _sub/                 # Composable building blocks (fetch-*, gather-*, archive-*, write-*)
+├── _sub/                 # Composable building blocks (archive-*, write-*, fetch-calendar)
 └── _dev/                 # Development-time skills
 ```
 
@@ -74,10 +74,9 @@ Skills are organized by type:
 │       │   ├── init/         # Bootstrap or configure vault
 │       │   └── migrate/      # Migrate from combined repo
 │       ├── _sub/
-│       │   ├── fetch-dates/
 │       │   ├── fetch-calendar/
-│       │   ├── gather-week-context/
-│       │   └── archive-daily/   # etc.
+│       │   ├── archive-daily/
+│       │   └── write-captive-note/   # etc.
 │       └── _dev/
 │           └── sync-templates/
 │
@@ -113,9 +112,9 @@ Skills are organized by type:
 Skills should read as plain prose describing *what happens*, not scripts with execution directives.
 
 **Do:**
-- Write descriptive prose: "Load config to get the vault path. Validate the structure exists."
-- Organize into sections describing the flow: Setup, Interview, Output
-- Reference sub-skills naturally: "Load config using `_sub/fetch-config`"
+- Write descriptive prose: "Load the vault path from context. Validate the structure exists."
+- Organize into sections describing the flow: Context, Validate, Session, Compose, Persist, Confirm
+- Reference context naturally: "Review the calendar", "Load Week.md"
 - Keep skills scannable — a reader should understand the flow without running it
 
 **Don't:**
@@ -219,56 +218,43 @@ Actions are one-shot helpers invoked on-demand.
 
 ### Creating Sub-skills
 
-Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals internal/system.
+Sub-skills are composable building blocks for operations the orchestrator cannot handle. Underscore prefix (`_sub/`) signals internal/system.
 
-**Categories:**
+**Current Sub-Skills:**
 
 | Category | Purpose | Examples |
 |----------|---------|----------|
-| `_sub/gather-*` | Content combination and transformation | gather-week-context, gather-month-context, gather-key-dates |
-| `_sub/fetch-*` | Data retrieval from system or external sources | fetch-dates, fetch-calendar, fetch-config |
-| `_sub/archive-*` | Archive operations | archive-daily, archive-weekly |
-| `_sub/write-*` | Write operations | write-captive-note |
+| `_sub/archive-*` | Archive operations (Captive → Periodic) | archive-daily, archive-weekly, archive-monthly |
+| `_sub/write-*` | File creation operations | write-captive-note |
 | `_sub/append-*` | Append operations | append-changelog |
+| `_sub/extract-*` | Content extraction and transformation | extract-to-areas |
+| `_sub/update-*` | Semantic note updates | update-semantic |
+| `_sub/fetch-calendar` | External calendar API access | fetch-calendar (via ekctl) |
+| `_sub/project-sync-*` | External system integration | project-sync-finder, project-sync-outlook |
+| `_sub/resolve-references` | Wikilink and embed resolution | resolve-references |
+| `_sub/apply-writing-style` | Prose quality enhancement | apply-writing-style |
+
+**Note:** The orchestrator handles most data loading (config, directives, vault files, date resolution). Only create _sub/ skills for complex operations the orchestrator cannot perform.
 
 **Creating:**
 
-1. Create folder in `.claude/skills/_sub/` with appropriate prefix (fetch-, gather-, archive-, write-)
+1. Create folder in `.claude/skills/_sub/` with appropriate prefix (archive-, write-, fetch-, etc.)
 
 2. Add `SKILL.md`:
    ```yaml
    ---
-   name: fetch-dates
-   description: Get today's date in all required formats
+   name: archive-daily
+   description: Move Today.md to Periodic/Daily/
    disable-model-invocation: true  # Invoked by other skills
-   allowed-tools: Bash(date *)
+   allowed-tools: Bash(mv, cp)
    ---
    ```
 
 3. Keep scope narrow — one well-defined operation per sub-skill
 
-4. Design for composition: stateless input/output, no side effects
+4. Design for composition: stateless input/output, minimal side effects
 
-5. Return structured JSON output for orchestrator consumption:
-   ```json
-   {
-     "success": true,
-     "key": "value"
-   }
-   ```
-
-**Referencing in rituals/actions (legacy pattern):**
-
-```markdown
-### 1. Gather Context
-
-**Use sub-skill: `_sub/fetch-dates`**
-- Get today's date information in all required formats
-
-**Use sub-skill: `_sub/gather-context`**
-- Scope: day
-- Returns: yesterday's work, recent archives, active projects
-```
+5. Return structured output when appropriate (not all sub-skills need JSON)
 
 ---
 
@@ -442,6 +428,8 @@ Sub-skills run as isolated subagents and return markdown to the orchestrator.
 **External Data Sub-Skills:**
 - `_sub/fetch-calendar` - Calendar events via ekctl
 - `_sub/fetch-qmd` - Search results from QMD (future)
+
+**Note:** Session directory creation and date resolution are now handled directly by the orchestrator, not by sub-skills.
 
 **Subagent Pattern:**
 
@@ -635,27 +623,25 @@ Directives personalize how Claude interacts with the user. Located in `$VAULT/00
 
 ### Loading Directives in Skills
 
-User-facing skills should load directives as their first step:
+Rituals and user-facing skills automatically receive directives through the orchestrator's context loading. The orchestrator pre-loads directives into the conversation before skill execution.
+
+**Context Declaration:**
 
 ```markdown
-### 0. Load Directives
+## Context
 
-**Use sub-skill: `_sub/fetch-directives`**
+- User's directives and preferences
+- Calendar events for the day
+- Week.md for weekly context
+```
 
-Apply throughout this ritual:
+**Usage in Skills:**
+
+Apply throughout the ritual:
 - Use `user.preferred_name` in greetings
 - Reference `user.leadership_identity` for intentions
 - Use `user.growth_edge` and `user.patterns_to_watch` for coaching
 - Adapt tone based on `ai.formality`, `ai.directness`, `ai.humor`
-```
-
-**When to load:**
-
-| Skill Type | Load Directives? | Reason |
-|------------|-----------------|--------|
-| Rituals | Always | Coaching context is essential |
-| Actions | Usually | Personalization improves UX |
-| Sub-skills | Rarely | Data operations, not conversations |
 
 **Graceful degradation:** If directives don't exist, proceed with defaults and suggest running `/init`.
 

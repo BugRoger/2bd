@@ -8,9 +8,12 @@ argument-hint: "[firstname-lastname]"
 
 Create a living dossier for a colleague through a guided interview.
 
-## Setup
+## Context
 
-Load config using `_sub/fetch-config` to get the vault path. Error if no vault is configured.
+- Vault configuration and path
+- User directives and preferences
+
+## Setup
 
 If a name is provided as argument (e.g., `sarah-kim`), use it as the filename. Otherwise, ask for the name and derive the filename.
 

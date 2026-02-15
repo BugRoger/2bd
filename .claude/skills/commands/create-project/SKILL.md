@@ -4,33 +4,17 @@ description: Create a new project with guided setup. Syncs to vault (and future:
 argument-hint: "[project-name]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Create Project Command
 
 Interactive wizard for creating new projects with full lifecycle support.
 
-## Flow Overview
+## Context
 
-```
-Setup → Interact (wizard) → Generate → Sync → Confirm
-```
-
-1. **Setup** - Fetch configuration and existing projects
-2. **Interact** - Walk through wizard questions with user
-3. **Generate** - Build project data object from responses
-4. **Sync** - Create artifacts in vault (and future integrations)
-5. **Confirm** - Show summary of created artifacts
-
----
-
-## Setup Phase
-
-Load configuration and existing projects to:
-- Get vault path for file creation
-- Check for duplicate project slugs
-- Show context of existing active projects
+- Vault configuration and path
+- Existing active projects
+- User directives and preferences
 
 ---
 

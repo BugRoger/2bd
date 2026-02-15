@@ -4,7 +4,6 @@ description: Review and archive a year's work. Synthesizes quarterly archives in
 argument-hint: "[target-year: (empty)|this year|last year|YYYY]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Yearly Review
@@ -18,19 +17,6 @@ Capstone ritual for synthesizing an entire year's work, reflecting on annual goa
 - Quarterly archives from Periodic/Quarterly/
 - Active project files
 - Existing yearly archive if re-reviewing
-
----
-
-## Flow
-
-1. **Setup** — Load config, dates, directives
-2. **Load** — Parse Year.md content
-3. **Gather** — Collect year context from quarterly archives
-4. **Pre-flight** — Verify year state, check for conflicts
-5. **Interact** — Guide reflection (see [coaching.md](coaching.md))
-6. **Synthesize** — Prepare semantic note updates (parallel)
-7. **Confirm** — Present changes for approval
-8. **Write** — Archive to Periodic, update semantic notes
 
 ---
 

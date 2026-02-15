@@ -1,8 +1,10 @@
+> **DEPRECATED:** This design was superseded by conversation-history-design.md. Session directories were eliminated in favor of conversation history as state.
+
 # Orchestrator Engine Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Implement hook-based prose orchestration engine to make `orchestrated: true` skills functional.
+**Goal:** Implement hook-based prose orchestration engine to make `orchestrated: true` skills functional. (DEPRECATED)
 
 **Architecture:** Hook detects `orchestrated: true` in skill frontmatter, prepends orchestrator SKILL.md as prose instructions for Claude, Claude interprets and coordinates sub-skills naturally.
 

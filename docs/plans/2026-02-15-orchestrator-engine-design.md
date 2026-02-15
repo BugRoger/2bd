@@ -1,7 +1,9 @@
+> **DEPRECATED:** This design was superseded by conversation-history-design.md. Session directories were eliminated in favor of conversation history as state.
+
 # Orchestrator Engine: Hook-Based Prose Orchestration
 
 **Date:** 2026-02-15
-**Status:** Design
+**Status:** Design (Deprecated)
 **Context:** Implementing the orchestrator engine to make prose-driven orchestration functional
 
 ---

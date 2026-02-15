@@ -1,8 +1,10 @@
+> **DEPRECATED:** This design was superseded by conversation-history-design.md. Session directories were eliminated in favor of conversation history as state.
+
 # Orchestrator Redesign Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Redesign skill orchestration to use pure declarative prose with markdown-based context assembly instead of JSON parsing and variable interpolation.
+**Goal:** Redesign skill orchestration to use pure declarative prose with markdown-based context assembly instead of JSON parsing and variable interpolation. (DEPRECATED)
 
 **Architecture:** Skills declare needs in prose ("What I Need" sections), orchestrator resolves arguments and spawns subagents to fulfill needs, session directory contains only external data with memory.md as index, inline phases read markdown incrementally.
 

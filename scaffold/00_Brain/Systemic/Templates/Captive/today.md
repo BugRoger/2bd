@@ -15,9 +15,8 @@ meetings: 0
 ---
 
 ## Context From Above
-> **Week Theme:** [From Week.md Focus Theme]
-> **Week Outcomes:** [From Week.md Key Outcomes]
-> **Quarter Patterns to Watch:** [From Quarter.md Coaching Themes]
+> **This Week's Focus:** [Key outcome + theme from Week.md]
+> **Growth Edge:** [Pattern to watch from Quarter.md or Week.md]
 
 ---
 

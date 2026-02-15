@@ -4,33 +4,17 @@ description: Archive a completed project. Captures final summary and moves to ar
 argument-hint: "[project-slug]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Archive Project Command
 
 Interactive workflow for archiving completed projects with summary capture and vault sync.
 
-## Flow Overview
+## Context
 
-```
-Setup → Select → Interact (summary) → Generate → Sync → Confirm
-```
-
-1. **Setup** - Fetch configuration and active projects list
-2. **Select** - Present active projects, user picks one to archive
-3. **Interact** - Walk through summary questions with user
-4. **Generate** - Build archive data object from responses
-5. **Sync** - Move to vault archive (and future integrations)
-6. **Confirm** - Show summary of archived artifacts
-
----
-
-## Setup Phase
-
-Load configuration and active projects:
-- Get vault path for file operations
-- Fetch list of active projects for selection
+- Vault configuration and path
+- Active projects list
+- User directives and preferences
 
 ---
 

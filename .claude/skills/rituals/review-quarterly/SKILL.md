@@ -4,7 +4,6 @@ description: Review and archive a quarter's work. Synthesizes monthly archives i
 argument-hint: "[target-quarter: (empty)|this quarter|last quarter|YYYY-QN]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Quarterly Review
@@ -16,21 +15,9 @@ Evening ritual for synthesizing a quarter's work, reflecting on outcomes and lea
 - Quarter.md file for the target quarter
 - User's directives and preferences
 - Monthly archives from Periodic/Monthly/
+- Year.md for annual context
 - Active project files
 - Existing quarterly archive if re-reviewing
-
----
-
-## Flow
-
-1. **Setup** — Load config, dates, directives
-2. **Load** — Parse Quarter.md content
-3. **Gather** — Collect quarter context from monthly archives
-4. **Pre-flight** — Verify quarter state, check for conflicts
-5. **Interact** — Guide reflection (see [coaching.md](coaching.md))
-6. **Synthesize** — Prepare semantic note updates (parallel)
-7. **Confirm** — Present changes for approval
-8. **Write** — Archive to Periodic, update semantic notes
 
 ---
 

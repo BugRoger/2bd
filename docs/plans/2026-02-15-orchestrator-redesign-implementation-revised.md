@@ -1,8 +1,10 @@
+> **DEPRECATED:** This design was superseded by conversation-history-design.md. Session directories were eliminated in favor of conversation history as state.
+
 # Orchestrator Redesign Implementation Plan (Revised)
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Complete the prose-driven orchestration by implementing the orchestrator engine that reads "What I Need" sections and coordinates existing sub-skills.
+**Goal:** Complete the prose-driven orchestration by implementing the orchestrator engine that reads "What I Need" sections and coordinates existing sub-skills. (DEPRECATED)
 
 **Architecture:** Skills declare needs in prose ("What I Need" sections), orchestrator interprets needs using Claude's natural understanding, spawns existing sub-skills in parallel to fulfill needs, builds memory.md as session index.
 

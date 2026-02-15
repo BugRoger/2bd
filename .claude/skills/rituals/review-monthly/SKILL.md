@@ -4,7 +4,6 @@ description: Review and archive a month's work. Synthesizes weekly archives into
 argument-hint: "[target-month: (empty)|last month|YYYY-MM]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Monthly Review
@@ -16,21 +15,9 @@ Evening ritual for synthesizing a month's work, reflecting on outcomes and growt
 - Month.md file for the target month
 - User's directives and preferences
 - Weekly archives from Periodic/Weekly/
+- Quarter.md for quarterly context
 - Active project files
 - Existing monthly archive if re-reviewing
-
----
-
-## Flow
-
-1. **Setup** — Load config, dates, directives
-2. **Load** — Parse Month.md content and weekly archives
-3. **Gather** — Collect month context from weekly archives
-4. **Pre-flight** — Verify month state, check for conflicts
-5. **Interact** — Guide reflection (see [coaching.md](coaching.md))
-6. **Synthesize** — Prepare semantic note updates (parallel)
-7. **Confirm** — Present changes for approval
-8. **Write** — Archive to Periodic, update semantic notes
 
 ---
 

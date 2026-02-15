@@ -1,7 +1,9 @@
+> **DEPRECATED:** This design was superseded by conversation-history-design.md. Session directories were eliminated in favor of conversation history as state.
+
 # Orchestrator Redesign: Prose-Driven Context Assembly
 
 **Date:** 2026-02-15
-**Status:** Design
+**Status:** Design (Deprecated)
 **Context:** Simplifying skill orchestration by separating declarative intent from implementation
 
 ---

@@ -4,27 +4,20 @@ description: Plan a month's outcomes, theme, and priorities aligned with quarter
 argument-hint: "[target-month: this month|next month|YYYY-MM]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Monthly Planning
 
 A first-of-month ritual to set monthly theme, outcomes, and priorities aligned with quarterly and annual goals. Designed for planning at month boundaries.
 
-## Flow
-
-1. **Setup** — Load vault config, resolve target month, load directives
-2. **Gather** — Fetch quarter/year context, prior month synthesis, active projects, current month state
-3. **Pre-flight** — Verify Month.md state, handle existing content
-4. **Plan** — Present hierarchical context, review prior month, set outcomes, choose theme, generate coaching prompts
-5. **Write** — Generate and save the plan
-6. **Confirm** — Summarize outcomes, theme, and focus areas
-
----
-
 ## Context
 
-The orchestrator has loaded hierarchical planning context (Quarter.md, Year.md), prior month synthesis, active projects, and directives into the session.
+- Quarter.md for quarterly context
+- Year.md for annual context
+- User's directives and preferences
+- Prior month archive (if exists)
+- Active project files
+- Current Month.md (may need archiving)
 
 ---
 

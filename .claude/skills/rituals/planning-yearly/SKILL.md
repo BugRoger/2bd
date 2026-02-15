@@ -4,32 +4,18 @@ description: Plan a year's vision, theme, and leadership development focus. The 
 argument-hint: "[target-year: this year|next year|YYYY]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Yearly Planning
 
 An annual ritual to set vision, theme, annual goals, and leadership development focus. The highest-level planning ritual that establishes direction for all quarters.
 
-## Flow
-
-1. **Setup** — Load vault config, resolve target year, load directives
-2. **Gather** — Fetch prior year synthesis, active projects, current year state
-3. **Pre-flight** — Verify Year.md state, handle existing content
-4. **Plan** — Synthesize prior year, check in on life context, establish vision, set goals, define leadership development
-5. **Write** — Generate and save the plan
-6. **Confirm** — Summarize vision, goals, and leadership focus
-
----
-
 ## Context
 
-The orchestrator loads:
-- Vault configuration and target year resolution
 - User directives and preferences
-- Prior year synthesis (if available from gather-year-context)
+- Prior year archive (if exists)
 - Active projects
-- Current Year.md state
+- Current Year.md state (if exists)
 
 ---
 

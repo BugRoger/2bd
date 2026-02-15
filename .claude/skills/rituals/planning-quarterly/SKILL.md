@@ -4,33 +4,19 @@ description: Plan a quarter's outcomes, theme, and coaching focus aligned with a
 argument-hint: "[target-quarter: this quarter|next quarter|YYYY-QN]"
 metadata:
   orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Quarterly Planning
 
 A start-of-quarter ritual to set quarterly theme, key outcomes, and coaching focus aligned with annual goals. Designed for planning at quarter boundaries.
 
-## Flow
-
-1. **Setup** — Load vault config, resolve target quarter, load directives
-2. **Gather** — Fetch year context, prior quarter synthesis, active projects, current quarter state
-3. **Pre-flight** — Verify Quarter.md state, handle existing content
-4. **Plan** — Present annual context, review prior quarter, set outcomes, choose theme, establish coaching themes
-5. **Write** — Generate and save the plan
-6. **Confirm** — Summarize outcomes, theme, and coaching focus
-
----
-
 ## Context
 
-This skill needs the following context (loaded by the orchestrator):
-
 - Year.md with annual goals and leadership development focus
-- Prior quarter data from gather-quarter-context sub-skill
-- Active project files from 01_Projects/
+- Prior quarter archive (if exists)
+- Active project files
 - Current Quarter.md state (if exists)
-- User directives from profile.md
+- User directives and preferences
 
 ---
 

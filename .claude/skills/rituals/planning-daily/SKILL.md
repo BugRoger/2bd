@@ -1,8 +1,9 @@
 ---
 name: planning-daily
 description: Morning ritual for planning the day
-orchestrated: true
 argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
+metadata:
+  orchestrated: true
 ---
 
 # Daily Planning
