@@ -289,7 +289,6 @@ Write Today.md to Captive with the plan.
 
 | Sub-Skill | Purpose | Output |
 |-----------|---------|--------|
-| `_sub/resolve-dates` | Parse time expressions | Returns date info as markdown |
 | `_sub/fetch-calendar` | Get calendar events | Returns calendar events as markdown |
 | `_sub/resolve-references` | Vault paths + entity discovery | Returns paths and file locations |
 
