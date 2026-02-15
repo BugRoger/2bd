@@ -24,47 +24,13 @@ Arguments are passed as key-value pairs:
 
 ## Instructions
 
-### 1. Validate Path
+Receive the vault path, target filename, and content to write. The path must be within the Captive directory (`$VAULT/00_Brain/Captive/`). If the path is outside Captive, return an error indicating the path must be within the Captive directory.
 
-Verify the path is within the Captive directory:
+If the file already exists, read the current content. If content is non-empty and different from the new content, create a backup at `{filename}.backup.md` in the same directory.
 
-```
-$VAULT/00_Brain/Captive/
-```
+Write the new content to the specified path. After writing, read back the file to confirm the write succeeded.
 
-If path is outside Captive, return error:
-```
-Error: Path must be within Captive directory. Got: {path}
-```
-
-### 2. Check Existing Content
-
-If the file already exists:
-
-1. Read current content
-2. If content is non-empty and different from new content:
-   - Create a backup at `{filename}.backup.md` in the same directory
-   - Log: "Backed up existing content to {backup_path}"
-
-### 3. Write Content
-
-Write the new content to the specified path.
-
-### 4. Verify Write
-
-Read back the file to confirm write succeeded.
-
-### 5. Append Changelog (if provided)
-
-If `changelog_skill` argument was provided:
-
-1. Call `append-changelog` sub-skill with:
-   - `path`: The file path just written
-   - `skill`: Value of `changelog_skill`
-   - `action`: Value of `changelog_action` (default: "Updated")
-   - `sections`: Value of `changelog_sections` (if provided)
-
-2. Include changelog result in output
+If a `changelog_skill` argument was provided, call the `append-changelog` sub-skill with the file path, skill name, action (defaulting to "Updated"), and sections if provided. Include the changelog result in the output.
 
 ## Output
 
