@@ -91,18 +91,23 @@ Skills declare context needs in natural language. The orchestrator interprets th
 
 #### Context Pre-Loading
 
-The orchestrator loads all context into the conversation before skill execution. Skills reference context naturally without mentioning orchestration mechanics.
+The orchestrator loads all context into the conversation history before skill execution. Skills reference context naturally without mentioning orchestration mechanics.
+
+**State is conversation history:**
+- All context is loaded via Read tool calls in the orchestrator conversation
+- Skills inherit full conversation history with all context already present
+- No session directories or intermediate files needed
 
 **Context references in skills:**
-- "Review the calendar" (not "Load calendar.md from session")
-- "Check Week.md" (not "Load Week.md from path in memory.md")
-- "If QMD results are available" (not "If resources.md exists in session")
+- "Review the calendar" (calendar loaded via Read in parent conversation)
+- "Check Week.md" (Week.md loaded via Read in parent conversation)
+- "If QMD results are available" (search results presented as text in conversation)
 
 **File writing in skills:**
-- "Write Today.md to Captive" (not bash commands with $SESSION_DIR)
-- "Update Week.md" (not manual path resolution)
+- "Write Today.md to Captive" (declarative; orchestrator resolves path and uses Write tool)
+- "Update Week.md" (declarative; orchestrator uses Edit tool with resolved path)
 
-The orchestrator translates these natural phrases into file operations.
+The orchestrator translates these natural phrases into tool calls with resolved absolute paths.
 
 **Detecting prose-driven skills:**
 
@@ -120,51 +125,19 @@ Skills with a "Context" section use prose-driven orchestration:
 
 **How orchestration works:**
 
-1. **Session Creation** - Orchestrator creates temp directory: `/tmp/2bd-session-{skill}-{timestamp}/`
-2. **Date Resolution** - Resolves time arguments (today, tomorrow, "next monday", YYYY-MM-DD) to concrete dates
-3. **Need Interpretation** - Parses prose needs and determines fulfillment strategy:
-   - "Calendar events" → spawn fetch-calendar sub-skill
-   - "Week.md" / "Month.md" → resolve vault paths
-   - "People files for 1:1s" → resolve from calendar + vault
-   - "Active projects" → scan vault for project files
-4. **Context Assembly** - Spawns sub-skills in parallel, builds `memory.md` with available context
-5. **Inline Execution** - Executes skill prose with session directory available
-
-**Session structure:**
-
-```
-/tmp/2bd-session-{skill}-{timestamp}/
-├── memory.md              # Index of available context
-├── dates.md               # Resolved time context (internal)
-├── calendar.md            # External: fetched calendar events
-└── resources.md           # External: QMD search results
-```
-
-**memory.md format:**
-
-```markdown
-# Session Memory: planning-daily (2026-02-17)
-
-## External Data Available
-### Calendar Events (calendar.md)
-3 events fetched for 2026-02-17
-
-## Vault Files Available
-### Configuration
-- **Directives**: /vault/00_Brain/Systemic/Directives/profile.md ✓
-
-### Working Notes
-- **Week.md**: /vault/00_Brain/Captive/Week.md ✓
-- **Today.md**: (new - will create)
-
-### People (from calendar 1:1s)
-- **Sarah Chen**: /vault/02_Areas/People/Sarah Chen.md ✓
-```
+1. **Date Resolution** - Resolves time arguments (today, tomorrow, "next monday", YYYY-MM-DD) to concrete dates
+2. **Need Interpretation** - Parses prose needs and determines fulfillment strategy:
+   - "Calendar events" → spawn fetch-calendar sub-skill, load output into conversation
+   - "Week.md" / "Month.md" → resolve vault paths, load via Read
+   - "People files for 1:1s" → resolve from calendar + vault, load via Read
+   - "Active projects" → scan vault for project files, load via Read
+3. **Context Assembly** - Spawns sub-skills in parallel, uses Read tool to load vault files
+4. **Inline Execution** - Executes skill prose with full conversation history containing all context
 
 **All context is pre-loaded into the conversation:**
-- The orchestrator loads all context before skill execution
-- Skills reference context naturally (e.g., "Review the calendar", "Check Week.md")
-- All external data and vault files are already present in the conversation
+- The orchestrator uses Read tool calls to load all requested context
+- Skills inherit the parent conversation with all context already present
+- All external data and vault files are already visible in conversation history
 - No manual loading or file operations needed within the skill prose
 
 **Benefits:**
@@ -172,6 +145,7 @@ Skills with a "Context" section use prose-driven orchestration:
 - **Natural language** - describe what you need, not how to get it
 - **Flexible fulfillment** - orchestrator chooses appropriate sub-skills
 - **Pre-loaded context** - all requested context available from the start
+- **Conversation history as state** - no session directories or intermediate files
 
 ### Key Paths
 
