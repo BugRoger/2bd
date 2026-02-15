@@ -1204,3 +1204,38 @@ If the new orchestrator has critical issues:
 2. **Parallel optimization:** More aggressive parallel subagent spawning
 3. **Smart inference:** Better entity resolution from context
 4. **User feedback:** Learn from corrections to improve need fulfillment
+
+---
+
+## Migration Status (2026-02-15)
+
+### Completed Infrastructure
+- ✅ create-session sub-skill - Creates temp session directories
+- ✅ resolve-dates sub-skill - Resolves flexible time expressions
+- ✅ resolve-references sub-skill - Discovers vault file paths
+- ✅ fetch-calendar sub-skill - Updated for session integration
+- ✅ test-orchestrator skill - Minimal validation skill
+- ✅ CLAUDE.md - Updated orchestration documentation
+- ✅ DEVELOPING.md - Updated developer guide
+
+### Migrated Skills
+- ✅ planning-daily - Full prose-driven migration with "What I Need" pattern
+
+### Remaining Skills (Still Using phases.yaml)
+- ⏳ review-daily
+- ⏳ planning-weekly, review-weekly
+- ⏳ planning-monthly, review-monthly
+- ⏳ planning-quarterly, review-quarterly
+- ⏳ planning-yearly, review-yearly
+- ⏳ create-project, archive-project
+
+### Next Steps
+1. **Implement orchestrator engine** - Core coordination logic to read "What I Need" and spawn sub-skills
+2. **Test end-to-end** - Validate planning-daily works with full orchestration
+3. **Migrate remaining rituals** - Follow planning-daily pattern
+4. **Remove phases.yaml files** - Clean up as skills are migrated
+
+### Notes
+- Orchestrator engine is the missing piece - infrastructure and one migrated skill are complete
+- All sub-skills and session patterns are in place
+- Ready for orchestrator engine implementation
