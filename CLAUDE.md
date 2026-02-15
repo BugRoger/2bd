@@ -101,7 +101,7 @@ The orchestrator loads all context into the conversation history before skill ex
 **Context references in skills:**
 - "Review the calendar" (calendar loaded via Read in parent conversation)
 - "Check Week.md" (Week.md loaded via Read in parent conversation)
-- "If QMD results are available" (search results presented as text in conversation)
+- "Check active projects" (project files loaded via Read in parent conversation)
 
 **File writing in skills:**
 - "Write Today.md to Captive" (declarative; orchestrator resolves path and uses Write tool)
