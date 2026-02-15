@@ -109,9 +109,8 @@ Each returns structured proposals for user approval.
 
 Execute confirmed writes:
 
-- Archive Month.md content to Periodic/Monthly/
 - Apply semantic note updates
-- Update Month.md with archived placeholder
+- Archive Month.md to Periodic/Monthly/{month}.md. Transform the content into the archive format, ensuring the target directory exists. Write the file and verify the write succeeded. Call append-changelog to record the archival. Replace Month.md in Captive with an archived placeholder.
 
 Report completion and suggest next steps:
 - Monthly planning when ready
@@ -163,4 +162,4 @@ Month.md + Weekly/*.md      Monthly/YYYY-MM.md          People/, Projects/,
 - **get-month-content**: Sub-skill that parses Month.md structure
 - **gather-month-context**: Sub-skill that collects weekly archives
 - **extract-to-areas**: Sub-skill that prepares semantic updates
-- **archive-monthly**: Sub-skill that handles Captive → Periodic transition
+- **append-changelog**: Sub-skill that records archival events
