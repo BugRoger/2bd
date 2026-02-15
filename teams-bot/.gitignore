@@ -23,3 +23,9 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Active sessions
+.active-session.json
+
+# Test files
+test-*.ts
