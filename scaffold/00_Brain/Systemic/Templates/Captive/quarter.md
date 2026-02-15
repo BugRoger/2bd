@@ -99,3 +99,9 @@ months: [YYYY-MM, YYYY-MM, YYYY-MM]
 
 ### Strategic Patterns
 [Long-term themes emerging, organizational direction, leadership insights, market or team trends]
+
+---
+
+## Changelog
+
+*Rituals append entries here*

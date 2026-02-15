@@ -87,3 +87,9 @@ quarters: [YYYY-Q1, YYYY-Q2, YYYY-Q3, YYYY-Q4]
 
 ### Looking Ahead
 [What carries forward? What's the trajectory?]
+
+---
+
+## Changelog
+
+*Rituals append entries here*

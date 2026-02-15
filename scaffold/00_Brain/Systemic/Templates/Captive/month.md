@@ -101,3 +101,9 @@ year: YYYY
 
 ### Patterns & Trends
 [Recurring themes across weeks, team dynamics evolution, organizational trends, seasonal patterns in your work or life]
+
+---
+
+## Changelog
+
+*Rituals append entries here*
