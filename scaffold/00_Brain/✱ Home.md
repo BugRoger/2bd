@@ -33,6 +33,6 @@ type: hub
 ## Quick Actions
 
 Run these in terminal:
-- `claude skill run rituals/planning/daily-planning`
-- `claude skill run rituals/review/daily-review`
-- `claude skill run actions/create-project "Project Name"`
+- `claude skill run rituals/planning-daily`
+- `claude skill run rituals/review-daily`
+- `claude skill run commands/create-project "Project Name"`

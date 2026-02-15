@@ -22,6 +22,11 @@ vault
 # Everything in scaffold/ IS tracked - it's the vault template
 
 # ============================================
+# Git Worktrees (development workspaces)
+# ============================================
+.worktrees/
+
+# ============================================
 # Editor and IDE files
 # ============================================
 .obsidian/
@@ -89,3 +94,4 @@ desktop.ini
 
 # Legacy Brain structure
 03_Resources/Brain/
+.claude/settings.json
