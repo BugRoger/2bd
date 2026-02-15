@@ -21,128 +21,15 @@ Arguments are passed as key-value pairs:
 
 ## Instructions
 
-### 1. Process People
+Receive the vault path, scope (day/week), people array, projects array, insights, and context data.
 
-For each person in `people` array:
+For each person in the people array, search for their file in `02_Areas/People/`. If not found, add to skipped with a suggestion to create the file. If found, gather all interactions with this person from the context, including meeting dates and topics, notable moments, and follow-up items. Prepare an update for the `update-semantic` sub-skill targeting the Interactions section, formatted according to the scope (weekly scope provides summarized date ranges, daily scope provides specific dates).
 
-#### 1.1 Find Person File
-```bash
-ls "$VAULT/02_Areas/People/"*.md | grep -i "{person_name}"
-```
+For each project in the projects array, search for their file in `01_Projects/`. If not found, add to skipped. If found, gather all progress mentions from the context, including strategic wins, priority completions, and blockers. Prepare an update targeting the Progress section, formatted according to the scope.
 
-If not found:
-- Log: "Person file not found for {person}"
-- Add to `skipped` with suggestion to create
+For each insight, determine if it connects to an existing Insight note by searching `02_Areas/Insights/` for matching themes. If a match is found, prepare an update targeting the Evidence section. If no match is found, flag it as a new insight suggestion with a suggested filename and reason.
 
-#### 1.2 Gather Interactions
-
-From context, compile all interactions with this person:
-- Meeting dates and topics (from meetings sections)
-- Notable moments from wins/insights mentioning them
-- Follow-up items if any
-
-#### 1.3 Prepare Update
-
-Format for `update-semantic`:
-```json
-{
-  "type": "person",
-  "path": "02_Areas/People/{Name}.md",
-  "section": "Interactions",
-  "content": "{date_range}: {summary of interactions}"
-}
-```
-
-**For weekly scope:**
-```
-2026-W07 (Feb 9-13): 3 conversations about career growth. Key moment: discussed tech lead path. She's energized about Q2 opportunities.
-```
-
-**For daily scope:**
-```
-2026-02-14: 1:1 focused on career growth. Discussed tech lead path interest.
-```
-
-### 2. Process Projects
-
-For each project in `projects` array:
-
-#### 2.1 Find Project File
-```bash
-ls "$VAULT/01_Projects/"*{project_name}*.md
-```
-
-If not found:
-- Log: "Project file not found for {project}"
-- Add to `skipped`
-
-#### 2.2 Gather Progress
-
-From context, compile all mentions:
-- Strategic wins related to project
-- Priority completions mentioning project
-- Blockers resolved or discovered
-
-#### 2.3 Prepare Update
-
-```json
-{
-  "type": "project",
-  "path": "01_Projects/{project-file}.md",
-  "section": "Progress",
-  "content": "{date_range}: {summary of progress}"
-}
-```
-
-**For weekly scope:**
-```
-2026-W07: API design completed (Mon). Integration tests passing (Wed). Ready for staging deployment next week.
-```
-
-**For daily scope:**
-```
-2026-02-14: API design finalized, tests written for core endpoints.
-```
-
-### 3. Process Insights
-
-For each insight in `insights`:
-
-#### 3.1 Categorize Insight
-
-Determine if it connects to an existing Insight note by:
-- Keyword matching against Insight filenames in `02_Areas/Insights/`
-- Theme analysis (leadership, delegation, productivity, focus, boundaries, etc.)
-
-```bash
-ls "$VAULT/02_Areas/Insights/"*.md
-```
-
-#### 3.2 Find or Flag
-
-**If matches existing Insight file:**
-```json
-{
-  "type": "insight",
-  "path": "02_Areas/Insights/{topic}.md",
-  "section": "Evidence",
-  "content": "{date}: {insight content}"
-}
-```
-
-**If new insight theme (no match):**
-```json
-{
-  "type": "insight",
-  "path": null,
-  "action": "suggest_new",
-  "suggested_name": "{kebab-case-topic}.md",
-  "content": "{insight content}",
-  "reason": "No existing Insight note matches this theme"
-}
-```
-
-### 4. Return Structured Result
+Return structured JSON showing updates prepared, files skipped, and new insight suggestions. For backwards compatibility, also output a human-readable summary.
 
 **Success:**
 ```json
@@ -156,90 +43,18 @@ ls "$VAULT/02_Areas/Insights/"*.md
       "path": "02_Areas/People/SarahK.md",
       "section": "Interactions",
       "content": "2026-W07 (Feb 9-13): 3 conversations about career growth. Key moment: discussed tech lead path. She's energized about Q2 opportunities."
-    },
-    {
-      "type": "person",
-      "path": "02_Areas/People/MarcusT.md",
-      "section": "Interactions",
-      "content": "2026-W07 (Feb 9-13): 2 syncs on platform migration. Great collaboration on API design—he's ramping up well."
-    },
-    {
-      "type": "project",
-      "path": "01_Projects/2026-03-15-platform-migration.md",
-      "section": "Progress",
-      "content": "2026-W07: API design completed (Mon). Integration tests passing (Wed). Ready for staging next week."
-    },
-    {
-      "type": "insight",
-      "path": "02_Areas/Insights/delegation.md",
-      "section": "Evidence",
-      "content": "2026-W07: Multiple successful delegation instances this week. Key learning: 'Delegation creates capacity'—when I hand off clearly, I get focused time back."
     }
   ],
-  "skipped": [
-    {
-      "type": "person",
-      "name": "[[NewHire]]",
-      "reason": "file_not_found",
-      "suggestion": "Create People file: 02_Areas/People/NewHire.md"
-    }
-  ],
-  "new_insights": [
-    {
-      "suggested_name": "sustainable-pace.md",
-      "content": "Realized that consistent energy matters more than sprints. The week was productive because I maintained boundaries, not despite them.",
-      "reason": "No existing Insight note about pace/sustainability"
-    }
-  ],
-  "summary": {
-    "people_updates": 2,
-    "project_updates": 1,
-    "insight_updates": 1,
-    "skipped": 1,
-    "new_suggestions": 1
-  }
-}
-```
-
-**No Updates Needed:**
-```json
-{
-  "success": true,
-  "scope": "week",
-  "date_range": "2026-W07",
-  "updates": [],
   "skipped": [],
   "new_insights": [],
-  "message": "No semantic updates to generate—no entities found in context.",
   "summary": {
-    "people_updates": 0,
+    "people_updates": 1,
     "project_updates": 0,
     "insight_updates": 0,
     "skipped": 0,
     "new_suggestions": 0
   }
 }
-```
-
-For backwards compatibility, also output human-readable summary:
-```
-Semantic Updates Prepared for 2026-W07
-
-People (2):
-- SarahK.md → Interactions: 3 conversations about career growth
-- MarcusT.md → Interactions: 2 syncs on platform migration
-
-Projects (1):
-- platform-migration.md → Progress: API complete, tests passing
-
-Insights (1):
-- delegation.md → Evidence: "Delegation creates capacity"
-
-Skipped (1):
-- NewHire: file not found (suggest creating)
-
-New Insight Suggestions (1):
-- sustainable-pace.md: "Consistent energy > sprints"
 ```
 
 ## Design for Reuse
