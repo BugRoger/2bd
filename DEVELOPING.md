@@ -390,10 +390,7 @@ Builds `memory.md` as session index:
 
 **5. Inline Execution**
 
-Executes skill prose in main conversation with:
-- `SESSION_DIR` environment variable set
-- All session files (`memory.md`, `calendar.md`, etc.) available
-- Inline phases read incrementally as needed
+Executes skill prose in main conversation. The orchestrator has already loaded all context into the conversation. Skills reference context naturally ("the calendar", "Week.md") and use declarative file operations ("Write Today.md to Captive").
 
 ### Sub-Skills for Orchestration
 
@@ -433,6 +430,26 @@ EOF
 | **No implementation coupling** | Skills don't break when orchestration changes |
 | **Parallel execution** | External data fetched simultaneously |
 | **Direct vault access** | No copying files, just reference paths |
+
+### Skill Writing Pattern
+
+Skills describe work naturally, without orchestration mechanics.
+
+**Context references:**
+- ✓ "Review the calendar"
+- ✗ "Load calendar.md from session"
+- ✓ "Check Week.md for weekly goals"
+- ✗ "Load Week.md from path in memory.md"
+- ✓ "If QMD results are available"
+- ✗ "If resources.md exists in session"
+
+**File operations:**
+- ✓ "Write Today.md to Captive"
+- ✗ `cp "${SESSION_DIR}/plan.md" "${vault_path}/00_Brain/Captive/Today.md"`
+- ✓ "Update Week.md with outcomes"
+- ✗ Manual path resolution with config.md
+
+The orchestrator interprets natural phrases and handles implementation.
 
 ### Creating Dev Skills
 
