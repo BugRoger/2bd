@@ -18,6 +18,12 @@ phases:
         output: DIRECTIVES
         optional: true
         on_error: "Directives not found. Using defaults."
+      - skill: _sub/gather-key-dates
+        type: explore
+        args: "scope=week vault={{VAULT}}"
+        output: KEY_DATES
+        optional: true
+        on_error: "Key dates unavailable."
 
   # Phase 1: Load Today.md (read-only)
   - name: load

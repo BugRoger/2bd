@@ -43,6 +43,18 @@ Guide the user through reflection on the day.
 
 Start with a brief energy check. Compare to the morning energy level from the frontmatter. Note any shift.
 
+### Upcoming Key Dates
+
+If KEY_DATES contains dates within 7 days, surface them:
+
+**Countdown reminder:**
+```
+⚠️ Upcoming Key Dates:
+- [Event] — in [N] days [urgency]
+```
+
+Note any dates requiring prep this week.
+
 ### Priority Status
 
 Review each priority from the day's focus section:
