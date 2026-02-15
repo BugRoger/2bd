@@ -25,7 +25,7 @@ Reference these files for detailed information. This file contains Claude-specif
 
 ## Documentation Maintenance
 
-When making changes to 2bd, update documentation as instructed by the user:
+**ALWAYS update README.md and DEVELOPING.md when making structural changes.** Check both files for outdated references after any change to paths, templates, skills, or vault structure.
 
 **Update README.md when:**
 - Installation or configuration process changes
