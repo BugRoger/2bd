@@ -106,10 +106,10 @@ The orchestrator translates these natural phrases into file operations.
 
 **Detecting prose-driven skills:**
 
-Skills with a "What I Need" section use prose-driven orchestration:
+Skills with a "Context" section use prose-driven orchestration:
 
 ```markdown
-## What I Need
+## Context
 
 - Calendar events for the day
 - User's directives and preferences
