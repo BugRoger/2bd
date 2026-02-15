@@ -1,45 +1,63 @@
 ---
 name: orchestrator
-description: Internal orchestrator for executing skills with prose-driven context assembly. Interprets "What I Need" sections and coordinates fulfillment subagents.
+description: Internal orchestrator for executing skills with prose-driven context assembly. Interprets "## Context" sections and loads all context into conversation.
 disable-model-invocation: false
 internal: true
 ---
 
 # Orchestrator
 
-This skill orchestrates the execution of other skills that declare needs in prose using the "What I Need" pattern. It interprets needs naturally using Claude's understanding, spawns fulfillment subagents, and builds context for the skill's execution.
+This skill orchestrates the execution of other skills that declare context needs in prose. It interprets needs naturally, coordinates fulfillment, and loads all context into the conversation before skill execution.
 
 ## When to Use
 
-When executing a skill that has a "## What I Need" section, use orchestration. If no such section exists, execute the skill directly.
+When executing a skill with frontmatter containing `orchestrated: true`, use orchestration. If this flag is absent, execute the skill directly.
 
 ## Orchestration Flow
 
-The orchestrator follows these steps to prepare context and execute an orchestrated skill:
+The orchestrator follows these steps:
 
-### 1. Create Session
+### 1. Check for Context Section
 
-Use `_sub/create-session` to create a temporary session directory.
+Look for a section named `## Context` in the skill file. If absent, proceed directly to inline execution without context loading.
 
-```bash
-session_dir=$(_sub/create-session <skill-name>)
-# Returns: /tmp/2bd-session-<skill>-<timestamp>
+If present, the Context section contains prose declarations like:
+
+```markdown
+## Context
+
+- Calendar events for the day
+- User's directives and preferences
+- Week.md for weekly context
+- People files for anyone with 1:1 meetings
+- Active project files
 ```
 
-Store the session path for all subsequent operations.
+### 2. Resolve Date Arguments
 
-### 2. Resolve Time Arguments
+If the skill accepts time arguments (e.g., "tomorrow", "next monday", "2026-02-15"), resolve them to concrete dates.
 
-Use `_sub/resolve-dates` with skill arguments to handle flexible time expressions.
+Use `_sub/resolve-dates` to parse flexible time expressions:
 
-This creates `${session}/dates.md` with concrete dates:
-- Resolves "tomorrow", "next monday", "last week", etc.
-- Provides target_date, scope, relative description
-- Generates workdays list for week scopes
+```
+Task(
+  description: "Resolve date argument '{arg}' for {skill-name}",
+  prompt: <resolve-dates SKILL.md + skill args>,
+  subagent_type: "Explore"
+)
+```
 
-### 3. Parse Needs
+The subagent returns resolved date information:
+- `target_date`: YYYY-MM-DD
+- `scope`: day | week | month
+- `relative`: "today" | "tomorrow" | etc.
+- `workdays`: list of dates (for week scope)
 
-Read the skill's "## What I Need" section and interpret each bullet point using Claude's natural understanding.
+Store this information for use in context assembly.
+
+### 3. Parse Context Needs
+
+Read the Context section and interpret each need using Claude's natural understanding.
 
 Identify need types by reading the prose:
 
@@ -53,152 +71,197 @@ Identify need types by reading the prose:
 
 The orchestrator uses Claude's intelligence to interpret needs - no rigid parsing required.
 
-### 4. Spawn Fulfillment Subagents (Parallel)
+### 4. Spawn Fulfillment Sub-Agents (Parallel)
 
-For each need type identified, spawn the appropriate fulfillment subagent:
+For each need type identified, spawn the appropriate fulfillment sub-agent using the Task tool.
 
 **fetch-calendar:**
 ```
 Task(
   description: "Fetch calendar events for {target_date}",
-  prompt: <fetch-calendar SKILL.md + session dir>,
+  prompt: <fetch-calendar SKILL.md + target date>,
   subagent_type: "Explore"
 )
 ```
-Writes: `${session}/calendar.md`
+Returns: Calendar events as markdown
 
 **resolve-references:**
 ```
 Task(
   description: "Resolve vault paths and entity references",
-  prompt: <resolve-references SKILL.md + needs prose + session dir>,
+  prompt: <resolve-references SKILL.md + needs prose + target date>,
   subagent_type: "Explore"
 )
 ```
-Returns: Markdown with categorized paths (static files, people, projects)
+Returns: Markdown with categorized paths (directives, working notes, people, projects)
 
 Spawn these in parallel using multiple Task tool calls in a single message.
 
-### 5. Build Memory
+### 5. Load Context Into Conversation
 
-After subagents complete, construct `${session}/memory.md` as the session index.
+After sub-agents complete, load all resolved context into the conversation:
 
-Memory.md contains:
-- **External data files** (calendar.md) with descriptions
-- **Vault file references** with full paths and availability status
-- **Entity files** (people, projects) discovered by resolve-references
+1. **Load external data** (calendar events) directly into conversation
+2. **Read vault files** using full paths from resolve-references
+3. **Read entity files** (people, projects) as needed
 
-**Example memory.md:**
-```markdown
-# Session Context for Daily Planning
+All context becomes part of the conversation history - no session files, no memory.md index.
 
-## Session Files (External Data)
-- **calendar.md**: Calendar events for 2026-02-15
+**Example context loading:**
 
-## Vault References (Static Files)
-- **Week.md**: /Users/me/vault/00_Brain/Captive/Week.md ✓
-- **Month.md**: /Users/me/vault/00_Brain/Captive/Month.md ✓
-- **Today.md**: /Users/me/vault/00_Brain/Captive/Today.md ✗ (new file)
+After sub-agents return with:
+- Calendar: 3 events for 2026-02-15
+- Vault paths: Week.md exists at /vault/00_Brain/Captive/Week.md
+- People: Sarah Chen at /vault/02_Areas/People/Sarah Chen.md
 
-## Entities
-### People (from calendar 1:1s)
-- **Sarah Chen**: /Users/me/vault/02_Areas/People/Sarah Chen.md ✓
+The orchestrator loads this into conversation:
 
-### Projects (active)
-- **quarterly-planning**: /Users/me/vault/01_Projects/2026-03-31-quarterly-planning.md ✓
+```
+Loading context for planning-daily:
+
+Calendar Events (2026-02-15):
+- 09:00-10:00: Team standup
+- 14:00-15:00: 1:1 with Sarah Chen
+- 16:00-17:00: Project review
+
+Week.md:
+[contents of Week.md]
+
+Sarah Chen (Person):
+[contents of Sarah Chen.md]
 ```
 
-Memory.md serves as a map - files stay in their original locations, session only contains references and external data.
+### 6. Execute Skill Prose
 
-### 6. Execute Inline Phase
+Find the first markdown section after `## Context` (typically `## Planning Session` or `## Review Session`).
 
-Find the first markdown section after "What I Need" (typically "## Planning Session" or "## Review Session").
-
-Execute this prose in the main conversation context with:
-- Session directory path available
-- Instruction: "Read memory.md first to see what's available"
+Execute this prose in the current conversation with all context already loaded.
 
 Claude interprets the skill prose naturally:
-- Reads memory.md to understand available context
-- Loads session files (calendar.md, resources.md) from session directory
-- Reads vault files using full paths from memory.md
-- Proceeds with user interaction as described in the prose
+- All context is already present in conversation history
+- References like "Review the calendar" work naturally
+- "Check Week.md" accesses already-loaded content
+- No file operations needed within the skill prose
 
-**No rigid execution order** - Claude loads files incrementally as needed by the conversation flow.
+**No rigid execution order** - the skill prose guides the interaction naturally with all context available.
+
+### 7. Generate Summary Message
+
+After skill execution completes, generate a summary message for the conversation history:
+
+```markdown
+---
+**Orchestrator Summary: {skill-name}**
+
+**Context Loaded:**
+- Calendar: {N} events for {date}
+- Week.md: Loaded from Captive
+- People: Sarah Chen
+- Directives: User preferences loaded
+
+**Actions Taken:**
+- Created Today.md in Captive
+- Updated Week.md with planning notes
+- User completed planning session
+
+**Status:** Complete
+---
+```
+
+This summary documents what the orchestrator did for debugging and conversation continuity.
 
 ## Example Execution
 
-**Skill declares needs in prose:**
+**Skill with orchestrated context:**
 
 ```markdown
-## What I Need
+---
+name: planning-daily
+orchestrated: true
+---
+
+## Context
 
 - Calendar events for the day
 - Week.md for weekly context
 - People files for anyone with 1:1 meetings
+- User's directives and preferences
+
+## Planning Session
+
+Greet the user warmly.
+Review today's calendar and highlight any 1:1 meetings.
+Check Week.md for weekly context and priorities.
+For each 1:1, reference the person's file to prepare talking points.
+Guide the user through planning their day.
+Write Today.md to Captive with the plan.
 ```
 
-**Orchestrator interprets and executes:**
+**Orchestrator executes:**
 
-1. **Create session**
+1. **Detect orchestration flag** → `orchestrated: true`
+
+2. **Check for Context section** → Found
+
+3. **Resolve dates**
+   - Argument: (none) → defaults to today
+   - Spawn resolve-dates → returns 2026-02-15
+
+4. **Parse needs**
+   - "Calendar events" → fetch-calendar
+   - "Week.md" → resolve-references
+   - "People files for 1:1 meetings" → resolve-references (with calendar context)
+   - "Directives" → resolve-references
+
+5. **Spawn sub-agents (parallel)**
    ```
-   session_dir: /tmp/2bd-session-planning-daily-20260215-093000
+   Task(fetch-calendar) → returns calendar events
+   Task(resolve-references) → returns vault paths + entity files
    ```
 
-2. **Resolve dates**
-   - Argument: (empty) → today
-   - Creates: `${session}/dates.md`
+6. **Load context into conversation**
+   ```
+   Loading context for planning-daily:
+
+   Calendar Events (2026-02-15):
+   - 09:00-10:00: Team standup
+   - 14:00-15:00: 1:1 with Sarah Chen
+   - 16:00-17:00: Project review
+
+   Week.md:
+   [contents loaded from /vault/00_Brain/Captive/Week.md]
+
+   Sarah Chen:
+   [contents loaded from /vault/02_Areas/People/Sarah Chen.md]
+
+   User Directives:
+   [contents loaded from profile.md]
+   ```
+
+7. **Execute Planning Session prose**
+   - All context is already in conversation
+   - Skill prose guides natural interaction
+   - User and Claude collaborate on planning
+   - Today.md written to Captive using Write tool
+
+8. **Generate summary message**
    ```markdown
-   target_date: 2026-02-15
-   scope: day
-   relative: today
+   ---
+   **Orchestrator Summary: planning-daily**
+
+   **Context Loaded:**
+   - Calendar: 3 events for 2026-02-15
+   - Week.md: Weekly context loaded
+   - People: Sarah Chen (1:1 at 14:00)
+   - Directives: User preferences loaded
+
+   **Actions Taken:**
+   - Created Today.md in Captive
+   - User completed daily planning session
+
+   **Status:** Complete
+   ---
    ```
-
-3. **Parse needs**
-   - "Calendar events" → spawn fetch-calendar
-   - "Week.md" → spawn resolve-references
-   - "People files for 1:1 meetings" → spawn resolve-references (with calendar context)
-
-4. **Spawn subagents (parallel)**
-   ```
-   Task(fetch-calendar) → writes calendar.md
-   Task(resolve-references) → returns vault paths
-   ```
-
-5. **Build memory.md**
-   ```markdown
-   # Session Context
-
-   ## Session Files
-   - **calendar.md**: Calendar events for 2026-02-15
-
-   ## Vault References
-   - **Week.md**: /Users/me/vault/00_Brain/Captive/Week.md ✓
-
-   ## People (from calendar)
-   - **Sarah Chen**: /Users/me/vault/02_Areas/People/Sarah Chen.md ✓
-   ```
-
-6. **Execute inline phase**
-   - Read skill's next section: "## Planning Session"
-   - Execute prose with session context:
-
-   ```markdown
-   ## Planning Session
-
-   Greet the user.
-   Review their calendar from the session.
-   Load Week.md from the vault (path in memory.md).
-   For each 1:1, load the person's file.
-   Guide planning conversation.
-   ```
-
-   - Claude interprets naturally:
-     1. Reads memory.md
-     2. Sees calendar.md → reads from session
-     3. Sees Week.md path → reads from vault
-     4. Sees Sarah Chen path → reads from vault
-     5. Proceeds with planning dialogue
 
 ## Key Principles
 
@@ -208,56 +271,86 @@ Claude interprets the skill prose naturally:
 
 **Orchestrator handles all fulfillment:**
 - Interprets prose using Claude's natural understanding
-- Coordinates parallel subagent spawning
-- Assembles unified context view
+- Coordinates parallel sub-agent spawning
+- Loads all context into conversation
 
-**Session structure is simple:**
-```
-/tmp/2bd-session-{skill}-{timestamp}/
-├── memory.md       # Index of available context
-├── dates.md        # Resolved time context
-└── calendar.md     # External: calendar events
-```
+**State is conversation history:**
+- No session directories
+- No memory.md index files
+- Context lives in conversation
+- Summary message documents orchestration actions
 
-**Vault files stay in vault:**
-- memory.md contains full paths, not copies
-- Skills read incrementally from vault as needed
-- Session only contains external data that can't be vault-resident
+**Skills reference context naturally:**
+- "Review the calendar" (context already loaded)
+- "Check Week.md" (already present in conversation)
+- "Load the person's file" (already loaded if referenced in context)
 
 ## Sub-Skills Available
 
 | Sub-Skill | Purpose | Output |
 |-----------|---------|--------|
-| `_sub/create-session` | Create temp session directory | Returns session path |
-| `_sub/resolve-dates` | Parse time expressions | Writes dates.md |
-| `_sub/fetch-calendar` | Get calendar events | Writes calendar.md |
-| `_sub/resolve-references` | Vault paths + entity discovery | Returns markdown with paths |
+| `_sub/resolve-dates` | Parse time expressions | Returns date info as markdown |
+| `_sub/fetch-calendar` | Get calendar events | Returns calendar events as markdown |
+| `_sub/resolve-references` | Vault paths + entity discovery | Returns paths and file locations |
 
 ## Error Handling
 
 **Graceful degradation:**
-- If calendar unavailable, note in memory.md and proceed
-- If vault file doesn't exist, mark as ✗ (new file)
+- If calendar unavailable, note in summary and proceed without it
+- If vault file doesn't exist, note in summary and skill adapts
+- Missing entities: skill proceeds with available context
 
-**Sub-skill failures:**
-- Log warning
-- Mark need as unavailable in memory.md
+**Sub-agent failures:**
+- Log warning in summary message
+- Mark need as unavailable
 - Continue with remaining needs
-- Inline phase adapts to what's available
+- Skill adapts to what's available
 
-## Notes
+**Example degraded execution:**
+```markdown
+---
+**Orchestrator Summary: planning-daily**
 
-- This orchestrator is **internal** — users invoke the parent skill, not the orchestrator directly
-- Skills without "## What I Need" sections continue to work as before (no orchestration)
-- The orchestrator pattern is opt-in per skill
-- Session cleanup: OS handles /tmp cleanup automatically
-- Debugging: Session directory persists for inspection after execution
-- Parallel execution: All fulfillment subagents spawn simultaneously for performance
+**Context Loaded:**
+- Calendar: ⚠ Unavailable (fetch-calendar failed)
+- Week.md: Loaded successfully
+- People: No 1:1s scheduled
+- Directives: User preferences loaded
 
-## Implementation Status
+**Actions Taken:**
+- Created Today.md without calendar context
+- User completed planning with manual calendar review
 
-**Active Implementation (2026-02-15):**
-- Prose-driven orchestration is fully implemented
-- All required sub-skills exist (create-session, resolve-dates, resolve-references, fetch-calendar)
-- Skills migrated: planning-daily
-- Ready for additional skill migrations
+**Status:** Complete (degraded)
+---
+```
+
+## Implementation Notes
+
+- This orchestrator is **internal** — users invoke the parent skill, not the orchestrator
+- Skills without `orchestrated: true` execute directly without orchestration
+- The orchestration pattern is opt-in per skill
+- Conversation history is the only state - no cleanup needed
+- All context loading happens before skill prose execution
+- Summary messages document orchestrator actions for debugging
+
+## Migration from Session-Based Orchestration
+
+**Before (session-based):**
+- Created `/tmp/2bd-session-{skill}-{timestamp}/`
+- Wrote memory.md as index
+- Skills read from session directory
+- Session cleanup required
+
+**After (conversation-based):**
+- No session directories
+- All context in conversation history
+- Skills reference context naturally
+- Summary message documents actions
+- No cleanup required
+
+Skills using the old pattern will need:
+1. Frontmatter: Add `orchestrated: true`
+2. Section rename: `## What I Need` → `## Context`
+3. Natural references: Remove file path references, use natural language
+4. File operations: Use Write tool for vault files (orchestrator resolves paths)
