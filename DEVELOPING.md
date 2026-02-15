@@ -272,128 +272,170 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 
 ---
 
-## Orchestrated Skills
+## Prose-Driven Orchestration
 
-Skills can use subagent orchestration for parallel execution and context isolation. The orchestration logic lives in `phases.yaml`, keeping SKILL.md clean prose.
+Skills declare context needs in natural language. The orchestrator interprets needs and coordinates fulfillment transparently.
 
-### Enabling Orchestration
+### Writing Prose-Driven Skills
 
-1. Add `metadata.orchestrated: true` to SKILL.md frontmatter:
-   ```yaml
+1. Add "What I Need" section declaring context needs in prose:
+   ```markdown
    ---
-   name: daily-planning
-   description: Plan a day's priorities...
-   metadata:
-     orchestrated: true
-     phases_file: phases.yaml
+   name: planning-daily
+   description: Morning ritual for planning the day
+   argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
    ---
+
+   # Daily Planning
+
+   Help the user plan their day.
+
+   ## What I Need
+
+   - Calendar events for the day
+   - User's directives and preferences
+   - Week.md for weekly context
+   - Month.md for monthly context
+   - People files for anyone with 1:1 meetings
+   - Active project files
    ```
 
-2. Create `phases.yaml` in the skill's directory with phase definitions
+2. Write inline phases as natural language instructions:
+   ```markdown
+   ## Pre-Flight Check
 
-3. Keep SKILL.md as plain prose describing the workflow — no phase markers or template syntax
+   Read memory.md to see what context is available.
 
-### Phase Configuration (phases.yaml)
+   Check if Today.md already exists. If it does, ask whether to:
+   - Review existing plan
+   - Update existing plan
+   - Start fresh
 
-```yaml
-phases:
-  # Phase 0: Setup (parallel, read-only)
-  - name: setup
-    parallel: true           # Spawn all subagents simultaneously
-    subagents:
-      - skill: _sub/fetch-config
-        type: explore        # Read-only subagent
-        output: VAULT        # Variable name to store result
-      - skill: _sub/fetch-directives
-        type: explore
-        output: DIRECTIVES
-        optional: true       # Continue if this fails
-        on_error: "Directives not found. Using defaults."
+   ## Planning Session
 
-  # Phase 1: Gather (depends on setup)
-  - name: gather
-    depends_on: [setup]      # Wait for setup to complete
-    parallel: true
-    subagents:
-      - skill: _sub/fetch-calendar
-        type: explore
-        args: "scope={{DATES.target_date}}"  # Variable interpolation
-        output: CALENDAR
-        optional: true
-        fallback: inline     # Execute in main context on failure
+   Greet the user using their preferred name from directives.
 
-  # Phase 2: Interactive (inline)
-  - name: interact
-    depends_on: [gather]
-    inline: true             # Execute in main conversation context
+   Load their calendar from session. What meetings do they have?
+   Load Week.md from vault (path in memory.md). What are their weekly goals?
 
-  # Phase 3: Write (write-capable)
-  - name: write
-    depends_on: [interact]
-    subagents:
-      - skill: _sub/write-captive-note
-        type: general-purpose  # Can modify files
-        args: "path={{VAULT}}/Today.md content={{PLAN}}"
+   ### Guide Planning
+
+   Ask: What's the leadership intention for today?
+   Ask: What are the top 2-3 priorities?
+   ```
+
+3. No orchestration mechanics in skill prose - the orchestrator handles:
+   - Session directory creation
+   - Date resolution
+   - Sub-skill spawning
+   - Context assembly
+   - Session file management
+
+### How Orchestration Works
+
+**1. Session Creation**
+
+Orchestrator creates temporary session directory:
+```
+/tmp/2bd-session-{skill}-{timestamp}/
 ```
 
-### Phase Schema Reference
+**2. Date Resolution**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | Phase identifier |
-| `parallel` | boolean | Spawn subagents simultaneously (default: false) |
-| `depends_on` | [string] | Phases that must complete first |
-| `inline` | boolean | Run in main context, not as subagent |
-| `subagents` | array | List of subagents to spawn |
+Resolves flexible time arguments to concrete dates:
+- Empty → today
+- `tomorrow` → next day
+- `next monday` → next Monday's date
+- `YYYY-MM-DD` → specific date
 
-**Subagent fields:**
+Writes `dates.md` with resolved context (orchestrator-internal).
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `skill` | string | Path to sub-skill (e.g., `_sub/fetch-config`) |
-| `type` | string | `explore` (read-only) or `general-purpose` (can write) |
-| `args` | string | Arguments with `{{VAR}}` interpolation |
-| `output` | string | Variable name to store result |
-| `optional` | boolean | Continue if this fails |
-| `fallback` | string | `inline` to execute in main context on failure |
-| `on_error` | string | Message to show on failure |
+**3. Need Interpretation**
 
-### Variable Interpolation in phases.yaml
+Parses "What I Need" prose and determines fulfillment strategy:
 
-Use `{{VARIABLE}}` syntax in `phases.yaml` args to reference context values:
+| Need Pattern | Fulfillment |
+|--------------|-------------|
+| "Calendar events" | Spawn `_sub/fetch-calendar` with session context |
+| "Week.md" / "Month.md" | Resolve vault path from config |
+| "People files for 1:1s" | Parse calendar, find matching files in vault |
+| "Active project files" | Scan `01_Projects/` for active status |
+| "QMD search results" | Query QMD with context-relevant terms |
+| "User's directives" | Resolve directives file path |
 
-- `{{VAULT}}` — Simple variable
-- `{{DATES.target_date}}` — Nested property
+**4. Context Assembly**
 
-Variables are interpolated when spawning subagents. SKILL.md itself should not contain template syntax.
+Spawns sub-skills in parallel, each writes to session:
+- `calendar.md` - Natural markdown of events
+- `resources.md` - QMD search results
 
-### Execution Flow
+Builds `memory.md` as session index:
 
+```markdown
+# Session Memory: planning-daily (2026-02-17)
+
+## External Data Available
+### Calendar Events (calendar.md)
+3 events fetched for 2026-02-17
+
+## Vault Files Available
+### Configuration
+- **Directives**: /vault/00_Brain/Systemic/Directives/profile.md ✓
+
+### Working Notes
+- **Week.md**: /vault/00_Brain/Captive/Week.md ✓
+- **Today.md**: (new - will create)
+
+### People (from calendar 1:1s)
+- **Sarah Chen**: /vault/02_Areas/People/Sarah Chen.md ✓
 ```
-Parse phases.yaml
-    ↓
-Build dependency graph
-    ↓
-For each phase in topological order:
-    ├─ If inline: true → execute in main context
-    └─ If subagents → spawn via Task tool
-        ├─ type: explore → subagent_type="Explore"
-        └─ type: general-purpose → subagent_type="general-purpose"
-    ↓
-Capture outputs into context store
-    ↓
-Continue to next phase
+
+**5. Inline Execution**
+
+Executes skill prose in main conversation with:
+- `SESSION_DIR` environment variable set
+- All session files (`memory.md`, `calendar.md`, etc.) available
+- Inline phases read incrementally as needed
+
+### Sub-Skills for Orchestration
+
+**Fetch Sub-Skills** (external data):
+- `_sub/fetch-calendar` - Calendar events via ekctl
+- `_sub/fetch-resources` - QMD document search
+
+**Resolve Sub-Skills** (vault references):
+- `_sub/resolve-references` - Discover vault file paths from prose needs
+
+**Utility Sub-Skills** (internal):
+- `_sub/create-session` - Create temp session directory
+- `_sub/resolve-dates` - Parse flexible time expressions
+
+**Session Integration Pattern:**
+
+All sub-skills read from and write to session directory:
+
+```bash
+# Input: Read session context
+target_date=$(grep "^target_date:" "$SESSION_DIR/dates.md" | cut -d' ' -f2)
+
+# Output: Write results to session
+cat > "$SESSION_DIR/calendar.md" <<EOF
+# Calendar Events: ${target_date}
+...
+EOF
 ```
 
-### Benefits of Orchestration
+### Benefits
 
 | Benefit | Description |
 |---------|-------------|
-| **Parallel execution** | Independent operations run simultaneously |
-| **Context isolation** | Large file operations don't exhaust conversation context |
-| **Formal contracts** | Structured JSON outputs between phases |
-| **Error handling** | Optional fallbacks and graceful degradation |
-| **Backwards compatible** | Skills without phases.yaml work as before |
+| **Pure declarative intent** | Skills describe WHAT, not HOW |
+| **Natural language** | Prose instructions Claude interprets naturally |
+| **Flexible fulfillment** | Orchestrator chooses appropriate sub-skills |
+| **Incremental context** | Load only what's needed, when needed |
+| **No implementation coupling** | Skills don't break when orchestration changes |
+| **Parallel execution** | External data fetched simultaneously |
+| **Direct vault access** | No copying files, just reference paths |
 
 ### Creating Dev Skills
 
