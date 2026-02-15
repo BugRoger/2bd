@@ -140,7 +140,15 @@ Read back the file to confirm write succeeded:
 - Check file exists
 - Check content length matches expected
 
-### 8. Update Week.md
+### 8. Append Changelog to Archive
+
+Call `append-changelog` sub-skill with:
+- `path`: Path to the newly created archive file
+- `skill`: "review-weekly"
+- `action`: "Archived"
+- `summary`: "from Captive/Week.md"
+
+### 9. Update Week.md
 
 Replace Week.md with a minimal placeholder indicating it was archived:
 

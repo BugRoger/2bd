@@ -139,7 +139,15 @@ Read back the file to confirm write succeeded:
 - Check file exists
 - Check content length matches expected
 
-### 8. Update Quarter.md
+### 8. Append Changelog to Archive
+
+Call `append-changelog` sub-skill with:
+- `path`: Path to the newly created archive file
+- `skill`: "review-quarterly"
+- `action`: "Archived"
+- `summary`: "from Captive/Quarter.md"
+
+### 9. Update Quarter.md
 
 Replace Quarter.md with a minimal placeholder indicating it was archived:
 
