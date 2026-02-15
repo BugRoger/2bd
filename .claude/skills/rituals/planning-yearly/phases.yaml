@@ -6,14 +6,14 @@ phases:
   - name: setup
     parallel: true
     subagents:
-      - skill: _sub/fetch/get-config
+      - skill: _sub/fetch-config
         type: explore
         output: VAULT
-      - skill: _sub/fetch/get-dates
+      - skill: _sub/fetch-dates
         type: explore
         args: "target={{ARGUMENTS}} scope=year"
         output: DATES
-      - skill: _sub/fetch/get-directives
+      - skill: _sub/fetch-directives
         type: explore
         output: DIRECTIVES
         optional: true
@@ -24,19 +24,19 @@ phases:
     depends_on: [setup]
     parallel: true
     subagents:
-      - skill: _sub/synthesis/gather-year-context
+      - skill: _sub/gather-year-context
         type: explore
         args: "vault={{VAULT}} year={{DATES.prior_year}}"
         output: PRIOR_YEAR
         optional: true
         on_error: "Prior year context unavailable."
-      - skill: _sub/fetch/get-active-projects
+      - skill: _sub/fetch-active-projects
         type: explore
         args: "filter=all"
         output: PROJECTS
         optional: true
         on_error: "No active projects found."
-      - skill: _sub/fetch/get-year-content
+      - skill: _sub/fetch-year-content
         type: explore
         output: CURRENT_YEAR
         optional: true
@@ -61,7 +61,7 @@ phases:
   - name: write
     depends_on: [generate]
     subagents:
-      - skill: _sub/write/captive-note
+      - skill: _sub/write-captive-note
         type: general-purpose
         args: "path={{VAULT}}/00_Brain/Captive/Year.md content={{PLAN}}"
         output: WRITE_RESULT

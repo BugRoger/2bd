@@ -6,14 +6,14 @@ phases:
   - name: setup
     parallel: true
     subagents:
-      - skill: _sub/fetch/get-config
+      - skill: _sub/fetch-config
         type: explore
         output: VAULT
-      - skill: _sub/fetch/get-dates
+      - skill: _sub/fetch-dates
         type: explore
         args: "target={{ARGUMENTS}} scope=year"
         output: DATES
-      - skill: _sub/fetch/get-directives
+      - skill: _sub/fetch-directives
         type: explore
         output: DIRECTIVES
         optional: true
@@ -23,7 +23,7 @@ phases:
   - name: load
     depends_on: [setup]
     subagents:
-      - skill: _sub/fetch/get-year-content
+      - skill: _sub/fetch-year-content
         type: explore
         args: "vault={{VAULT}}"
         output: YEAR_CONTENT
@@ -32,7 +32,7 @@ phases:
   - name: gather
     depends_on: [setup]
     subagents:
-      - skill: _sub/synthesis/gather-year-context
+      - skill: _sub/gather-year-context
         type: explore
         args: "vault={{VAULT}} year={{DATES.year}}"
         output: YEAR_CONTEXT
@@ -51,7 +51,7 @@ phases:
   - name: synthesize
     depends_on: [interact]
     subagents:
-      - skill: _sub/synthesis/extract-to-areas
+      - skill: _sub/extract-to-areas
         type: explore
         args: "vault={{VAULT}} scope=year people={{YEAR_CONTEXT.aggregates.unique_people}} projects={{YEAR_CONTEXT.aggregates.unique_projects}} insights={{YEAR_SYNTHESIS.insights}} context={{YEAR_CONTEXT}}"
         output: SEMANTIC_UPDATES
@@ -68,11 +68,11 @@ phases:
     depends_on: [confirm]
     parallel: true
     subagents:
-      - skill: _sub/write/archive-yearly
+      - skill: _sub/archive-yearly
         type: general-purpose
         args: "vault={{VAULT}} year={{DATES.year}} content={{ARCHIVE}} quarterly_links={{YEAR_CONTEXT.quarterly_links}}"
         output: ARCHIVE_RESULT
-      - skill: _sub/write/update-semantic
+      - skill: _sub/update-semantic
         type: general-purpose
         args: "vault={{VAULT}} updates={{SEMANTIC_UPDATES}}"
         output: SEMANTIC_RESULT
