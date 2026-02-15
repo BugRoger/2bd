@@ -6,9 +6,9 @@ allowed-tools: Read, Bash(ls), Glob
 argument-hint: "[scope: active|archived|all (default: active)]"
 ---
 
-# Fetch Projects Sub-Skill
+# Fetch Projects Vault Sub-Skill
 
-Scans both active and archived project folders and returns structured data for project lifecycle management.
+Scans vault project folders and returns structured data for project lifecycle management. Defaults to active projects only.
 
 ## Prerequisites
 
@@ -16,8 +16,8 @@ This sub-skill expects `$VAULT` to be set by the calling skill (via `fetch-confi
 
 ## Arguments
 
-- `scope` - Optional. Filter by project location:
-  - `active` (default) - Only projects in `01_Projects/`
+- `scope` - Optional. Filter by project location (default: `active`):
+  - `active` - Only projects in `01_Projects/` (default)
   - `archived` - Only projects in `04_Archives/Projects/`
   - `all` - Both active and archived projects
 
