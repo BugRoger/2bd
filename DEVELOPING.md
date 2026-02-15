@@ -224,7 +224,7 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 
 | Category | Purpose | Examples |
 |----------|---------|----------|
-| `_sub/gather-*` | Content combination and transformation | gather-week-context, gather-month-context |
+| `_sub/gather-*` | Content combination and transformation | gather-week-context, gather-month-context, gather-key-dates |
 | `_sub/fetch-*` | Data retrieval from system or external sources | fetch-dates, fetch-calendar, fetch-config |
 | `_sub/archive-*` | Archive operations | archive-daily, archive-weekly |
 | `_sub/write-*` | Write operations | write-captive-note |
