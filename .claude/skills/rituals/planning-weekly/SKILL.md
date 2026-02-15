@@ -52,6 +52,19 @@ Present the target week's shape based on calendar analysis:
 
 Present the detected week type and let the user confirm or override.
 
+### Key Dates Preview
+
+Present key dates for the upcoming week from KEY_DATES output:
+
+**Countdown alerts:**
+- Show dates within 14 days with urgency indicators
+- Highlight prep-required events
+- Note any dates cascading from Month/Quarter
+
+Ask: "Any other key dates to add for this week?"
+
+Capture additional dates for inclusion in Week.md Key Dates section.
+
 ### Prior Week Synthesis
 
 If prior week data is available (from gather-week-context), present:
@@ -170,6 +183,7 @@ Use the Week.md template as the source of truth. Fill:
 
 - **Frontmatter** with week, dates, month, quarter, year, week_type, energy_trend, leadership_intention
 - **Context From Above** with month theme/outcomes and quarter theme
+- **Key Dates** with dates from KEY_DATES output plus user additions
 - **Synthesis from Prior Week** with carryover priorities, patterns observed, leadership development progress, key relationships
 - **Week Overview** with key outcomes, focus theme, leadership intention
 - **Weekly Commitments** with key decisions, people to connect with, boundaries, growth challenge
