@@ -99,7 +99,7 @@ Examples:
 
 > What are 1-3 key outcomes you want to achieve? (Press Enter to skip)
 
-Accept a bullet list or comma-separated outcomes. These populate the "Must Have" outcomes section.
+Accept a bullet list or comma-separated outcomes.
 
 Format as array:
 ```json
@@ -114,7 +114,7 @@ If skipped, leave outcomes as empty array `[]`.
 
 > Who's involved in this project? (comma-separated names, or Enter to skip)
 
-Accept comma-separated names. These populate the People and Team sections.
+Accept comma-separated names. These will be mentioned inline in the Notes section.
 
 Format as array:
 ```json

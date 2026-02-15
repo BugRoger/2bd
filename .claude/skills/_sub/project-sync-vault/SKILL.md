@@ -61,15 +61,13 @@ If file exists, return error:
 
 ### 3. Generate Content
 
-Generate project content using this template structure:
+Generate project content using this minimal template:
 
 ```markdown
 ---
 title: {name}
 end_date: {due_date}
 status: active
-owner: [To be assigned]
-tags: []
 ---
 
 [[03_Resources/Brain/✱ Home|✱ Home]] | [[01_Projects/✱ Projects|✱ Projects]] | [[02_Areas/People/✱ People|✱ People]] | [[02_Areas/Insights/✱ Insights|✱ Insights]]
@@ -78,94 +76,27 @@ tags: []
 
 # {name}
 
-## Overview
-
 **Goal:** {purpose}
 
-**Why Now:** [Context for why this project matters and why you're doing it now]
-
-**End Date:** {due_date} - [Brief reason for this timeline]
-
----
-
 ## Outcomes
-
-### Must Have
 {for each outcome in outcomes}
 - [ ] {outcome}
 {end for}
 
-### Should Have
-- [ ] [Important but not critical outcome]
+## Notes
 
-### Could Have
-- [ ] [Nice-to-have if time permits]
+- {today_date} Created project{if people} with {people as comma-separated [[links]]}{end if}
 
----
+## Changelog
 
-## Milestones
-
-| Date | Milestone | Status |
-|------|-----------|--------|
-| [YYYY-MM-DD] | [First milestone] | 🟡 Planned |
-| [YYYY-MM-DD] | [Second milestone] | 🟡 Planned |
-| {due_date} | Project Completion | 🟡 Planned |
-
-*Status: 🟡 Planned | 🔵 In Progress | 🟢 Complete | 🔴 Blocked*
-
----
-
-## Updates
-
-*Rituals append chronological updates here. Most recent first.*
-
-### {today_date} - Project Created
-- Created via project lifecycle skill
-- Initial outcomes defined
-- [Key stakeholders involved]
-
-### [YYYY-MM-DD] - [Brief headline]
-- [Key progress or decision]
-- [Blockers or concerns]
-- [Next steps]
-
----
-
-## Resources
-
-### Links
-- [Documentation link]
-- [Design files]
-- [Project board/tracker]
-
-### Related Projects
-- [[related-project-name]] - [How they relate]
-
-### People
-{for each person in people}
-- [[{person}]] - [Role TBD]
-{end for}
-
----
-
-## Team
-
-| Name | Role | Involvement |
-|------|------|-------------|
-{for each person in people}
-| {person} | [Role] | [Involvement] |
-{end for}
-
----
-
-## Archive Notes
-
-*When project completes, add final summary before moving to Archives:*
-
-**Final Status:** [Success/Partial/Failed]
-**Key Learnings:** [What went well, what didn't]
-**Impact:** [Actual outcomes achieved]
+*Rituals append entries here*
 ```
+
+**Template notes:**
+- No tables, minimal sections
+- People are mentioned inline in Notes (e.g., `discussing with [[Sarah]]`)
+- Notes section is the user's working space (bullet journal style)
+- Changelog is where rituals append synthesized context
 
 ### 4. Write File
 
@@ -249,18 +180,18 @@ Key changes:
 - Set `status: archived`
 - Add `archived_date: {today_date}` (YYYY-MM-DD format)
 
-### 5. Fill Archive Notes (If Summary Provided)
+### 5. Append Archive Summary (If Summary Provided)
 
-If a summary is provided in `project.summary`, fill in the Archive Notes section:
+If a summary is provided in `project.summary`, append an archive entry to the Changelog section:
 
 ```markdown
-## Archive Notes
+### {today_date} - Archived
 
-*When project completes, add final summary before moving to Archives:*
-
-**Final Status:** {summary.status or "Completed"}
-**Key Learnings:** {summary.learnings or "[To be documented]"}
-**Impact:** {summary.impact or "[To be assessed]"}
+**Status:** {summary.status}
+**Wins:** {summary.wins as bullet list}
+**Learnings:** {summary.learnings as bullet list}
+**Impact:** {summary.impact}
+{if summary.followups}**Follow-ups:** {summary.followups as bullet list}{end if}
 ```
 
 ### 6. Update Source File

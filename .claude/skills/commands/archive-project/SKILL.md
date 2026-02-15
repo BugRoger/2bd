@@ -195,7 +195,7 @@ Call `project-sync-vault` with:
 
 This:
 1. Updates the project file frontmatter with `status: archived` and `archived_date`
-2. Fills in the Archive Notes section with summary data
+2. Appends an archive summary entry to the Changelog section
 3. Moves the file from `$VAULT/01_Projects/` to `$VAULT/04_Archives/Projects/`
 
 **On failure:** Stop and report error to user.
