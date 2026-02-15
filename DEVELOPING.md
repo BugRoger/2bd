@@ -229,6 +229,7 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 | `_sub/fetch-*` | Data retrieval from system or external sources | fetch-dates, fetch-calendar, fetch-config |
 | `_sub/archive-*` | Archive operations | archive-daily, archive-weekly |
 | `_sub/write-*` | Write operations | write-captive-note |
+| `_sub/append-*` | Append operations | append-changelog |
 
 **Creating:**
 
@@ -439,6 +440,29 @@ All Captive templates follow a consistent structure:
 5. **Carry Forward** — Items to move to next period
 6. **Wins** — Personal → Organisational → Strategic categories
 7. **Reflections** — What went well, what could be better, key insights
+8. **Changelog** — Audit trail of ritual modifications (at bottom of every note)
+
+### Changelog Section
+
+Every note template includes a `## Changelog` section at the bottom that tracks when rituals modify the file.
+
+**Entry format:**
+```
+- `2026-02-15 09:32` **planning-daily** — Rewrote Focus, Context From Above sections
+```
+
+**Components:**
+- Backtick timestamp: `YYYY-MM-DD HH:mm` (24-hour)
+- Bold skill name: `**skill-name**`
+- Em-dash separator: ` — `
+- Action and affected sections
+
+**Order:** Most recent entries at top (reverse chronological).
+
+**Integration:** Write skills (`write-captive-note`, `update-semantic`, `archive-*`, `project-sync-vault`) call `append-changelog` after modifying files. Pass:
+- `skill`: Name of the calling skill
+- `action`: Verb describing the change (Rewrote, Added, Archived, Created)
+- `sections`: Comma-separated list of affected sections (optional)
 
 ### The Three Categories
 

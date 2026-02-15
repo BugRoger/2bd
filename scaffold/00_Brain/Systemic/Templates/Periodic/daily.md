@@ -76,3 +76,9 @@ archived: YYYY-MM-DD
 
 ### Tomorrow Setup
 [What carries forward]
+
+---
+
+## Changelog
+
+*Rituals append entries here*

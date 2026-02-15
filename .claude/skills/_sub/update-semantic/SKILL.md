@@ -27,19 +27,22 @@ Arguments are passed as key-value pairs:
       "type": "person",
       "path": "02_Areas/People/SarahK.md",
       "section": "Interactions",
-      "content": "2026-02-14: Discussed career growth goals. She's interested in tech lead path."
+      "content": "2026-02-14: Discussed career growth goals. She's interested in tech lead path.",
+      "changelog_skill": "review-daily"
     },
     {
       "type": "project",
       "path": "01_Projects/2026-03-15-platform-migration.md",
       "section": "Progress",
-      "content": "2026-02-14: API design finalized. Ready for implementation."
+      "content": "2026-02-14: API design finalized. Ready for implementation.",
+      "changelog_skill": "review-daily"
     },
     {
       "type": "insight",
       "path": "02_Areas/Insights/delegation.md",
       "section": "Evidence",
-      "content": "2026-02-14: Letting Sarah lead the design review freed up 2 hours."
+      "content": "2026-02-14: Letting Sarah lead the design review freed up 2 hours.",
+      "changelog_skill": "review-daily"
     },
     {
       "type": "resource",
@@ -60,6 +63,7 @@ Parse the `updates` JSON array. Validate each update has:
 - `path` - Relative path from vault root
 - `section` - Target section heading in the note
 - `content` - Content to append
+- `changelog_skill` - (optional) Name of skill to record in changelog
 
 ### 2. Process Each Update
 
@@ -116,6 +120,16 @@ After:
 
 Write the modified content back to the file.
 
+#### 2.7 Append Changelog
+
+If `changelog_skill` provided in update:
+
+Call `append-changelog` sub-skill with:
+- `path`: Full path to the note
+- `skill`: Value of `changelog_skill`
+- `action`: "Added"
+- `sections`: The section name from update
+
 ### 3. Handle New Notes (Optional)
 
 If `type` is `resource` and file doesn't exist, create a minimal note:
@@ -142,8 +156,8 @@ For other types, skip creation (user should create the note structure).
 {
   "success": true,
   "applied": [
-    { "path": "02_Areas/People/SarahK.md", "section": "Interactions", "status": "appended" },
-    { "path": "01_Projects/2026-03-15-platform-migration.md", "section": "Progress", "status": "appended" }
+    { "path": "02_Areas/People/SarahK.md", "section": "Interactions", "status": "appended", "changelog": true },
+    { "path": "01_Projects/2026-03-15-platform-migration.md", "section": "Progress", "status": "appended", "changelog": true }
   ],
   "skipped": [
     { "path": "02_Areas/Insights/new-concept.md", "reason": "file_not_found" }

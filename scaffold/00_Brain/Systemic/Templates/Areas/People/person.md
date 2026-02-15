@@ -69,3 +69,9 @@ created: <% tp.date.now("YYYY-MM-DD") %>
 ## Insights
 
 -
+
+---
+
+## Changelog
+
+*Rituals append entries here*

@@ -151,3 +151,9 @@ leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 - [ ] [Items moving to next week]
 
 **One thing for success:** [Single most important thing to protect or accomplish]
+
+---
+
+## Changelog
+
+*Rituals append entries here*

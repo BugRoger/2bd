@@ -118,7 +118,4 @@ theme: "[Week theme - added during synthesis]"
 
 ## Changelog
 
-*See #17 for implementation*
-
-| Date | Reason | Changes |
-|------|--------|---------|
+*Rituals append entries here*

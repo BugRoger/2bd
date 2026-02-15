@@ -59,3 +59,9 @@ archived: YYYY-MM-DD
 
 ### Next Quarter Setup
 [What carries forward to next quarter's Captive notes]
+
+---
+
+## Changelog
+
+*Rituals append entries here*

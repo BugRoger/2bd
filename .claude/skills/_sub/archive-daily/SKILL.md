@@ -53,7 +53,15 @@ Write the content to `$VAULT/00_Brain/Periodic/Daily/{date}.md`
 
 Read back the file to confirm write succeeded.
 
-### 5. Update Today.md (Optional)
+### 5. Append Changelog to Archive
+
+Call `append-changelog` sub-skill with:
+- `path`: Path to the newly created archive file
+- `skill`: "review-daily"
+- `action`: "Archived"
+- `summary`: "from Captive/Today.md"
+
+### 6. Update Today.md (Optional)
 
 If the archive was successful and Today.md was the source:
 - Replace Today.md with a minimal placeholder indicating it was archived
@@ -81,7 +89,11 @@ Return structured JSON:
   "success": true,
   "archive_path": "/Users/.../00_Brain/Periodic/Daily/2026-02-14.md",
   "bytes_written": 4096,
-  "today_cleared": true
+  "today_cleared": true,
+  "changelog": {
+    "appended": true,
+    "entry": "- `2026-02-14 18:45` **review-daily** — Archived (from Captive/Today.md)"
+  }
 }
 ```
 

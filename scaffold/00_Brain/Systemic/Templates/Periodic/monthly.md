@@ -60,3 +60,9 @@ archived: YYYY-MM-DD
 
 ### Next Month Setup
 [What carries forward to next month's Captive notes]
+
+---
+
+## Changelog
+
+*Rituals append entries here*

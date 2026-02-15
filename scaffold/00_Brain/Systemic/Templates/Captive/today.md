@@ -128,3 +128,9 @@ meetings: 0
 
 ### Key Insight of the Day
 *If you could only remember ONE thing from today in 5 years, what would it be?*
+
+---
+
+## Changelog
+
+*Rituals append entries here*

@@ -59,3 +59,9 @@ archived: YYYY-MM-DD
 
 ### Legacy
 [What this year contributed to your life story]
+
+---
+
+## Changelog
+
+*Rituals append entries here*

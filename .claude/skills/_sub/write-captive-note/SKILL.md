@@ -18,6 +18,9 @@ This sub-skill writes content to a Captive note in the vault, with validation to
 Arguments are passed as key-value pairs:
 - `path`: Full path to the note (e.g., `{{VAULT}}/00_Brain/Captive/Today.md`)
 - `content`: Markdown content to write
+- `changelog_skill`: (optional) Name of skill to record in changelog
+- `changelog_action`: (optional) Action verb for changelog entry (default: "Updated")
+- `changelog_sections`: (optional) Comma-separated list of affected sections
 
 ## Instructions
 
@@ -51,6 +54,18 @@ Write the new content to the specified path.
 
 Read back the file to confirm write succeeded.
 
+### 5. Append Changelog (if provided)
+
+If `changelog_skill` argument was provided:
+
+1. Call `append-changelog` sub-skill with:
+   - `path`: The file path just written
+   - `skill`: Value of `changelog_skill`
+   - `action`: Value of `changelog_action` (default: "Updated")
+   - `sections`: Value of `changelog_sections` (if provided)
+
+2. Include changelog result in output
+
 ## Output
 
 Return structured JSON:
@@ -61,7 +76,11 @@ Return structured JSON:
   "path": "/Users/.../00_Brain/Captive/Today.md",
   "backup_created": true,
   "backup_path": "/Users/.../00_Brain/Captive/Today.backup.md",
-  "bytes_written": 2048
+  "bytes_written": 2048,
+  "changelog": {
+    "appended": true,
+    "entry": "- `2026-02-15 09:32` **planning-daily** — Rewrote Focus section"
+  }
 }
 ```
 
