@@ -51,6 +51,12 @@ phases:
         output: CURRENT_MONTH
         optional: true
         on_error: "Current Month.md not found."
+      - skill: _sub/gather-key-dates
+        type: explore
+        args: "scope=month vault={{VAULT}} calendar={{CALENDAR}} projects={{PROJECTS}}"
+        output: KEY_DATES
+        optional: true
+        on_error: "Key dates unavailable."
 
   # Phase 2: Pre-flight Check (inline)
   - name: preflight
