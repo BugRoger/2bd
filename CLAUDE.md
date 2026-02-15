@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code when working with this repository.
 
+## Quick Reference
+
+```bash
+# Run skills from engine directory
+cd ~/Code/2bd-engine
+claude skill run rituals/planning-daily   # morning
+claude skill run rituals/review-daily     # evening
+claude skill run commands/init --args "profile"   # update profile
+```
+
 ## Documentation
 
 Comprehensive documentation is split into two human-readable files:
@@ -114,18 +124,18 @@ Replace `{{VARIABLE}}` patterns in args and markdown with values from the contex
 **Example execution flow:**
 ```
 Phase: setup (parallel)
-├─ Task(explore): get-config → VAULT
-├─ Task(explore): get-dates → DATES
-└─ Task(explore): get-directives → DIRECTIVES
+├─ Task(explore): fetch-config → VAULT
+├─ Task(explore): fetch-dates → DATES
+└─ Task(explore): fetch-directives → DIRECTIVES
 
 Phase: gather (depends_on: setup)
-└─ Task(explore): get-calendar → CALENDAR
+└─ Task(explore): fetch-calendar → CALENDAR
 
 Phase: interact (inline)
 └─ [User dialogue in main context]
 
 Phase: write
-└─ Task(general-purpose): captive-note
+└─ Task(general-purpose): write-captive-note
 ```
 
 ### Key Paths
@@ -149,3 +159,9 @@ vault_path: /Users/you/OneDrive/2bd-vault
 - Archives: `$VAULT/00_Brain/Periodic/`
 - Templates: `$VAULT/00_Brain/Systemic/Templates/`
 - Directives: `$VAULT/00_Brain/Systemic/Directives/`
+
+### Personal Configuration
+
+- `.claude/config.md` — Vault path (git-ignored)
+- `.claude/settings.local.json` — Personal Claude settings (git-ignored)
+- `.claude.local.md` — Personal CLAUDE.md additions (if needed, git-ignored)

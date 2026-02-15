@@ -1,0 +1,72 @@
+# Orchestration phases for quarterly-planning ritual
+# The orchestrator reads this file to determine subagent execution
+
+phases:
+  # Phase 0: Setup (parallel, read-only)
+  - name: setup
+    parallel: true
+    subagents:
+      - skill: _sub/fetch-config
+        type: explore
+        output: VAULT
+      - skill: _sub/fetch-dates
+        type: explore
+        args: "target={{ARGUMENTS}} scope=quarter"
+        output: DATES
+      - skill: _sub/fetch-directives
+        type: explore
+        output: DIRECTIVES
+        optional: true
+        on_error: "Directives not found. Using defaults."
+
+  # Phase 1: Gather Context (parallel, read-only)
+  - name: gather
+    depends_on: [setup]
+    parallel: true
+    subagents:
+      - skill: _sub/fetch-year-content
+        type: explore
+        output: YEAR
+        optional: true
+        on_error: "Year.md not found. Annual context unavailable."
+      - skill: _sub/gather-quarter-context
+        type: explore
+        args: "vault={{VAULT}} quarter={{DATES.prior_quarter}} months={{DATES.prior_quarter_months}}"
+        output: PRIOR_QUARTER
+        optional: true
+        on_error: "Prior quarter context unavailable."
+      - skill: _sub/fetch-active-projects
+        type: explore
+        args: "filter=all"
+        output: PROJECTS
+        optional: true
+        on_error: "No active projects found."
+      - skill: _sub/fetch-quarter-content
+        type: explore
+        output: CURRENT_QUARTER
+        optional: true
+        on_error: "Current Quarter.md not found."
+
+  # Phase 2: Pre-flight Check (inline)
+  - name: preflight
+    depends_on: [gather]
+    inline: true
+
+  # Phase 3: Interactive Planning (inline - requires user)
+  - name: interact
+    depends_on: [preflight]
+    inline: true
+
+  # Phase 4: Generate Plan (inline)
+  - name: generate
+    depends_on: [interact]
+    inline: true
+
+  # Phase 5: Write Output (write-capable subagent)
+  - name: write
+    depends_on: [generate]
+    subagents:
+      - skill: _sub/write-captive-note
+        type: general-purpose
+        args: "path={{VAULT}}/00_Brain/Captive/Quarter.md content={{PLAN}}"
+        output: WRITE_RESULT

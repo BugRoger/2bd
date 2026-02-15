@@ -1,0 +1,90 @@
+# Orchestration phases for daily-review ritual
+# The orchestrator reads this file to determine subagent execution
+
+phases:
+  # Phase 0: Setup (parallel, read-only)
+  - name: setup
+    parallel: true
+    subagents:
+      - skill: _sub/fetch-config
+        type: explore
+        output: VAULT
+      - skill: _sub/fetch-dates
+        type: explore
+        args: "target={{ARGUMENTS}}"
+        output: DATES
+      - skill: _sub/fetch-directives
+        type: explore
+        output: DIRECTIVES
+        optional: true
+        on_error: "Directives not found. Using defaults."
+
+  # Phase 1: Load Today.md (read-only)
+  - name: load
+    depends_on: [setup]
+    subagents:
+      - skill: _sub/fetch-today-content
+        type: explore
+        args: "vault={{VAULT}}"
+        output: TODAY_CONTENT
+
+  # Phase 2: Pre-flight Check (inline - verify state)
+  - name: preflight
+    depends_on: [load]
+    inline: true
+
+  # Phase 3: Interactive Review (inline - requires user dialogue)
+  - name: interact
+    depends_on: [preflight]
+    inline: true
+
+  # Phase 4: Parallel Synthesis (prepare semantic updates)
+  - name: synthesize
+    depends_on: [interact]
+    parallel: true
+    subagents:
+      - skill: _sub/people-updates
+        type: explore
+        args: "vault={{VAULT}} meetings={{TODAY_CONTENT.sections.meetings}} people={{TODAY_CONTENT.entities.people}}"
+        output: PEOPLE_UPDATES
+        optional: true
+        on_error: "No people updates generated."
+      - skill: _sub/project-updates
+        type: explore
+        args: "vault={{VAULT}} priorities={{TODAY_CONTENT.sections.priorities}} wins={{TODAY_CONTENT.sections.wins}} projects={{TODAY_CONTENT.entities.projects}}"
+        output: PROJECT_UPDATES
+        optional: true
+        on_error: "No project updates generated."
+      - skill: _sub/insight-updates
+        type: explore
+        args: "vault={{VAULT}} insights={{TODAY_CONTENT.sections.insights}}"
+        output: INSIGHT_UPDATES
+        optional: true
+        on_error: "No insight updates generated."
+      - skill: _sub/resource-updates
+        type: explore
+        args: "vault={{VAULT}} captures={{TODAY_CONTENT.sections.captures}}"
+        output: RESOURCE_UPDATES
+        optional: true
+        on_error: "No resource updates generated."
+
+  # Phase 5: Confirm Updates (inline - user approval)
+  - name: confirm
+    depends_on: [synthesize]
+    inline: true
+
+  # Phase 6: Write Archive and Semantic Updates (parallel writes)
+  - name: write
+    depends_on: [confirm]
+    parallel: true
+    subagents:
+      - skill: _sub/archive-daily
+        type: general-purpose
+        args: "vault={{VAULT}} date={{DATES.target_date}} content={{ARCHIVE}}"
+        output: ARCHIVE_RESULT
+      - skill: _sub/update-semantic
+        type: general-purpose
+        args: "vault={{VAULT}} updates={{SEMANTIC_UPDATES}}"
+        output: SEMANTIC_RESULT
+        optional: true
+        on_error: "Semantic updates skipped."

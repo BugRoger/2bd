@@ -1,0 +1,80 @@
+# Orchestration phases for weekly-review ritual
+# The orchestrator reads this file to determine subagent execution
+
+phases:
+  # Phase 0: Setup (parallel, read-only)
+  - name: setup
+    parallel: true
+    subagents:
+      - skill: _sub/fetch-config
+        type: explore
+        output: VAULT
+      - skill: _sub/fetch-dates
+        type: explore
+        args: "target={{ARGUMENTS}} scope=week"
+        output: DATES
+      - skill: _sub/fetch-directives
+        type: explore
+        output: DIRECTIVES
+        optional: true
+        on_error: "Directives not found. Using defaults."
+
+  # Phase 1: Load Week.md (read-only)
+  - name: load
+    depends_on: [setup]
+    subagents:
+      - skill: _sub/fetch-week-content
+        type: explore
+        args: "vault={{VAULT}}"
+        output: WEEK_CONTENT
+
+  # Phase 2: Gather Daily Archives (read-only)
+  - name: gather
+    depends_on: [setup]
+    subagents:
+      - skill: _sub/gather-week-context
+        type: explore
+        args: "vault={{VAULT}} week={{DATES.week}} week_start={{DATES.week_start}} week_end={{DATES.week_end}}"
+        output: WEEK_CONTEXT
+
+  # Phase 3: Pre-flight Check (inline - verify state)
+  - name: preflight
+    depends_on: [load, gather]
+    inline: true
+
+  # Phase 4: Interactive Review (inline - requires user dialogue)
+  - name: interact
+    depends_on: [preflight]
+    inline: true
+
+  # Phase 5: Parallel Synthesis (prepare semantic updates)
+  - name: synthesize
+    depends_on: [interact]
+    subagents:
+      - skill: _sub/extract-to-areas
+        type: explore
+        args: "vault={{VAULT}} scope=week people={{WEEK_CONTEXT.aggregates.unique_people}} projects={{WEEK_CONTEXT.aggregates.unique_projects}} insights={{WEEK_SYNTHESIS.insights}} context={{WEEK_CONTEXT}}"
+        output: SEMANTIC_UPDATES
+        optional: true
+        on_error: "No semantic updates generated."
+
+  # Phase 6: Confirm Updates (inline - user approval)
+  - name: confirm
+    depends_on: [synthesize]
+    inline: true
+
+  # Phase 7: Write Archive and Semantic Updates (parallel writes)
+  - name: write
+    depends_on: [confirm]
+    parallel: true
+    subagents:
+      - skill: _sub/archive-weekly
+        type: general-purpose
+        args: "vault={{VAULT}} week={{DATES.week}} content={{ARCHIVE}} daily_links={{WEEK_CONTEXT.daily_links}}"
+        output: ARCHIVE_RESULT
+      - skill: _sub/update-semantic
+        type: general-purpose
+        args: "vault={{VAULT}} updates={{SEMANTIC_UPDATES}}"
+        output: SEMANTIC_RESULT
+        optional: true
+        on_error: "Semantic updates skipped."
