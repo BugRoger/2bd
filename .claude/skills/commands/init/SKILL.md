@@ -2,11 +2,19 @@
 name: init
 description: Bootstrap or configure 2bd. Use 'fresh' to set up a new vault, 'reconnect' to link an existing vault, or 'profile' to update your user profile.
 argument-hint: "[fresh --vault=/path | reconnect --vault=/path | profile]"
+metadata:
+  orchestrated: true
 ---
 
 # Init Action
 
 Manages the connection between the 2bd engine and the user's vault.
+
+## Context
+
+- Engine configuration (if exists)
+- Vault structure validation
+- Existing directive files (user-profile.md, ai-personality.md)
 
 ## Mode Detection
 
@@ -17,7 +25,7 @@ Parse arguments to determine mode:
 - **profile** — Update user profile without changing vault connection
 - **no mode** — Auto-detect based on current state
 
-Auto-detection checks whether config exists and vault path is valid, then suggests the appropriate mode.
+Auto-detect by checking whether config exists and vault path is valid, then suggest the appropriate mode.
 
 ---
 
@@ -25,28 +33,18 @@ Auto-detection checks whether config exists and vault path is valid, then sugges
 
 Set up a new vault from scratch.
 
-### Vault Path
-
-Get the vault path from `--vault=` argument or ask the user. The path should be a folder that syncs (OneDrive, iCloud, Dropbox). Example: `~/OneDrive/2bd-vault`.
+Start by getting the vault path from `--vault=` argument or asking the user. The path should be a folder that syncs (OneDrive, iCloud, Dropbox). Example: `~/OneDrive/2bd-vault`.
 
 Validate the path exists. Warn if inside a git repo (vaults should not be in repos). Warn if the folder already has files and offer to merge or choose a different path.
-
-### Scaffold
 
 Copy the scaffold structure to the vault path. This creates:
 - Hub files (✱ Home.md, ✱ Projects.md, ✱ People.md, ✱ Insights.md)
 - Templates (Captive + Periodic + PARA)
 - Directory structure with .gitkeep placeholders
 
-### Engine Config
-
 Write `.claude/config.md` with the vault path.
 
-### Profile
-
-Run the profile interview (see below).
-
-### Confirmation
+Run the profile interview to gather user information and preferences.
 
 Confirm the vault is ready and suggest next steps: open in Obsidian, run `/daily-planning`.
 
@@ -56,21 +54,13 @@ Confirm the vault is ready and suggest next steps: open in Obsidian, run `/daily
 
 Link an existing vault.
 
-### Vault Path
-
 Get the vault path from `--vault=` argument or ask the user.
 
 Validate the vault structure exists (00_Brain/, Systemic/Templates/). If missing, suggest fresh install instead.
 
-### Engine Config
-
 Write `.claude/config.md` with the vault path.
 
-### Directives Check
-
 Check if user-profile.md exists in Directives. If not, offer to run the profile interview.
-
-### Confirmation
 
 Confirm reconnection and suggest `/daily-planning`.
 
@@ -80,23 +70,21 @@ Confirm reconnection and suggest `/daily-planning`.
 
 Update user profile without changing vault connection.
 
-### Prerequisites
-
-Load config using `_sub/fetch-config`. Error if no vault is configured.
+Check that vault is configured. Error if no vault is configured.
 
 Check for existing profiles in Directives. Ask for confirmation before overwriting.
 
-### Interview
-
-Run the profile interview (see below).
+Run the profile interview.
 
 ---
 
 ## Profile Interview
 
-Conversational interview to gather user information. Ask questions one section at a time.
+Conduct a conversational interview to gather user information. Ask questions one section at a time.
 
 ### User Profile
+
+Gather information about:
 
 **Basic Identity** — Name, preferred name, role, what they do.
 
@@ -109,6 +97,8 @@ Conversational interview to gather user information. Ask questions one section a
 Write to `$VAULT/00_Brain/Systemic/Directives/user-profile.md` using the template.
 
 ### AI Personality
+
+Gather preferences for:
 
 **Communication Style** — Formality level, directness, humor preference.
 
