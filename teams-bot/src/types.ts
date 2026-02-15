@@ -76,3 +76,21 @@ export interface OutgoingActivity {
   attachments?: Attachment[];
   textFormat?: "plain" | "markdown";
 }
+
+// Session management types
+import type { ChildProcess } from "child_process";
+
+export interface Session {
+  conversationId: string;
+  skill: string;
+  process: ChildProcess;
+  startedAt: Date;
+  lastActivity: Date;
+}
+
+export interface SessionState {
+  pid: number;
+  skill: string;
+  conversationId: string;
+  startedAt: string;
+}
