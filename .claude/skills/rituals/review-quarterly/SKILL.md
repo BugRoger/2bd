@@ -120,9 +120,8 @@ Each returns structured proposals for user approval.
 
 Execute confirmed writes:
 
-- Archive Quarter.md content to Periodic/Quarterly/
 - Apply semantic note updates
-- Update Quarter.md with archived placeholder
+- Archive Quarter.md to Periodic/Quarterly/{quarter}.md. Transform the content into the archive format, ensuring the target directory exists. Write the file and verify the write succeeded. Call append-changelog to record the archival. Replace Quarter.md in Captive with an archived placeholder.
 
 Report completion and suggest next steps:
 - Quarterly planning when ready for next quarter
@@ -175,4 +174,4 @@ Quarter.md + Monthly/*.md    Quarterly/YYYY-QN.md         People/, Projects/,
 - **get-quarter-content**: Sub-skill that parses Quarter.md structure
 - **gather-quarter-context**: Sub-skill that collects monthly archives
 - **extract-to-areas**: Sub-skill that prepares semantic updates
-- **archive-quarterly**: Sub-skill that handles Captive → Periodic transition
+- **append-changelog**: Sub-skill that records archival events
