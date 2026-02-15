@@ -20,64 +20,17 @@ Arguments are passed as key-value pairs:
 
 ## Instructions
 
-### 1. Generate Timestamp
+Generate the current timestamp in format `YYYY-MM-DD HH:mm` (24-hour).
 
-Get current date and time in format `YYYY-MM-DD HH:mm` (24-hour).
+Build the changelog entry in this format: `- {timestamp} **{skill}** — {action}{sections_text}{summary_text}`, where sections_text includes section names if provided, and summary_text includes additional context if provided.
 
-### 2. Build Entry
+Read the existing content of the file. If the file doesn't exist, return an error indicating the file must exist before appending changelog entries.
 
-Format:
-```
-- `{timestamp}` **{skill}** — {action}{sections_text}{summary_text}
-```
-
-Where:
-- `{sections_text}` = ` {sections} sections` if sections provided, else empty
-- `{summary_text}` = ` ({summary})` if summary provided, else empty
-
-**Examples:**
-```
-- `2026-02-15 09:32` **planning-daily** — Rewrote Focus, Context From Above sections
-- `2026-02-15 18:30` **review-daily** — Added entry to Interactions section (from synthesis)
-- `2026-02-15 10:00` **create-project** — Created project
-```
-
-### 3. Read File
-
-Read the existing content of the file at `path`.
-
-If file doesn't exist, return error:
-```json
-{
-  "success": false,
-  "error": "file_not_found",
-  "message": "Cannot append changelog: file does not exist"
-}
-```
-
-### 4. Locate Changelog Section
-
-Find `## Changelog` heading (case-insensitive).
-
-**If section exists:**
-- Find the line immediately after the heading
-- Skip any italicized placeholder text (lines starting with `*`)
-- Insert entry at the top of the list (before existing entries)
-
-**If section does not exist:**
-- Append new section at end of file:
-```markdown
-
-## Changelog
-
-{entry}
-```
-
-### 5. Write Updated File
+Locate the `## Changelog` heading (case-insensitive). If the section exists, insert the entry at the top of the list after the heading, skipping any italicized placeholder text. If the section doesn't exist, append a new Changelog section at the end of the file.
 
 Write the modified content back to the file.
 
-### 6. Return Result
+Return structured output in a markdown code block:
 
 **Success:**
 ```json
