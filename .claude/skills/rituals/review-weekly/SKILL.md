@@ -8,7 +8,7 @@ argument-hint: "[target-week: (empty)|last week|YYYY-Www]"
 
 Evening ritual for synthesizing a week's work, reflecting on leadership intentions and patterns, extracting learnings to semantic notes, and archiving to Periodic/Weekly/.
 
-## What I Need
+## Context
 
 - Week.md for the target week
 - All daily archive files for the week (workdays)
@@ -21,7 +21,7 @@ Evening ritual for synthesizing a week's work, reflecting on leadership intentio
 
 ---
 
-## Pre-Flight Check
+## Validate
 
 Read memory.md to see what context is available.
 
@@ -38,7 +38,7 @@ Proceed only when state is validated.
 
 ---
 
-## Interactive Review
+## Session
 
 Greet the user using their preferred name from directives.
 
@@ -103,7 +103,7 @@ Check for incomplete decisions. Ask what the focus theme should be for next week
 
 ---
 
-## Synthesis
+## Compose
 
 Use Task tool to spawn parallel sub-skills for semantic note updates based on the completed review:
 
@@ -115,22 +115,7 @@ Each returns structured proposals for user approval.
 
 ---
 
-## Confirm
-
-Present all proposed changes for approval:
-
-- Archive destination (Periodic/Weekly/{week}.md) and week summary
-- Each semantic note update with target file, section, and content preview
-
-Options:
-- **Proceed all** — archive and apply all updates
-- **Archive only** — skip semantic updates
-- **Review each** — approve individually
-- **Cancel** — exit (captured synthesis preserved in Week.md)
-
----
-
-## Write
+## Persist
 
 Execute confirmed writes using sub-skills:
 
@@ -146,6 +131,21 @@ Report completion and suggest next steps:
 - Quarter.md updates if patterns emerged
 
 If directives were not available, suggest running `/init`.
+
+---
+
+## Confirm
+
+Present all proposed changes for approval:
+
+- Archive destination (Periodic/Weekly/{week}.md) and week summary
+- Each semantic note update with target file, section, and content preview
+
+Options:
+- **Proceed all** — archive and apply all updates
+- **Archive only** — skip semantic updates
+- **Review each** — approve individually
+- **Cancel** — exit (captured synthesis preserved in Week.md)
 
 ---
 

@@ -8,7 +8,7 @@ argument-hint: "[target-date: today|yesterday|YYYY-MM-DD]"
 
 Evening ritual for reflecting on the day, completing wins and insights with personalized coaching, synthesizing learnings to semantic notes, and archiving to Periodic.
 
-## What I Need
+## Context
 
 - Today.md file for the target date
 - User's directives and preferences
@@ -20,7 +20,7 @@ Evening ritual for reflecting on the day, completing wins and insights with pers
 
 ---
 
-## Pre-Flight Check
+## Validate
 
 Read memory.md to see what context is available.
 
@@ -36,7 +36,7 @@ Proceed only when state is validated.
 
 ---
 
-## Interactive Review
+## Session
 
 Guide the user through reflection on the day. Load Week.md (path in memory.md) for coaching context.
 
@@ -88,7 +88,7 @@ Connect insights to longer-term development patterns from directives and Week.md
 
 ---
 
-## Synthesis
+## Compose
 
 Use Task tool to spawn parallel sub-skills for semantic note updates based on the completed review:
 
@@ -116,7 +116,7 @@ Options:
 
 ---
 
-## Write
+## Persist
 
 Execute confirmed writes using sub-skills:
 

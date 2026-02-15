@@ -24,7 +24,7 @@ Evening ritual for synthesizing a month's work, reflecting on outcomes and growt
 
 ---
 
-## Pre-flight
+## Validate
 
 Verify the month state before reviewing:
 
@@ -37,7 +37,7 @@ Proceed only when state is validated.
 
 ---
 
-## Interactive Review
+## Session
 
 Guide the user through reflection on the month.
 
@@ -96,7 +96,7 @@ Check for strategic items that should surface in quarterly planning. Ask what th
 
 ---
 
-## Synthesis
+## Compose
 
 Parallel subagents prepare semantic note updates based on the completed review:
 
@@ -123,7 +123,7 @@ Options:
 
 ---
 
-## Write
+## Persist
 
 Execute confirmed writes:
 
