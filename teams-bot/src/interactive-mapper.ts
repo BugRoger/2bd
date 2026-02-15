@@ -30,18 +30,59 @@ export interface AdaptiveCard {
   actions: AdaptiveCardAction[];
 }
 
-interface AdaptiveCardElement {
-  type: string;
-  [key: string]: any;
+/**
+ * Adaptive Card element types used in this mapper
+ * Using discriminated unions for type safety
+ */
+type AdaptiveCardElement =
+  | TextBlockElement
+  | InputChoiceSetElement
+  | InputTextElement;
+
+interface TextBlockElement {
+  type: "TextBlock";
+  text: string;
+  wrap?: boolean;
+  weight?: "Lighter" | "Default" | "Bolder";
+  size?: "Small" | "Default" | "Medium" | "Large" | "ExtraLarge";
 }
 
+interface InputChoiceSetElement {
+  type: "Input.ChoiceSet";
+  id: string;
+  style?: "compact" | "expanded";
+  isMultiSelect?: boolean;
+  choices: Array<{
+    title: string;
+    value: string;
+  }>;
+}
+
+interface InputTextElement {
+  type: "Input.Text";
+  id: string;
+  placeholder?: string;
+  isMultiline?: boolean;
+}
+
+/**
+ * Adaptive Card action types
+ */
 interface AdaptiveCardAction {
-  type: string;
+  type: "Action.Submit";
   title: string;
-  [key: string]: any;
+  data?: Record<string, any>;
 }
 
 export class InteractiveMapper {
+  /**
+   * Pattern to match numbered options in CLI output
+   * Matches: "1. Option", "2) Option", "  3. Option" (with leading whitespace)
+   * Limitation: May match indented numbered lists that aren't actual prompt options.
+   * This is acceptable as the parser stops at the first non-matching line after options begin.
+   */
+  private static readonly OPTIONS_PATTERN = /^\s*(\d+)[.)]\s+(.+)/;
+
   /**
    * Detect and parse a prompt from Claude CLI output
    *
@@ -70,11 +111,10 @@ export class InteractiveMapper {
 
     // Check for numbered options after the question
     const options: string[] = [];
-    const optionPattern = /^\s*(\d+)[.)]\s+(.+)/;
 
     for (let i = questionIndex + 1; i < lines.length; i++) {
       const line = lines[i];
-      const match = line.match(optionPattern);
+      const match = line.match(InteractiveMapper.OPTIONS_PATTERN);
       if (match) {
         options.push(match[2]);
       } else if (line.trim() && options.length > 0) {
@@ -113,6 +153,11 @@ export class InteractiveMapper {
    * Check if options represent a yes/no confirmation
    */
   private isConfirmPrompt(options: string[]): boolean {
+    // Guard: Confirm prompts must have exactly 2 options
+    if (options.length !== 2) {
+      return false;
+    }
+
     const opt1 = options[0].toLowerCase();
     const opt2 = options[1].toLowerCase();
 
@@ -206,8 +251,9 @@ export class InteractiveMapper {
         break;
 
       case PromptType.CONFIRM:
+        // Add two action buttons for yes/no
+        // Guard: Ensure we have exactly 2 options before accessing them
         if (prompt.options && prompt.options.length === 2) {
-          // Add two action buttons for yes/no
           card.actions.push({
             type: "Action.Submit",
             title: prompt.options[0],
@@ -216,6 +262,18 @@ export class InteractiveMapper {
           card.actions.push({
             type: "Action.Submit",
             title: prompt.options[1],
+            data: { action: "submit", response: "2" },
+          });
+        } else {
+          // Fallback to default confirm buttons if options are missing or invalid
+          card.actions.push({
+            type: "Action.Submit",
+            title: "Yes",
+            data: { action: "submit", response: "1" },
+          });
+          card.actions.push({
+            type: "Action.Submit",
+            title: "No",
             data: { action: "submit", response: "2" },
           });
         }
@@ -232,21 +290,22 @@ export class InteractiveMapper {
    * @returns CLI input string
    */
   parseSubmission(cardData: any): string {
-    // Handle confirm style (response in data)
+    // Handle confirm style (response sent at top level in action data)
     if (cardData.response) {
       return cardData.response;
     }
 
-    // Handle input style (response from input field)
-    if (cardData.data?.response) {
-      const response = cardData.data.response;
+    // Handle input field style (response from user input)
+    // Note: Input fields send their values directly in cardData, not nested under cardData.data
+    const response = cardData.response;
 
+    if (response !== undefined && response !== null) {
       // Handle multi-select (comma-separated values)
       if (Array.isArray(response)) {
         return response.join(",");
       }
 
-      return response;
+      return String(response);
     }
 
     // Fallback to empty string
