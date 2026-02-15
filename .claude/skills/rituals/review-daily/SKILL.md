@@ -2,34 +2,35 @@
 name: daily-review
 description: Review and archive a day's work. Guides reflection on wins and insights, synthesizes learnings to semantic notes (People, Projects, Insights, Resources), and archives to Periodic. Accepts an optional target date (default: today).
 argument-hint: "[target-date: today|yesterday|YYYY-MM-DD]"
-metadata:
-  orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Daily Review
 
 Evening ritual for reflecting on the day, completing wins and insights with personalized coaching, synthesizing learnings to semantic notes, and archiving to Periodic.
 
-## Flow
+## What I Need
 
-1. **Setup** — Load config, dates, directives
-2. **Load** — Parse Today.md content and structure
-3. **Pre-flight** — Verify note state, check for conflicts
-4. **Interact** — Guide reflection (see [coaching.md](coaching.md))
-5. **Synthesize** — Prepare semantic note updates (parallel)
-6. **Confirm** — Present changes for approval
-7. **Write** — Archive to Periodic, update semantic notes
+- Today.md file for the target date
+- User's directives and preferences
+- Week.md for weekly context
+- Calendar events for the day (for meeting context)
+- People files for anyone mentioned in meetings
+- Active project files
+- Existing daily archive if re-reviewing
 
 ---
 
-## Pre-flight
+## Pre-Flight Check
 
-Verify the note state before reviewing:
+Read memory.md to see what context is available.
+
+Load Today.md from vault (path in memory.md). Verify the note state before reviewing:
 
 - Check date alignment between Today.md frontmatter and the target review date. If mismatched, ask which date to review.
 - Check if an archive already exists for this date in Periodic/Daily/. If exists, offer to view or re-review.
 - Check for an archived marker in Today.md frontmatter. If present, the day has already been archived.
+
+If directives are unavailable, note that and proceed with limited coaching context.
 
 Proceed only when state is validated.
 
@@ -37,15 +38,17 @@ Proceed only when state is validated.
 
 ## Interactive Review
 
-Guide the user through reflection on the day.
+Guide the user through reflection on the day. Load Week.md (path in memory.md) for coaching context.
 
 ### Check-in
 
-Start with a brief energy check. Compare to the morning energy level from the frontmatter. Note any shift.
+Greet the user using their preferred name from directives.
+
+Start with a brief energy check. Compare to the morning energy level from Today.md frontmatter. Note any shift.
 
 ### Upcoming Key Dates
 
-If KEY_DATES contains dates within 7 days, surface them:
+If Week.md contains key dates within 7 days, surface them:
 
 **Countdown reminder:**
 ```
@@ -57,7 +60,7 @@ Note any dates requiring prep this week.
 
 ### Priority Status
 
-Review each priority from the day's focus section:
+Review each priority from Today.md focus section:
 
 - State the priority text and current completion status
 - Ask: "How did this go? Completed / Partial / Deferred?"
@@ -65,7 +68,7 @@ Review each priority from the day's focus section:
 
 ### Coached Wins
 
-Apply coaching guidance from [coaching.md](coaching.md). Generate contextual questions based on what actually happened—meetings, priorities, energy, captures—combined with development context from directives.
+Apply coaching guidance from [coaching.md](coaching.md) in this directory. Generate contextual questions based on what actually happened—meetings, priorities, energy, captures—combined with development context from directives.
 
 Cover each wins category:
 - Personal
@@ -81,18 +84,18 @@ Guide through:
 - What Could Be Better
 - Key Insight
 
-Connect insights to longer-term development.
+Connect insights to longer-term development patterns from directives and Week.md.
 
 ---
 
 ## Synthesis
 
-Parallel subagents prepare semantic note updates based on the completed review:
+Use Task tool to spawn parallel sub-skills for semantic note updates based on the completed review:
 
-- **People** — updates from 1:1 meetings and interactions
-- **Projects** — updates from wins and priority completion
-- **Insights** — updates from key learnings
-- **Resources** — updates from captures (links, articles, ideas)
+- **extract-to-areas** — Identify updates from 1:1 meetings and interactions for People files
+- **update-semantic** — Prepare project updates from wins and priority completion
+- **update-semantic** — Prepare insight notes from key learnings
+- **update-semantic** — Prepare resource notes from captures (links, articles, ideas)
 
 Each returns structured proposals for user approval.
 
@@ -102,7 +105,7 @@ Each returns structured proposals for user approval.
 
 Present all proposed changes for approval:
 
-- Archive destination (Periodic/Daily/) and day summary
+- Archive destination (Periodic/Daily/{date}.md) and day summary
 - Each semantic note update with target file, section, and content preview
 
 Options:
@@ -115,11 +118,13 @@ Options:
 
 ## Write
 
-Execute confirmed writes:
+Execute confirmed writes using sub-skills:
 
-- Archive Today.md content to Periodic/Daily/
-- Apply semantic note updates
-- Update Today.md with archived placeholder
+Use `archive-daily` sub-skill to move Today.md to Periodic/Daily/.
+
+Use `update-semantic` sub-skill for each approved semantic note update.
+
+Update Today.md with archived placeholder marker in frontmatter.
 
 Report completion and suggest next steps:
 - Daily planning for tomorrow
@@ -149,8 +154,8 @@ Today.md                      Daily/YYYY-MM-DD.md        People/, Projects/,
 
 ## Integration
 
-- **daily-planning**: Morning counterpart that creates Today.md
-- **weekly-review**: Synthesizes daily archives into weekly patterns
-- **get-today-content**: Sub-skill that parses Today.md structure
+- **planning-daily**: Morning counterpart that creates Today.md
+- **review-weekly**: Synthesizes daily archives into weekly patterns
 - **archive-daily**: Sub-skill that handles Captive → Periodic transition
 - **update-semantic**: Sub-skill that appends to semantic notes
+- **extract-to-areas**: Sub-skill that identifies People file updates
