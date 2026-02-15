@@ -22,7 +22,19 @@ A start-of-quarter ritual to set quarterly theme, key outcomes, and coaching foc
 
 ---
 
-## Pre-flight
+## Context
+
+This skill needs the following context (loaded by the orchestrator):
+
+- Year.md with annual goals and leadership development focus
+- Prior quarter data from gather-quarter-context sub-skill
+- Active project files from 01_Projects/
+- Current Quarter.md state (if exists)
+- User directives from profile.md
+
+---
+
+## Validate
 
 Before overwriting the current Quarter.md, verify its state:
 
@@ -32,7 +44,7 @@ Before overwriting the current Quarter.md, verify its state:
 
 ---
 
-## Planning Session
+## Session
 
 ### Annual Context
 
@@ -146,7 +158,7 @@ Example questions:
 
 ---
 
-## Generate
+## Compose
 
 Use the Quarter.md template as the source of truth. Fill:
 
@@ -157,6 +169,12 @@ Use the Quarter.md template as the source of truth. Fill:
 - **Monthly Progress** sections empty (filled during monthly reviews)
 - **Wins** sections empty (filled during quarterly review)
 - **Reflections** sections empty (filled during quarterly review)
+
+---
+
+## Persist
+
+Write Quarter.md to Captive.
 
 ---
 
