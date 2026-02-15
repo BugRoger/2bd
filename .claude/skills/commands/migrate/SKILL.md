@@ -20,17 +20,11 @@ Helps existing 2bd users migrate from a combined repository to the separated eng
 
 ## Workflow
 
-### Vault Path
-
 Get the vault path from `--vault=` argument or ask the user. The path should be a folder that syncs (OneDrive, iCloud, Dropbox).
 
 Validate the path exists. Warn if inside a git repo (vaults should not be in repos). Error if the folder already has files.
 
-### Scaffold
-
 Create the vault from the scaffold structure.
-
-### Content Migration
 
 Copy existing personal content from the repo to the vault:
 
@@ -42,15 +36,9 @@ Copy existing personal content from the repo to the vault:
 - **Areas** — People and Insights
 - **Archives** — Completed/inactive content
 
-### Engine Config
-
 Write `.claude/config.md` with the vault path.
 
-### Report
-
 Count and report what was copied: Captive notes, Periodic archives, Projects, People files, Directives.
-
-### Cleanup Instructions
 
 Provide cleanup commands for the user to run manually:
 - Delete personal content from the engine repo (now in vault)
