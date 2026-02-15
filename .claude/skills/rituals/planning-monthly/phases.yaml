@@ -42,7 +42,7 @@ phases:
         on_error: "Prior month context unavailable."
       - skill: _sub/fetch-projects-vault
         type: explore
-        args: "filter=all"
+        args: "scope=all"
         output: PROJECTS
         optional: true
         on_error: "No active projects found."
