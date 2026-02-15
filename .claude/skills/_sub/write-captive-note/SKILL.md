@@ -5,6 +5,10 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Bash
 ---
 
+<HARD-GATE>
+Before writing prose to any file, pass the content through the `apply-writing-style` sub-skill. Invoke it with the draft content, receive polished version, then proceed with the write.
+</HARD-GATE>
+
 # Write Captive Note
 
 This sub-skill writes content to a Captive note in the vault, with validation to prevent accidental data loss.
