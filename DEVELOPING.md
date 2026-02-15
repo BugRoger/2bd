@@ -44,20 +44,16 @@ Skills are organized by type:
 
 ```
 .claude/skills/
-├── rituals/              # Scheduled routines
-│   ├── planning/         # Forward-looking (daily-planning, etc.)
-│   └── review/           # Reflective (daily-review, etc.)
-├── actions/              # One-shot helpers (init, create-project)
-├── _sub/                 # Composable building blocks
-│   ├── synthesis/        # Content operations
-│   └── fetch/            # Data retrieval
+├── rituals/              # Scheduled routines (planning-daily, review-weekly, etc.)
+├── commands/             # One-shot helpers (init, migrate, onboard-person)
+├── _sub/                 # Composable building blocks (fetch-*, gather-*, archive-*, write-*)
 └── _dev/                 # Development-time skills
 ```
 
 **Types:**
 - **Rituals** — Scheduled routines that drive the engine (planning prepares Captive, review archives to Periodic)
-- **Actions** — Discrete one-shot helpers triggered on-demand
-- **Sub-skills** — Composable building blocks that rituals and actions use
+- **Commands** — Discrete one-shot helpers triggered on-demand
+- **Sub-skills** — Composable building blocks that rituals and commands use
 - **Dev skills** — Engine maintenance (not part of production system)
 
 ---
@@ -70,14 +66,18 @@ Skills are organized by type:
 │   ├── config.md             # Vault path configuration (git-ignored)
 │   └── skills/
 │       ├── rituals/
-│       │   ├── planning/     # daily-planning, weekly-planning, etc.
-│       │   └── review/       # daily-review, weekly-review, etc.
-│       ├── actions/
+│       │   ├── planning-daily/
+│       │   ├── planning-weekly/
+│       │   ├── review-daily/
+│       │   └── review-weekly/   # etc.
+│       ├── commands/
 │       │   ├── init/         # Bootstrap or configure vault
 │       │   └── migrate/      # Migrate from combined repo
 │       ├── _sub/
-│       │   ├── synthesis/    # gather-context, extract-actions, etc.
-│       │   └── fetch/        # get-dates, get-calendar, get-template
+│       │   ├── fetch-dates/
+│       │   ├── fetch-calendar/
+│       │   ├── gather-week-context/
+│       │   └── archive-daily/   # etc.
 │       └── _dev/
 │           └── sync-templates/
 │
@@ -114,7 +114,7 @@ Skills should read as plain prose describing *what happens*, not scripts with ex
 **Do:**
 - Write descriptive prose: "Load config to get the vault path. Validate the structure exists."
 - Organize into sections describing the flow: Setup, Interview, Output
-- Reference sub-skills naturally: "Load config using `_sub/fetch/get-config`"
+- Reference sub-skills naturally: "Load config using `_sub/fetch-config`"
 - Keep skills scannable — a reader should understand the flow without running it
 
 **Don't:**
@@ -177,7 +177,7 @@ Instructions Claude follows when invoked.
 
 Rituals are scheduled routines. They prepare or archive Captive notes.
 
-1. Create folder in `.claude/skills/rituals/planning/` or `.claude/skills/rituals/review/`
+1. Create folder in `.claude/skills/rituals/planning-` or `.claude/skills/rituals/review-`
    - **Planning rituals** — Forward-looking (prepare Captive from templates)
    - **Review rituals** — Reflective (archive Captive to Periodic)
 
@@ -193,13 +193,13 @@ Rituals are scheduled routines. They prepare or archive Captive notes.
 
 3. Document the ritual flow and expected outcomes
 
-4. Test: `claude skill run rituals/planning/weekly-planning`
+4. Test: `claude skill run rituals/planning-weekly-planning`
 
 ### Creating Actions
 
 Actions are one-shot helpers invoked on-demand.
 
-1. Create folder in `.claude/skills/actions/`
+1. Create folder in `.claude/skills/commands/`
 
 2. Add `SKILL.md` with frontmatter:
    ```yaml
@@ -224,18 +224,19 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 
 | Category | Purpose | Examples |
 |----------|---------|----------|
-| `_sub/synthesis/` | Content combination and transformation | gather-context, extract-actions |
-| `_sub/fetch/` | Data retrieval from system or external sources | get-dates, get-calendar, get-config, get-directives |
-| `_sub/write/` | Write operations with validation | captive-note |
+| `_sub/gather-*` | Content combination and transformation | gather-week-context, gather-month-context |
+| `_sub/fetch-*` | Data retrieval from system or external sources | fetch-dates, fetch-calendar, fetch-config |
+| `_sub/archive-*` | Archive operations | archive-daily, archive-weekly |
+| `_sub/write-*` | Write operations | write-captive-note |
 
 **Creating:**
 
-1. Create folder in `.claude/skills/_sub/synthesis/`, `.claude/skills/_sub/fetch/`, or `.claude/skills/_sub/write/`
+1. Create folder in `.claude/skills/_sub/` with appropriate prefix (fetch-, gather-, archive-, write-)
 
 2. Add `SKILL.md`:
    ```yaml
    ---
-   name: get-dates
+   name: fetch-dates
    description: Get today's date in all required formats
    disable-model-invocation: true  # Invoked by other skills
    allowed-tools: Bash(date *)
@@ -259,10 +260,10 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 ```markdown
 ### 1. Gather Context
 
-**Use sub-skill: `_sub/fetch/get-dates`**
+**Use sub-skill: `_sub/fetch-dates`**
 - Get today's date information in all required formats
 
-**Use sub-skill: `_sub/synthesis/gather-context`**
+**Use sub-skill: `_sub/gather-context`**
 - Scope: day
 - Returns: yesterday's work, recent archives, active projects
 ```
@@ -298,10 +299,10 @@ phases:
   - name: setup
     parallel: true           # Spawn all subagents simultaneously
     subagents:
-      - skill: _sub/fetch/get-config
+      - skill: _sub/fetch-config
         type: explore        # Read-only subagent
         output: VAULT        # Variable name to store result
-      - skill: _sub/fetch/get-directives
+      - skill: _sub/fetch-directives
         type: explore
         output: DIRECTIVES
         optional: true       # Continue if this fails
@@ -312,7 +313,7 @@ phases:
     depends_on: [setup]      # Wait for setup to complete
     parallel: true
     subagents:
-      - skill: _sub/fetch/get-calendar
+      - skill: _sub/fetch-calendar
         type: explore
         args: "scope={{DATES.target_date}}"  # Variable interpolation
         output: CALENDAR
@@ -328,7 +329,7 @@ phases:
   - name: write
     depends_on: [interact]
     subagents:
-      - skill: _sub/write/captive-note
+      - skill: _sub/write-captive-note
         type: general-purpose  # Can modify files
         args: "path={{VAULT}}/Today.md content={{PLAN}}"
 ```
@@ -347,7 +348,7 @@ phases:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `skill` | string | Path to sub-skill (e.g., `_sub/fetch/get-config`) |
+| `skill` | string | Path to sub-skill (e.g., `_sub/fetch-config`) |
 | `type` | string | `explore` (read-only) or `general-purpose` (can write) |
 | `args` | string | Arguments with `{{VAR}}` interpolation |
 | `output` | string | Variable name to store result |
@@ -520,7 +521,7 @@ User-facing skills should load directives as their first step:
 ```markdown
 ### 0. Load Directives
 
-**Use sub-skill: `_sub/fetch/get-directives`**
+**Use sub-skill: `_sub/fetch-directives`**
 
 Apply throughout this ritual:
 - Use `user.preferred_name` in greetings

@@ -82,7 +82,7 @@ Update user profile without changing vault connection.
 
 ### Prerequisites
 
-Load config using `_sub/fetch/get-config`. Error if no vault is configured.
+Load config using `_sub/fetch-config`. Error if no vault is configured.
 
 Check for existing profiles in Directives. Ask for confirmation before overwriting.
 

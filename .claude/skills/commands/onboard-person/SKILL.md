@@ -10,7 +10,7 @@ Create a living dossier for a colleague through a guided interview.
 
 ## Setup
 
-Load config using `_sub/fetch/get-config` to get the vault path. Error if no vault is configured.
+Load config using `_sub/fetch-config` to get the vault path. Error if no vault is configured.
 
 If a name is provided as argument (e.g., `sarah-kim`), use it as the filename. Otherwise, ask for the name and derive the filename.
 

@@ -38,7 +38,7 @@ Parse arguments from `$ARGUMENTS` if provided.
 Read the skill's configuration file:
 
 ```bash
-cat .claude/skills/_sub/fetch/get-calendar/calendars.json
+cat .claude/skills/_sub/fetch-calendar/calendars.json
 ```
 
 Extract:
@@ -196,7 +196,7 @@ Collect the JSON responses from each calendar.
 Other skills (e.g., daily-planning) reference this sub-skill like:
 
 ```markdown
-**Use sub-skill: `_sub/fetch/get-calendar`**
+**Use sub-skill: `_sub/fetch-calendar`**
 - Scope: today
 - Format: json
 

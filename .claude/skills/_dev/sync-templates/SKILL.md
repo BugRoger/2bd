@@ -11,7 +11,7 @@ Synchronize templates between the engine scaffold and the user's vault. Shows di
 
 ## Setup
 
-Load config using `_sub/fetch/get-config` to get the vault path.
+Load config using `_sub/fetch-config` to get the vault path.
 
 ## Template Locations
 

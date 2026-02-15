@@ -24,7 +24,7 @@ phases:
     depends_on: [string]    # Phase names that must complete first
     inline: boolean         # Run in main context, not as subagent (default: false)
     subagents:              # List of subagents to spawn (omit for inline phases)
-      - skill: string       # Path to sub-skill (e.g., _sub/fetch/get-config)
+      - skill: string       # Path to sub-skill (e.g., _sub/fetch-config)
         type: explore | general-purpose
         args: string        # Arguments with {{VAR}} interpolation
         output: string      # Variable name to store result
@@ -167,17 +167,17 @@ phases:
   - name: setup
     parallel: true
     subagents:
-      - skill: _sub/fetch/get-config
+      - skill: _sub/fetch-config
         type: explore
         output: VAULT
-      - skill: _sub/fetch/get-directives
+      - skill: _sub/fetch-directives
         type: explore
         output: DIRECTIVES
         optional: true
   - name: gather
     depends_on: [setup]
     subagents:
-      - skill: _sub/fetch/get-calendar
+      - skill: _sub/fetch-calendar
         type: explore
         args: "scope={{TARGET_DATE}}"
         output: CALENDAR
