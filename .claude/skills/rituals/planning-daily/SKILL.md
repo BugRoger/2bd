@@ -56,6 +56,11 @@ Present context from higher-level planning if available:
 - Flag overdue (❗️) and due-soon (⚠️) projects
 - Show next milestone for each
 
+**Reference Materials** (from QMD search):
+- Documents relevant to today's meetings
+- Project-related artifacts
+- Contextual snippets for preparation
+
 If any context is unavailable, note it and continue. This context informs priority suggestions.
 
 ### Calendar Overview
@@ -115,6 +120,7 @@ Use the template as the source of truth. Fill:
   - Month Theme (from Month.md monthly theme)
   - Patterns to Watch (from Week.md coaching or Quarter.md)
 - **Active Projects** section with urgent projects (overdue/due-soon)
+- **Reference Materials** with QMD search results (if available)
 - **Focus** with priorities and leadership intention
 - **Meetings** with calendar events matched to templates
 - **Wins** with generated coaching prompts
