@@ -14,7 +14,7 @@ Extracts key dates from multiple sources and returns a countdown-formatted list 
 
 - `$VAULT` set by calling skill (via fetch-config)
 - Calendar data from `_sub/fetch-calendar` (optional)
-- Project data from `_sub/fetch-active-projects` (optional)
+- Project data from `_sub/fetch-projects-vault` (optional)
 
 ## Arguments
 
