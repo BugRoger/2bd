@@ -1,0 +1,83 @@
+# Orchestration phases for create-project command
+# Interactive wizard for creating new projects with vault sync
+
+phases:
+  # Phase 0: Setup (parallel, read-only)
+  - name: setup
+    parallel: true
+    subagents:
+      - skill: _sub/fetch-config
+        type: explore
+        output: VAULT
+      - skill: _sub/fetch-projects
+        type: explore
+        args: "scope=active"
+        output: PROJECTS
+        optional: true
+        on_error: "No existing projects found. First project!"
+
+  # Phase 1: Interactive Wizard (inline - requires user)
+  - name: interact
+    depends_on: [setup]
+    inline: true
+    description: |
+      Walk through 5 wizard questions one at a time:
+      1. Project Name (required) - generate slug
+      2. Due Date (required) - flexible formats
+      3. Purpose (required) - one sentence goal
+      4. Key Outcomes (optional) - 1-3 bullets
+      5. Related People (optional) - comma-separated
+
+  # Phase 2: Generate Project Data (inline)
+  - name: generate
+    depends_on: [interact]
+    inline: true
+    description: |
+      Build project data object from wizard responses.
+      Validate all required fields.
+      Confirm with user before syncing.
+
+  # Phase 3: Sync to Vault (required)
+  - name: sync-vault
+    depends_on: [generate]
+    subagents:
+      - skill: _sub/project-sync-vault
+        type: general-purpose
+        args: "action=create vault={{VAULT}} project={{PROJECT}}"
+        output: VAULT_RESULT
+
+  # Phase 4: Sync to Finder (optional, disabled)
+  - name: sync-finder
+    depends_on: [sync-vault]
+    enabled: false
+    optional: true
+    subagents:
+      - skill: _sub/project-sync-finder
+        type: general-purpose
+        args: "action=create project={{PROJECT}}"
+        output: FINDER_RESULT
+        optional: true
+        on_error: "Finder sync skipped."
+
+  # Phase 5: Sync to Outlook (optional, disabled)
+  - name: sync-outlook
+    depends_on: [sync-vault]
+    enabled: false
+    optional: true
+    subagents:
+      - skill: _sub/project-sync-outlook
+        type: general-purpose
+        args: "action=create project={{PROJECT}}"
+        output: OUTLOOK_RESULT
+        optional: true
+        on_error: "Outlook sync skipped."
+
+  # Phase 6: Confirm and Summarize (inline)
+  - name: confirm
+    depends_on: [sync-vault, sync-finder, sync-outlook]
+    inline: true
+    description: |
+      Present summary of created artifacts:
+      - Vault file path and details
+      - Future: Finder folder, Outlook events
+      - Next steps for the user
