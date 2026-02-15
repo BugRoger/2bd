@@ -27,6 +27,14 @@ months: [YYYY-MM, YYYY-MM, YYYY-MM]
 
 ---
 
+## Key Dates
+
+- [Populated during quarterly planning from Year + Calendar + Projects]
+
+*Major milestones, conferences, strategic events for this quarter*
+
+---
+
 ## Coaching Themes
 
 ### Patterns to Watch
