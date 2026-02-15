@@ -1,71 +1,80 @@
 ---
-name: daily-planning
-description: Use when starting your workday to set priorities, review calendar, and align with weekly outcomes.
-argument-hint: "[target-date: today|tomorrow|monday|YYYY-MM-DD]"
-metadata:
-  orchestrated: true
-  phases_file: phases.yaml
+name: planning-daily
+description: Morning ritual for planning the day
+argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
 ---
 
 # Daily Planning
 
-A morning ritual to set intentions, prioritize outcomes, and prepare for the day.
+Help the user plan their day.
 
-## Flow
+## What I Need
 
-1. **Setup** — Load vault config, resolve target date, load directives
-2. **Gather** — Fetch calendar, weekly context, monthly context, active projects
-3. **Pre-flight** — Verify note state, handle stale notes
-4. **Plan** — Present hierarchical context, discuss priorities, leadership intention, generate coaching prompts
-5. **Write** — Generate and save the plan
+- Calendar events for the day
+- User's directives and preferences
+- QMD search results for documents related to meetings and projects
+- Today.md file for this day (may not exist yet)
+- Week.md for weekly context
+- Month.md for monthly context
+- Quarter.md for coaching context
+- People files for anyone with 1:1 meetings
+- Active project files
 
----
+## Pre-Flight Check
 
-## Pre-flight
+Read memory.md to see what context is available.
 
-Before overwriting the current note, verify its state:
+If memory.md doesn't contain expected vault paths, resolve them directly from .claude/config.md vault_path configuration.
 
-- If the note date is older than today and hasn't been archived, block and suggest running the corresponding review first
-- If planning for a future date, warn that the current note will be overwritten
-- Only proceed with explicit confirmation when there's unarchived work
+Check if Today.md already exists. If it does:
+- Check if its date is in the past (older than target date)
+- If the date is in the past and the note hasn't been archived to Periodic, warn about potential data loss
+- Suggest running review-daily first before proceeding with planning
+- If the user wants to proceed anyway, ask whether to:
+- Review existing plan
+- Update existing plan
+- Start fresh (clear and rewrite)
 
----
+If calendar is unavailable, note that and proceed without it.
+If QMD is unavailable, note that and proceed without it.
 
 ## Planning Session
 
-### Hierarchical Context
+Greet the user using their preferred name from directives.
 
-Present context from higher-level planning if available:
+We're planning their day for the target date from memory.md.
 
-**Weekly Context** (from Week.md):
+### Review Context
+
+**Calendar:** Load the calendar from session. What meetings do they have?
+
+**Weekly Context:** Load Week.md from vault (path in memory.md). Present:
 - Focus Theme — What this week is about
 - Key Outcomes — The three weekly outcomes
 - Leadership Intention — Weekly stance
 - Patterns to Watch — From coaching check-in
 
-**Monthly Context** (from Month.md):
+**Monthly Context:** Load Month.md if available (path in memory.md). Present:
 - Monthly Theme — What this month is about
 - Key Outcomes — The three monthly outcomes
 
-**Quarterly Context** (from Quarter.md):
+**Quarterly Context:** Load Quarter.md if available (path in memory.md). Present:
 - Patterns to Watch — Self-awareness patterns for coaching
 - Questions That Serve Me — Coaching questions for reflection
 
-**Active Projects** (from 01_Projects/):
+**Active Projects:** Review active project files (paths in memory.md).
 - List all active projects with timeline urgency
 - Flag overdue (❗️) and due-soon (⚠️) projects
 - Show next milestone for each
 
-**Reference Materials** (from QMD search):
+**Reference Materials:** If QMD search results are available in session, present:
 - Documents relevant to today's meetings
 - Project-related artifacts
 - Contextual snippets for preparation
 
-If any context is unavailable, note it and continue. This context informs priority suggestions.
-
-### Calendar Overview
-
-Present the day's meetings and confirm template assignments. For each meeting, identify whether it's a 1:1 (use person template) or group meeting (use meeting template).
+**1:1 Meeting Context:** For each 1:1 meeting on the calendar:
+- Load that person's file (path in memory.md)
+- Mention context (last interaction, ongoing topics)
 
 ### Context Questions
 
@@ -107,28 +116,58 @@ Generate personalized prompts for Wins and Insights sections, connecting to:
 - Leadership development themes
 - Day-type context (meeting-heavy, deadline, creative)
 
----
+## Generate Plan
 
-## Generate
+Use the Today.md template as the source of truth. Fill:
 
-Use the template as the source of truth. Fill:
+**Frontmatter:**
+- date: Target date (YYYY-MM-DD)
+- day: Day of week name
+- week: ISO week (YYYY-Www)
+- month: YYYY-MM
+- quarter: YYYY-QN
+- energy: Ask user (High/Medium/Low)
+- location: Ask user (Home/Office/Travel/Other)
+- focus_hours: Calculate from calendar gaps
+- meetings: Count from calendar
 
-- **Frontmatter** with target date values
-- **Context From Above** with:
-  - Week Theme (from Week.md focus theme)
-  - Week Outcomes (from Week.md key outcomes)
-  - Month Theme (from Month.md monthly theme)
-  - Patterns to Watch (from Week.md coaching or Quarter.md)
-- **Active Projects** section with urgent projects (overdue/due-soon)
-- **Reference Materials** with QMD search results (if available)
-- **Focus** with priorities and leadership intention
-- **Meetings** with calendar events matched to templates
-- **Wins** with generated coaching prompts
-- **Insights** with generated coaching prompts
+**Context From Above:**
+- Week Theme (from Week.md focus theme)
+- Week Outcomes (from Week.md key outcomes)
+- Month Theme (from Month.md monthly theme)
+- Quarter Patterns to Watch (from Quarter.md)
+- Active Projects (urgent/due-soon projects flagged ❗️⚠️)
+- Reference Materials (QMD search results if available)
 
-Keep Capture section empty for the user to fill during the day.
+**Focus:**
+- Fill Top Priorities with the three outcomes discussed
+- Fill Leadership Intention with chosen stance
 
----
+**Meetings:**
+- For each calendar event, add appropriate template section
+- 1:1s use the Person template with check-in structure
+- Group meetings use standard meeting template
+- Interviews use interview template if applicable
+
+**Wins:**
+- Fill with generated coaching prompts from planning session
+
+**Insights:**
+- Fill with generated coaching prompts from planning session
+
+**Capture, Changelog:**
+- Leave empty for user to fill during the day
+
+Write the generated plan to a file called `plan.md` in the session directory.
+
+## Save to Vault
+
+Use bash to write plan.md to Today.md in vault. The orchestrator provides the session directory path in the SESSION_DIR environment variable:
+
+```bash
+vault_path=$(grep "vault_path:" .claude/config.md | cut -d' ' -f2)
+cp "${SESSION_DIR}/plan.md" "${vault_path}/00_Brain/Captive/Today.md"
+```
 
 ## Confirm
 
@@ -138,3 +177,5 @@ After writing, summarize:
 - Number of meetings prepared
 
 Suggest time-blocking strategies if helpful.
+
+Confirm with the user that their day is planned.
