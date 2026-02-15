@@ -19,6 +19,14 @@ quarters: [YYYY-Q1, YYYY-Q2, YYYY-Q3, YYYY-Q4]
 
 ---
 
+## Key Dates
+
+- [Populated during yearly planning]
+
+*Annual milestones, major conferences, fiscal deadlines*
+
+---
+
 ## Leadership Development
 
 ### Current Focus
