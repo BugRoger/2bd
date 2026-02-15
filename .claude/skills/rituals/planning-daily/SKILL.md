@@ -146,16 +146,11 @@ Use the Today.md template as the source of truth. Fill:
 **Capture, Changelog:**
 - Leave empty for user to fill during the day
 
-Write the generated plan to a file called `plan.md` in the session directory.
+Build the complete Today.md content.
 
-## Save to Vault
+## Save Plan
 
-Use bash to write plan.md to Today.md in vault. The orchestrator provides the session directory path in the SESSION_DIR environment variable:
-
-```bash
-vault_path=$(grep "vault_path:" .claude/config.md | cut -d' ' -f2)
-cp "${SESSION_DIR}/plan.md" "${vault_path}/00_Brain/Captive/Today.md"
-```
+Write Today.md to Captive with the generated plan content.
 
 ## Confirm
 
