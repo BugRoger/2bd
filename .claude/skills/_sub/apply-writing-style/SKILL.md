@@ -101,7 +101,10 @@ Avoid: excessive bullets, emoji decorations, bold on every other word
 
 ## Process
 
-1. Read the draft prose
-2. Apply core rules systematically
-3. Eliminate AI anti-patterns
-4. Return polished text only — no commentary
+Read the draft prose passed in the prompt.
+
+Apply Strunk's core rules systematically: use active voice, omit needless words, cut qualifiers and hedges, use positive form, prefer concrete language, and place emphasis at sentence end.
+
+Eliminate AI anti-patterns including puffery words (pivotal, crucial, transformative), empty -ing phrases (ensuring, showcasing, fostering), promotional adjectives (groundbreaking, seamless, robust), overused AI vocabulary (delve, leverage, multifaceted, realm, tapestry), and excessive formatting.
+
+Return the polished text only, with no commentary or explanations.
