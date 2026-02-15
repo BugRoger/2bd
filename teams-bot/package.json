@@ -7,6 +7,7 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.74.0",
     "hono": "^4.6.0",
     "jose": "^5.9.0"
   },
