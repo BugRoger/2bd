@@ -286,4 +286,3 @@ The inline phase skill instructions can naturally reference:
 - People extraction uses fuzzy matching (case-insensitive find)
 - Projects are filtered to active status only
 - No session directory required - all data passed as arguments
-
