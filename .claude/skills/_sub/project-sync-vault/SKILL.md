@@ -106,7 +106,14 @@ Write the generated content to the file path.
 
 Read back the file to confirm write succeeded.
 
-### 6. Return Result
+### 6. Append Changelog
+
+Call `append-changelog` sub-skill with:
+- `path`: Path to the newly created project file
+- `skill`: "create-project"
+- `action`: "Created"
+
+### 7. Return Result
 
 **Success:**
 ```json
@@ -198,7 +205,15 @@ If a summary is provided in `project.summary`, append an archive entry to the Ch
 
 Write the updated content back to the source file (with updated frontmatter and archive notes).
 
-### 7. Move to Archive
+### 7. Append Changelog
+
+Call `append-changelog` sub-skill with:
+- `path`: Path to the project file (before moving)
+- `skill`: "archive-project"
+- `action`: "Archived"
+- `summary`: "status: {summary.status}"
+
+### 8. Move to Archive
 
 Move the updated file to the archive location:
 
@@ -208,7 +223,7 @@ mv "$SOURCE_PATH" "$VAULT/04_Archives/Projects/{original_filename}"
 
 Use `mv` for an atomic move operation. Preserve the original filename (e.g., `2026-03-15-platform-migration.md`).
 
-### 8. Return Result
+### 9. Return Result
 
 **Success:**
 ```json
