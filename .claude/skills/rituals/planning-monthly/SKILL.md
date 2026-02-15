@@ -91,6 +91,24 @@ Guide the user to three monthly outcomes aligned with the hierarchy:
 
 Frame these as outcomes, not tasks. What will be different by end of month?
 
+### Key Dates Preview
+
+Present key dates for the month from KEY_DATES output:
+
+**Sources surfaced:**
+- Calendar (filtered for significant events)
+- Projects (deadlines and milestones)
+- Quarter/Year cascading dates
+
+**Countdown display:**
+- Show dates within 45 days with urgency indicators
+- Group by week for overview
+- Highlight deadlines and prep-required events
+
+Ask: "Any other key dates to add for this month?"
+
+Capture additional dates for inclusion in Month.md Key Dates section.
+
 ### Monthly Theme
 
 Suggest 2-3 themes based on:
@@ -137,6 +155,7 @@ Use the Month.md template as the source of truth. Fill:
 - **Frontmatter** with month, quarter, year
 - **Context From Above** with quarter theme/outcomes and year theme/goals
 - **Month Overview** with key outcomes and monthly theme
+- **Key Dates** with dates from KEY_DATES output plus user additions
 - **Coaching Check-in** with generated prompts
 - **Wins** sections with coaching prompts per category (empty for user to fill)
 - **Reflections** sections empty (filled during monthly review)
