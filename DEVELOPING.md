@@ -360,14 +360,12 @@ Parses "What I Need" prose and determines fulfillment strategy:
 | "Week.md" / "Month.md" | Resolve vault path from config |
 | "People files for 1:1s" | Parse calendar, find matching files in vault |
 | "Active project files" | Scan `01_Projects/` for active status |
-| "QMD search results" | Query QMD with context-relevant terms |
 | "User's directives" | Resolve directives file path |
 
 **4. Context Assembly**
 
 Spawns sub-skills in parallel, each writes to session:
 - `calendar.md` - Natural markdown of events
-- `resources.md` - QMD search results
 
 Builds `memory.md` as session index:
 
@@ -401,7 +399,6 @@ Executes skill prose in main conversation with:
 
 **Fetch Sub-Skills** (external data):
 - `_sub/fetch-calendar` - Calendar events via ekctl
-- `_sub/fetch-resources` - QMD document search
 
 **Resolve Sub-Skills** (vault references):
 - `_sub/resolve-references` - Discover vault file paths from prose needs

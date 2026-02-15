@@ -12,7 +12,6 @@ Help the user plan their day.
 
 - Calendar events for the day
 - User's directives and preferences
-- QMD search results for documents related to meetings and projects
 - Today.md file for this day (may not exist yet)
 - Week.md for weekly context
 - Month.md for monthly context
@@ -36,7 +35,6 @@ Check if Today.md already exists. If it does:
 - Start fresh (clear and rewrite)
 
 If calendar is unavailable, note that and proceed without it.
-If QMD is unavailable, note that and proceed without it.
 
 ## Planning Session
 
@@ -66,11 +64,6 @@ We're planning their day for the target date from memory.md.
 - List all active projects with timeline urgency
 - Flag overdue (❗️) and due-soon (⚠️) projects
 - Show next milestone for each
-
-**Reference Materials:** If QMD search results are available in session, present:
-- Documents relevant to today's meetings
-- Project-related artifacts
-- Contextual snippets for preparation
 
 **1:1 Meeting Context:** For each 1:1 meeting on the calendar:
 - Load that person's file (path in memory.md)
@@ -137,7 +130,6 @@ Use the Today.md template as the source of truth. Fill:
 - Month Theme (from Month.md monthly theme)
 - Quarter Patterns to Watch (from Quarter.md)
 - Active Projects (urgent/due-soon projects flagged ❗️⚠️)
-- Reference Materials (QMD search results if available)
 
 **Focus:**
 - Fill Top Priorities with the three outcomes discussed

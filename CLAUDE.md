@@ -5,8 +5,6 @@ This file provides guidance to Claude Code when working with this repository.
 ## Quick Reference
 
 ```bash
-# Run skills from engine directory
-cd ~/Code/2bd-engine
 claude skill run rituals/planning-daily   # morning
 claude skill run rituals/review-daily     # evening
 claude skill run commands/init --args "profile"   # update profile
@@ -123,8 +121,7 @@ Skills with a "What I Need" section use prose-driven orchestration:
 /tmp/2bd-session-{skill}-{timestamp}/
 ├── memory.md              # Index of available context
 ├── dates.md               # Resolved time context (internal)
-├── calendar.md            # External: fetched calendar events
-└── resources.md           # External: QMD search results
+└── calendar.md            # External: fetched calendar events
 ```
 
 **memory.md format:**
@@ -150,7 +147,7 @@ Skills with a "What I Need" section use prose-driven orchestration:
 
 **Inline phases read context incrementally:**
 - Start with memory.md (see what's available)
-- Load external data (calendar.md, resources.md)
+- Load external data (calendar.md)
 - Load vault files as needed (direct Read with full paths)
 
 **Benefits:**
@@ -165,21 +162,6 @@ Skills with a "What I Need" section use prose-driven orchestration:
 
 ```markdown
 vault_path: /Users/you/OneDrive/2bd-vault
-```
-
-**External Resources config** (optional fields in `.claude/config.md`):
-
-```markdown
-### QMD (Document Search)
-qmd_enabled: true|false
-qmd_collections:
-  - name: collection_name
-    path: /absolute/path
-    context: "Description for search"
-    enabled: true|false
-qmd_settings:
-  max_results: 5
-  search_mode: deep|search|vsearch
 ```
 
 **Use `$VAULT` prefix** when referencing vault files in skills and documentation.

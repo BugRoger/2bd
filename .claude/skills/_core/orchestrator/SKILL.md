@@ -49,7 +49,6 @@ Identify need types by reading the prose:
 | "Week.md" / "Month.md" / "Today.md" | Vault file references | `_sub/resolve-references` |
 | "People files for 1:1 meetings" | Entity resolution | `_sub/resolve-references` |
 | "Active project files" | Entity resolution | `_sub/resolve-references` |
-| "QMD search" / "search results" | Document search | `_sub/fetch-resources` |
 | "Directives" / "preferences" | User directives | `_sub/resolve-references` |
 
 The orchestrator uses Claude's intelligence to interpret needs - no rigid parsing required.
@@ -78,16 +77,6 @@ Task(
 ```
 Returns: Markdown with categorized paths (static files, people, projects)
 
-**fetch-resources (QMD):**
-```
-Task(
-  description: "Search QMD collections for relevant documents",
-  prompt: <fetch-resources SKILL.md + context from dates + calendar>,
-  subagent_type: "Explore"
-)
-```
-Writes: `${session}/resources.md`
-
 Spawn these in parallel using multiple Task tool calls in a single message.
 
 ### 5. Build Memory
@@ -95,7 +84,7 @@ Spawn these in parallel using multiple Task tool calls in a single message.
 After subagents complete, construct `${session}/memory.md` as the session index.
 
 Memory.md contains:
-- **External data files** (calendar.md, resources.md) with descriptions
+- **External data files** (calendar.md) with descriptions
 - **Vault file references** with full paths and availability status
 - **Entity files** (people, projects) discovered by resolve-references
 
@@ -105,7 +94,6 @@ Memory.md contains:
 
 ## Session Files (External Data)
 - **calendar.md**: Calendar events for 2026-02-15
-- **resources.md**: QMD search results for meeting topics
 
 ## Vault References (Static Files)
 - **Week.md**: /Users/me/vault/00_Brain/Captive/Week.md ✓
@@ -228,8 +216,7 @@ Claude interprets the skill prose naturally:
 /tmp/2bd-session-{skill}-{timestamp}/
 ├── memory.md       # Index of available context
 ├── dates.md        # Resolved time context
-├── calendar.md     # External: calendar events
-└── resources.md    # External: QMD search results
+└── calendar.md     # External: calendar events
 ```
 
 **Vault files stay in vault:**
@@ -244,14 +231,12 @@ Claude interprets the skill prose naturally:
 | `_sub/create-session` | Create temp session directory | Returns session path |
 | `_sub/resolve-dates` | Parse time expressions | Writes dates.md |
 | `_sub/fetch-calendar` | Get calendar events | Writes calendar.md |
-| `_sub/fetch-resources` | QMD document search | Writes resources.md |
 | `_sub/resolve-references` | Vault paths + entity discovery | Returns markdown with paths |
 
 ## Error Handling
 
 **Graceful degradation:**
 - If calendar unavailable, note in memory.md and proceed
-- If QMD disabled, skip and note in memory.md
 - If vault file doesn't exist, mark as ✗ (new file)
 
 **Sub-skill failures:**
@@ -273,6 +258,6 @@ Claude interprets the skill prose naturally:
 
 **Active Implementation (2026-02-15):**
 - Prose-driven orchestration is fully implemented
-- All required sub-skills exist (create-session, resolve-dates, resolve-references, fetch-calendar, fetch-resources)
+- All required sub-skills exist (create-session, resolve-dates, resolve-references, fetch-calendar)
 - Skills migrated: planning-daily
 - Ready for additional skill migrations
