@@ -2,35 +2,37 @@
 name: weekly-review
 description: Review and archive a week's work. Synthesizes daily archives into weekly patterns, guides reflection on leadership and themes, extracts insights to semantic notes (People, Projects, Insights), and archives to Periodic/Weekly/. Accepts an optional target week (default: current week).
 argument-hint: "[target-week: (empty)|last week|YYYY-Www]"
-metadata:
-  orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Weekly Review
 
 Evening ritual for synthesizing a week's work, reflecting on leadership intentions and patterns, extracting learnings to semantic notes, and archiving to Periodic/Weekly/.
 
-## Flow
+## What I Need
 
-1. **Setup** — Load config, dates, directives
-2. **Load** — Parse Week.md content and daily archives
-3. **Pre-flight** — Verify week state, check for conflicts
-4. **Interact** — Guide reflection (see [coaching.md](../daily-review/coaching.md))
-5. **Synthesize** — Prepare semantic note updates (parallel)
-6. **Confirm** — Present changes for approval
-7. **Write** — Archive to Periodic, update semantic notes
+- Week.md for the target week
+- All daily archive files for the week (workdays)
+- User's directives and preferences
+- Month.md for monthly context
+- Quarter.md for quarterly coaching context
+- Calendar events for the week (already past)
+- People files mentioned in the week
+- Project files mentioned in the week
 
 ---
 
-## Pre-flight
+## Pre-Flight Check
 
-Verify the week state before reviewing:
+Read memory.md to see what context is available.
+
+Load Week.md from vault (path in memory.md). Verify the week state before reviewing:
 
 - Check date alignment between Week.md frontmatter and target review week. If mismatched, ask which week to review.
 - Check if an archive already exists for this week in Periodic/Weekly/. If exists, offer to view or re-review.
 - Check for an archived marker in Week.md frontmatter. If present, the week has already been archived.
-- Check which workdays (Mon-Fri) have daily archives. If incomplete, offer to proceed with partial data or complete daily reviews first.
+- Check which workdays (Mon-Fri) have daily archives from memory.md. If incomplete, offer to proceed with partial data or complete daily reviews first.
+
+If directives are unavailable, note that and proceed with limited coaching context.
 
 Proceed only when state is validated.
 
@@ -38,7 +40,9 @@ Proceed only when state is validated.
 
 ## Interactive Review
 
-Guide the user through reflection on the week.
+Greet the user using their preferred name from directives.
+
+Guide the user through reflection on the week. Load daily archives from paths in memory.md.
 
 ### Week Summary
 
@@ -46,7 +50,7 @@ Present a synthesized week overview: days reviewed, total meetings, total focus 
 
 ### Key Dates Check
 
-Review key dates from the month:
+Load Month.md (path in memory.md) and review key dates:
 
 **Status check:**
 - Which key dates passed this week?
@@ -57,9 +61,9 @@ Surface upcoming dates from Month.md Key Dates section with countdown.
 
 ### Leadership Reflection
 
-Review each day's leadership intention. For each, ask how well the user embodied it (1-10). Then synthesize: which intention served best, where did they struggle, what pattern emerges about being at their best.
+Review each day's leadership intention from daily archives. For each, ask how well the user embodied it (1-10). Then synthesize: which intention served best, where did they struggle, what pattern emerges about being at their best.
 
-Apply weekly coaching guidance from [coaching.md](../daily-review/coaching.md).
+Apply weekly coaching guidance from [coaching.md](../review-daily/coaching.md).
 
 ### Wins Synthesis
 
@@ -79,17 +83,17 @@ Look for patterns in What Went Well and What Could Be Better. Ask how to do more
 
 ### People Review
 
-Review 1:1 meetings and significant interactions. For each key person, ask for the main takeaway and whether follow-up is needed.
+Review 1:1 meetings and significant interactions from daily archives. For each key person, ask for the main takeaway and whether follow-up is needed.
 
-Prepare People file updates for confirmation.
+Prepare People file updates for confirmation (load from paths in memory.md).
 
 ### Coaching Check-in
 
-Connect to growth edge and patterns to watch from directives. Ask where the growth edge showed up this week and what progress was made. Check if watched patterns emerged and what triggered them.
+Load Quarter.md (path in memory.md) and connect to growth edge and patterns to watch from directives. Ask where the growth edge showed up this week and what progress was made. Check if watched patterns emerged and what triggered them.
 
 Self-care check: energy as the week closes, boundaries that served well, what to protect next week.
 
-Apply weekly coaching guidance from [coaching.md](../daily-review/coaching.md).
+Apply weekly coaching guidance from [coaching.md](../review-daily/coaching.md).
 
 ### Forward Synthesis
 
@@ -101,11 +105,11 @@ Check for incomplete decisions. Ask what the focus theme should be for next week
 
 ## Synthesis
 
-Parallel subagents prepare semantic note updates based on the completed review:
+Use Task tool to spawn parallel sub-skills for semantic note updates based on the completed review:
 
-- **People** — updates from 1:1 meetings and interactions
-- **Projects** — updates from wins and priority completion
-- **Insights** — updates from key learnings
+- **extract-to-areas** — Identify People file updates from 1:1 meetings and interactions
+- **update-semantic** — Prepare project updates from wins and priority completion
+- **update-semantic** — Prepare insight notes from key learnings
 
 Each returns structured proposals for user approval.
 
@@ -115,7 +119,7 @@ Each returns structured proposals for user approval.
 
 Present all proposed changes for approval:
 
-- Archive destination (Periodic/Weekly/) and week summary
+- Archive destination (Periodic/Weekly/{week}.md) and week summary
 - Each semantic note update with target file, section, and content preview
 
 Options:
@@ -128,11 +132,13 @@ Options:
 
 ## Write
 
-Execute confirmed writes:
+Execute confirmed writes using sub-skills:
 
-- Archive Week.md content to Periodic/Weekly/
-- Apply semantic note updates
-- Update Week.md with archived placeholder
+Use `archive-weekly` sub-skill to move Week.md to Periodic/Weekly/.
+
+Use `update-semantic` sub-skill for each approved semantic note update.
+
+Update Week.md with archived placeholder marker in frontmatter.
 
 Report completion and suggest next steps:
 - Weekly planning when ready
@@ -163,10 +169,9 @@ Week.md + Daily/*.md        Weekly/YYYY-Www.md          People/, Projects/,
 
 ## Integration
 
-- **daily-review**: Creates the daily archives that weekly-review synthesizes
-- **weekly-planning**: Morning counterpart that creates Week.md
-- **monthly-review**: Higher-level synthesis that uses weekly archives
-- **get-week-content**: Sub-skill that parses Week.md structure
-- **gather-week-context**: Sub-skill that collects daily archives
+- **review-daily**: Creates the daily archives that review-weekly synthesizes
+- **planning-weekly**: Morning counterpart that creates Week.md
+- **review-monthly**: Higher-level synthesis that uses weekly archives
 - **extract-to-areas**: Sub-skill that prepares semantic updates
 - **archive-weekly**: Sub-skill that handles Captive → Periodic transition
+- **update-semantic**: Sub-skill that appends to semantic notes

@@ -2,30 +2,32 @@
 name: weekly-planning
 description: Plan a week's priorities, leadership intention, and key commitments.
 argument-hint: "[target-week: this week|next week|YYYY-Www]"
-metadata:
-  orchestrated: true
-  phases_file: phases.yaml
 ---
 
 # Weekly Planning
 
 A Friday ritual to set weekly priorities, leadership intentions, and commitments aligned with higher-level goals. Designed for planning the upcoming week.
 
-## Flow
+## What I Need
 
-1. **Setup** — Load vault config, resolve target week, load directives
-2. **Gather** — Fetch calendar, prior week synthesis, month/quarter/year context, active projects
-3. **Pre-flight** — Verify Week.md state, handle existing content
-4. **Plan** — Present week overview, review prior week, set priorities, choose leadership intention, generate coaching prompts
-5. **Write** — Generate and save the plan
+- Calendar events for the upcoming week
+- User's directives and preferences
+- Current Week.md (may need archiving)
+- Month.md for monthly context
+- Quarter.md for quarterly context
+- Year.md for annual context
+- Active project files
+- Prior week's daily archives for synthesis
 
 ---
 
-## Pre-flight
+## Pre-Flight Check
 
-Before overwriting the current Week.md, verify its state:
+Read memory.md to see what context is available.
 
-- If Week.md contains a different week and hasn't been archived, block and suggest running weekly-review first
+Load current Week.md (path in memory.md). Before overwriting, verify its state:
+
+- If Week.md contains a different week and hasn't been archived, block and suggest running review-weekly first
 - If planning for a past week, warn that this is unusual
 - Only proceed with explicit confirmation when there's unarchived work
 
@@ -33,9 +35,11 @@ Before overwriting the current Week.md, verify its state:
 
 ## Planning Session
 
+Greet the user using their preferred name from directives.
+
 ### Week Overview
 
-Present the target week's shape based on calendar analysis:
+Load calendar.md from session. Present the target week's shape based on calendar analysis:
 
 **Calendar Density:**
 - Total meetings count
@@ -54,7 +58,7 @@ Present the detected week type and let the user confirm or override.
 
 ### Key Dates Preview
 
-Present key dates for the upcoming week from KEY_DATES output:
+Load Month.md and Quarter.md (paths in memory.md) to extract key dates.
 
 **Countdown alerts:**
 - Show dates within 14 days with urgency indicators
@@ -67,7 +71,7 @@ Capture additional dates for inclusion in Week.md Key Dates section.
 
 ### Prior Week Synthesis
 
-If prior week data is available (from gather-week-context), present:
+If prior week's daily archives are available in memory.md, analyze them:
 
 **Energy Trend:**
 - Average energy across daily archives
@@ -88,7 +92,7 @@ If prior week data is available (from gather-week-context), present:
 
 ### Hierarchical Context
 
-Present context from higher-level planning:
+Present context from higher-level planning (load from paths in memory.md):
 
 **Monthly Context** (from Month.md):
 - Monthly Theme — What this month is about
@@ -104,7 +108,7 @@ Present context from higher-level planning:
 - Vision Theme — What this year is about
 - Leadership Development — Growth edge, identity, focus areas
 
-**Active Projects** (from 01_Projects/):
+**Active Projects** (from memory.md project references):
 - List all active projects with timeline urgency
 - Flag overdue (❗️) and due-soon (⚠️) projects
 - Show next milestone for each
@@ -177,13 +181,13 @@ Generate personalized prompts connecting to:
 
 ---
 
-## Generate
+## Generate Plan
 
 Use the Week.md template as the source of truth. Fill:
 
 - **Frontmatter** with week, dates, month, quarter, year, week_type, energy_trend, leadership_intention
 - **Context From Above** with month theme/outcomes and quarter theme
-- **Key Dates** with dates from KEY_DATES output plus user additions
+- **Key Dates** with dates extracted from Month/Quarter plus user additions
 - **Synthesis from Prior Week** with carryover priorities, patterns observed, leadership development progress, key relationships
 - **Week Overview** with key outcomes, focus theme, leadership intention
 - **Weekly Commitments** with key decisions, people to connect with, boundaries, growth challenge
@@ -191,6 +195,8 @@ Use the Week.md template as the source of truth. Fill:
 - **Coaching Check-in** with generated prompts
 - **Wins** sections with coaching prompts per category
 - **Next Week Setup** left empty (filled during weekly review)
+
+Write the generated plan to Week.md in vault (path from memory.md).
 
 ---
 

@@ -1204,3 +1204,42 @@ If the new orchestrator has critical issues:
 2. **Parallel optimization:** More aggressive parallel subagent spawning
 3. **Smart inference:** Better entity resolution from context
 4. **User feedback:** Learn from corrections to improve need fulfillment
+
+---
+
+## Migration Status (2026-02-15)
+
+### Completed Infrastructure
+- ✅ create-session sub-skill - Creates temp session directories
+- ✅ resolve-dates sub-skill - Resolves flexible time expressions
+- ✅ resolve-references sub-skill - Discovers vault file paths
+- ✅ fetch-calendar sub-skill - Updated for session integration
+- ✅ fetch-resources sub-skill - QMD semantic search integration
+- ✅ test-orchestrator skill - Minimal validation skill
+- ✅ orchestrator SKILL.md - Prose-driven orchestration engine documentation
+- ✅ CLAUDE.md - Updated orchestration documentation
+- ✅ DEVELOPING.md - Updated developer guide
+
+### Migrated Skills
+- ✅ planning-daily - Full prose-driven migration with "What I Need" pattern
+- ✅ review-daily - Migrated to prose-driven orchestration
+- ✅ planning-weekly - Migrated to prose-driven orchestration
+- ✅ review-weekly - Migrated to prose-driven orchestration
+
+### Remaining Skills (Still Using phases.yaml)
+- ⏳ planning-monthly, review-monthly
+- ⏳ planning-quarterly, review-quarterly
+- ⏳ planning-yearly, review-yearly
+- ⏳ create-project, archive-project
+
+### Implementation Complete
+
+**Core rituals migrated:** All daily and weekly rituals now use prose-driven orchestration.
+
+**Status:** The orchestrator redesign is functionally complete. Remaining rituals (monthly, quarterly, yearly, project lifecycle) can be migrated following the same pattern as needed.
+
+### Notes
+- Orchestrator engine works through Claude's natural interpretation of "What I Need" sections
+- All sub-skills verified and ready for parallel execution
+- Session-based context assembly with memory.md as index
+- Pure markdown-based approach with no Python/JSON parsing required

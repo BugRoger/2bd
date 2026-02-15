@@ -1,219 +1,278 @@
 ---
 name: orchestrator
-description: Internal orchestrator for executing skills with phase-based subagent spawning. Parses SKILL.md frontmatter, manages dependencies, and coordinates parallel execution.
-disable-model-invocation: true
+description: Internal orchestrator for executing skills with prose-driven context assembly. Interprets "What I Need" sections and coordinates fulfillment subagents.
+disable-model-invocation: false
 internal: true
 ---
 
 # Orchestrator
 
-This skill orchestrates the execution of other skills that declare `phases` in their frontmatter. It spawns subagents via Claude Code's Task tool and manages data flow between phases.
+This skill orchestrates the execution of other skills that declare needs in prose using the "What I Need" pattern. It interprets needs naturally using Claude's understanding, spawns fulfillment subagents, and builds context for the skill's execution.
 
 ## When to Use
 
-When executing a skill that has a `phases` array in its YAML frontmatter, use this orchestrator pattern instead of inline execution.
+When executing a skill that has a "## What I Need" section, use orchestration. If no such section exists, execute the skill directly.
 
-## Phase Schema
+## Orchestration Flow
 
-Skills declare phases in frontmatter:
+The orchestrator follows these steps to prepare context and execute an orchestrated skill:
 
-```yaml
-phases:
-  - name: string            # Required: Phase identifier
-    parallel: boolean       # Execute subagents in parallel (default: false)
-    depends_on: [string]    # Phase names that must complete first
-    inline: boolean         # Run in main context, not as subagent (default: false)
-    subagents:              # List of subagents to spawn (omit for inline phases)
-      - skill: string       # Path to sub-skill (e.g., _sub/fetch-config)
-        type: explore | general-purpose
-        args: string        # Arguments with {{VAR}} interpolation
-        output: string      # Variable name to store result
-        requires: [string]  # Variables that must exist before running
-        optional: boolean   # Continue if this fails (default: false)
-        fallback: inline    # Fall back to inline execution on failure
-        on_error: string    # Message to show on failure
+### 1. Create Session
+
+Use `_sub/create-session` to create a temporary session directory.
+
+```bash
+session_dir=$(_sub/create-session <skill-name>)
+# Returns: /tmp/2bd-session-<skill>-<timestamp>
 ```
 
-## Execution Algorithm
+Store the session path for all subsequent operations.
 
-### 1. Parse Phase Declarations
+### 2. Resolve Time Arguments
 
-Read the skill's frontmatter and extract the `phases` array. Build a context store initialized with:
+Use `_sub/resolve-dates` with skill arguments to handle flexible time expressions.
 
+This creates `${session}/dates.md` with concrete dates:
+- Resolves "tomorrow", "next monday", "last week", etc.
+- Provides target_date, scope, relative description
+- Generates workdays list for week scopes
+
+### 3. Parse Needs
+
+Read the skill's "## What I Need" section and interpret each bullet point using Claude's natural understanding.
+
+Identify need types by reading the prose:
+
+| Prose Pattern | Need Type | Fulfillment |
+|--------------|-----------|-------------|
+| "Calendar events" | Calendar data | `_sub/fetch-calendar` |
+| "Week.md" / "Month.md" / "Today.md" | Vault file references | `_sub/resolve-references` |
+| "People files for 1:1 meetings" | Entity resolution | `_sub/resolve-references` |
+| "Active project files" | Entity resolution | `_sub/resolve-references` |
+| "QMD search" / "search results" | Document search | `_sub/fetch-resources` |
+| "Directives" / "preferences" | User directives | `_sub/resolve-references` |
+
+The orchestrator uses Claude's intelligence to interpret needs - no rigid parsing required.
+
+### 4. Spawn Fulfillment Subagents (Parallel)
+
+For each need type identified, spawn the appropriate fulfillment subagent:
+
+**fetch-calendar:**
 ```
-context = {
-  ARGUMENTS: <arguments passed to skill>,
-  TODAY: <current date YYYY-MM-DD>,
-  TARGET_DATE: <resolved from arguments if applicable>,
-
-  # From resolution metadata (if present in frontmatter):
-  RESOLUTION: {
-    scope: <metadata.resolution.scope>,
-    note_name: <metadata.resolution.note_name>,
-    template_path: <metadata.resolution.template_path>,
-    archive_path: <metadata.resolution.archive_path>,
-    context_from: <metadata.resolution.context_from>
-  }
-}
+Task(
+  description: "Fetch calendar events for {target_date}",
+  prompt: <fetch-calendar SKILL.md + session dir>,
+  subagent_type: "Explore"
+)
 ```
+Writes: `${session}/calendar.md`
 
-If `metadata.resolution` exists in frontmatter, extract all resolution keys into `context.RESOLUTION`. This enables planning/review skills to be resolution-agnostic by using `{{RESOLUTION.*}}` variables.
-
-### 2. Build Dependency Graph
-
-Create a directed acyclic graph from `depends_on` declarations:
-- Verify no circular dependencies
-- Identify phases that can run in parallel (no unmet dependencies)
-
-### 3. Execute Phases in Topological Order
-
-For each phase in dependency order:
-
-#### 3a. Check Dependencies
-
-- All phases in `depends_on` must be completed
-- All variables in `requires` must exist in context
-
-#### 3b. Execute Phase
-
-**If `inline: true`:**
-- Execute the markdown content for this phase in the main conversation context
-- Collect any user input or generated content into context
-- Do NOT spawn a subagent
-
-**If `subagents` defined:**
-- For each subagent, spawn via Task tool:
-
-  ```
-  Task(
-    description: "Execute {skill.name}: {subagent.skill}",
-    prompt: <construct from sub-skill SKILL.md + interpolated args>,
-    subagent_type: map_type(subagent.type)
-  )
-  ```
-
-- Type mapping:
-  - `explore` → subagent_type: "Explore" (read-only operations)
-  - `general-purpose` → subagent_type: "general-purpose" (can write files)
-
-- If `parallel: true`, spawn all subagents simultaneously in a single message with multiple Task tool calls
-
-#### 3c. Capture Output
-
-- Parse subagent result for structured data (JSON blocks or key-value pairs)
-- Store in context under the declared `output` variable name
-- Make available for subsequent phases via `{{VARIABLE_NAME}}` interpolation
-
-#### 3d. Handle Errors
-
-| Condition | Action |
-|-----------|--------|
-| Subagent fails, `optional: true` | Log warning, set output to null, continue |
-| Subagent fails, `fallback: inline` | Execute sub-skill content inline instead |
-| Subagent fails, no fallback | Abort with error, show `on_error` message |
-
-### 4. Variable Interpolation
-
-Replace `{{VARIABLE}}` patterns in args and markdown with values from context:
-
+**resolve-references:**
 ```
-{{VAULT}} → "/Users/me/vault"
-{{DIRECTIVES.user.preferred_name}} → "Michi"
-{{CALENDAR.events[0].title}} → "Team Standup"
+Task(
+  description: "Resolve vault paths and entity references",
+  prompt: <resolve-references SKILL.md + needs prose + session dir>,
+  subagent_type: "Explore"
+)
 ```
+Returns: Markdown with categorized paths (static files, people, projects)
 
-## Subagent Prompt Construction
+**fetch-resources (QMD):**
+```
+Task(
+  description: "Search QMD collections for relevant documents",
+  prompt: <fetch-resources SKILL.md + context from dates + calendar>,
+  subagent_type: "Explore"
+)
+```
+Writes: `${session}/resources.md`
 
-When spawning a subagent, construct its prompt:
+Spawn these in parallel using multiple Task tool calls in a single message.
 
+### 5. Build Memory
+
+After subagents complete, construct `${session}/memory.md` as the session index.
+
+Memory.md contains:
+- **External data files** (calendar.md, resources.md) with descriptions
+- **Vault file references** with full paths and availability status
+- **Entity files** (people, projects) discovered by resolve-references
+
+**Example memory.md:**
 ```markdown
-Execute the following sub-skill and return the result.
+# Session Context for Daily Planning
 
-## Sub-skill: {subagent.skill}
+## Session Files (External Data)
+- **calendar.md**: Calendar events for 2026-02-15
+- **resources.md**: QMD search results for meeting topics
 
-{content of sub-skill's SKILL.md}
+## Vault References (Static Files)
+- **Week.md**: /Users/me/vault/00_Brain/Captive/Week.md ✓
+- **Month.md**: /Users/me/vault/00_Brain/Captive/Month.md ✓
+- **Today.md**: /Users/me/vault/00_Brain/Captive/Today.md ✗ (new file)
 
-## Arguments
+## Entities
+### People (from calendar 1:1s)
+- **Sarah Chen**: /Users/me/vault/02_Areas/People/Sarah Chen.md ✓
 
-{interpolated args}
-
-## Context
-
-The following variables are available:
-{list of context variables relevant to this subagent}
-
-## Output Format
-
-Return your result in a structured format that can be parsed:
-
-\`\`\`json
-{
-  "key": "value",
-  ...
-}
-\`\`\`
-
-Or use clear key-value pairs:
-
-RESULT_KEY: result_value
+### Projects (active)
+- **quarterly-planning**: /Users/me/vault/01_Projects/2026-03-31-quarterly-planning.md ✓
 ```
+
+Memory.md serves as a map - files stay in their original locations, session only contains references and external data.
+
+### 6. Execute Inline Phase
+
+Find the first markdown section after "What I Need" (typically "## Planning Session" or "## Review Session").
+
+Execute this prose in the main conversation context with:
+- Session directory path available
+- Instruction: "Read memory.md first to see what's available"
+
+Claude interprets the skill prose naturally:
+- Reads memory.md to understand available context
+- Loads session files (calendar.md, resources.md) from session directory
+- Reads vault files using full paths from memory.md
+- Proceeds with user interaction as described in the prose
+
+**No rigid execution order** - Claude loads files incrementally as needed by the conversation flow.
 
 ## Example Execution
 
-Given a skill with:
+**Skill declares needs in prose:**
 
-```yaml
-phases:
-  - name: setup
-    parallel: true
-    subagents:
-      - skill: _sub/fetch-config
-        type: explore
-        output: VAULT
-      - skill: _sub/fetch-directives
-        type: explore
-        output: DIRECTIVES
-        optional: true
-  - name: gather
-    depends_on: [setup]
-    subagents:
-      - skill: _sub/fetch-calendar
-        type: explore
-        args: "scope={{TARGET_DATE}}"
-        output: CALENDAR
-  - name: interact
-    depends_on: [gather]
-    inline: true
+```markdown
+## What I Need
+
+- Calendar events for the day
+- Week.md for weekly context
+- People files for anyone with 1:1 meetings
 ```
 
-Execution proceeds:
+**Orchestrator interprets and executes:**
 
-1. **Phase: setup** (parallel)
-   - Spawn get-config and get-directives simultaneously
-   - Wait for both to complete
-   - Store results: `context.VAULT`, `context.DIRECTIVES`
+1. **Create session**
+   ```
+   session_dir: /tmp/2bd-session-planning-daily-20260215-093000
+   ```
 
-2. **Phase: gather** (depends_on: setup)
-   - Interpolate args: `scope={{TARGET_DATE}}` → `scope=2026-02-15`
-   - Spawn get-calendar
-   - Store result: `context.CALENDAR`
+2. **Resolve dates**
+   - Argument: (empty) → today
+   - Creates: `${session}/dates.md`
+   ```markdown
+   target_date: 2026-02-15
+   scope: day
+   relative: today
+   ```
 
-3. **Phase: interact** (inline)
-   - Execute markdown content in main context
-   - User interaction happens here
-   - Collect user responses into context
+3. **Parse needs**
+   - "Calendar events" → spawn fetch-calendar
+   - "Week.md" → spawn resolve-references
+   - "People files for 1:1 meetings" → spawn resolve-references (with calendar context)
 
-## Debugging
+4. **Spawn subagents (parallel)**
+   ```
+   Task(fetch-calendar) → writes calendar.md
+   Task(resolve-references) → returns vault paths
+   ```
 
-When a skill has `debug: true` in frontmatter, log:
+5. **Build memory.md**
+   ```markdown
+   # Session Context
 
-- Phase transitions: `[orchestrator] Starting phase: {name}`
-- Subagent spawns: `[orchestrator] Spawning: {skill} (type: {type})`
-- Context updates: `[orchestrator] Set {output}: {truncated_value}`
-- Timing: `[orchestrator] Phase {name} completed in {ms}ms`
+   ## Session Files
+   - **calendar.md**: Calendar events for 2026-02-15
+
+   ## Vault References
+   - **Week.md**: /Users/me/vault/00_Brain/Captive/Week.md ✓
+
+   ## People (from calendar)
+   - **Sarah Chen**: /Users/me/vault/02_Areas/People/Sarah Chen.md ✓
+   ```
+
+6. **Execute inline phase**
+   - Read skill's next section: "## Planning Session"
+   - Execute prose with session context:
+
+   ```markdown
+   ## Planning Session
+
+   Greet the user.
+   Review their calendar from the session.
+   Load Week.md from the vault (path in memory.md).
+   For each 1:1, load the person's file.
+   Guide planning conversation.
+   ```
+
+   - Claude interprets naturally:
+     1. Reads memory.md
+     2. Sees calendar.md → reads from session
+     3. Sees Week.md path → reads from vault
+     4. Sees Sarah Chen path → reads from vault
+     5. Proceeds with planning dialogue
+
+## Key Principles
+
+**Skills declare WHAT they need, not HOW to get it:**
+- "Calendar events" not "spawn fetch-calendar subagent"
+- "Week.md for context" not "read ${VAULT}/00_Brain/Captive/Week.md"
+
+**Orchestrator handles all fulfillment:**
+- Interprets prose using Claude's natural understanding
+- Coordinates parallel subagent spawning
+- Assembles unified context view
+
+**Session structure is simple:**
+```
+/tmp/2bd-session-{skill}-{timestamp}/
+├── memory.md       # Index of available context
+├── dates.md        # Resolved time context
+├── calendar.md     # External: calendar events
+└── resources.md    # External: QMD search results
+```
+
+**Vault files stay in vault:**
+- memory.md contains full paths, not copies
+- Skills read incrementally from vault as needed
+- Session only contains external data that can't be vault-resident
+
+## Sub-Skills Available
+
+| Sub-Skill | Purpose | Output |
+|-----------|---------|--------|
+| `_sub/create-session` | Create temp session directory | Returns session path |
+| `_sub/resolve-dates` | Parse time expressions | Writes dates.md |
+| `_sub/fetch-calendar` | Get calendar events | Writes calendar.md |
+| `_sub/fetch-resources` | QMD document search | Writes resources.md |
+| `_sub/resolve-references` | Vault paths + entity discovery | Returns markdown with paths |
+
+## Error Handling
+
+**Graceful degradation:**
+- If calendar unavailable, note in memory.md and proceed
+- If QMD disabled, skip and note in memory.md
+- If vault file doesn't exist, mark as ✗ (new file)
+
+**Sub-skill failures:**
+- Log warning
+- Mark need as unavailable in memory.md
+- Continue with remaining needs
+- Inline phase adapts to what's available
 
 ## Notes
 
 - This orchestrator is **internal** — users invoke the parent skill, not the orchestrator directly
-- Skills without `phases` frontmatter continue to work as before (no orchestration)
+- Skills without "## What I Need" sections continue to work as before (no orchestration)
 - The orchestrator pattern is opt-in per skill
+- Session cleanup: OS handles /tmp cleanup automatically
+- Debugging: Session directory persists for inspection after execution
+- Parallel execution: All fulfillment subagents spawn simultaneously for performance
+
+## Implementation Status
+
+**Active Implementation (2026-02-15):**
+- Prose-driven orchestration is fully implemented
+- All required sub-skills exist (create-session, resolve-dates, resolve-references, fetch-calendar, fetch-resources)
+- Skills migrated: planning-daily
+- Ready for additional skill migrations
