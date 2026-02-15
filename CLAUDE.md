@@ -89,6 +89,21 @@ If directives don't exist (user hasn't run `/init`), proceed with defaults and s
 
 Skills declare context needs in natural language. The orchestrator interprets these needs and coordinates fulfillment transparently.
 
+#### Context Pre-Loading
+
+The orchestrator loads all context into the conversation before skill execution. Skills reference context naturally without mentioning orchestration mechanics.
+
+**Context references in skills:**
+- "Review the calendar" (not "Load calendar.md from session")
+- "Check Week.md" (not "Load Week.md from path in memory.md")
+- "If QMD results are available" (not "If resources.md exists in session")
+
+**File writing in skills:**
+- "Write Today.md to Captive" (not bash commands with $SESSION_DIR)
+- "Update Week.md" (not manual path resolution)
+
+The orchestrator translates these natural phrases into file operations.
+
 **Detecting prose-driven skills:**
 
 Skills with a "What I Need" section use prose-driven orchestration:
