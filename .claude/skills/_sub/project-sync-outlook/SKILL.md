@@ -1,4 +1,4 @@
-# project-sync-outlook
+# Project Sync Outlook
 
 ---
 name: project-sync-outlook
@@ -12,41 +12,15 @@ status: stub
 
 ## Interface
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `action` | string | yes | `create` or `archive` |
-| `vault` | path | yes | Path to the vault root |
-| `project` | string | yes | Project name |
+Receive three parameters: action (create or archive), vault path, and project name.
 
 ## Planned Functionality
 
-### Create Action
+For create actions, the skill would create a mail folder for the project under the configured projects folder, setting up any supported folder-level rules.
 
-Create a mail folder for the project under the configured projects folder.
+For archive actions, the skill would move the project mail folder from the projects location to the archive location, preserving all mail within the folder.
 
-- Creates folder at `Projects/{project-name}/`
-- Sets up any folder-level rules if supported
-
-### Archive Action
-
-Move the project mail folder to the archive location.
-
-- Moves folder from `Projects/{project-name}/` to `Projects/Archive/{project-name}/`
-- Preserves all mail within the folder
-
-## Configuration
-
-Will read from `.claude/config.md`:
-
-```markdown
-outlook_enabled: true
-outlook_projects_folder: Projects
-```
-
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `outlook_enabled` | `false` | Enable Outlook integration |
-| `outlook_projects_folder` | `Projects` | Root folder for project mail folders |
+The skill would read configuration from `.claude/config.md` to determine if Outlook integration is enabled and identify the projects folder path.
 
 ## Implementation Options
 

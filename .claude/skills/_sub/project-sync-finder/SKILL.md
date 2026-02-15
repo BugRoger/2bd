@@ -1,4 +1,4 @@
-# project-sync-finder
+# Project Sync Finder
 
 ```yaml
 name: project-sync-finder
@@ -21,41 +21,15 @@ This is a placeholder stub documenting the planned interface for Finder project 
 
 ## Planned Interface
 
-**Arguments:**
-- `action`: `"create"` or `"archive"`
-- `vault`: Path to the vault root
-- `project`: Project frontmatter object containing at minimum:
-  - `slug`: Project identifier (e.g., `acme-launch`)
-  - `due_date`: Target completion date (e.g., `2026-Q1`)
-  - `title`: Human-readable project name
+Receive three arguments: action (create or archive), vault path, and project object containing slug, due_date, and title.
 
-**Outputs:**
-- `FINDER_PATH`: Absolute path to the created or archived folder
+Output the FINDER_PATH showing the absolute path to the created or archived folder.
 
 ## Planned Functionality
 
-### Create Action
+For create actions, the skill would read `finder_projects_path` from configuration (defaulting to `~/Projects`), then create a folder structure with the pattern `{due_date}-{slug}/` containing Assets and Documents subdirectories.
 
-When `action: create`:
-
-1. Read `finder_projects_path` from `.claude/config.md` (default: `~/Projects`)
-2. Create folder structure:
-   ```
-   ~/Projects/{due_date}-{slug}/
-   ├── Assets/
-   └── Documents/
-   ```
-3. Example: `~/Projects/2026-Q1-acme-launch/Assets/`
-
-### Archive Action
-
-When `action: archive`:
-
-1. Move project folder to archive:
-   ```
-   mv ~/Projects/{due_date}-{slug} ~/Projects/_Archive/
-   ```
-2. Preserve internal structure
+For archive actions, the skill would move the project folder to a `_Archive/` subdirectory, preserving the internal structure.
 
 ## Configuration
 

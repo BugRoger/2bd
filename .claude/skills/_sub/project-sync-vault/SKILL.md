@@ -29,218 +29,39 @@ Arguments are passed as key-value pairs:
 
 ## Action: Create
 
-Creates a new project file in `$VAULT/01_Projects/`.
+Receive the vault path and project data including name, slug, due_date, purpose, outcomes, and people.
 
-### 1. Build File Path
+Build the file path as `$VAULT/01_Projects/{due_date}-{slug}.md`. Check for existing projects with the same slug. If a duplicate exists, return an error with the existing file path.
 
-Construct the file path:
+Generate project content using the minimal template with frontmatter, navigation links, title, goal, outcomes as checkboxes, notes section with creation entry, and changelog section placeholder.
 
-```
-$VAULT/01_Projects/{due_date}-{slug}.md
-```
+Write the generated content to the file path. Read back the file to verify the write succeeded.
 
-Example: `$VAULT/01_Projects/2026-03-15-platform-migration.md`
+Call the `append-changelog` sub-skill with the project file path, skill name "create-project", and action "Created".
 
-### 2. Check for Duplicates
-
-Check if a project with the same slug already exists:
-
-```bash
-ls "$VAULT/01_Projects/"*-{slug}.md 2>/dev/null
-```
-
-If file exists, return error:
-```json
-{
-  "success": false,
-  "error": "duplicate_slug",
-  "message": "A project with slug '{slug}' already exists",
-  "existing_path": "/path/to/existing/file.md"
-}
-```
-
-### 3. Generate Content
-
-Generate project content using this minimal template:
-
-```markdown
----
-title: {name}
-end_date: {due_date}
-status: active
----
-
-[[03_Resources/Brain/✱ Home|✱ Home]] | [[01_Projects/✱ Projects|✱ Projects]] | [[02_Areas/People/✱ People|✱ People]] | [[02_Areas/Insights/✱ Insights|✱ Insights]]
-
----
-
-# {name}
-
-**Goal:** {purpose}
-
-## Outcomes
-{for each outcome in outcomes}
-- [ ] {outcome}
-{end for}
-
-## Notes
-
-- {today_date} Created project{if people} with {people as comma-separated [[links]]}{end if}
-
-## Changelog
-
-*Rituals append entries here*
-```
-
-**Template notes:**
-- No tables, minimal sections
-- People are mentioned inline in Notes (e.g., `discussing with [[Sarah]]`)
-- Notes section is the user's working space (bullet journal style)
-- Changelog is where rituals append synthesized context
-
-### 4. Write File
-
-Write the generated content to the file path.
-
-### 5. Verify Write
-
-Read back the file to confirm write succeeded.
-
-### 6. Append Changelog
-
-Call `append-changelog` sub-skill with:
-- `path`: Path to the newly created project file
-- `skill`: "create-project"
-- `action`: "Created"
-
-### 7. Return Result
-
-**Success:**
-```json
-{
-  "success": true,
-  "action": "create",
-  "path": "/Users/.../01_Projects/2026-03-15-platform-migration.md",
-  "project": {
-    "name": "Platform Migration",
-    "slug": "platform-migration",
-    "due_date": "2026-03-15"
-  },
-  "bytes_written": 2048
-}
-```
+Return structured JSON showing success, action, path, project details, and bytes written.
 
 ---
 
 ## Action: Archive
 
-Archives a completed project from `01_Projects/` to `04_Archives/Projects/`.
+Receive the vault path and project data including slug and optionally the file path.
 
-### 1. Validate Source
+Verify the source file exists in `01_Projects/`. If not found, return an error indicating the expected path.
 
-Verify the source file exists:
+Create the archive directory `$VAULT/04_Archives/Projects/` if it doesn't exist.
 
-```bash
-ls "$VAULT/01_Projects/"*-{slug}.md 2>/dev/null
-```
+Read the current content of the project file. Update the frontmatter to set status to "archived" and add the archived_date with today's date.
 
-Or use the provided `project.path` if available.
+If a summary is provided, append an archive entry to the Changelog section showing status, wins, learnings, impact, and follow-ups.
 
-If source doesn't exist:
-```json
-{
-  "success": false,
-  "error": "source_not_found",
-  "message": "Project file not found in 01_Projects/",
-  "expected_path": "/path/to/01_Projects/*-{slug}.md"
-}
-```
+Write the updated content back to the source file.
 
-### 2. Ensure Archive Directory
+Call the `append-changelog` sub-skill with the project file path, skill name "archive-project", and action "Archived".
 
-Create archive directory if needed:
+Move the updated file to the archive location using an atomic move operation, preserving the original filename.
 
-```bash
-mkdir -p "$VAULT/04_Archives/Projects/"
-```
-
-### 3. Read Current Content
-
-Read the existing project file content.
-
-### 4. Update Frontmatter
-
-Update the frontmatter with archive metadata:
-
-```yaml
----
-title: {name}
-end_date: {due_date}
-status: archived
-archived_date: {today_date}
-owner: [existing value]
-tags: [existing tags]
----
-```
-
-Key changes:
-- Set `status: archived`
-- Add `archived_date: {today_date}` (YYYY-MM-DD format)
-
-### 5. Append Archive Summary (If Summary Provided)
-
-If a summary is provided in `project.summary`, append an archive entry to the Changelog section:
-
-```markdown
-### {today_date} - Archived
-
-**Status:** {summary.status}
-**Wins:** {summary.wins as bullet list}
-**Learnings:** {summary.learnings as bullet list}
-**Impact:** {summary.impact}
-{if summary.followups}**Follow-ups:** {summary.followups as bullet list}{end if}
-```
-
-### 6. Update Source File
-
-Write the updated content back to the source file (with updated frontmatter and archive notes).
-
-### 7. Append Changelog
-
-Call `append-changelog` sub-skill with:
-- `path`: Path to the project file (before moving)
-- `skill`: "archive-project"
-- `action`: "Archived"
-- `summary`: "status: {summary.status}"
-
-### 8. Move to Archive
-
-Move the updated file to the archive location:
-
-```bash
-mv "$SOURCE_PATH" "$VAULT/04_Archives/Projects/{original_filename}"
-```
-
-Use `mv` for an atomic move operation. Preserve the original filename (e.g., `2026-03-15-platform-migration.md`).
-
-### 9. Return Result
-
-**Success:**
-```json
-{
-  "success": true,
-  "action": "archive",
-  "source_path": "/Users/.../01_Projects/2026-03-15-platform-migration.md",
-  "archive_path": "/Users/.../04_Archives/Projects/2026-03-15-platform-migration.md",
-  "project": {
-    "name": "Platform Migration",
-    "slug": "platform-migration",
-    "due_date": "2026-03-15",
-    "archived_date": "2026-02-15"
-  },
-  "bytes_written": 2560
-}
-```
+Return structured JSON showing success, action, source path, archive path, and project details including archived date.
 
 ---
 
