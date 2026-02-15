@@ -2,6 +2,8 @@
 name: weekly-planning
 description: Plan a week's priorities, leadership intention, and key commitments.
 argument-hint: "[target-week: this week|next week|YYYY-Www]"
+metadata:
+  orchestrated: true
 ---
 
 # Weekly Planning
@@ -23,9 +25,7 @@ A Friday ritual to set weekly priorities, leadership intentions, and commitments
 
 ## Validate
 
-Read memory.md to see what context is available.
-
-Load current Week.md (path in memory.md). Before overwriting, verify its state:
+Load current Week.md. Before overwriting, verify its state:
 
 - If Week.md contains a different week and hasn't been archived, block and suggest running review-weekly first
 - If planning for a past week, warn that this is unusual
@@ -39,7 +39,7 @@ Greet the user using their preferred name from directives.
 
 ### Week Overview
 
-Load calendar.md from session. Present the target week's shape based on calendar analysis:
+Present the target week's shape based on calendar:
 
 **Calendar Density:**
 - Total meetings count
@@ -58,7 +58,7 @@ Present the detected week type and let the user confirm or override.
 
 ### Key Dates Preview
 
-Load Month.md and Quarter.md (paths in memory.md) to extract key dates.
+Reference Month.md and Quarter.md to extract key dates.
 
 **Countdown alerts:**
 - Show dates within 14 days with urgency indicators
@@ -71,7 +71,7 @@ Capture additional dates for inclusion in Week.md Key Dates section.
 
 ### Prior Week Synthesis
 
-If prior week's daily archives are available in memory.md, analyze them:
+If prior week's daily archives are available, analyze them:
 
 **Energy Trend:**
 - Average energy across daily archives
@@ -92,7 +92,7 @@ If prior week's daily archives are available in memory.md, analyze them:
 
 ### Hierarchical Context
 
-Present context from higher-level planning (load from paths in memory.md):
+Present context from higher-level planning:
 
 **Monthly Context** (from Month.md):
 - Monthly Theme — What this month is about
@@ -108,7 +108,7 @@ Present context from higher-level planning (load from paths in memory.md):
 - Vision Theme — What this year is about
 - Leadership Development — Growth edge, identity, focus areas
 
-**Active Projects** (from memory.md project references):
+**Active Projects** (from active projects):
 - List all active projects with timeline urgency
 - Flag overdue (❗️) and due-soon (⚠️) projects
 - Show next milestone for each
@@ -200,7 +200,7 @@ Use the Week.md template as the source of truth. Fill:
 
 ## Persist
 
-Write the generated plan to Week.md in vault (path from memory.md).
+Write the generated plan to Week.md in Captive.
 
 ---
 
