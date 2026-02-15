@@ -1,9 +1,9 @@
 ---
 name: get-calendar
-description: Fetch calendar events from macOS Calendar using ekctl for a specified timeframe. Returns structured event data for planning rituals.
+description: Fetch calendar events from macOS Calendar using ekctl. Session mode reads from dates.md and writes natural markdown to calendar.md. Legacy mode accepts scope argument.
 disable-model-invocation: true
 allowed-tools: Read, Bash(*)
-argument-hint: "[scope: today|tomorrow|week|month] [--format json|markdown]"
+argument-hint: "[scope: today|tomorrow|week|month|YYYY-MM-DD] (only in legacy mode)"
 ---
 
 # Get Calendar Sub-Skill
@@ -17,12 +17,25 @@ This sub-skill requires:
 2. Calendar access granted to Terminal/Claude
 3. Aliases configured for calendars to fetch (see Setup in CLAUDE.md)
 
+## Session Integration
+
+This sub-skill integrates with orchestrated skills via session directory.
+
+**Input:** Reads `${SESSION_DIR}/dates.md` to get:
+- `target_date`: The date to fetch events for (YYYY-MM-DD)
+- `scope`: The time scope (day/week/month)
+
+**Output:** Writes `${SESSION_DIR}/calendar.md` with natural markdown format.
+
+The orchestrator provides SESSION_DIR environment variable.
+
 ## Arguments
+
+**Legacy mode (when SESSION_DIR not set):**
 
 | Argument | Values | Default | Description |
 |----------|--------|---------|-------------|
 | scope | `today`, `tomorrow`, `week`, `month`, `monday`-`sunday`, `YYYY-MM-DD` | `today` | Time range to fetch |
-| format | `json`, `markdown` | `json` | Output format |
 
 Parse arguments from `$ARGUMENTS` if provided.
 
@@ -30,6 +43,9 @@ Parse arguments from `$ARGUMENTS` if provided.
 - `today`, `tomorrow`, `week`, `month` - Relative to current date
 - `monday`, `tuesday`, etc. - Next occurrence of that weekday (including today if it matches)
 - `YYYY-MM-DD` - Specific date (e.g., `2026-02-14`)
+
+**Session mode (when SESSION_DIR is set):**
+No arguments needed. Reads target_date and scope from `${SESSION_DIR}/dates.md`.
 
 ## Execution Steps
 
@@ -48,9 +64,39 @@ Extract:
 
 If the config file doesn't exist or has no calendars configured, return an error with setup instructions.
 
-### 2. Calculate Date Range
+### 2. Read Session Context
 
-Based on the scope argument (default: `today`), calculate ISO8601 date range using macOS `date` command:
+Check if running in session mode:
+
+```bash
+if [ -n "$SESSION_DIR" ] && [ -f "$SESSION_DIR/dates.md" ]; then
+  # Session mode: read from dates.md
+  target_date=$(grep "^target_date:" "$SESSION_DIR/dates.md" | cut -d' ' -f2)
+  scope=$(grep "^scope:" "$SESSION_DIR/dates.md" | cut -d' ' -f2)
+else
+  # Legacy mode: use argument or default
+  scope="${ARGUMENTS:-today}"
+  # target_date will be calculated based on scope
+fi
+```
+
+If SESSION_DIR is not set or dates.md doesn't exist, fall back to using argument directly (for backwards compatibility).
+
+### 3. Calculate Date Range
+
+Use the target_date (from session) or scope (from arguments) to calculate FROM/TO times for ekctl:
+
+**If target_date is set (session mode):**
+```bash
+FROM=$(date -j -f "%Y-%m-%d" "$target_date" +"%Y-%m-%dT00:00:00%z")
+TO=$(date -j -f "%Y-%m-%d" "$target_date" +"%Y-%m-%dT23:59:59%z")
+```
+
+For week/month scopes in session mode, adjust the date range:
+- `week`: FROM = target_date, TO = target_date + 7 days
+- `month`: FROM = first day of target_date's month, TO = last day of that month
+
+**If using scope argument (legacy mode):**
 
 **For `today`:**
 ```bash
@@ -120,66 +166,57 @@ Collect the JSON responses from each calendar.
 5. **Calculate focus blocks** (gaps between meetings of 30+ minutes within work hours)
 6. **Generate summary** with counts and focus time
 
-### 5. Return Output
+### 5. Write Output to Session
 
-**JSON format** (default):
+Generate natural markdown format and write to session (when SESSION_DIR is set):
 
-```json
-{
-  "scope": "today",
-  "date_range": {
-    "from": "2026-02-08T00:00:00+0100",
-    "to": "2026-02-08T23:59:59+0100"
-  },
-  "events": [
-    {
-      "calendar": "work",
-      "title": "Engineering Roadmap Review",
-      "start": "2026-02-08T10:00:00+0100",
-      "end": "2026-02-08T11:00:00+0100",
-      "location": "Conference Room A",
-      "is_all_day": false,
-      "is_one_on_one": false
-    },
-    {
-      "calendar": "work",
-      "title": "1:1: Sarah",
-      "start": "2026-02-08T14:00:00+0100",
-      "end": "2026-02-08T14:30:00+0100",
-      "location": null,
-      "is_all_day": false,
-      "is_one_on_one": true
-    }
-  ],
-  "summary": {
-    "total_events": 2,
-    "meetings": 2,
-    "one_on_ones": 1,
-    "all_day_events": 0,
-    "focus_hours": 5.5
-  }
-}
+```bash
+cat > "${SESSION_DIR}/calendar.md" <<EOF
+# Calendar Events: ${target_date}
+
+$(generate_markdown_from_events)
+
+EOF
 ```
 
-**Markdown format** (when `--format markdown` or `format: markdown`):
+**Markdown format** (natural prose for Claude):
 
 ```markdown
-## Calendar: 2026-02-08 (Saturday)
+# Calendar Events: 2026-02-17
 
-### Meetings (2)
-- **10:00-11:00** Engineering Roadmap Review (Conference Room A)
-- **14:00-14:30** 1:1: Sarah *(1:1)*
+You have 3 meetings scheduled:
 
-### All-Day Events
-(none)
+**09:00-09:30** Team standup
+- Conference Room A
 
-### Focus Time Available
-- 09:00-10:00 (1h)
-- 11:00-14:00 (3h)
-- 14:30-18:00 (3.5h)
+**14:00-15:00** 1:1 with Sarah Chen
+- This is a one-on-one meeting
 
-**Summary:** 2 meetings, 1 one-on-one, 0 all-day events, 7.5h focus time
+**16:00-17:00** Design review
+- Conference Room B
+
+**Focus time available:**
+- 09:30-14:00 (4.5 hours)
+- 15:00-16:00 (1 hour)
+
+Total: 3 meetings, 1 one-on-one, 5.5 hours focus time
 ```
+
+The format should be natural prose that Claude can easily read and understand, not structured JSON.
+
+**If no events:**
+
+```markdown
+# Calendar Events: 2026-02-17
+
+You have no meetings scheduled today.
+
+Focus time available: Full day (9 hours)
+```
+
+**Legacy mode (when SESSION_DIR not set):**
+
+Output to stdout in the same markdown format for backwards compatibility.
 
 ## Error Handling
 
@@ -193,16 +230,33 @@ Collect the JSON responses from each calendar.
 
 ## Usage by Other Skills
 
-Other skills (e.g., daily-planning) reference this sub-skill like:
+**Session-based orchestration (recommended):**
+
+Orchestrated skills specify calendar needs in "What I Need" prose. The orchestrator automatically:
+1. Creates session directory
+2. Resolves dates to target_date
+3. Invokes fetch-calendar with SESSION_DIR
+4. Calendar output appears in `${SESSION_DIR}/calendar.md`
+
+Example from a planning skill's phases.yaml:
+
+```yaml
+- name: gather
+  type: explore
+  subagents:
+    - skill: _sub/fetch-calendar
+      args: ""  # No args needed, reads from session
+```
+
+**Legacy direct invocation:**
 
 ```markdown
 **Use sub-skill: `_sub/fetch-calendar`**
 - Scope: today
-- Format: json
 
 Use the calendar events to:
 1. Pre-populate the Meetings section with scheduled meetings
-2. Identify 1:1s and use the 1:1 template format from today.md
+2. Identify 1:1s and use the 1:1 template format
 3. Calculate focus blocks for deep work planning
 4. Set the `meetings` count in frontmatter
 ```
