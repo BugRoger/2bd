@@ -168,13 +168,13 @@ qmd_settings:
 **Engine paths:**
 - Skills: `.claude/skills/`
 - Scaffold: `scaffold/`
+- Templates: `scaffold/00_Brain/Systemic/Templates/`
 - Config: `.claude/config.md` (git-ignored)
 
 **Vault paths:**
 - Central Hub: `$VAULT/00_Brain/✱ Home.md`
 - Working notes: `$VAULT/00_Brain/Captive/`
 - Archives: `$VAULT/00_Brain/Periodic/`
-- Templates: `$VAULT/00_Brain/Systemic/Templates/`
 - Directives: `$VAULT/00_Brain/Systemic/Directives/`
 
 ### Personal Configuration
