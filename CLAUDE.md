@@ -10,6 +10,8 @@ cd ~/Code/2bd-engine
 claude skill run rituals/planning-daily   # morning
 claude skill run rituals/review-daily     # evening
 claude skill run commands/init --args "profile"   # update profile
+claude skill run commands/create-project          # new project
+claude skill run commands/archive-project         # archive completed project
 ```
 
 ## Documentation
