@@ -44,6 +44,17 @@ Guide the user through reflection on the week.
 
 Present a synthesized week overview: days reviewed, total meetings, total focus hours, energy trend, and priority completion rate. Ask if this feels accurate.
 
+### Key Dates Check
+
+Review key dates from the month:
+
+**Status check:**
+- Which key dates passed this week?
+- Were deadlines met?
+- Any dates requiring attention next week?
+
+Surface upcoming dates from Month.md Key Dates section with countdown.
+
 ### Leadership Reflection
 
 Review each day's leadership intention. For each, ask how well the user embodied it (1-10). Then synthesize: which intention served best, where did they struggle, what pattern emerges about being at their best.

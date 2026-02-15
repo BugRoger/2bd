@@ -36,6 +36,12 @@ phases:
         type: explore
         args: "vault={{VAULT}} week={{DATES.week}} week_start={{DATES.week_start}} week_end={{DATES.week_end}}"
         output: WEEK_CONTEXT
+      - skill: _sub/gather-key-dates
+        type: explore
+        args: "scope=month vault={{VAULT}}"
+        output: KEY_DATES
+        optional: true
+        on_error: "Key dates unavailable."
 
   # Phase 3: Pre-flight Check (inline - verify state)
   - name: preflight
