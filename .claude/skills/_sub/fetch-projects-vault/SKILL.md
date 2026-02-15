@@ -1,9 +1,9 @@
 ---
-name: fetch-projects
-description: List projects from 01_Projects/ (active) and 04_Archives/Projects/ (archived). Returns structured data with title, deadline, status, and timeline urgency.
+name: fetch-projects-vault
+description: List projects from vault 01_Projects/ (active by default) and 04_Archives/Projects/ (archived). Returns structured data with title, deadline, status, and timeline urgency.
 disable-model-invocation: true
 allowed-tools: Read, Bash(ls), Glob
-argument-hint: "[scope: active|archived|all]"
+argument-hint: "[scope: active|archived|all (default: active)]"
 ---
 
 # Fetch Projects Sub-Skill
