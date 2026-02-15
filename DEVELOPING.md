@@ -90,12 +90,13 @@ Skills are organized by type:
 │   │   ├── Synthetic/
 │   │   └── Systemic/
 │   │       ├── Templates/
-│   │       │   ├── Captive/  # today.md, week.md, etc.
-│   │       │   └── Periodic/ # daily.md, weekly.md, etc.
+│   │       │   ├── Captive/       # today.md, week.md, etc.
+│   │       │   ├── Periodic/      # daily.md, weekly.md, etc.
+│   │       │   ├── Projects/      # project.md
+│   │       │   └── Areas/People/  # person.md
 │   │       └── Directives/
 │   ├── 01_Projects/
 │   ├── 02_Areas/
-│   ├── 03_Resources/
 │   └── 04_Archives/
 │
 ├── README.md                 # User documentation
@@ -476,8 +477,8 @@ Skills read vault path from `.claude/config.md`. Use `$VAULT` as prefix in docum
 | `$VAULT/00_Brain/✱ Home.md` | Central hub |
 | `$VAULT/00_Brain/Captive/` | Working notes |
 | `$VAULT/00_Brain/Periodic/` | Archives |
-| `$VAULT/00_Brain/Systemic/Templates/` | User-owned templates |
 | `$VAULT/00_Brain/Systemic/Directives/` | User profile & AI personality |
+| `scaffold/00_Brain/Systemic/Templates/` | Templates (engine, not vault) |
 
 ### Naming Conventions (Detailed)
 
@@ -493,7 +494,6 @@ Skills read vault path from `.claude/config.md`. Use `$VAULT` as prefix in docum
 
 **Other conventions:**
 - **Hubs:** `✱` prefix with Title Case (`✱ Home.md`)
-- **Meta-resources:** Underscore prefix (`_Templates/`)
 - **Captive Notes:** Capitalized (Today.md, Week.md)
 - **People:** `<FirstName><LastInitial>.md` (EstherS.md)
 - **Insights:** lowercase-with-hyphens (leadership.md)

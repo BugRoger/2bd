@@ -151,7 +151,6 @@ claude skill run commands/init --args "profile"
 │   ├── Semantic/                # Crystallized knowledge
 │   ├── Synthetic/               # Active drafts
 │   └── Systemic/
-│       ├── Templates/           # Customize freely
 │       └── Directives/          # Your profile & AI personality
 ├── 01_Projects/
 │   └── ✱ Projects.md
@@ -160,8 +159,6 @@ claude skill run commands/init --args "profile"
 │   │   └── ✱ People.md
 │   └── Insights/                # Thematic learnings
 │       └── ✱ Insights.md
-├── 03_Resources/
-│   └── _Templates/para/
 ├── 04_Archives/
 └── .obsidian/
 ```
@@ -225,11 +222,12 @@ Templater automatically applies templates when creating files:
 - **Central Hub:** `00_Brain/✱ Home.md`
 - **Working notes:** `00_Brain/Captive/` (Today.md, Week.md, etc.)
 - **Archives:** `00_Brain/Periodic/` (Daily/, Weekly/, etc.)
-- **Templates:** `00_Brain/Systemic/Templates/`
+- **Directives:** `00_Brain/Systemic/Directives/`
 
 **In Engine:**
 - **Skills:** `.claude/skills/`
 - **Scaffold:** `scaffold/`
+- **Templates:** `scaffold/00_Brain/Systemic/Templates/`
 - **Config:** `.claude/config.md`
 
 ---
