@@ -1,7 +1,8 @@
 ---
 name: resolve-references
-description: Resolve vault file paths and entity references based on skill needs
+description: Resolve vault file paths and entity references. Returns structured markdown via Task tool result.
 disable-model-invocation: true
+argument-hint: "[target_date: YYYY-MM-DD] [calendar_md: (optional)]"
 ---
 
 # Resolve References
@@ -10,7 +11,8 @@ Discover vault file paths and entity references based on needs declared in the s
 
 ## Inputs
 
-- `$1` (session_dir) — Required. Session directory path containing dates.md and optionally calendar.md
+- `$1` (target_date) — Required. Target date in YYYY-MM-DD format
+- `$2` (calendar_md) — Optional. Path to calendar.md file containing calendar events
 
 ## Task
 
@@ -20,11 +22,12 @@ Execute the bash script below to resolve vault references.
 #!/bin/bash
 set -euo pipefail
 
-session_dir="${1:?Error: session directory required}"
+target_date="${1:?Error: target_date required (YYYY-MM-DD)}"
+calendar_md="${2:-}"
 
-# Validate session directory exists
-if [[ ! -d "$session_dir" ]]; then
-    echo "Error: Session directory does not exist: $session_dir" >&2
+# Validate target_date format (basic check)
+if [[ ! "$target_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+    echo "Error: target_date must be in YYYY-MM-DD format, got: $target_date" >&2
     exit 1
 fi
 
@@ -42,14 +45,9 @@ if [[ ! -d "$vault_path" ]]; then
     exit 1
 fi
 
-# 2. Read Session Context
-target_date=""
-if [[ -f "$session_dir/dates.md" ]]; then
-    target_date=$(grep "^target_date:" "$session_dir/dates.md" 2>/dev/null | cut -d' ' -f2 || echo "")
-fi
-
+# 2. Check if calendar is provided
 has_calendar=false
-if [[ -f "$session_dir/calendar.md" ]]; then
+if [[ -n "$calendar_md" ]] && [[ -f "$calendar_md" ]]; then
     has_calendar=true
 fi
 
@@ -103,7 +101,7 @@ people_found=false
 if [[ "$has_calendar" == true ]]; then
     # Extract names from lines containing "1:1" or "1-1"
     # Look for patterns like "1:1: Sarah Chen" or "1:1 with John Doe"
-    people_lines=$(grep -iE "(1:1|1-1)" "$session_dir/calendar.md" 2>/dev/null || true)
+    people_lines=$(grep -iE "(1:1|1-1)" "$calendar_md" 2>/dev/null || true)
 
     if [[ -n "$people_lines" ]]; then
         # Parse names: extract text after "1:1:" or "1:1 with"
@@ -185,37 +183,11 @@ if [[ "$projects_found" == false ]]; then
 fi
 
 echo ""
-
-# 6. Resolve Daily Archives (if workdays defined)
-if grep -q "^workdays:" "$session_dir/dates.md" 2>/dev/null; then
-    echo "## Daily Archives (workdays)"
-    echo ""
-
-    # Extract workday dates
-    workdays=$(grep -A 10 "^workdays:" "$session_dir/dates.md" 2>/dev/null | grep "^  -" | sed 's/^  - //' || true)
-
-    if [[ -n "$workdays" ]]; then
-        periodic_dir="$vault_path/00_Brain/Periodic/Daily"
-
-        while IFS= read -r workday; do
-            if [[ -z "$workday" ]]; then continue; fi
-
-            daily_file="${periodic_dir}/${workday}.md"
-            if [[ -f "$daily_file" ]]; then
-                echo "- **${workday}**: $daily_file ✓"
-            else
-                echo "- **${workday}**: $daily_file ✗"
-            fi
-        done <<< "$workdays"
-    fi
-
-    echo ""
-fi
 ```
 
 ## Output Format
 
-The skill writes to stdout as markdown (orchestrator captures this):
+The skill writes to stdout as markdown (orchestrator captures this via Task tool):
 
 ```markdown
 # Vault References
@@ -236,12 +208,6 @@ The skill writes to stdout as markdown (orchestrator captures this):
 
 - **quarterly-planning**: /path/to/vault/01_Projects/2026-03-31-quarterly-planning.md ✓
 - **team-restructure**: /path/to/vault/01_Projects/2026-04-15-team-restructure.md ✓
-
-## Daily Archives (workdays)
-
-- **2026-02-03**: /path/to/vault/00_Brain/Periodic/Daily/2026-02-03.md ✓
-- **2026-02-04**: /path/to/vault/00_Brain/Periodic/Daily/2026-02-04.md ✓
-- **2026-02-05**: /path/to/vault/00_Brain/Periodic/Daily/2026-02-05.md ✗
 ```
 
 The orchestrator includes this output in memory.md for the inline phase to reference.
@@ -253,62 +219,56 @@ The orchestrator includes this output in memory.md for the inline phase to refer
 | Config missing | Exit with error message, suggest running /init |
 | Vault path missing | Exit with error message |
 | Vault directory doesn't exist | Exit with error message |
-| Session directory doesn't exist | Exit with error message |
-| dates.md missing | Continue with limited context (no warnings) |
-| calendar.md missing | Skip people resolution, report "(no 1:1 meetings found)" |
-| People/Projects directories missing | Report as "(no active projects found)" |
+| target_date missing | Exit with error message |
+| target_date invalid format | Exit with error message |
+| calendar_md provided but doesn't exist | Skip people resolution, report "(no 1:1 meetings found)" |
+| People/Projects directories missing | Report as "(no active projects found)" or "(no 1:1 meetings found)" |
 
 ## Examples
 
-**Basic usage:**
+**Basic usage (without calendar):**
 ```bash
-# Create test session
-session_dir=$(mktemp -d)
-echo "target_date: 2026-02-15" > "$session_dir/dates.md"
-echo "scope: day" >> "$session_dir/dates.md"
-
-# Run skill
-claude skill run resolve-references -- "$session_dir"
+# Run skill with just target date
+claude skill run _sub/resolve-references -- "2026-02-15"
 ```
 
 **With calendar:**
 ```bash
-# Add mock calendar with 1:1
-echo "## Morning" > "$session_dir/calendar.md"
-echo "- **10:00-10:30** 1:1: Sarah Chen" >> "$session_dir/calendar.md"
-
-claude skill run resolve-references -- "$session_dir"
-```
-
-**With workdays (weekly review):**
-```bash
-cat > "$session_dir/dates.md" << 'EOF'
-# Date Context
-
-target_date: 2026-02-03
-scope: week
-relative: last week
-week_start: 2026-02-03
-week_end: 2026-02-07
-workdays:
-  - 2026-02-03
-  - 2026-02-04
-  - 2026-02-05
-  - 2026-02-06
-  - 2026-02-07
+# Create mock calendar file
+calendar_file=$(mktemp)
+cat > "$calendar_file" << 'EOF'
+## Morning
+- **10:00-10:30** 1:1: Sarah Chen
+- **11:00-12:00** Team standup
 EOF
 
-claude skill run resolve-references -- "$session_dir"
+# Run skill with calendar
+claude skill run _sub/resolve-references -- "2026-02-15" "$calendar_file"
+
+# Cleanup
+rm "$calendar_file"
+```
+
+**Testing manually:**
+```bash
+# Without calendar
+cd /path/to/2bd
+./.claude/skills/_sub/resolve-references/SKILL.md "2026-02-15"
+
+# With calendar
+echo "- **10:00** 1:1: Sarah Chen" > /tmp/test-calendar.md
+./.claude/skills/_sub/resolve-references/SKILL.md "2026-02-15" /tmp/test-calendar.md
 ```
 
 ## Integration with Orchestrator
 
 The orchestrator:
-1. Spawns this skill after dates are resolved
-2. Passes session directory path as argument
-3. Captures stdout markdown output
-4. Includes output in memory.md under "## Vault References" section
-5. Inline phase reads memory.md to see what's available
+1. Resolves target_date from user input (e.g., "today" → "2026-02-15")
+2. Spawns fetch-calendar sub-skill if calendar data needed (writes to temp file)
+3. Spawns this skill with target_date and optional calendar file path
+4. Captures stdout markdown output via Task tool result
+5. Includes output in memory.md under "## Vault References" section
+6. Inline phase reads memory.md to see what's available
 
 The inline phase skill instructions can naturally reference:
 - "Load Week.md for context" → skill reads path from memory.md
@@ -325,4 +285,4 @@ The inline phase skill instructions can naturally reference:
 - Status indicators (✓/✗) provide immediate visibility
 - People extraction uses fuzzy matching (case-insensitive find)
 - Projects are filtered to active status only
-
+- No session directory required - all data passed as arguments
