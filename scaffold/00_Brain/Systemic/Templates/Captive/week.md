@@ -51,6 +51,14 @@ leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 
 ---
 
+## Key Dates
+
+- [Populated during weekly planning from Month + Quarter]
+
+*Dates within this week's window with countdown urgency*
+
+---
+
 ## Weekly Commitments
 
 ### Key Decisions to Make
