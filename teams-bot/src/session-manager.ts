@@ -1,8 +1,12 @@
 import type { Session, SessionState } from "./types";
 import { existsSync, readFileSync, writeFileSync, unlinkSync } from "fs";
 import { join } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-const SESSION_FILE = ".active-session.json";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const SESSION_FILE = join(__dirname, "..", ".active-session.json");
 
 export class SessionManager {
   private activeSession: Session | null = null;
@@ -80,14 +84,24 @@ export class SessionManager {
   private saveState(): void {
     if (!this.activeSession) return;
 
+    const pid = this.activeSession.process.pid;
+    if (pid === undefined) {
+      console.error("Cannot save session: process PID is undefined");
+      return;
+    }
+
     const state: SessionState = {
-      pid: this.activeSession.process.pid!,
+      pid,
       skill: this.activeSession.skill,
       conversationId: this.activeSession.conversationId,
       startedAt: this.activeSession.startedAt.toISOString(),
     };
 
-    writeFileSync(SESSION_FILE, JSON.stringify(state, null, 2));
+    try {
+      writeFileSync(SESSION_FILE, JSON.stringify(state, null, 2));
+    } catch (err) {
+      console.error("Failed to save session state:", err);
+    }
   }
 
   private clearState(): void {
@@ -100,7 +114,16 @@ export class SessionManager {
     if (!existsSync(SESSION_FILE)) return;
 
     try {
-      const state: SessionState = JSON.parse(readFileSync(SESSION_FILE, "utf-8"));
+      const raw = readFileSync(SESSION_FILE, "utf-8");
+      const state: SessionState = JSON.parse(raw);
+
+      // Validate required fields
+      if (typeof state.pid !== "number" || !state.skill || !state.conversationId) {
+        console.error("Invalid session state file: missing required fields (pid, skill, conversationId)");
+        this.clearState();
+        return;
+      }
+
       console.log(`Found orphaned session: ${state.skill} (PID: ${state.pid})`);
 
       try {
@@ -112,7 +135,7 @@ export class SessionManager {
 
       this.clearState();
     } catch (err) {
-      console.error("Error cleaning up orphaned session:", err);
+      console.error("Error cleaning up orphaned session (failed to parse or process session file):", err);
       this.clearState();
     }
   }
