@@ -163,7 +163,7 @@ Use the Month.md template as the source of truth. Fill:
 
 ## Persist
 
-Write the generated Month.md to the Captive directory in the vault.
+Write Month.md to Captive.
 
 ---
 
