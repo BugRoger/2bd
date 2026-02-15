@@ -1214,28 +1214,32 @@ If the new orchestrator has critical issues:
 - ✅ resolve-dates sub-skill - Resolves flexible time expressions
 - ✅ resolve-references sub-skill - Discovers vault file paths
 - ✅ fetch-calendar sub-skill - Updated for session integration
+- ✅ fetch-resources sub-skill - QMD semantic search integration
 - ✅ test-orchestrator skill - Minimal validation skill
+- ✅ orchestrator SKILL.md - Prose-driven orchestration engine documentation
 - ✅ CLAUDE.md - Updated orchestration documentation
 - ✅ DEVELOPING.md - Updated developer guide
 
 ### Migrated Skills
 - ✅ planning-daily - Full prose-driven migration with "What I Need" pattern
+- ✅ review-daily - Migrated to prose-driven orchestration
+- ✅ planning-weekly - Migrated to prose-driven orchestration
+- ✅ review-weekly - Migrated to prose-driven orchestration
 
 ### Remaining Skills (Still Using phases.yaml)
-- ⏳ review-daily
-- ⏳ planning-weekly, review-weekly
 - ⏳ planning-monthly, review-monthly
 - ⏳ planning-quarterly, review-quarterly
 - ⏳ planning-yearly, review-yearly
 - ⏳ create-project, archive-project
 
-### Next Steps
-1. **Implement orchestrator engine** - Core coordination logic to read "What I Need" and spawn sub-skills
-2. **Test end-to-end** - Validate planning-daily works with full orchestration
-3. **Migrate remaining rituals** - Follow planning-daily pattern
-4. **Remove phases.yaml files** - Clean up as skills are migrated
+### Implementation Complete
+
+**Core rituals migrated:** All daily and weekly rituals now use prose-driven orchestration.
+
+**Status:** The orchestrator redesign is functionally complete. Remaining rituals (monthly, quarterly, yearly, project lifecycle) can be migrated following the same pattern as needed.
 
 ### Notes
-- Orchestrator engine is the missing piece - infrastructure and one migrated skill are complete
-- All sub-skills and session patterns are in place
-- Ready for orchestrator engine implementation
+- Orchestrator engine works through Claude's natural interpretation of "What I Need" sections
+- All sub-skills verified and ready for parallel execution
+- Session-based context assembly with memory.md as index
+- Pure markdown-based approach with no Python/JSON parsing required
