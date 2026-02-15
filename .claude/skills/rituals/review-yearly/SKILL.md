@@ -11,6 +11,16 @@ metadata:
 
 Capstone ritual for synthesizing an entire year's work, reflecting on annual goal achievement and leadership evolution, extracting crystallized learnings to semantic notes, and archiving to Periodic/Yearly/.
 
+## Context
+
+- Year.md file for the target year
+- User's directives and preferences
+- Quarterly archives from Periodic/Quarterly/
+- Active project files
+- Existing yearly archive if re-reviewing
+
+---
+
 ## Flow
 
 1. **Setup** — Load config, dates, directives
@@ -129,21 +139,6 @@ Each returns structured proposals for user approval.
 
 ---
 
-## Confirm
-
-Present all proposed changes for approval:
-
-- Archive destination (Periodic/Yearly/) and year summary
-- Each semantic note update with target file, section, and content preview
-
-Options:
-- **Proceed all** — archive and apply all updates
-- **Archive only** — skip semantic updates
-- **Review each** — approve individually
-- **Cancel** — exit (captured synthesis preserved in Year.md)
-
----
-
 ## Persist
 
 Execute confirmed writes:
@@ -158,6 +153,21 @@ Report completion and suggest next steps:
 - Share the year's narrative with relevant people if appropriate
 
 If directives were not available, suggest running `/init`.
+
+---
+
+## Confirm
+
+Present all proposed changes for approval:
+
+- Archive destination (Periodic/Yearly/) and year summary
+- Each semantic note update with target file, section, and content preview
+
+Options:
+- **Proceed all** — archive and apply all updates
+- **Archive only** — skip semantic updates
+- **Review each** — approve individually
+- **Cancel** — exit (captured synthesis preserved in Year.md)
 
 ---
 

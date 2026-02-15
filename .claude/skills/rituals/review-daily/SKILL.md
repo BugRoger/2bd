@@ -101,21 +101,6 @@ Each returns structured proposals for user approval.
 
 ---
 
-## Confirm
-
-Present all proposed changes for approval:
-
-- Archive destination (Periodic/Daily/{date}.md) and day summary
-- Each semantic note update with target file, section, and content preview
-
-Options:
-- **Proceed all** — archive and apply all updates
-- **Archive only** — skip semantic updates
-- **Review each** — approve individually
-- **Cancel** — exit (captured wins/insights preserved in Today.md)
-
----
-
 ## Persist
 
 Execute confirmed writes using sub-skills:
@@ -132,6 +117,21 @@ Report completion and suggest next steps:
 - New insight notes if warranted
 
 If directives were not available, suggest running `/init`.
+
+---
+
+## Confirm
+
+Present all proposed changes for approval:
+
+- Archive destination (Periodic/Daily/{date}.md) and day summary
+- Each semantic note update with target file, section, and content preview
+
+Options:
+- **Proceed all** — archive and apply all updates
+- **Archive only** — skip semantic updates
+- **Review each** — approve individually
+- **Cancel** — exit (captured wins/insights preserved in Today.md)
 
 ---
 

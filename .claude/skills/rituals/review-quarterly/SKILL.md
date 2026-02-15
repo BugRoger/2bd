@@ -11,6 +11,16 @@ metadata:
 
 Evening ritual for synthesizing a quarter's work, reflecting on outcomes and leadership growth, extracting learnings to semantic notes, and archiving to Periodic/Quarterly/.
 
+## Context
+
+- Quarter.md file for the target quarter
+- User's directives and preferences
+- Monthly archives from Periodic/Monthly/
+- Active project files
+- Existing quarterly archive if re-reviewing
+
+---
+
 ## Flow
 
 1. **Setup** — Load config, dates, directives
@@ -119,21 +129,6 @@ Each returns structured proposals for user approval.
 
 ---
 
-## Confirm
-
-Present all proposed changes for approval:
-
-- Archive destination (Periodic/Quarterly/) and quarter summary
-- Each semantic note update with target file, section, and content preview
-
-Options:
-- **Proceed all** — archive and apply all updates
-- **Archive only** — skip semantic updates
-- **Review each** — approve individually
-- **Cancel** — exit (captured synthesis preserved in Quarter.md)
-
----
-
 ## Persist
 
 Execute confirmed writes:
@@ -148,6 +143,21 @@ Report completion and suggest next steps:
 - Year.md updates if significant patterns emerged
 
 If directives were not available, suggest running `/init`.
+
+---
+
+## Confirm
+
+Present all proposed changes for approval:
+
+- Archive destination (Periodic/Quarterly/) and quarter summary
+- Each semantic note update with target file, section, and content preview
+
+Options:
+- **Proceed all** — archive and apply all updates
+- **Archive only** — skip semantic updates
+- **Review each** — approve individually
+- **Cancel** — exit (captured synthesis preserved in Quarter.md)
 
 ---
 

@@ -11,6 +11,16 @@ metadata:
 
 Evening ritual for synthesizing a month's work, reflecting on outcomes and growth patterns, extracting learnings to semantic notes, and archiving to Periodic/Monthly/.
 
+## Context
+
+- Month.md file for the target month
+- User's directives and preferences
+- Weekly archives from Periodic/Weekly/
+- Active project files
+- Existing monthly archive if re-reviewing
+
+---
+
 ## Flow
 
 1. **Setup** — Load config, dates, directives
@@ -108,21 +118,6 @@ Each returns structured proposals for user approval.
 
 ---
 
-## Confirm
-
-Present all proposed changes for approval:
-
-- Archive destination (Periodic/Monthly/) and month summary
-- Each semantic note update with target file, section, and content preview
-
-Options:
-- **Proceed all** — archive and apply all updates
-- **Archive only** — skip semantic updates
-- **Review each** — approve individually
-- **Cancel** — exit (captured synthesis preserved in Month.md)
-
----
-
 ## Persist
 
 Execute confirmed writes:
@@ -137,6 +132,21 @@ Report completion and suggest next steps:
 - Year.md updates if significant patterns emerged
 
 If directives were not available, suggest running `/init`.
+
+---
+
+## Confirm
+
+Present all proposed changes for approval:
+
+- Archive destination (Periodic/Monthly/) and month summary
+- Each semantic note update with target file, section, and content preview
+
+Options:
+- **Proceed all** — archive and apply all updates
+- **Archive only** — skip semantic updates
+- **Review each** — approve individually
+- **Cancel** — exit (captured synthesis preserved in Month.md)
 
 ---
 
