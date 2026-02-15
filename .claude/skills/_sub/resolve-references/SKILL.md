@@ -110,19 +110,17 @@ if [[ "$has_calendar" == true ]]; then
         while IFS= read -r line; do
             if [[ -z "$line" ]]; then continue; fi
 
-            # Extract name using sed
-            # 1. Remove markdown formatting (**, *, -)
-            # 2. Remove time prefixes (09:00-10:00)
-            # 3. Remove "1:1:" or "1:1 with" or "1-1:" patterns
-            # 4. Trim whitespace
-            person=$(echo "$line" | \
-                sed 's/\*//g' | \
-                sed -E 's/^[- ]*[0-9]{1,2}:[0-9]{2}(-[0-9]{1,2}:[0-9]{2})?[- ]*//g' | \
-                sed -E 's/(1:1|1-1)[:：]? *(with )?//i' | \
-                sed 's/^ *//g' | \
-                sed 's/ *$//g')
+            # Extract everything after "1:1" or "1-1" and strip "with", then trim whitespace
+            person=$(echo "$line" | sed -E 's/.*(1:1|1-1):? *(with )?//i' | xargs)
 
             if [[ -z "$person" ]]; then continue; fi
+
+            # Check if People directory exists first
+            if [[ ! -d "$vault_path/02_Areas/People" ]]; then
+                echo "- **${person}**: (no file found) ✗"
+                people_found=true
+                continue
+            fi
 
             # Try to find their file in 02_Areas/People/
             person_file=$(find "$vault_path/02_Areas/People" -type f -iname "*${person}*.md" 2>/dev/null | head -1 || true)
