@@ -47,7 +47,7 @@ phases:
         output: MONTH
         optional: true
         on_error: "Month.md not found. Monthly context unavailable."
-      - skill: _sub/fetch-active-projects
+      - skill: _sub/fetch-projects-vault
         type: explore
         args: "filter=all"
         output: PROJECTS
