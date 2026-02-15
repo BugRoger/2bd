@@ -44,8 +44,10 @@ week_start=""
 week_end=""
 declare -a workdays=()
 
-# Normalize input
-time_expr_lower=$(echo "$time_expr" | tr '[:upper:]' '[:lower:]' | xargs)
+# Normalize input: lowercase and trim whitespace
+time_expr_lower=$(echo "$time_expr" | tr '[:upper:]' '[:lower:]')
+time_expr_lower="${time_expr_lower#"${time_expr_lower%%[![:space:]]*}"}"  # trim leading
+time_expr_lower="${time_expr_lower%"${time_expr_lower##*[![:space:]]}"}"  # trim trailing
 
 # Resolve based on expression
 case "$time_expr_lower" in
@@ -65,10 +67,13 @@ case "$time_expr_lower" in
         # Extract day name
         day_name=$(echo "$time_expr_lower" | cut -d' ' -f2)
 
-        # Get current day of week (0=Sunday, 1=Monday, etc.)
-        current_dow=$(date +"%w")
+        # Validate day name is not empty
+        if [[ -z "$day_name" ]]; then
+            echo "Error: Day name required after 'next' (e.g., 'next monday')" >&2
+            exit 1
+        fi
 
-        # Map day names to numbers for macOS date -v
+        # Map day names to macOS date -v weekday flags
         case "$day_name" in
             "sunday")    target_date=$(date -v+sunday +"%Y-%m-%d"); day_of_week="Sunday" ;;
             "monday")    target_date=$(date -v+monday +"%Y-%m-%d"); day_of_week="Monday" ;;
@@ -83,9 +88,10 @@ case "$time_expr_lower" in
                 ;;
         esac
 
-        # If resolved date is today, add 7 days to get NEXT occurrence
+        # macOS date -v+weekday returns current day if today is that weekday
+        # For "next monday", we want the NEXT occurrence, so add 7 days if result is today
         if [[ "$target_date" == "$(date +"%Y-%m-%d")" ]]; then
-            target_date=$(date -j -f "%Y-%m-%d" "$target_date" -v+7d +"%Y-%m-%d")
+            target_date=$(date -j -f "%Y-%m-%d" -v+7d "$target_date" +"%Y-%m-%d")
         fi
 
         scope="day"
@@ -93,17 +99,17 @@ case "$time_expr_lower" in
         ;;
 
     "last week")
-        # Get last Monday (previous week's start)
+        # Calculate previous week's Monday-Friday range
+        # Strategy: Go to most recent Monday, then back 7 days to get last week's Monday
         week_start=$(date -v-monday -v-7d +"%Y-%m-%d")
-        # Get last Friday (previous week's end)
         week_end=$(date -v-monday -v-7d -v+4d +"%Y-%m-%d")
 
-        target_date="$week_start"  # Use Monday as primary target
+        target_date="$week_start"
         scope="week"
         relative="last week"
 
-        # Generate workdays array (Monday through Friday)
-        base_date=$(date -v-monday -v-7d +"%Y-%m-%d")
+        # Generate array of workdays (Monday through Friday of last week)
+        base_date="$week_start"
         workdays+=($(date -j -v+0d -f "%Y-%m-%d" "$base_date" +"%Y-%m-%d"))
         workdays+=($(date -j -v+1d -f "%Y-%m-%d" "$base_date" +"%Y-%m-%d"))
         workdays+=($(date -j -v+2d -f "%Y-%m-%d" "$base_date" +"%Y-%m-%d"))
@@ -208,7 +214,9 @@ workdays:
 The skill exits with non-zero status and writes to stderr for:
 - Missing session directory argument
 - Non-existent session directory
-- Invalid date format
+- Missing day name after "next" keyword
+- Invalid day name (not a recognized weekday)
+- Invalid date format (malformed YYYY-MM-DD)
 - Unsupported time expression
 
 ## Examples
@@ -238,7 +246,8 @@ claude skill run resolve-dates -- "2026-03-15" "$session_dir"
 ## Notes
 
 - Uses macOS `date -v` flags for date arithmetic
-- The `-v+monday` syntax finds the next Monday (or today if today is Monday)
-- For "next monday", adds 7 days if resolved date is today to ensure NEXT occurrence
-- "last week" always resolves to the previous Monday-Friday range
-- All dates are in ISO 8601 format (YYYY-MM-DD)
+- Uses system timezone for all date calculations
+- The `-v+monday` syntax finds the next Monday, OR returns current day if today is Monday
+- For "next monday", we explicitly check if result equals today and add 7 days to ensure NEXT occurrence
+- "last week" resolves to previous Monday-Friday range (workdays only)
+- All dates output in ISO 8601 format (YYYY-MM-DD)
