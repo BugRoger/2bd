@@ -87,58 +87,77 @@ Apply directives throughout:
 
 If directives don't exist (user hasn't run `/init`), proceed with defaults and suggest running `/init` at the end.
 
-### Orchestrated Skills
+### Prose-Driven Orchestration
 
-Skills with `metadata.orchestrated: true` in frontmatter use subagent orchestration via `phases.yaml`.
+Skills declare context needs in natural language. The orchestrator interprets these needs and coordinates fulfillment transparently.
 
-**Detecting orchestrated skills:**
-```yaml
-metadata:
-  orchestrated: true
-  phases_file: phases.yaml
+**Detecting prose-driven skills:**
+
+Skills with a "What I Need" section use prose-driven orchestration:
+
+```markdown
+## What I Need
+
+- Calendar events for the day
+- User's directives and preferences
+- Week.md for weekly context
+- People files for anyone with 1:1 meetings
+- Active project files
 ```
 
-**Executing orchestrated skills:**
+**How orchestration works:**
 
-1. Read `phases.yaml` from the skill's directory
-2. Parse phase definitions and build dependency graph
-3. Execute phases in topological order:
+1. **Session Creation** - Orchestrator creates temp directory: `/tmp/2bd-session-{skill}-{timestamp}/`
+2. **Date Resolution** - Resolves time arguments (today, tomorrow, "next monday", YYYY-MM-DD) to concrete dates
+3. **Need Interpretation** - Parses prose needs and determines fulfillment strategy:
+   - "Calendar events" → spawn fetch-calendar sub-skill
+   - "Week.md" / "Month.md" → resolve vault paths
+   - "People files for 1:1s" → resolve from calendar + vault
+   - "Active projects" → scan vault for project files
+4. **Context Assembly** - Spawns sub-skills in parallel, builds `memory.md` with available context
+5. **Inline Execution** - Executes skill prose with session directory available
 
-| Phase Type | Execution |
-|------------|-----------|
-| `inline: true` | Execute in main conversation context |
-| `subagents: [...]` | Spawn via Task tool |
-| `parallel: true` | Spawn all subagents simultaneously |
+**Session structure:**
 
-**Subagent type mapping:**
-- `type: explore` → `subagent_type: "Explore"` (read-only)
-- `type: general-purpose` → `subagent_type: "general-purpose"` (can write files)
-
-**Variable interpolation:**
-Replace `{{VARIABLE}}` patterns in args and markdown with values from the context store.
-
-**Error handling:**
-| Declaration | Behavior |
-|-------------|----------|
-| `optional: true` | Log warning, continue if subagent fails |
-| `fallback: inline` | Execute skill in main context on failure |
-
-**Example execution flow:**
 ```
-Phase: setup (parallel)
-├─ Task(explore): fetch-config → VAULT
-├─ Task(explore): fetch-dates → DATES
-└─ Task(explore): fetch-directives → DIRECTIVES
-
-Phase: gather (depends_on: setup)
-└─ Task(explore): fetch-calendar → CALENDAR
-
-Phase: interact (inline)
-└─ [User dialogue in main context]
-
-Phase: write
-└─ Task(general-purpose): write-captive-note
+/tmp/2bd-session-{skill}-{timestamp}/
+├── memory.md              # Index of available context
+├── dates.md               # Resolved time context (internal)
+├── calendar.md            # External: fetched calendar events
+└── resources.md           # External: QMD search results
 ```
+
+**memory.md format:**
+
+```markdown
+# Session Memory: planning-daily (2026-02-17)
+
+## External Data Available
+### Calendar Events (calendar.md)
+3 events fetched for 2026-02-17
+
+## Vault Files Available
+### Configuration
+- **Directives**: /vault/00_Brain/Systemic/Directives/profile.md ✓
+
+### Working Notes
+- **Week.md**: /vault/00_Brain/Captive/Week.md ✓
+- **Today.md**: (new - will create)
+
+### People (from calendar 1:1s)
+- **Sarah Chen**: /vault/02_Areas/People/Sarah Chen.md ✓
+```
+
+**Inline phases read context incrementally:**
+- Start with memory.md (see what's available)
+- Load external data (calendar.md, resources.md)
+- Load vault files as needed (direct Read with full paths)
+
+**Benefits:**
+- **No orchestration mechanics in skills** - pure declarative intent
+- **Natural language** - describe what you need, not how to get it
+- **Flexible fulfillment** - orchestrator chooses appropriate sub-skills
+- **Incremental context loading** - only read what's needed
 
 ### Key Paths
 
