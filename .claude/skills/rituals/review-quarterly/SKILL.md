@@ -24,7 +24,7 @@ Evening ritual for synthesizing a quarter's work, reflecting on outcomes and lea
 
 ---
 
-## Pre-flight
+## Validate
 
 Verify the quarter state before reviewing:
 
@@ -37,7 +37,7 @@ Proceed only when state is validated.
 
 ---
 
-## Interactive Review
+## Session
 
 Guide the user through reflection on the quarter.
 
@@ -107,7 +107,7 @@ Identify strategic priorities that should anchor next quarter's planning. Ask wh
 
 ---
 
-## Synthesis
+## Compose
 
 Parallel subagents prepare semantic note updates based on the completed review:
 
@@ -134,7 +134,7 @@ Options:
 
 ---
 
-## Write
+## Persist
 
 Execute confirmed writes:
 
