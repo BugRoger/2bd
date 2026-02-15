@@ -148,6 +148,21 @@ Phase: write
 vault_path: /Users/you/OneDrive/2bd-vault
 ```
 
+**External Resources config** (optional fields in `.claude/config.md`):
+
+```markdown
+### QMD (Document Search)
+qmd_enabled: true|false
+qmd_collections:
+  - name: collection_name
+    path: /absolute/path
+    context: "Description for search"
+    enabled: true|false
+qmd_settings:
+  max_results: 5
+  search_mode: deep|search|vsearch
+```
+
 **Use `$VAULT` prefix** when referencing vault files in skills and documentation.
 
 **Engine paths:**
