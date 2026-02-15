@@ -129,9 +129,8 @@ Each returns structured proposals for user approval.
 
 Execute confirmed writes:
 
-- Archive Year.md content to Periodic/Yearly/
 - Apply semantic note updates
-- Update Year.md with archived placeholder
+- Archive Year.md to Periodic/Yearly/{year}.md. Transform the content into the archive format, ensuring the target directory exists. Write the file and verify the write succeeded. Call append-changelog to record the archival. Replace Year.md in Captive with an archived placeholder.
 
 Report completion and suggest next steps:
 - Yearly planning when ready for the new year
@@ -183,4 +182,4 @@ Year.md + Quarterly/*.md      Yearly/YYYY.md              People/, Projects/,
 - **get-year-content**: Sub-skill that parses Year.md structure
 - **gather-year-context**: Sub-skill that collects quarterly archives
 - **extract-to-areas**: Sub-skill that prepares semantic updates
-- **archive-yearly**: Sub-skill that handles Captive -> Periodic transition
+- **append-changelog**: Sub-skill that records archival events
