@@ -136,7 +136,8 @@ Skills with a "What I Need" section use prose-driven orchestration:
 /tmp/2bd-session-{skill}-{timestamp}/
 ├── memory.md              # Index of available context
 ├── dates.md               # Resolved time context (internal)
-└── calendar.md            # External: fetched calendar events
+├── calendar.md            # External: fetched calendar events
+└── resources.md           # External: QMD search results
 ```
 
 **memory.md format:**
@@ -160,16 +161,17 @@ Skills with a "What I Need" section use prose-driven orchestration:
 - **Sarah Chen**: /vault/02_Areas/People/Sarah Chen.md ✓
 ```
 
-**Inline phases read context incrementally:**
-- Start with memory.md (see what's available)
-- Load external data (calendar.md)
-- Load vault files as needed (direct Read with full paths)
+**All context is pre-loaded into the conversation:**
+- The orchestrator loads all context before skill execution
+- Skills reference context naturally (e.g., "Review the calendar", "Check Week.md")
+- All external data and vault files are already present in the conversation
+- No manual loading or file operations needed within the skill prose
 
 **Benefits:**
 - **No orchestration mechanics in skills** - pure declarative intent
 - **Natural language** - describe what you need, not how to get it
 - **Flexible fulfillment** - orchestrator chooses appropriate sub-skills
-- **Incremental context loading** - only read what's needed
+- **Pre-loaded context** - all requested context available from the start
 
 ### Key Paths
 
