@@ -272,6 +272,64 @@ Sub-skills are composable building blocks. Underscore prefix (`_sub/`) signals i
 
 ---
 
+### Ritual Structure
+
+All rituals follow a canonical 6-phase lifecycle. Each phase has a specific purpose and uses a standardized section name.
+
+#### The 6 Phases
+
+| Phase | Section Name | Purpose | Gate? |
+|-------|--------------|---------|-------|
+| 1 | `## Context` | Declare context needs (orchestrator loads) | No |
+| 2 | `## Validate` | Check prerequisites and state | Yes (proceed only when safe) |
+| 3 | `## Session` | Interactive guided conversation | No |
+| 4 | `## Compose` | Build artifact in memory | No |
+| 5 | `## Persist` | Write to vault | No |
+| 6 | `## Confirm` | Summarize and suggest next steps | No |
+
+**Phase 1: Context**
+
+Declare what context is needed in natural prose. The orchestrator interprets these needs and pre-loads all context before execution.
+
+```markdown
+## Context
+
+- Calendar events for the target period
+- User's directives and preferences
+- Week.md, Month.md, Quarter.md for hierarchical context
+- People files for anyone with 1:1 meetings
+- Active project files
+```
+
+**Phase 2: Validate**
+
+Check prerequisites and state. Verify dates, check for existing files, warn about risks, offer alternatives. Proceed only when safe.
+
+**Phase 3: Session**
+
+Interactive guided conversation with the user. Personalized greeting, present context, gather input, facilitate reflection. May include subsections to organize conversation flow (subsections are ritual-specific).
+
+**Phase 4: Compose**
+
+Build the complete artifact in memory. Generate content, fill templates, prepare everything for persistence.
+
+**Phase 5: Persist**
+
+Execute file operations. Write to vault, update changelogs. Document what will be written before executing.
+
+**Phase 6: Confirm**
+
+Summarize what was done. Show key outcomes, suggest next steps. This is verification after persistence, not an approval gate.
+
+#### Principles
+
+- **Universal:** All rituals use these exact phase names
+- **No variations:** No ritual-specific phase names
+- **Subsections allowed:** Within phases (especially Session), use subsections to organize content
+- **Separation:** Keep Compose and Persist as separate phases
+
+---
+
 ## Prose-Driven Orchestration
 
 Skills declare context needs in natural language. The orchestrator interprets needs and coordinates fulfillment transparently.
