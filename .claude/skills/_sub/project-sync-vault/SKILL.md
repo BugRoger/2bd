@@ -84,7 +84,7 @@ tags: []
 
 **Why Now:** [Context for why this project matters and why you're doing it now]
 
-**End Date:** {due_date}
+**End Date:** {due_date} - [Brief reason for this timeline]
 
 ---
 
@@ -107,6 +107,8 @@ tags: []
 
 | Date | Milestone | Status |
 |------|-----------|--------|
+| [YYYY-MM-DD] | [First milestone] | 🟡 Planned |
+| [YYYY-MM-DD] | [Second milestone] | 🟡 Planned |
 | {due_date} | Project Completion | 🟡 Planned |
 
 *Status: 🟡 Planned | 🔵 In Progress | 🟢 Complete | 🔴 Blocked*
@@ -120,16 +122,24 @@ tags: []
 ### {today_date} - Project Created
 - Created via project lifecycle skill
 - Initial outcomes defined
+- [Key stakeholders involved]
+
+### [YYYY-MM-DD] - [Brief headline]
+- [Key progress or decision]
+- [Blockers or concerns]
+- [Next steps]
 
 ---
 
 ## Resources
 
 ### Links
-- [Add relevant links]
+- [Documentation link]
+- [Design files]
+- [Project board/tracker]
 
 ### Related Projects
-- [Add related projects]
+- [[related-project-name]] - [How they relate]
 
 ### People
 {for each person in people}
@@ -253,25 +263,19 @@ If a summary is provided in `project.summary`, fill in the Archive Notes section
 **Impact:** {summary.impact or "[To be assessed]"}
 ```
 
-### 6. Write to Archive Location
+### 6. Update Source File
 
-Write the updated content to:
+Write the updated content back to the source file (with updated frontmatter and archive notes).
 
-```
-$VAULT/04_Archives/Projects/{original_filename}
-```
+### 7. Move to Archive
 
-Preserve the original filename (e.g., `2026-03-15-platform-migration.md`).
-
-### 7. Remove Source File
-
-After successful write and verification, remove the original:
+Move the updated file to the archive location:
 
 ```bash
-mv "$SOURCE_PATH" "$ARCHIVE_PATH"
+mv "$SOURCE_PATH" "$VAULT/04_Archives/Projects/{original_filename}"
 ```
 
-Note: Use `mv` to ensure atomic operation. If the write was already done, just remove the source.
+Use `mv` for an atomic move operation. Preserve the original filename (e.g., `2026-03-15-platform-migration.md`).
 
 ### 8. Return Result
 
