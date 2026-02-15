@@ -184,7 +184,7 @@ Use the Year.md template as the source of truth. Fill:
 
 ## Persist
 
-Write the generated Year.md to `$VAULT/00_Brain/Captive/Year.md`.
+Write Year.md to Captive.
 
 ---
 
