@@ -22,7 +22,13 @@ A first-of-month ritual to set monthly theme, outcomes, and priorities aligned w
 
 ---
 
-## Pre-flight
+## Context
+
+The orchestrator has loaded hierarchical planning context (Quarter.md, Year.md), prior month synthesis, active projects, and directives into the session.
+
+---
+
+## Validate
 
 Before overwriting the current Month.md, verify its state:
 
@@ -32,7 +38,7 @@ Before overwriting the current Month.md, verify its state:
 
 ---
 
-## Planning Session
+## Session
 
 ### Hierarchical Context
 
@@ -148,7 +154,7 @@ Generate personalized prompts connecting to:
 
 ---
 
-## Generate
+## Compose
 
 Use the Month.md template as the source of truth. Fill:
 
@@ -159,6 +165,12 @@ Use the Month.md template as the source of truth. Fill:
 - **Coaching Check-in** with generated prompts
 - **Wins** sections with coaching prompts per category (empty for user to fill)
 - **Reflections** sections empty (filled during monthly review)
+
+---
+
+## Persist
+
+Write the generated Month.md to the Captive directory in the vault.
 
 ---
 
