@@ -21,18 +21,14 @@ Help the user plan their day.
 
 ## Pre-Flight Check
 
-Read memory.md to see what context is available.
-
-If memory.md doesn't contain expected vault paths, resolve them directly from .claude/config.md vault_path configuration.
-
-Check if Today.md already exists. If it does:
+Check if Today.md already exists for the target date. If it does:
 - Check if its date is in the past (older than target date)
 - If the date is in the past and the note hasn't been archived to Periodic, warn about potential data loss
 - Suggest running review-daily first before proceeding with planning
 - If the user wants to proceed anyway, ask whether to:
-- Review existing plan
-- Update existing plan
-- Start fresh (clear and rewrite)
+  - Review existing plan
+  - Update existing plan
+  - Start fresh (clear and rewrite)
 
 If calendar is unavailable, note that and proceed without it.
 
