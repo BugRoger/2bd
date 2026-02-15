@@ -14,6 +14,7 @@ export enum OutputType {
   PROMPT = "PROMPT",
   STATUS = "STATUS",
   CONTENT = "CONTENT",
+  WARNING = "WARNING",
   ERROR = "ERROR",
 }
 
@@ -42,8 +43,9 @@ export class OutputFormatter {
 
     // Process all complete lines (all but last)
     for (let i = 0; i < lines.length - 1; i++) {
-      const line = lines[i].trim();
-      if (line) {
+      const line = lines[i];
+      // Only skip completely empty lines
+      if (line.length > 0) {
         results.push({
           type: this.classify(line),
           text: line,
@@ -63,14 +65,22 @@ export class OutputFormatter {
    * @returns Parsed output for any remaining buffer content, or null if empty
    */
   flush(): ParsedOutput | null {
-    if (!this.buffer.trim()) {
+    if (!this.buffer) {
+      return null;
+    }
+
+    // Trim only trailing newlines, preserve other whitespace
+    const trimmed = this.buffer.replace(/\n+$/, "");
+
+    // If after removing trailing newlines, there's nothing left, return null
+    if (!trimmed) {
       this.buffer = "";
       return null;
     }
 
     const result: ParsedOutput = {
-      type: this.classify(this.buffer.trim()),
-      text: this.buffer.trim(),
+      type: this.classify(trimmed),
+      text: trimmed,
     };
 
     this.buffer = "";
@@ -87,16 +97,22 @@ export class OutputFormatter {
 
   /**
    * Classify output line into type
+   *
+   * Note: Classification is based on line prefixes and suffixes only.
+   * Mid-line status indicators or error messages will not be detected.
    */
   private classify(line: string): OutputType {
+    // Trim for classification purposes only (output text preserves whitespace)
+    const trimmed = line.trim();
+
     // Check for prompts (ends with ?)
-    if (line.endsWith("?")) {
+    if (trimmed.endsWith("?")) {
       return OutputType.PROMPT;
     }
 
-    // Check for status indicators
+    // Check for status indicators (expanded emoji set)
     const statusPatterns = [
-      /^[🔄⏳⚙️📝✅❌⚠️]/u, // Emoji prefixes
+      /^[🔄⏳⚙️📝✅❌⚠️⚡🚀📌🔔💡🎯🌟]/u, // Emoji prefixes (common status emojis)
       /^Loading\.\.\./,
       /^Processing\.\.\./,
       /^Starting\.\.\./,
@@ -106,22 +122,26 @@ export class OutputFormatter {
     ];
 
     for (const pattern of statusPatterns) {
-      if (pattern.test(line)) {
+      if (pattern.test(trimmed)) {
         return OutputType.STATUS;
       }
+    }
+
+    // Check for warnings (separate from errors)
+    if (/^Warning:/i.test(trimmed)) {
+      return OutputType.WARNING;
     }
 
     // Check for errors
     const errorPatterns = [
       /^Error:/i,
       /^Failed:/i,
-      /^Warning:/i,
       /^Exception:/i,
       /^Fatal:/i,
     ];
 
     for (const pattern of errorPatterns) {
-      if (pattern.test(line)) {
+      if (pattern.test(trimmed)) {
         return OutputType.ERROR;
       }
     }
