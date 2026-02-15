@@ -35,12 +35,6 @@ phases:
         output: PRIOR_QUARTER
         optional: true
         on_error: "Prior quarter context unavailable."
-      - skill: _sub/fetch-active-projects
-        type: explore
-        args: "filter=all"
-        output: PROJECTS
-        optional: true
-        on_error: "No active projects found."
       - skill: _sub/fetch-quarter-content
         type: explore
         output: CURRENT_QUARTER
