@@ -8,7 +8,7 @@ argument-hint: "[target-week: this week|next week|YYYY-Www]"
 
 A Friday ritual to set weekly priorities, leadership intentions, and commitments aligned with higher-level goals. Designed for planning the upcoming week.
 
-## What I Need
+## Context
 
 - Calendar events for the upcoming week
 - User's directives and preferences
@@ -21,7 +21,7 @@ A Friday ritual to set weekly priorities, leadership intentions, and commitments
 
 ---
 
-## Pre-Flight Check
+## Validate
 
 Read memory.md to see what context is available.
 
@@ -33,7 +33,7 @@ Load current Week.md (path in memory.md). Before overwriting, verify its state:
 
 ---
 
-## Planning Session
+## Session
 
 Greet the user using their preferred name from directives.
 
@@ -181,7 +181,7 @@ Generate personalized prompts connecting to:
 
 ---
 
-## Generate Plan
+## Compose
 
 Use the Week.md template as the source of truth. Fill:
 
@@ -195,6 +195,10 @@ Use the Week.md template as the source of truth. Fill:
 - **Coaching Check-in** with generated prompts
 - **Wins** sections with coaching prompts per category
 - **Next Week Setup** left empty (filled during weekly review)
+
+---
+
+## Persist
 
 Write the generated plan to Week.md in vault (path from memory.md).
 
