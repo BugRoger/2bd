@@ -5,6 +5,10 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Bash
 ---
 
+<HARD-GATE>
+Before appending prose to any semantic note, pass the content through the `apply-writing-style` sub-skill. Invoke it with the draft content, receive polished version, then proceed with the append.
+</HARD-GATE>
+
 # Update Semantic Sub-Skill
 
 Appends new content to semantic notes based on daily review synthesis. Handles multiple note types and preserves existing content.
