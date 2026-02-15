@@ -52,7 +52,7 @@ Read the current Month.md content from `$VAULT/00_Brain/Captive/Month.md`
 
 ### 4. Read Archive Template
 
-Read the archive template from `$VAULT/00_Brain/Systemic/Templates/Periodic/monthly.md`
+Read the archive template from `scaffold/00_Brain/Systemic/Templates/Periodic/monthly.md` (in the engine repo)
 
 ### 5. Transform Content
 

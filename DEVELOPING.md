@@ -420,14 +420,12 @@ Dev skills are for engine maintenance. Underscore prefix (`_dev/`) signals inter
 
 ## Template Structure
 
-Templates are stored in two locations in the vault:
+Templates are stored in the engine at `scaffold/00_Brain/Systemic/Templates/`:
 
-**Brain templates** (`00_Brain/Systemic/Templates/`):
 - **Captive/** — Templates for working notes (today.md, week.md, month.md, quarter.md, year.md)
 - **Periodic/** — Templates for archive notes (daily.md, weekly.md, monthly.md, quarterly.md, yearly.md)
-
-**PARA templates** (`03_Resources/_Templates/para/`):
-- project.md, person.md, insight.md
+- **Projects/** — project.md
+- **Areas/People/** — person.md
 
 ### Standard Sections
 

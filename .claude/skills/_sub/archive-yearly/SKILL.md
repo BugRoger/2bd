@@ -52,7 +52,7 @@ Read the current Year.md content from `$VAULT/00_Brain/Captive/Year.md`
 
 ### 4. Read Archive Template
 
-Read the archive template from `$VAULT/00_Brain/Systemic/Templates/Periodic/yearly.md`
+Read the archive template from `scaffold/00_Brain/Systemic/Templates/Periodic/yearly.md` (in the engine repo)
 
 ### 5. Transform Content
 

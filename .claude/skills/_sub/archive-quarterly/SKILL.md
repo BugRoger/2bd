@@ -52,7 +52,7 @@ Read the current Quarter.md content from `$VAULT/00_Brain/Captive/Quarter.md`
 
 ### 4. Read Archive Template
 
-Read the archive template from `$VAULT/00_Brain/Systemic/Templates/Periodic/quarterly.md`
+Read the archive template from `scaffold/00_Brain/Systemic/Templates/Periodic/quarterly.md` (in the engine repo)
 
 ### 5. Transform Content
 

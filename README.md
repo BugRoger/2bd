@@ -460,13 +460,12 @@ claude skill run commands/init --args "profile"
 
 ### Templates
 
-Templates are yours to customize. Located in `00_Brain/Systemic/Templates/`:
+Templates live in the engine at `scaffold/00_Brain/Systemic/Templates/`:
 
 - **Captive/** — Templates for working notes (today.md, week.md, etc.)
 - **Periodic/** — Templates for archive notes (daily.md, weekly.md, etc.)
-
-PARA templates in `03_Resources/_Templates/para/`:
-- project.md, person.md, insight.md
+- **Projects/** — project.md
+- **Areas/People/** — person.md
 
 ---
 
