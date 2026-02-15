@@ -2,6 +2,8 @@
 name: daily-review
 description: Review and archive a day's work. Guides reflection on wins and insights, synthesizes learnings to semantic notes (People, Projects, Insights, Resources), and archives to Periodic. Accepts an optional target date (default: today).
 argument-hint: "[target-date: today|yesterday|YYYY-MM-DD]"
+metadata:
+  orchestrated: true
 ---
 
 # Daily Review
@@ -22,9 +24,7 @@ Evening ritual for reflecting on the day, completing wins and insights with pers
 
 ## Validate
 
-Read memory.md to see what context is available.
-
-Load Today.md from vault (path in memory.md). Verify the note state before reviewing:
+Load Today.md for the target date. Verify the note state before reviewing:
 
 - Check date alignment between Today.md frontmatter and the target review date. If mismatched, ask which date to review.
 - Check if an archive already exists for this date in Periodic/Daily/. If exists, offer to view or re-review.
@@ -38,7 +38,7 @@ Proceed only when state is validated.
 
 ## Session
 
-Guide the user through reflection on the day. Load Week.md (path in memory.md) for coaching context.
+Guide the user through reflection on the day. Load Week.md for coaching context.
 
 ### Check-in
 
@@ -90,26 +90,41 @@ Connect insights to longer-term development patterns from directives and Week.md
 
 ## Compose
 
-Use Task tool to spawn parallel sub-skills for semantic note updates based on the completed review:
+Review the completed session content. Identify semantic note updates based on the reflection:
 
-- **extract-to-areas** — Identify updates from 1:1 meetings and interactions for People files
-- **update-semantic** — Prepare project updates from wins and priority completion
-- **update-semantic** — Prepare insight notes from key learnings
-- **update-semantic** — Prepare resource notes from captures (links, articles, ideas)
+- Extract People file updates from 1:1 meetings and interactions
+- Prepare project updates from wins and priority completion
+- Prepare insight notes from key learnings
+- Prepare resource notes from captures (links, articles, ideas)
 
-Each returns structured proposals for user approval.
+Present proposed updates for user approval.
+
+Transform Today.md into archive format:
+- Preserve all frontmatter with final energy and completion status
+- Keep all sections (Context From Above, Focus, Meetings, Capture, Wins, Insights)
+- Preserve all meeting notes and 1:1 context
+- Include the full Changelog section
 
 ---
 
 ## Persist
 
-Execute confirmed writes using sub-skills:
+Execute confirmed semantic note updates.
 
-Use `archive-daily` sub-skill to move Today.md to Periodic/Daily/.
+Archive Today.md to Periodic/Daily/{date}.md. Transform the content into the archive format, ensuring the target directory exists. Write the file and verify the write succeeded. Call append-changelog to record the archival with skill "review-daily", action "Archived", summary "from Captive/Today.md".
 
-Use `update-semantic` sub-skill for each approved semantic note update.
+Replace Today.md in Captive with an archived placeholder (substitute {date} with the target date in YYYY-MM-DD format):
+```markdown
+---
+archived: {date}
+---
 
-Update Today.md with archived placeholder marker in frontmatter.
+# Archived
+
+This day has been archived to [[00_Brain/Periodic/Daily/{date}]].
+
+Run `/daily-planning` to start a new day.
+```
 
 Report completion and suggest next steps:
 - Daily planning for tomorrow
@@ -122,16 +137,12 @@ If directives were not available, suggest running `/init`.
 
 ## Confirm
 
-Present all proposed changes for approval:
+Present a summary of what was done:
+- Archive location (Periodic/Daily/{date}.md)
+- Day summary (energy, priorities completed, key wins)
+- Each semantic note update with target file and content preview
 
-- Archive destination (Periodic/Daily/{date}.md) and day summary
-- Each semantic note update with target file, section, and content preview
-
-Options:
-- **Proceed all** — archive and apply all updates
-- **Archive only** — skip semantic updates
-- **Review each** — approve individually
-- **Cancel** — exit (captured wins/insights preserved in Today.md)
+The user has already approved during the session, this is verification after completion.
 
 ---
 
@@ -156,6 +167,4 @@ Today.md                      Daily/YYYY-MM-DD.md        People/, Projects/,
 
 - **planning-daily**: Morning counterpart that creates Today.md
 - **review-weekly**: Synthesizes daily archives into weekly patterns
-- **archive-daily**: Sub-skill that handles Captive → Periodic transition
-- **update-semantic**: Sub-skill that appends to semantic notes
-- **extract-to-areas**: Sub-skill that identifies People file updates
+- **append-changelog**: Records modifications in file changelog sections
