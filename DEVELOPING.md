@@ -75,7 +75,6 @@ Skills are organized by type:
 │       │   └── migrate/      # Migrate from combined repo
 │       ├── _sub/
 │       │   ├── fetch-calendar/
-│       │   ├── archive-daily/
 │       │   └── write-captive-note/   # etc.
 │       └── _dev/
 │           └── sync-templates/
@@ -224,7 +223,6 @@ Sub-skills are composable building blocks for operations the orchestrator cannot
 
 | Category | Purpose | Examples |
 |----------|---------|----------|
-| `_sub/archive-*` | Archive operations (Captive → Periodic) | archive-daily, archive-weekly, archive-monthly |
 | `_sub/write-*` | File creation operations | write-captive-note |
 | `_sub/append-*` | Append operations | append-changelog |
 | `_sub/extract-*` | Content extraction and transformation | extract-to-areas |
@@ -243,10 +241,10 @@ Sub-skills are composable building blocks for operations the orchestrator cannot
 2. Add `SKILL.md`:
    ```yaml
    ---
-   name: archive-daily
-   description: Move Today.md to Periodic/Daily/
+   name: write-captive-note
+   description: Create a new Captive note from template
    disable-model-invocation: true  # Invoked by other skills
-   allowed-tools: Bash(mv, cp)
+   allowed-tools: Read, Write
    ---
    ```
 
@@ -376,7 +374,7 @@ Ask: What are the top 2-3 priorities?
 
 **3. No Orchestration Mechanics**
 
-The orchestrator handles session creation, date resolution, sub-skill spawning, context assembly, and file loading. Skills focus on user interaction and artifact creation.
+The orchestrator handles date resolution, sub-skill spawning, context assembly, and file loading. Skills focus on user interaction and artifact creation.
 
 ### How Orchestration Works
 
@@ -402,7 +400,7 @@ For each context need, the orchestrator determines fulfillment:
 
 **3. Subagent Invocations**
 
-External data fetches (calendar, QMD) spawn subagents in parallel:
+External data fetches (calendar) spawn subagents in parallel:
 - Each subagent runs in isolated conversation with SKILL.md + date context
 - Returns structured markdown to main conversation
 - Main orchestrator integrates results into conversation history
@@ -410,9 +408,9 @@ External data fetches (calendar, QMD) spawn subagents in parallel:
 **4. Context Pre-Loading**
 
 The orchestrator loads all context before skill execution:
-- External data (calendar.md, resources.md) loaded as messages
+- External data (calendar.md) loaded as messages
 - Vault files read and added to conversation
-- No session directory or file passing required
+- All context pre-loaded into conversation history
 
 **5. Skill Execution**
 
@@ -427,9 +425,8 @@ Sub-skills run as isolated subagents and return markdown to the orchestrator.
 
 **External Data Sub-Skills:**
 - `_sub/fetch-calendar` - Calendar events via ekctl
-- `_sub/fetch-qmd` - Search results from QMD (future)
 
-**Note:** Session directory creation and date resolution are now handled directly by the orchestrator, not by sub-skills.
+**Note:** Date resolution is now handled directly by the orchestrator, not by sub-skills.
 
 **Subagent Pattern:**
 
@@ -455,7 +452,7 @@ Orchestrator spawns subagent, receives output, integrates into main conversation
 | **Pure declarative intent** | Skills describe WHAT, not HOW |
 | **Natural language** | Prose that Claude interprets directly |
 | **Flexible fulfillment** | Orchestrator chooses fetch strategy per need |
-| **Conversation-native** | No session directory, no file passing |
+| **Conversation-native** | All context in conversation history |
 | **Parallel subagents** | External data fetched simultaneously |
 | **Pre-loaded context** | Everything available before skill execution |
 | **No implementation coupling** | Skills resilient to orchestration changes |
@@ -466,15 +463,13 @@ Skills describe work naturally, without orchestration mechanics.
 
 **Context references:**
 - ✓ "Review the calendar"
-- ✗ "Load calendar.md from session"
+- ✗ "Load calendar.md from context"
 - ✓ "Check Week.md for weekly goals"
-- ✗ "Load Week.md from path in memory.md"
-- ✓ "If QMD results are available"
-- ✗ "If resources.md exists in session"
+- ✗ "Load Week.md from vault path"
 
 **File operations:**
 - ✓ "Write Today.md to Captive"
-- ✗ `cp "${SESSION_DIR}/plan.md" "${vault_path}/00_Brain/Captive/Today.md"`
+- ✗ Manual path construction and file operations
 - ✓ "Update Week.md with outcomes"
 - ✗ Manual path resolution with config.md
 
@@ -544,7 +539,7 @@ Every note template includes a `## Changelog` section at the bottom that tracks 
 
 **Order:** Most recent entries at top (reverse chronological).
 
-**Integration:** Write skills (`write-captive-note`, `update-semantic`, `archive-*`, `project-sync-vault`) call `append-changelog` after modifying files. Pass:
+**Integration:** Write skills (`write-captive-note`, `update-semantic`, `project-sync-vault`) call `append-changelog` after modifying files. Pass:
 - `skill`: Name of the calling skill
 - `action`: Verb describing the change (Rewrote, Added, Archived, Created)
 - `sections`: Comma-separated list of affected sections (optional)
