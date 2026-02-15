@@ -19,6 +19,11 @@ archived: YYYY-MM-DD
 
 ---
 
+## Key Dates
+[Preserved from captive note]
+
+---
+
 ## Quarterly Summary
 
 ### Quarters This Year

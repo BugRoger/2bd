@@ -23,6 +23,11 @@ theme: "[Week theme - added during synthesis]"
 
 ---
 
+## Key Dates
+[Preserved from captive note]
+
+---
+
 ## Daily Summary
 
 ### Days This Week

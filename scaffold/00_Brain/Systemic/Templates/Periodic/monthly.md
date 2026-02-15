@@ -20,6 +20,11 @@ archived: YYYY-MM-DD
 
 ---
 
+## Key Dates
+[Preserved from captive note]
+
+---
+
 ## Weekly Summary
 
 ### Weeks This Month
