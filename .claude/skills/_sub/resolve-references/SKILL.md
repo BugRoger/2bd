@@ -16,174 +16,19 @@ Discover vault file paths and entity references based on needs declared in the s
 
 ## Task
 
-Execute the bash script below to resolve vault references.
+Receive the target date (required, YYYY-MM-DD format) and optional calendar markdown file path.
 
-```bash
-#!/bin/bash
-set -euo pipefail
+Validate the target date format. Read the vault path from `.claude/config.md`. If not found or the vault doesn't exist, exit with an error suggesting running `/init`.
 
-target_date="${1:?Error: target_date required (YYYY-MM-DD)}"
-calendar_md="${2:-}"
+Output a markdown header "# Vault References" to stdout.
 
-# Validate target_date format (basic check)
-if [[ ! "$target_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
-    echo "Error: target_date must be in YYYY-MM-DD format, got: $target_date" >&2
-    exit 1
-fi
+Check for static vault files (Week.md, Month.md, Quarter.md, Today.md) in the Captive directory. For each file, indicate whether it exists with a checkmark or is not found.
 
-# 1. Read Configuration - Get vault path
-vault_path=$(grep "^vault_path:" .claude/config.md 2>/dev/null | cut -d' ' -f2- | xargs)
+If calendar data is provided, extract people from 1:1 meeting entries. Search for each person's file in `02_Areas/People/` using case-insensitive matching. Report each person with their file path if found, or indicate no file found.
 
-if [[ -z "$vault_path" ]]; then
-    echo "Error: vault_path not found in .claude/config.md" >&2
-    echo "Run /init to configure vault path" >&2
-    exit 1
-fi
+Search for active project files in `01_Projects/`, excluding hub files (containing ✱) and non-active status projects. Extract titles from frontmatter when available. List each active project with its file path.
 
-if [[ ! -d "$vault_path" ]]; then
-    echo "Error: Vault directory does not exist at $vault_path" >&2
-    exit 1
-fi
-
-# 2. Check if calendar is provided
-has_calendar=false
-if [[ -n "$calendar_md" ]] && [[ -f "$calendar_md" ]]; then
-    has_calendar=true
-fi
-
-# Start output
-echo "# Vault References"
-echo ""
-
-# 3. Resolve Static Vault Files
-echo "## Static References"
-echo ""
-
-# Week.md
-week_file="$vault_path/00_Brain/Captive/Week.md"
-if [[ -f "$week_file" ]]; then
-    echo "- **Week.md**: $week_file ✓"
-else
-    echo "- **Week.md**: $week_file ✗ (not found)"
-fi
-
-# Month.md
-month_file="$vault_path/00_Brain/Captive/Month.md"
-if [[ -f "$month_file" ]]; then
-    echo "- **Month.md**: $month_file ✓"
-else
-    echo "- **Month.md**: $month_file ✗ (not found)"
-fi
-
-# Quarter.md
-quarter_file="$vault_path/00_Brain/Captive/Quarter.md"
-if [[ -f "$quarter_file" ]]; then
-    echo "- **Quarter.md**: $quarter_file ✓"
-else
-    echo "- **Quarter.md**: $quarter_file ✗ (not found)"
-fi
-
-# Today.md
-today_file="$vault_path/00_Brain/Captive/Today.md"
-if [[ -f "$today_file" ]]; then
-    echo "- **Today.md**: $today_file ✓"
-else
-    echo "- **Today.md**: $today_file ✗ (not found)"
-fi
-
-echo ""
-
-# 4. Resolve Entity References: People
-echo "## People (from calendar 1:1s)"
-echo ""
-
-people_found=false
-if [[ "$has_calendar" == true ]]; then
-    # Extract names from lines containing "1:1" or "1-1"
-    # Look for patterns like "1:1: Sarah Chen" or "1:1 with John Doe"
-    people_lines=$(grep -iE "(1:1|1-1)" "$calendar_md" 2>/dev/null || true)
-
-    if [[ -n "$people_lines" ]]; then
-        # Parse names: extract text after "1:1:" or "1:1 with"
-        while IFS= read -r line; do
-            if [[ -z "$line" ]]; then continue; fi
-
-            # Extract everything after "1:1" or "1-1" and strip "with", then trim whitespace
-            person=$(echo "$line" | sed -E 's/.*(1:1|1-1):? *(with )?//' | xargs)
-
-            if [[ -z "$person" ]]; then continue; fi
-
-            # Check if People directory exists first
-            if [[ ! -d "$vault_path/02_Areas/People" ]]; then
-                echo "- **${person}**: (no file found) ✗"
-                people_found=true
-                continue
-            fi
-
-            # Try to find their file in 02_Areas/People/
-            person_file=$(find "$vault_path/02_Areas/People" -type f -iname "*${person}*.md" 2>/dev/null | head -1 || true)
-
-            if [[ -n "$person_file" ]]; then
-                echo "- **${person}**: $person_file ✓"
-                people_found=true
-            else
-                echo "- **${person}**: (no file found) ✗"
-                people_found=true
-            fi
-        done <<< "$people_lines"
-    fi
-fi
-
-if [[ "$people_found" == false ]]; then
-    echo "(no 1:1 meetings found in calendar)"
-fi
-
-echo ""
-
-# 5. Resolve Entity References: Projects
-echo "## Projects (active)"
-echo ""
-
-projects_dir="$vault_path/01_Projects"
-projects_found=false
-
-if [[ -d "$projects_dir" ]]; then
-    # List all .md files except the hub file
-    for project_file in "$projects_dir"/*.md; do
-        # Skip if no files found
-        if [[ ! -f "$project_file" ]]; then
-            continue
-        fi
-
-        # Skip hub file
-        filename=$(basename "$project_file")
-        if [[ "$filename" == *"✱"* ]]; then
-            continue
-        fi
-
-        # Extract title from frontmatter if possible, otherwise use filename
-        title=$(grep "^title:" "$project_file" 2>/dev/null | cut -d':' -f2- | sed 's/^ *//' | sed 's/ *$//' || echo "")
-        if [[ -z "$title" ]]; then
-            title="${filename%.md}"
-        fi
-
-        # Check if project is active
-        status=$(grep "^status:" "$project_file" 2>/dev/null | cut -d':' -f2- | sed 's/^ *//' | sed 's/ *$//' || echo "")
-
-        # Only include active projects or those without explicit status
-        if [[ -z "$status" ]] || [[ "$status" == "active" ]]; then
-            echo "- **${title}**: $project_file ✓"
-            projects_found=true
-        fi
-    done
-fi
-
-if [[ "$projects_found" == false ]]; then
-    echo "(no active projects found)"
-fi
-
-echo ""
-```
+All output is written to stdout as markdown. The orchestrator captures this output and includes it in the conversation for the skill to reference.
 
 ## Output Format
 
