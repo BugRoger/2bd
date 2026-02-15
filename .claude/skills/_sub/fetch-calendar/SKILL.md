@@ -23,85 +23,17 @@ If no argument provided, default to today.
 
 ## Execution
 
-### 1. Read Configuration
+Read the calendar configuration from `.claude/skills/_sub/fetch-calendar/calendars.json`. If the configuration doesn't exist, output a message indicating configuration is not found and suggest creating the file.
 
-```bash
-config_file=".claude/skills/_sub/fetch-calendar/calendars.json"
+Parse the target date argument. If no argument is provided, default to today's date.
 
-if [[ ! -f "$config_file" ]]; then
-    echo "# Calendar Events: Unavailable"
-    echo ""
-    echo "Configuration not found. Create $config_file with calendar aliases."
-    exit 0
-fi
+Calculate the date range for the target date, from 00:00:00 to 23:59:59.
 
-calendars=$(jq -r '.calendars[]' "$config_file")
-```
+For each calendar alias in the configuration, fetch events using ekctl. Collect all JSON responses.
 
-### 2. Parse Target Date
+Format the output as natural markdown showing the count of meetings, details for each meeting including time, title, and location, focus time available between meetings, and a summary line. If no events are found, indicate no meetings are scheduled and show full day focus time available.
 
-```bash
-if [[ -n "$ARGUMENTS" ]]; then
-    target_date="$ARGUMENTS"
-else
-    target_date=$(date +"%Y-%m-%d")
-fi
-```
-
-### 3. Calculate Date Range
-
-```bash
-FROM=$(date -j -f "%Y-%m-%d" "$target_date" +"%Y-%m-%dT00:00:00%z")
-TO=$(date -j -f "%Y-%m-%d" "$target_date" +"%Y-%m-%dT23:59:59%z")
-```
-
-### 4. Fetch Events
-
-For each calendar alias:
-
-```bash
-for calendar in $calendars; do
-    ekctl list events --calendar "$calendar" --from "$FROM" --to "$TO"
-done
-```
-
-Collect JSON responses.
-
-### 5. Format Output
-
-Output natural markdown to stdout:
-
-```markdown
-# Calendar Events: 2026-02-16
-
-You have 3 meetings scheduled:
-
-**09:00-09:30** Team standup
-- Conference Room A
-
-**14:00-15:00** 1:1 with Sarah Chen
-- This is a one-on-one meeting
-- Zoom link: https://...
-
-**16:00-17:00** Design review
-- Conference Room B
-
-**Focus time available:**
-- 09:30-14:00 (4.5 hours)
-- 15:00-16:00 (1 hour)
-
-Total: 3 meetings, 1 one-on-one, 5.5 hours focus time
-```
-
-If no events:
-
-```markdown
-# Calendar Events: 2026-02-16
-
-You have no meetings scheduled.
-
-Focus time available: Full day (9 hours)
-```
+Return markdown via stdout. The orchestrator captures this output and loads it into the conversation.
 
 ## Error Handling
 
