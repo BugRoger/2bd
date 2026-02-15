@@ -100,9 +100,9 @@ Ritual generates prose → write-captive-note → apply-writing-style → polish
 
 ## Acceptance Criteria
 
-- [ ] `apply-writing-style` sub-skill exists with complete rules
-- [ ] `write-captive-note` invokes apply-writing-style before writes
-- [ ] `update-semantic` invokes apply-writing-style before writes
-- [ ] `ai-personality.md` contains only interaction/personality guidance
-- [ ] Captive templates use tight, direct prompt language
+- [x] `apply-writing-style` sub-skill exists with complete rules
+- [x] `write-captive-note` invokes apply-writing-style before writes
+- [x] `update-semantic` invokes apply-writing-style before writes
+- [x] `ai-personality.md` contains only interaction/personality guidance
+- [x] Captive templates use tight, direct prompt language
 - [ ] Generated content across rituals is more direct and human
