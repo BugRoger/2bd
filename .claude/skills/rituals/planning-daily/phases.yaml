@@ -31,6 +31,12 @@ phases:
         optional: true
         fallback: inline
         on_error: "Calendar unavailable. Add meetings manually."
+      - skill: _sub/fetch-resources
+        type: explore
+        args: "context={{CALENDAR}},{{PROJECTS}}"
+        output: RESOURCES
+        optional: true
+        on_error: "Document search unavailable. Configure QMD to enable."
       - skill: _sub/fetch-week-content
         type: explore
         output: WEEK
