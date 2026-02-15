@@ -24,7 +24,7 @@ Capstone ritual for synthesizing an entire year's work, reflecting on annual goa
 
 ---
 
-## Pre-flight
+## Validate
 
 Verify the year state before reviewing:
 
@@ -37,7 +37,7 @@ Proceed only when state is validated.
 
 ---
 
-## Interactive Review
+## Session
 
 Guide the user through reflection on the full year.
 
@@ -117,7 +117,7 @@ Connect to the emerging sense of next year's focus without overplanning.
 
 ---
 
-## Synthesis
+## Compose
 
 Parallel subagents prepare semantic note updates based on the completed review:
 
@@ -144,7 +144,7 @@ Options:
 
 ---
 
-## Write
+## Persist
 
 Execute confirmed writes:
 
