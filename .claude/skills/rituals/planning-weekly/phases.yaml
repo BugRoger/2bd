@@ -69,6 +69,12 @@ phases:
         output: CURRENT_WEEK
         optional: true
         on_error: "Current Week.md not found."
+      - skill: _sub/gather-key-dates
+        type: explore
+        args: "scope=week vault={{VAULT}} calendar={{CALENDAR}} projects={{PROJECTS}}"
+        output: KEY_DATES
+        optional: true
+        on_error: "Key dates unavailable."
 
   # Phase 2: Pre-flight Check (inline)
   - name: preflight
