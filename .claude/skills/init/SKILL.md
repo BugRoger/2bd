@@ -15,6 +15,8 @@ Manages the connection between the 2bd engine and the user's vault.
 - Engine configuration (if exists)
 - Vault structure validation
 - Existing directive files (user-profile.md, ai-personality.md)
+- Template: scaffold/00_Brain/Systemic/Templates/Directives/user-profile.md
+- Template: scaffold/00_Brain/Systemic/Templates/Directives/ai-personality.md
 
 ## Mode Detection
 
@@ -94,7 +96,7 @@ Gather information about:
 
 **Coaching Context** — Patterns to watch (behaviors that don't serve them), grounding questions, what success looks like.
 
-Write to `$VAULT/00_Brain/Systemic/Directives/user-profile.md` using the template.
+Write to `$VAULT/00_Brain/Systemic/Directives/user-profile.md` using the template from `scaffold/00_Brain/Systemic/Templates/Directives/user-profile.md`.
 
 ### AI Personality
 
@@ -106,7 +108,7 @@ Gather preferences for:
 
 **Interaction Patterns** — Questions vs suggestions, autonomy level, disagreement handling.
 
-Write to `$VAULT/00_Brain/Systemic/Directives/ai-personality.md` using the template.
+Write to `$VAULT/00_Brain/Systemic/Directives/ai-personality.md` using the template from `scaffold/00_Brain/Systemic/Templates/Directives/ai-personality.md`.
 
 ### Summary
 
