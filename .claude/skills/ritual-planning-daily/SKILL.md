@@ -8,6 +8,12 @@ argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
 
 Help the user plan their day with focused priorities, prepared meetings, and a clear leadership intention.
 
+## Paths
+
+This skill runs from the vault. Resolve vault root from skill location (parent of `.claude/skills/`).
+
+All paths below are relative to vault root.
+
 ## Context
 
 - Calendar events for the day
