@@ -5,12 +5,12 @@
   },
   "metadata": {
     "description": "Second Brain Daemon - Personal knowledge management system with PARA structure and intelligent rituals",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "2bd",
-      "version": "1.0.2",
+      "version": "1.1.0",
       "description": "Second Brain Daemon - Personal knowledge management system with PARA structure and intelligent rituals",
       "repository": "https://github.com/bugroger/2bd",
       "homepage": "https://github.com/bugroger/2bd",
