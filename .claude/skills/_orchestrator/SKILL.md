@@ -37,7 +37,7 @@ If present, the Context section contains prose declarations like:
 
 If the skill accepts time arguments (e.g., "tomorrow", "next monday", "2026-02-15"), resolve them to concrete dates.
 
-Use `_sub/resolve-dates` to parse flexible time expressions:
+Use `_resolve-dates` to parse flexible time expressions:
 
 ```
 Task(
@@ -63,11 +63,11 @@ Identify need types by reading the prose:
 
 | Prose Pattern | Need Type | Fulfillment |
 |--------------|-----------|-------------|
-| "Calendar events" | Calendar data | `_sub/fetch-calendar` |
-| "Week.md" / "Month.md" / "Today.md" | Vault file references | `_sub/resolve-references` |
-| "People files for 1:1 meetings" | Entity resolution | `_sub/resolve-references` |
-| "Active project files" | Entity resolution | `_sub/resolve-references` |
-| "Directives" / "preferences" / "user's directives" | User directives | `_sub/resolve-references` |
+| "Calendar events" | Calendar data | `_fetch-calendar` |
+| "Week.md" / "Month.md" / "Today.md" | Vault file references | `_resolve-references` |
+| "People files for 1:1 meetings" | Entity resolution | `_resolve-references` |
+| "Active project files" | Entity resolution | `_resolve-references` |
+| "Directives" / "preferences" / "user's directives" | User directives | `_resolve-references` |
 
 The orchestrator uses Claude's intelligence to interpret needs - no rigid parsing required.
 
@@ -289,8 +289,8 @@ Write Today.md to Captive with the plan.
 
 | Sub-Skill | Purpose | Output |
 |-----------|---------|--------|
-| `_sub/fetch-calendar` | Get calendar events | Returns calendar events as markdown |
-| `_sub/resolve-references` | Vault paths + entity discovery | Returns paths and file locations |
+| `_fetch-calendar` | Get calendar events | Returns calendar events as markdown |
+| `_resolve-references` | Vault paths + entity discovery | Returns paths and file locations |
 
 ## Error Handling
 
