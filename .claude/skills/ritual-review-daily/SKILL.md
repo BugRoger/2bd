@@ -19,6 +19,7 @@ Evening ritual for reflecting on the day, completing wins and insights with pers
 - People files for anyone mentioned in meetings
 - Active project files
 - Existing daily archive if re-reviewing
+- Planning insights file for observation synthesis
 
 ---
 
@@ -90,12 +91,28 @@ Connect insights to longer-term development patterns from directives and Week.md
 
 ## Compose
 
-Review the completed session content. Identify semantic note updates based on the reflection:
+Review the completed session content.
+
+**Semantic note updates:**
 
 - Extract People file updates from 1:1 meetings and interactions
 - Prepare project updates from wins and priority completion
 - Prepare insight notes from key learnings
 - Prepare resource notes from captures (links, articles, ideas)
+
+**Planning insights synthesis:**
+
+Compare Today.md with the generated version (if available in changelog):
+- What sections were filled vs left empty?
+- What was modified from generated content?
+- What was added that wasn't in the template?
+- What phrasing did the user prefer?
+
+Load `00_Brain/Systemic/Insights/planning-daily.md` and:
+1. Append new observations to Observations Log
+2. Look for patterns across recent observations
+3. Propose insight updates if patterns emerge
+4. Propose template changes if high confidence
 
 Present proposed updates for user approval.
 
