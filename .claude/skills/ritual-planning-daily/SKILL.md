@@ -54,10 +54,10 @@ Follow the session flow in [session-flow.md](references/session-flow.md):
 
 ## Compose
 
-Build the complete Today.md file using [today-template.md](references/today-template.md) as structure guide:
-- Fill frontmatter with calculated date fields (YYYY-MM-DD, day name, ISO week, month, quarter)
-- Include standard navigation links
-- Write all sections in template order
+Build Today.md:
+- Load template from `00_Brain/Systemic/Templates/Captive/today.md`
+- Fill frontmatter with date fields from resolved date
+- Write all sections from session
 
 ## Persist
 
