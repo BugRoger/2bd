@@ -82,7 +82,7 @@ Suggest time-blocking strategies if helpful. Confirm the day is planned.
 
 ## Observe
 
-After the session, record observations to the insights file.
+After the session, record observations to `00_Brain/Systemic/Insights/planning-daily.md`.
 
 **What to observe:**
 - Which questions the user engaged with vs skipped
@@ -100,7 +100,8 @@ Append timestamped entries to the Observations Log section:
 ```
 
 **Pattern detection:**
-When the same observation appears 3+ times:
+When semantically similar observations appear 3+ times (e.g., variations of 'user skips energy question'):
+Look at recent sessions (last 20) to detect patterns.
 1. Synthesize into prose description
 2. Add to appropriate section (Session Style, Priorities, Coaching Style, etc.)
 3. If high confidence, add to Pending Proposals with rationale
