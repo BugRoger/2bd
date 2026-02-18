@@ -61,7 +61,7 @@ Build Today.md:
 
 ## Persist
 
-Write Today.md to Captive.
+Write to `00_Brain/Captive/Today.md`.
 
 ## Confirm
 
