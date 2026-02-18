@@ -79,3 +79,36 @@ After writing, summarize:
 - Number of meetings prepared
 
 Suggest time-blocking strategies if helpful. Confirm the day is planned.
+
+## Observe
+
+After the session, record observations to the insights file.
+
+**What to observe:**
+- Which questions the user engaged with vs skipped
+- How they rephrased suggested priorities
+- Whether they accepted or modified leadership intentions
+- Any explicit feedback about the session
+
+**Recording observations:**
+Append timestamped entries to the Observations Log section:
+
+```markdown
+## Observations Log
+
+- YYYY-MM-DD: [observation about user behavior or preference]
+```
+
+**Pattern detection:**
+When the same observation appears 3+ times:
+1. Synthesize into prose description
+2. Add to appropriate section (Session Style, Priorities, Coaching Style, etc.)
+3. If high confidence, add to Pending Proposals with rationale
+
+**Template evolution:**
+When a template change is warranted:
+1. Add proposal to Pending Proposals section
+2. Ask user for confirmation
+3. If confirmed, edit `00_Brain/Systemic/Templates/Captive/today.md` directly
+
+The skill code never changes. Evolution happens in the vault.
