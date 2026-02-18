@@ -24,6 +24,8 @@ Output a markdown header "# Vault References" to stdout.
 
 Check for static vault files (Week.md, Month.md, Quarter.md, Today.md) in the Captive directory. For each file, indicate whether it exists with a checkmark or is not found.
 
+Check for directive files (user-profile.md, ai-personality.md) in the Directives directory (`00_Brain/Systemic/Directives/`). For each file, indicate whether it exists with a checkmark or is not found.
+
 If calendar data is provided, extract people from 1:1 meeting entries. Search for each person's file in `02_Areas/People/` using case-insensitive matching. Report each person with their file path if found, or indicate no file found.
 
 Search for active project files in `01_Projects/`, excluding hub files (containing ✱) and non-active status projects. Extract titles from frontmatter when available. List each active project with its file path.
@@ -43,6 +45,11 @@ The skill writes to stdout as markdown (orchestrator captures this via Task tool
 - **Month.md**: /path/to/vault/00_Brain/Captive/Month.md ✓
 - **Quarter.md**: /path/to/vault/00_Brain/Captive/Quarter.md ✗ (not found)
 - **Today.md**: /path/to/vault/00_Brain/Captive/Today.md ✗ (not found)
+
+## Directives
+
+- **user-profile.md**: /path/to/vault/00_Brain/Systemic/Directives/user-profile.md ✓
+- **ai-personality.md**: /path/to/vault/00_Brain/Systemic/Directives/ai-personality.md ✓
 
 ## People (from calendar 1:1s)
 

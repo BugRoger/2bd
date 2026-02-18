@@ -29,7 +29,24 @@ Parse the target date argument. If no argument is provided, default to today's d
 
 Calculate the date range for the target date, from 00:00:00 to 23:59:59.
 
-For each calendar alias in the configuration, fetch events using ekctl. Collect all JSON responses.
+For each calendar alias in the configuration, fetch events using ekctl with this exact command syntax:
+
+```bash
+/opt/homebrew/bin/ekctl list events --calendar CALENDAR_ALIAS --from "YYYY-MM-DDTHH:MM:SS+TZ" --to "YYYY-MM-DDTHH:MM:SS+TZ"
+```
+
+**Important:** The command must be:
+- `ekctl list events` (not `ekctl list`)
+- Use `--from` and `--to` flags (not `--start` and `--end`)
+- Include timezone offset in ISO8601 format (e.g., `+01:00` or `+00:00`)
+- No `--format` flag needed (JSON is default output)
+
+Example:
+```bash
+/opt/homebrew/bin/ekctl list events --calendar work --from "2026-02-16T00:00:00+01:00" --to "2026-02-16T23:59:59+01:00"
+```
+
+Collect all JSON responses from each calendar.
 
 Format the output as natural markdown showing the count of meetings, details for each meeting including time, title, and location, focus time available between meetings, and a summary line. If no events are found, indicate no meetings are scheduled and show full day focus time available.
 

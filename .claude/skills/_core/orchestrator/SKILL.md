@@ -67,7 +67,7 @@ Identify need types by reading the prose:
 | "Week.md" / "Month.md" / "Today.md" | Vault file references | `_sub/resolve-references` |
 | "People files for 1:1 meetings" | Entity resolution | `_sub/resolve-references` |
 | "Active project files" | Entity resolution | `_sub/resolve-references` |
-| "Directives" / "preferences" | User directives | `_sub/resolve-references` |
+| "Directives" / "preferences" / "user's directives" | User directives | `_sub/resolve-references` |
 
 The orchestrator uses Claude's intelligence to interpret needs - no rigid parsing required.
 
@@ -235,7 +235,7 @@ Write Today.md to Captive with the plan.
    [contents loaded from /vault/02_Areas/People/Sarah Chen.md]
 
    User Directives:
-   [contents loaded from profile.md]
+   [contents loaded from user-profile.md and ai-personality.md]
    ```
 
 7. **Execute Planning Session prose**

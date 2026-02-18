@@ -1,0 +1,13 @@
+{
+  "name": "2bd",
+  "version": "1.0.2",
+  "description": "Second Brain Daemon",
+  "author": {
+    "name": "Michael Schmidt",
+    "email": "michael.j.schmidt@gmail.com",
+    "url": "https://github.com/bugroger"
+  },
+  "repository": "https://github.com/bugroger/2bd",
+  "license": "MIT",
+  "keywords": ["second brain", "para"]
+}
