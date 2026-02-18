@@ -14,16 +14,23 @@ This skill runs from the vault. Resolve vault root from skill location (parent o
 
 All paths below are relative to vault root.
 
-## Context
+## Setup
 
-- Calendar events for the day
-- User's directives and preferences
-- Today.md file for this day (may not exist yet)
-- Week.md for weekly context
-- Month.md for monthly context
-- Quarter.md for coaching context
-- People files for anyone with 1:1 meetings
-- Active project files
+Load context before starting the session:
+
+1. **Resolve date** — Invoke `_resolve-dates` with argument (default: today)
+2. **Fetch calendar** — Invoke `_fetch-calendar` for target date
+3. **Load hierarchical context:**
+   - `00_Brain/Captive/Week.md`
+   - `00_Brain/Captive/Month.md`
+   - `00_Brain/Captive/Quarter.md`
+4. **Load directives:**
+   - `00_Brain/Systemic/Directives/user-profile.md`
+   - `00_Brain/Systemic/Directives/ai-personality.md`
+5. **Find People for 1:1s** — Parse calendar for 1:1 meetings, Glob `02_Areas/People/*.md` for matching names
+6. **Check existing Today.md** — `00_Brain/Captive/Today.md`
+
+Graceful degradation: If any file doesn't exist, note it and continue.
 
 ## Validate
 
