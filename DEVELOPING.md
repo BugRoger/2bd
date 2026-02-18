@@ -40,21 +40,30 @@ Insights/ ◄── rituals synthesize themes
 
 ### Skill Architecture
 
-Skills are organized by type:
+Skills use a flat structure with naming conventions:
 
 ```
 .claude/skills/
-├── rituals/              # Scheduled routines (planning-daily, review-weekly, etc.)
-├── commands/             # One-shot helpers (init, migrate, onboard-person)
-├── _sub/                 # Composable building blocks (archive-*, write-*, fetch-calendar)
-└── _dev/                 # Development-time skills
+├── ritual-planning-daily.md      # Rituals: ritual- prefix
+├── ritual-review-weekly.md
+├── init.md                       # Commands: no prefix
+├── create-project.md
+├── _fetch-calendar.md            # Internal: _ prefix
+├── _resolve-references.md
+└── _orchestrator.md
 ```
 
-**Types:**
-- **Rituals** — Scheduled routines that drive the engine (planning prepares Captive, review archives to Periodic)
-- **Commands** — Discrete one-shot helpers triggered on-demand
-- **Sub-skills** — Composable building blocks that rituals and commands use
-- **Dev skills** — Engine maintenance (not part of production system)
+**Naming Conventions:**
+- **Rituals** (`ritual-*`) — Scheduled routines that drive the engine
+- **Commands** (no prefix) — Discrete one-shot helpers triggered on-demand
+- **Internal** (`_*`) — Sub-skills, orchestrator, and dev tools (not user-facing)
+
+**Auxiliary Files:**
+
+Non-skill supporting files live in `scaffold/00_Brain/Systemic/`:
+- `Coaching/` — Coaching prompts and guidance
+- `Config/` — Configuration schemas and defaults
+- `Templates/Directives/` — Directive templates
 
 ---
 
@@ -64,20 +73,17 @@ Skills are organized by type:
 2bd-engine/
 ├── .claude/
 │   ├── config.md             # Vault path configuration (git-ignored)
-│   └── skills/
-│       ├── rituals/
-│       │   ├── planning-daily/
-│       │   ├── planning-weekly/
-│       │   ├── review-daily/
-│       │   └── review-weekly/   # etc.
-│       ├── commands/
-│       │   ├── init/         # Bootstrap or configure vault
-│       │   └── migrate/      # Migrate from combined repo
-│       ├── _sub/
-│       │   ├── fetch-calendar/
-│       │   └── write-captive-note/   # etc.
-│       └── _dev/
-│           └── sync-templates/
+│   └── skills/               # Flat skill structure
+│       ├── ritual-planning-daily.md
+│       ├── ritual-planning-weekly.md
+│       ├── ritual-review-daily.md
+│       ├── ritual-review-weekly.md
+│       ├── init.md
+│       ├── create-project.md
+│       ├── archive-project.md
+│       ├── _fetch-calendar.md
+│       ├── _resolve-references.md
+│       └── _orchestrator.md
 │
 ├── scaffold/                 # Complete vault template (copied during /init)
 │   ├── 00_Brain/
@@ -87,11 +93,14 @@ Skills are organized by type:
 │   │   ├── Semantic/
 │   │   ├── Synthetic/
 │   │   └── Systemic/
+│   │       ├── Coaching/         # Coaching prompts
+│   │       ├── Config/           # Configuration schemas
 │   │       ├── Templates/
 │   │       │   ├── Captive/       # today.md, week.md, etc.
 │   │       │   ├── Periodic/      # daily.md, weekly.md, etc.
 │   │       │   ├── Projects/      # project.md
-│   │       │   └── Areas/People/  # person.md
+│   │       │   ├── Areas/People/  # person.md
+│   │       │   └── Directives/    # Directive templates
 │   │       └── Directives/
 │   ├── 01_Projects/
 │   ├── 02_Areas/
@@ -176,14 +185,14 @@ Instructions Claude follows when invoked.
 
 Rituals are scheduled routines. They prepare or archive Captive notes.
 
-1. Create folder in `.claude/skills/rituals/planning-` or `.claude/skills/rituals/review-`
+1. Create skill file `.claude/skills/ritual-{planning|review}-{period}.md`
    - **Planning rituals** — Forward-looking (prepare Captive from templates)
    - **Review rituals** — Reflective (archive Captive to Periodic)
 
-2. Add `SKILL.md` with frontmatter:
+2. Add YAML frontmatter:
    ```yaml
    ---
-   name: weekly-planning
+   name: ritual-planning-weekly
    description: Prepare Week.md with weekly focus and priorities
    disable-model-invocation: true  # Manual trigger only
    allowed-tools: Read, Write, Bash(*)
@@ -192,15 +201,15 @@ Rituals are scheduled routines. They prepare or archive Captive notes.
 
 3. Document the ritual flow and expected outcomes
 
-4. Test: `claude skill run rituals/planning-weekly-planning`
+4. Test: `claude skill run ritual-planning-weekly`
 
 ### Creating Actions
 
 Actions are one-shot helpers invoked on-demand.
 
-1. Create folder in `.claude/skills/commands/`
+1. Create skill file `.claude/skills/{action-name}.md` (no prefix)
 
-2. Add `SKILL.md` with frontmatter:
+2. Add YAML frontmatter:
    ```yaml
    ---
    name: create-project
@@ -213,46 +222,41 @@ Actions are one-shot helpers invoked on-demand.
 
 3. Write clear `description` so Claude knows when to use it
 
-4. Test: `claude skill run actions/create-project --args "Project Name"`
+4. Test: `claude skill run create-project --args "Project Name"`
 
-### Creating Sub-skills
+### Creating Internal Skills
 
-Sub-skills are composable building blocks for operations the orchestrator cannot handle. Underscore prefix (`_sub/`) signals internal/system.
+Internal skills (sub-skills, orchestrator, dev tools) are composable building blocks for operations the orchestrator cannot handle. Underscore prefix (`_`) signals internal/not user-facing.
 
-**Current Sub-Skills:**
+**Current Internal Skills:**
 
 | Category | Purpose | Examples |
 |----------|---------|----------|
-| `_sub/write-*` | File creation operations | write-captive-note |
-| `_sub/append-*` | Append operations | append-changelog |
-| `_sub/extract-*` | Content extraction and transformation | extract-to-areas |
-| `_sub/update-*` | Semantic note updates | update-semantic |
-| `_sub/fetch-calendar` | External calendar API access | fetch-calendar (via ekctl) |
-| `_sub/project-sync-*` | External system integration | project-sync-finder, project-sync-outlook |
-| `_sub/resolve-references` | Wikilink and embed resolution | resolve-references |
-| `_sub/apply-writing-style` | Prose quality enhancement | apply-writing-style |
+| `_fetch-calendar` | External calendar API access | Calendar events via ekctl |
+| `_resolve-references` | Wikilink and embed resolution | Resolve `[[wikilinks]]` |
+| `_orchestrator` | Skill orchestration | Context loading, subagent spawning |
 
-**Note:** The orchestrator handles most data loading (config, directives, vault files, date resolution). Only create _sub/ skills for complex operations the orchestrator cannot perform.
+**Note:** The orchestrator handles most data loading (config, directives, vault files, date resolution). Only create internal skills for complex operations the orchestrator cannot perform.
 
 **Creating:**
 
-1. Create folder in `.claude/skills/_sub/` with appropriate prefix (archive-, write-, fetch-, etc.)
+1. Create skill file `.claude/skills/_{skill-name}.md`
 
-2. Add `SKILL.md`:
+2. Add YAML frontmatter:
    ```yaml
    ---
-   name: write-captive-note
-   description: Create a new Captive note from template
-   disable-model-invocation: true  # Invoked by other skills
-   allowed-tools: Read, Write
+   name: _fetch-calendar
+   description: Fetch calendar events for a date using ekctl
+   disable-model-invocation: true  # Invoked by orchestrator
+   allowed-tools: Read, Bash(ekctl *)
    ---
    ```
 
-3. Keep scope narrow — one well-defined operation per sub-skill
+3. Keep scope narrow — one well-defined operation per skill
 
 4. Design for composition: stateless input/output, minimal side effects
 
-5. Return structured output when appropriate (not all sub-skills need JSON)
+5. Return structured output when appropriate (not all internal skills need JSON)
 
 ---
 
@@ -392,7 +396,7 @@ For each context need, the orchestrator determines fulfillment:
 
 | Need Pattern | Action |
 |--------------|--------|
-| "Calendar events" | Spawn `_sub/fetch-calendar` as subagent |
+| "Calendar events" | Spawn `_fetch-calendar` as subagent |
 | "Week.md" / "Month.md" | Read vault file directly |
 | "People files for 1:1s" | Parse calendar → read matching vault files |
 | "Active project files" | Scan vault → read active projects |
@@ -419,22 +423,22 @@ Execute skill prose inline in main conversation:
 - Skills reference context naturally ("review the calendar", "check Week.md")
 - Write operations use declarative language ("Write Today.md to Captive")
 
-### Sub-Skills for Orchestration
+### Internal Skills for Orchestration
 
-Sub-skills run as isolated subagents and return markdown to the orchestrator.
+Internal skills run as isolated subagents and return markdown to the orchestrator.
 
-**External Data Sub-Skills:**
-- `_sub/fetch-calendar` - Calendar events via ekctl
+**External Data Skills:**
+- `_fetch-calendar` - Calendar events via ekctl
 
 **Note:** Date resolution is now handled directly by the orchestrator, not by sub-skills.
 
 **Subagent Pattern:**
 
-Sub-skills receive date context and return structured markdown:
+Internal skills receive date context and return structured markdown:
 
 ```markdown
 ---
-name: fetch-calendar
+name: _fetch-calendar
 description: Fetch calendar events for a date using ekctl
 ---
 
@@ -477,23 +481,23 @@ The orchestrator interprets natural phrases and handles implementation.
 
 ### Creating Dev Skills
 
-Dev skills are for engine maintenance. Underscore prefix (`_dev/`) signals internal.
+Dev skills are for engine maintenance. Use underscore prefix (`_`) like other internal skills.
 
-1. Create folder in `.claude/skills/_dev/`
+1. Create skill file `.claude/skills/_{dev-skill-name}.md`
 
-2. Add `SKILL.md`:
+2. Add YAML frontmatter:
    ```yaml
    ---
-   name: sync-templates
+   name: _sync-templates
    description: Bidirectional sync between scaffold and vault templates
    disable-model-invocation: true
    allowed-tools: Read, Write, Bash(diff *)
    ---
    ```
 
-3. Test: `claude skill run _dev/sync-templates`
+3. Test: `claude skill run _sync-templates`
 
-**sync-templates workflow:**
+**_sync-templates workflow:**
 - Compares templates between `scaffold/` and `$VAULT/`
 - Shows diff for each changed file
 - Prompts per-file: `← Pull` (vault → scaffold), `→ Push` (scaffold → vault), or `Skip`
