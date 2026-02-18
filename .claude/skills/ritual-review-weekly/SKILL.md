@@ -63,7 +63,7 @@ Surface upcoming dates from Month.md Key Dates section with countdown.
 
 Review each day's leadership intention from daily archives. For each, ask how well the user embodied it (1-10). Then synthesize: which intention served best, where did they struggle, what pattern emerges about being at their best.
 
-Apply weekly coaching guidance from [coaching.md](../review-daily/coaching.md).
+Apply weekly coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-daily.md`.
 
 ### Wins Synthesis
 
@@ -93,7 +93,7 @@ Load Quarter.md and connect to growth edge and patterns to watch from directives
 
 Self-care check: energy as the week closes, boundaries that served well, what to protect next week.
 
-Apply weekly coaching guidance from [coaching.md](../review-daily/coaching.md).
+Apply weekly coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-daily.md`.
 
 ### Forward Synthesis
 

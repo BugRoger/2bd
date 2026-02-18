@@ -63,7 +63,7 @@ Review avoided conversations trend across months. Identify any that persisted al
 
 ### Leadership Reflection
 
-Apply quarterly coaching guidance from [coaching.md](coaching.md).
+Apply quarterly coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-quarterly.md`.
 
 Connect to growth_edge and leadership_identity from directives:
 

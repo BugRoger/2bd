@@ -54,7 +54,7 @@ Ask which outcome they're most proud of and which taught them the most.
 
 ### Coaching Check-in
 
-Apply monthly coaching guidance from [coaching.md](coaching.md).
+Apply monthly coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-monthly.md`.
 
 Connect to growth edge and patterns to watch from directives. Ask:
 - Where did the growth edge show up this month and what progress was made?

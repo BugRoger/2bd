@@ -68,7 +68,7 @@ Review each priority from Today.md focus section:
 
 ### Coached Wins
 
-Apply coaching guidance from [coaching.md](coaching.md) in this directory. Generate contextual questions based on what actually happened—meetings, priorities, energy, captures—combined with development context from directives.
+Apply coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-daily.md`. Generate contextual questions based on what actually happened—meetings, priorities, energy, captures—combined with development context from directives.
 
 Cover each wins category:
 - Personal
@@ -77,7 +77,7 @@ Cover each wins category:
 
 ### Coached Insights
 
-Apply coaching guidance from [coaching.md](coaching.md). Look for patterns, themes, and energy trajectory.
+Apply coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-daily.md`. Look for patterns, themes, and energy trajectory.
 
 Guide through:
 - What Went Well

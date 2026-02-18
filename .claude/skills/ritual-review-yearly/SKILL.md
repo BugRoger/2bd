@@ -56,7 +56,7 @@ Ask which goal they're most proud of achieving and which taught them the most re
 
 This is the heart of yearly review—understanding how leadership identity evolved over twelve months.
 
-Apply yearly coaching guidance from [coaching.md](coaching.md).
+Apply yearly coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-yearly.md`.
 
 Connect to growth_edge and leadership_identity from directives:
 
