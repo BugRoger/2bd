@@ -102,17 +102,18 @@ Review the completed session content.
 
 **Planning insights synthesis:**
 
-Compare Today.md with the generated version (if available in changelog):
+Compare Today.md against the template structure and planning session behavior:
 - What sections were filled vs left empty?
 - What was modified from generated content?
 - What was added that wasn't in the template?
 - What phrasing did the user prefer?
 
 Load `00_Brain/Systemic/Insights/planning-daily.md` and:
+(If insights file doesn't exist, create it from scaffold template first.)
 1. Append new observations to Observations Log
 2. Look for patterns across recent observations
 3. Propose insight updates if patterns emerge
-4. Propose template changes if high confidence
+4. Add high-confidence patterns to Pending Proposals for planning skill to act on
 
 Present proposed updates for user approval.
 
