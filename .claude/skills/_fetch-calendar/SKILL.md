@@ -1,5 +1,5 @@
 ---
-name: fetch-calendar
+name: _fetch-calendar
 description: Fetch calendar events from macOS Calendar using ekctl. Returns natural markdown via Task tool result.
 disable-model-invocation: true
 argument-hint: "[target_date: YYYY-MM-DD]"
