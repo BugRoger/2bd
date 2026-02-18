@@ -19,18 +19,20 @@ All paths below are relative to vault root.
 Load context before starting the session:
 
 1. **Resolve date** — Invoke `_resolve-dates` with argument (default: today)
-2. **Fetch calendar** — Invoke `_fetch-calendar` for target date
-3. **Load hierarchical context:**
+2. **Load insights** — Read `00_Brain/Systemic/Insights/planning-daily.md` (create if missing)
+3. **Fetch calendar** — Invoke `_fetch-calendar` for target date
+4. **Load template** — Read `00_Brain/Systemic/Templates/Captive/today.md`
+5. **Load hierarchical context:**
    - `00_Brain/Captive/Week.md`
-   - `00_Brain/Captive/Month.md`
-   - `00_Brain/Captive/Quarter.md`
-4. **Load directives:**
+   - `00_Brain/Captive/Month.md` (if insights indicate user values hierarchy)
+   - `00_Brain/Captive/Quarter.md` (if insights indicate user values hierarchy)
+6. **Load directives:**
    - `00_Brain/Systemic/Directives/user-profile.md`
    - `00_Brain/Systemic/Directives/ai-personality.md`
-5. **Find People for 1:1s** — Parse calendar for 1:1 meetings, Glob `02_Areas/People/*.md` for matching names
-6. **Check existing Today.md** — `00_Brain/Captive/Today.md`
+7. **Find People for 1:1s** — Parse calendar for 1:1 meetings, Glob `02_Areas/People/*.md` for matching names
+8. **Check existing Today.md** — `00_Brain/Captive/Today.md`
 
-Graceful degradation: If any file doesn't exist, note it and continue.
+Graceful degradation: If insights file doesn't exist, create empty one and proceed with defaults.
 
 ## Validate
 
@@ -44,7 +46,13 @@ Proceed only when state is validated.
 
 Greet the user using their preferred name from directives.
 
-Follow the session flow in [session-flow.md](references/session-flow.md):
+**Adapt to insights:** Read the insights file and adjust the session accordingly:
+- Skip steps the user doesn't engage with
+- Use coaching style that resonates
+- Apply learned phrasing preferences
+- For anything not in insights, use reference file defaults
+
+Follow the session flow in [session-flow.md](references/session-flow.md), adapting based on insights:
 
 1. **Context From Above** — Present hierarchical context summary using [context-summary.md](references/context-summary.md)
 2. **Focus** — Establish energy, priorities, and leadership intention using [priorities-framework.md](references/priorities-framework.md)
