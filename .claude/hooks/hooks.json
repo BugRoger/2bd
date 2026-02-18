@@ -1,0 +1,15 @@
+{
+  "description": "Toolkit-skills plugin hooks. UserPromptSubmit forces skill evaluation.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-activation-forced-eval.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
