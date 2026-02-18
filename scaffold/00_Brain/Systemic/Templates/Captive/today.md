@@ -34,51 +34,49 @@ meetings: 0
 
 ## Meetings
 
-### [Meeting Name/Topic]
-**Decisions:**
-- [Decision made with context]
+<!--
+MEETING TEMPLATES (evolve based on usage):
 
-**Next Steps:**
-- [ ] [Owner]: [Action item with deadline if relevant]
-
-**Notes:**
-- [Key discussion points]
-- [Important context]
-
+=== 1:1 TEMPLATE ===
 ### [[PersonName]]
 *→ Update [[02_Areas/People/PersonName|their People file]] after this conversation*
 
 **Check-in**
-- Mood/Energy:
-- *Anything I should know?*
+- How are you?
 
 **Their Agenda**
 - *What's on your mind?*
 
 **Work**
 - Wins:
-- Blockers: *Where can I help?*
+- Blockers:
 
 **Growth**
-- *What are you learning/developing?*
-
-**Feedback**
-- → Them:
-- ← Me: *What can I do better?*
+- *What are you learning?*
 
 **Commitments**
 - [ ] Me:
 - [ ] Them:
 
-### Interview: [Candidate Name]
-**Role:** [Position title]
+=== GROUP TEMPLATE ===
+### [Meeting Name]
+**Decisions:**
+-
 
-**Scorecard** *(1-5 scale: 1=Poor, 3=Meets bar, 5=Exceptional)*
+**Next Steps:**
+- [ ] [Owner]: [Action]
+
+**Notes:**
+-
+
+=== INTERVIEW TEMPLATE ===
+### Interview: [Candidate Name]
+**Role:** [Position]
+
+**Scorecard** *(1-5)*
 - Technical: _ /5
 - Communication: _ /5
 - Problem-solving: _ /5
-- Leadership: _ /5
-- Culture fit: _ /5
 
 **Strengths:**
 -
@@ -86,7 +84,10 @@ meetings: 0
 **Concerns:**
 -
 
-**Recommendation:** [ ] Strong Yes  [ ] Yes  [ ] Maybe  [ ] No
+**Recommendation:** [ ] Yes [ ] No
+-->
+
+*Meetings will be generated based on your calendar*
 
 ---
 
