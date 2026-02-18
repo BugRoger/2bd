@@ -209,13 +209,13 @@ Next steps:
 
 **With argument:**
 ```bash
-claude skill run commands/create-project --args "Platform Migration"
+claude skill run create-project --args "Platform Migration"
 ```
 Pre-fills project name, confirms with user.
 
 **Without argument:**
 ```bash
-claude skill run commands/create-project
+claude skill run create-project
 ```
 Starts wizard from the beginning.
 

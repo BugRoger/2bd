@@ -81,7 +81,7 @@ The orchestrator includes this output in the conversation history.
 **Basic usage (without calendar):**
 ```bash
 # Run skill with just target date
-claude skill run _sub/resolve-references -- "2026-02-15"
+claude skill run _resolve-references -- "2026-02-15"
 ```
 
 **With calendar:**
@@ -95,7 +95,7 @@ cat > "$calendar_file" << 'EOF'
 EOF
 
 # Run skill with calendar
-claude skill run _sub/resolve-references -- "2026-02-15" "$calendar_file"
+claude skill run _resolve-references -- "2026-02-15" "$calendar_file"
 
 # Cleanup
 rm "$calendar_file"
@@ -105,11 +105,11 @@ rm "$calendar_file"
 ```bash
 # Without calendar
 cd /path/to/2bd
-./.claude/skills/_sub/resolve-references/SKILL.md "2026-02-15"
+./.claude/skills/_resolve-references/SKILL.md "2026-02-15"
 
 # With calendar
 echo "- **10:00** 1:1: Sarah Chen" > /tmp/test-calendar.md
-./.claude/skills/_sub/resolve-references/SKILL.md "2026-02-15" /tmp/test-calendar.md
+./.claude/skills/_resolve-references/SKILL.md "2026-02-15" /tmp/test-calendar.md
 ```
 
 ## Integration with Orchestrator

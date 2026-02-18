@@ -57,7 +57,7 @@ For the future developer implementing this skill:
 ```yaml
 # In phases.yaml
 - name: sync-finder
-  skill: _sub/project-sync-finder
+  skill: _project-sync-finder
   args:
     action: "{{ACTION}}"
     vault: "{{VAULT}}"

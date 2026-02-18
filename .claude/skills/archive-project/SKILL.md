@@ -27,7 +27,7 @@ Present the list of active projects for the user to choose from.
 If a project slug was provided via `--args`, look up the project:
 
 ```bash
-claude skill run commands/archive-project --args "platform-migration"
+claude skill run archive-project --args "platform-migration"
 ```
 
 If found, confirm with user:
@@ -260,13 +260,13 @@ Next steps:
 
 **With argument:**
 ```bash
-claude skill run commands/archive-project --args "platform-migration"
+claude skill run archive-project --args "platform-migration"
 ```
 Pre-selects project, confirms with user before proceeding.
 
 **Without argument:**
 ```bash
-claude skill run commands/archive-project
+claude skill run archive-project
 ```
 Shows list of active projects for selection.
 
