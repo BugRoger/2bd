@@ -33,8 +33,8 @@ Two rituals drive the system:
 
 ```bash
 cd ~/Code/2bd-engine
-claude skill run rituals/planning-daily   # morning
-claude skill run rituals/review-daily       # evening
+claude skill run ritual-planning-daily   # morning
+claude skill run ritual-review-daily     # evening
 ```
 
 ---
@@ -55,13 +55,13 @@ git clone https://github.com/bugroger/2bd ~/Code/2bd-engine
 cd ~/Code/2bd-engine
 
 # Create your vault
-claude skill run commands/init --args "fresh --vault=~/OneDrive/2bd-vault"
+claude skill run init --args "fresh --vault=~/OneDrive/2bd-vault"
 
 # Optional: symlink for convenience
 ln -s ~/OneDrive/2bd-vault ./vault
 
 # Open vault in Obsidian, then start planning
-claude skill run rituals/planning-daily
+claude skill run ritual-planning-daily
 ```
 
 ### New Computer
@@ -70,7 +70,7 @@ If your vault already exists elsewhere:
 
 ```bash
 cd ~/Code/2bd-engine
-claude skill run commands/init --args "reconnect --vault=~/OneDrive/2bd-vault"
+claude skill run init --args "reconnect --vault=~/OneDrive/2bd-vault"
 ln -s ~/OneDrive/2bd-vault ./vault
 ```
 
@@ -79,7 +79,7 @@ ln -s ~/OneDrive/2bd-vault ./vault
 If you have an existing 2bd repo with personal content mixed in:
 
 ```bash
-claude skill run commands/migrate --args "--vault=~/OneDrive/2bd-vault"
+claude skill run migrate --args "--vault=~/OneDrive/2bd-vault"
 ```
 
 ### Configuration
@@ -97,14 +97,14 @@ vault_path: /Users/you/OneDrive/2bd-vault
 All skills read this config to find your vault. If you move your vault:
 
 ```bash
-claude skill run commands/init --args "reconnect --vault=/new/path"
+claude skill run init --args "reconnect --vault=/new/path"
 ln -sf /new/path ./vault
 ```
 
 ### Update Your Profile
 
 ```bash
-claude skill run commands/init --args "profile"
+claude skill run init --args "profile"
 ```
 
 ---
@@ -175,10 +175,10 @@ claude skill run commands/init --args "profile"
 cd ~/Code/2bd-engine
 
 # Morning planning
-claude skill run rituals/planning-daily
+claude skill run ritual-planning-daily
 
 # Evening review
-claude skill run rituals/review-daily
+claude skill run ritual-review-daily
 ```
 
 ### Obsidian Integration
@@ -186,7 +186,7 @@ claude skill run rituals/review-daily
 2bd uses Obsidian as the primary interface for writing and browsing, while Claude CLI handles ritual execution.
 
 **Morning:**
-1. Terminal: `claude skill run rituals/planning-daily`
+1. Terminal: `claude skill run ritual-planning-daily`
 2. Obsidian: Open Today.md (`Cmd+Shift+D`) and work through the day
 
 **Throughout Day:**
@@ -196,7 +196,7 @@ claude skill run rituals/review-daily
 
 **Evening:**
 1. Obsidian: Complete Today.md sections (Wins, Insights, Completed)
-2. Terminal: `claude skill run rituals/review-daily`
+2. Terminal: `claude skill run ritual-review-daily`
 
 #### Hotkeys
 
@@ -282,8 +282,8 @@ One-shot helpers you invoke on-demand:
 
 | Action | Purpose | Usage |
 |--------|---------|-------|
-| **init** | Bootstrap or configure vault | `claude skill run commands/init` |
-| **create-project** | Initialize new project file | `claude skill run commands/create-project --args "Name"` |
+| **init** | Bootstrap or configure vault | `claude skill run init` |
+| **create-project** | Initialize new project file | `claude skill run create-project --args "Name"` |
 
 ---
 
@@ -315,7 +315,7 @@ One-shot helpers you invoke on-demand:
    ```
 
 5. **Configure the skill:**
-   Edit `.claude/skills/_sub/fetch-calendar/calendars.json`:
+   Edit `.claude/skills/fetch-calendar/calendars.json`:
    ```json
    {
      "calendars": ["work", "personal"],
@@ -375,7 +375,7 @@ Personalize how Claude interacts with you. Located in `00_Brain/Systemic/Directi
 
 Update your profile:
 ```bash
-claude skill run commands/init --args "profile"
+claude skill run init --args "profile"
 ```
 
 ### Templates
