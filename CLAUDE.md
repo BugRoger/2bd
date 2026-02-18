@@ -59,6 +59,18 @@ Diagrams in `docs/` visualize concepts from documentation. The image alt text se
 
 ## Claude-Specific Guidance
 
+### Git Worktrees
+
+**ALWAYS use the `superpowers:using-git-worktrees` skill before starting any feature work or implementation.** This creates isolated worktrees that protect the main workspace from work-in-progress changes.
+
+Use worktrees when:
+- Implementing new features or enhancements
+- Executing implementation plans
+- Making changes that span multiple files
+- Any work that benefits from isolation
+
+The skill handles directory selection, branch creation, and safety verification automatically.
+
 ### Metabolic Interaction
 
 When generating or placing content, consider its metabolic state:
@@ -168,6 +180,7 @@ vault_path: /Users/you/OneDrive/2bd-vault
 - Working notes: `$VAULT/00_Brain/Captive/`
 - Archives: `$VAULT/00_Brain/Periodic/`
 - Directives: `$VAULT/00_Brain/Systemic/Directives/`
+- Insights: `$VAULT/00_Brain/Systemic/Insights/`
 
 ### Personal Configuration
 
