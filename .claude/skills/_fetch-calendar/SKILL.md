@@ -13,7 +13,7 @@ Fetch calendar events from macOS Calendar using ekctl. Returns events as natural
 
 - **ekctl** installed (`/opt/homebrew/bin/ekctl`)
 - Calendar access granted
-- Calendars configured in `.claude/skills/_sub/fetch-calendar/calendars.json`
+- Calendars configured in `$VAULT/00_Brain/Systemic/Config/calendars.json`
 
 ## Input
 
@@ -23,7 +23,7 @@ If no argument provided, default to today.
 
 ## Execution
 
-Read the calendar configuration from `.claude/skills/_sub/fetch-calendar/calendars.json`. If the configuration doesn't exist, output a message indicating configuration is not found and suggest creating the file.
+Read the calendar configuration from `$VAULT/00_Brain/Systemic/Config/calendars.json`. If the configuration doesn't exist, output a message indicating configuration is not found and suggest creating the file.
 
 Parse the target date argument. If no argument is provided, default to today's date.
 
@@ -75,7 +75,7 @@ If calendars.json missing:
 ```markdown
 # Calendar Events: Unavailable
 
-Configuration not found. Create .claude/skills/_sub/fetch-calendar/calendars.json
+Configuration not found. Create $VAULT/00_Brain/Systemic/Config/calendars.json
 ```
 
 ## Output
