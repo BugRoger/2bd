@@ -56,7 +56,7 @@ Follow the session flow in [session-flow.md](references/session-flow.md), adapti
 
 1. **Context From Above** — Present hierarchical context summary using [context-summary.md](references/context-summary.md)
 2. **Focus** — Establish energy, priorities, and leadership intention using [priorities-framework.md](references/priorities-framework.md)
-3. **Meetings** — Review calendar and prepare 1:1s with enriched context using [meeting-templates.md](references/meeting-templates.md)
+3. **Meetings** — Review calendar and prepare 1:1s with enriched context using [session-flow.md](references/session-flow.md)
 4. **Wins** — Generate personalized coaching prompts
 5. **Insights** — Generate personalized coaching prompts
 
