@@ -72,7 +72,8 @@ For each 1:1 meeting, review their People file thoroughly. Present enriched cont
 
 Ask what the user wants to focus on with that person.
 
-See [meeting-templates.md](meeting-templates.md) for output formatting.
+Use meeting templates from the vault template (`00_Brain/Systemic/Templates/Captive/today.md`).
+Templates are embedded in HTML comments and evolve based on user preferences.
 
 ## 4. Wins Coaching Prompts
 
