@@ -5,11 +5,11 @@ This file provides guidance to Claude Code when working with this repository.
 ## Quick Reference
 
 ```bash
-claude skill run rituals/planning-daily   # morning
-claude skill run rituals/review-daily     # evening
-claude skill run commands/init --args "profile"   # update profile
-claude skill run commands/create-project          # new project
-claude skill run commands/archive-project         # archive completed project
+claude skill run ritual-planning-daily   # morning
+claude skill run ritual-review-daily     # evening
+claude skill run init --args "profile"   # update profile
+claude skill run create-project          # new project
+claude skill run archive-project         # archive completed project
 ```
 
 ## Documentation
