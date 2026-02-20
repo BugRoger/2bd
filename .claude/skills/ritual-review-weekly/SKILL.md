@@ -1,5 +1,5 @@
 ---
-name: weekly-review
+name: ritual-review-weekly
 description: Review and archive a week's work. Synthesizes daily archives into weekly patterns, guides reflection on leadership and themes, extracts insights to semantic notes (People, Projects, Insights), and archives to Periodic/Weekly/. Accepts an optional target week (default: current week).
 argument-hint: "[target-week: (empty)|last week|YYYY-Www]"
 metadata:

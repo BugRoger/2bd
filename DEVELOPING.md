@@ -60,10 +60,10 @@ Skills use a flat structure with naming conventions:
 
 **Auxiliary Files:**
 
-Non-skill supporting files live in `scaffold/00_Brain/Systemic/`:
-- `Coaching/` — Coaching prompts and guidance
-- `Config/` — Configuration schemas and defaults
-- `Templates/Directives/` — Directive templates
+The scaffold (`.claude/skills/init/assets/scaffold/`) contains the initial vault template copied during init. After initialization, skills reference the vault directly. The scaffold includes:
+- `00_Brain/Systemic/Coaching/` — Coaching prompts and guidance
+- `00_Brain/Systemic/Config/` — Configuration schemas and defaults
+- `00_Brain/Systemic/Templates/` — Template files for all note types
 
 ---
 
@@ -74,42 +74,25 @@ Non-skill supporting files live in `scaffold/00_Brain/Systemic/`:
 ├── .claude/
 │   ├── config.md             # Vault path configuration (git-ignored)
 │   └── skills/               # Flat skill structure
-│       ├── ritual-planning-daily.md
-│       ├── ritual-planning-weekly.md
-│       ├── ritual-review-daily.md
-│       ├── ritual-review-weekly.md
-│       ├── init.md
-│       ├── create-project.md
-│       ├── archive-project.md
-│       ├── _fetch-calendar.md
-│       ├── _resolve-references.md
-│       └── _orchestrator.md
-│
-├── scaffold/                 # Complete vault template (copied during /init)
-│   ├── 00_Brain/
-│   │   ├── ✱ Home.md
-│   │   ├── Captive/
-│   │   ├── Periodic/
-│   │   ├── Semantic/
-│   │   ├── Synthetic/
-│   │   └── Systemic/
-│   │       ├── Coaching/         # Coaching prompts
-│   │       ├── Config/           # Configuration schemas
-│   │       ├── Templates/
-│   │       │   ├── Captive/       # today.md, week.md, etc.
-│   │       │   ├── Periodic/      # daily.md, weekly.md, etc.
-│   │       │   ├── Projects/      # project.md
-│   │       │   ├── Areas/People/  # person.md
-│   │       │   └── Directives/    # Directive templates
-│   │       └── Directives/
-│   ├── 01_Projects/
-│   ├── 02_Areas/
-│   └── 04_Archives/
+│       ├── ritual-planning-daily/
+│       ├── ritual-planning-weekly/
+│       ├── ritual-review-daily/
+│       ├── ritual-review-weekly/
+│       ├── init/
+│       │   ├── SKILL.md
+│       │   └── assets/scaffold/  # Copied to vault during init
+│       ├── create-project/
+│       ├── archive-project/
+│       ├── _fetch-calendar/
+│       ├── _resolve-references/
+│       └── _orchestrator/
 │
 ├── README.md                 # User documentation
 ├── DEVELOPING.md             # This file
 └── CLAUDE.md                 # Claude-specific instructions
 ```
+
+**Scaffold → Vault:** During `init`, the scaffold is copied to the user's vault. After that, skills always reference the vault—templates, coaching prompts, and config all live in the vault, not the engine.
 
 ---
 
@@ -498,20 +481,23 @@ Dev skills are for engine maintenance. Use underscore prefix (`_`) like other in
 3. Test: `claude skill run _sync-templates`
 
 **_sync-templates workflow:**
-- Compares templates between `scaffold/` and `$VAULT/`
+- Compares templates between vault (`$VAULT/00_Brain/Systemic/Templates/`) and scaffold
 - Shows diff for each changed file
 - Prompts per-file: `← Pull` (vault → scaffold), `→ Push` (scaffold → vault), or `Skip`
+- Use this when developing new template features to sync changes back to the scaffold
 
 ---
 
 ## Template Structure
 
-Templates are stored in the engine at `scaffold/00_Brain/Systemic/Templates/`:
+Templates live in the vault at `$VAULT/00_Brain/Systemic/Templates/` (copied from scaffold during init):
 
 - **Captive/** — Templates for working notes (today.md, week.md, month.md, quarter.md, year.md)
 - **Periodic/** — Templates for archive notes (daily.md, weekly.md, monthly.md, quarterly.md, yearly.md)
 - **Projects/** — project.md
 - **Areas/People/** — person.md
+
+**Scaffold vs Vault:** The scaffold (`.claude/skills/init/assets/scaffold/`) is the source template for new vaults. After init, users customize their vault's templates. Use `_sync-templates` to propagate changes between vault and scaffold during development.
 
 ### Standard Sections
 
@@ -574,19 +560,22 @@ Order matters — Personal first counters "putting yourself last":
 |------|---------|
 | `.claude/config.md` | Vault path configuration (git-ignored) |
 | `.claude/skills/` | All skills |
-| `scaffold/` | Template for new vaults |
+| `.claude/skills/init/assets/scaffold/` | Template copied to vault during init |
 
 ### Vault Paths
 
-Skills read vault path from `.claude/config.md`. Use `$VAULT` as prefix in documentation:
+Skills read vault path from `.claude/config.md`. Use `$VAULT` as prefix in documentation.
+
+**After init, skills always reference the vault:**
 
 | Path | Purpose |
 |------|---------|
 | `$VAULT/00_Brain/✱ Home.md` | Central hub |
 | `$VAULT/00_Brain/Captive/` | Working notes |
 | `$VAULT/00_Brain/Periodic/` | Archives |
+| `$VAULT/00_Brain/Systemic/Templates/` | Templates (read by skills) |
 | `$VAULT/00_Brain/Systemic/Directives/` | User profile & AI personality |
-| `scaffold/00_Brain/Systemic/Templates/` | Templates (engine, not vault) |
+| `$VAULT/00_Brain/Systemic/Coaching/` | Coaching prompts |
 
 ### Naming Conventions (Detailed)
 

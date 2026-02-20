@@ -1,5 +1,5 @@
 ---
-name: yearly-planning
+name: ritual-planning-yearly
 description: Plan a year's vision, theme, and leadership development focus. The highest-level planning ritual.
 argument-hint: "[target-year: this year|next year|YYYY]"
 metadata:

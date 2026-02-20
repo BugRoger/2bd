@@ -1,5 +1,5 @@
 ---
-name: quarterly-planning
+name: ritual-planning-quarterly
 description: Plan a quarter's outcomes, theme, and coaching focus aligned with annual goals.
 argument-hint: "[target-quarter: this quarter|next quarter|YYYY-QN]"
 metadata:

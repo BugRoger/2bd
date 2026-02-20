@@ -119,18 +119,23 @@ claude skill run init --args "profile"
 ~/Code/2bd-engine/                  ~/OneDrive/2bd-vault/
 ├── .claude/                        ├── 00_Brain/
 │   ├── skills/                     │   ├── Captive/ (working notes)
-│   └── config.md  ← vault path     │   ├── Periodic/ (archives)
-├── scaffold/   ← vault template    │   └── Systemic/
+│   │   └── init/assets/scaffold/   │   ├── Periodic/ (archives)
+│   └── config.md  ← vault path     │   └── Systemic/
 └── README.md                       │       └── Templates/
                                     ├── 01_Projects/
                                     └── 02_Areas/
 ```
 
-- **Engine** = Skills, templates, docs — git-tracked
-- **Vault** = Your notes, archives, projects — cloud-synced
+- **Engine** = Skills, docs — git-tracked
+- **Vault** = Your notes, templates, archives, projects — cloud-synced
+- **Scaffold** = Template copied to vault during init (then unused)
 - **Always run Claude from the engine directory**
 
+During `init`, the scaffold is copied to your vault. After that, skills always reference the vault directly—templates, directives, and all content live in your vault, not the engine.
+
 ### Vault Structure
+
+After init, your vault contains everything—templates, directives, and all your content:
 
 ```
 2bd-vault/
@@ -151,6 +156,7 @@ claude skill run init --args "profile"
 │   ├── Semantic/                # Crystallized knowledge
 │   ├── Synthetic/               # Active drafts
 │   └── Systemic/
+│       ├── Templates/           # Your templates (customize freely)
 │       └── Directives/          # Your profile & AI personality
 ├── 01_Projects/
 │   └── ✱ Projects.md
@@ -218,16 +224,16 @@ Templater automatically applies templates when creating files:
 
 ### Key Files
 
-**In Vault:**
+**In Vault (after init):**
 - **Central Hub:** `00_Brain/✱ Home.md`
 - **Working notes:** `00_Brain/Captive/` (Today.md, Week.md, etc.)
 - **Archives:** `00_Brain/Periodic/` (Daily/, Weekly/, etc.)
+- **Templates:** `00_Brain/Systemic/Templates/` (customize these)
 - **Directives:** `00_Brain/Systemic/Directives/`
 
 **In Engine:**
 - **Skills:** `.claude/skills/`
-- **Scaffold:** `scaffold/`
-- **Templates:** `scaffold/00_Brain/Systemic/Templates/`
+- **Scaffold:** `.claude/skills/init/assets/scaffold/` (used only during init)
 - **Config:** `.claude/config.md`
 
 ---
@@ -384,12 +390,14 @@ claude skill run init --args "profile"
 
 ### Templates
 
-Templates live in the engine at `scaffold/00_Brain/Systemic/Templates/`:
+Templates live in your vault at `00_Brain/Systemic/Templates/` (copied from scaffold during init):
 
 - **Captive/** — Templates for working notes (today.md, week.md, etc.)
 - **Periodic/** — Templates for archive notes (daily.md, weekly.md, etc.)
 - **Projects/** — project.md
 - **Areas/People/** — person.md
+
+Customize these freely—they're yours. Skills read templates from your vault, not the engine.
 
 ---
 

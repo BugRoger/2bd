@@ -1,5 +1,5 @@
 ---
-name: weekly-planning
+name: ritual-planning-weekly
 description: Plan a week's priorities, leadership intention, and key commitments.
 argument-hint: "[target-week: this week|next week|YYYY-Www]"
 metadata:

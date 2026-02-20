@@ -1,5 +1,5 @@
 ---
-name: planning-daily
+name: ritual-planning-daily
 description: Morning ritual for planning the day. Use when starting work to set priorities, prepare for meetings, and establish leadership intention.
 argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
 ---

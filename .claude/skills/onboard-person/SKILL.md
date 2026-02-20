@@ -1,5 +1,5 @@
 ---
-name: person-onboard
+name: onboard-person 
 description: Create a new person dossier through guided interview. Use to onboard a colleague into your people management system.
 argument-hint: "[firstname-lastname]"
 metadata:

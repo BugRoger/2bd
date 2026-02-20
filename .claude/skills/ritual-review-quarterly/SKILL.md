@@ -1,5 +1,5 @@
 ---
-name: quarterly-review
+name: ritual-review-quarterly
 description: Review and archive a quarter's work. Synthesizes monthly archives into quarterly patterns, guides reflection on outcomes and leadership growth, extracts insights to semantic notes, and archives to Periodic/Quarterly/. Accepts an optional target quarter (default: current quarter).
 argument-hint: "[target-quarter: (empty)|this quarter|last quarter|YYYY-QN]"
 metadata:

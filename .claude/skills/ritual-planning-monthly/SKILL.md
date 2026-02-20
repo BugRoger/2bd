@@ -1,5 +1,5 @@
 ---
-name: monthly-planning
+name: ritual-planning-monthly
 description: Plan a month's outcomes, theme, and priorities aligned with quarterly goals.
 argument-hint: "[target-month: this month|next month|YYYY-MM]"
 metadata:

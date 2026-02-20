@@ -1,5 +1,5 @@
 ---
-name: orchestrator
+name: _orchestrator
 description: Internal orchestrator for executing skills with prose-driven context assembly. Interprets "## Context" sections and loads all context into conversation.
 disable-model-invocation: false
 internal: true

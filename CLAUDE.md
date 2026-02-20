@@ -178,16 +178,18 @@ vault_path: /Users/you/OneDrive/2bd-vault
 
 **Engine paths:**
 - Skills: `.claude/skills/`
-- Scaffold: `scaffold/`
-- Templates: `scaffold/00_Brain/Systemic/Templates/`
+- Scaffold: `.claude/skills/init/assets/scaffold/` (copied to vault during init, then unused)
 - Config: `.claude/config.md` (git-ignored)
 
-**Vault paths:**
+**Vault paths (always reference these after init):**
 - Central Hub: `$VAULT/00_Brain/✱ Home.md`
 - Working notes: `$VAULT/00_Brain/Captive/`
 - Archives: `$VAULT/00_Brain/Periodic/`
+- Templates: `$VAULT/00_Brain/Systemic/Templates/`
 - Directives: `$VAULT/00_Brain/Systemic/Directives/`
 - Insights: `$VAULT/00_Brain/Systemic/Insights/`
+
+**Scaffold vs Vault:** The scaffold is a template copied to the vault during `init`. After initialization, skills always read templates and content from the vault—never from the engine's scaffold. This lets users customize their templates without affecting the engine.
 
 ### Personal Configuration
 

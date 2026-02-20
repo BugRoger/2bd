@@ -15,8 +15,8 @@ Manages the connection between the 2bd engine and the user's vault.
 - Engine configuration (if exists)
 - Vault structure validation
 - Existing directive files (user-profile.md, ai-personality.md)
-- Template: scaffold/00_Brain/Systemic/Templates/Directives/user-profile.md
-- Template: scaffold/00_Brain/Systemic/Templates/Directives/ai-personality.md
+- For fresh install: scaffold templates from assets/scaffold/
+- For profile: directive templates from vault ($VAULT/00_Brain/Systemic/Templates/Directives/)
 
 ## Mode Detection
 
@@ -39,10 +39,13 @@ Start by getting the vault path from `--vault=` argument or asking the user. The
 
 Validate the path exists. Warn if inside a git repo (vaults should not be in repos). Warn if the folder already has files and offer to merge or choose a different path.
 
-Copy the scaffold structure to the vault path. This creates:
+Copy the assets/scaffold structure to the vault path. This creates:
 - Hub files (✱ Home.md, ✱ Projects.md, ✱ People.md, ✱ Insights.md)
-- Templates (Captive + Periodic + PARA)
+- Templates in Systemic/Templates/ (users can customize these)
+- Coaching prompts, config schemas
 - Directory structure with .gitkeep placeholders
+
+After this copy, the vault is self-contained. All skills will reference the vault directly—templates, coaching prompts, and config all live in the vault now.
 
 Write `.claude/config.md` with the vault path.
 
@@ -96,7 +99,7 @@ Gather information about:
 
 **Coaching Context** — Patterns to watch (behaviors that don't serve them), grounding questions, what success looks like.
 
-Write to `$VAULT/00_Brain/Systemic/Directives/user-profile.md` using the template from `scaffold/00_Brain/Systemic/Templates/Directives/user-profile.md`.
+Write to `$VAULT/00_Brain/Systemic/Directives/user-profile.md` using the template from vault (`$VAULT/00_Brain/Systemic/Templates/Directives/user-profile.md`).
 
 ### AI Personality
 
@@ -108,7 +111,7 @@ Gather preferences for:
 
 **Interaction Patterns** — Questions vs suggestions, autonomy level, disagreement handling.
 
-Write to `$VAULT/00_Brain/Systemic/Directives/ai-personality.md` using the template from `scaffold/00_Brain/Systemic/Templates/Directives/ai-personality.md`.
+Write to `$VAULT/00_Brain/Systemic/Directives/ai-personality.md` using the template from vault (`$VAULT/00_Brain/Systemic/Templates/Directives/ai-personality.md`).
 
 ### Summary
 

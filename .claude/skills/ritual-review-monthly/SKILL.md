@@ -1,5 +1,5 @@
 ---
-name: monthly-review
+name: ritual-review-monthly
 description: Review and archive a month's work. Synthesizes weekly archives into monthly patterns, guides reflection on outcomes and growth progress, extracts insights to semantic notes, and archives to Periodic/Monthly/. Accepts an optional target month (default: current month).
 argument-hint: "[target-month: (empty)|last month|YYYY-MM]"
 metadata:

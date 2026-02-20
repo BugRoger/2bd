@@ -1,5 +1,5 @@
 ---
-name: yearly-review
+name: ritual-review-yearly
 description: Review and archive a year's work. Synthesizes quarterly archives into the year's narrative, guides reflection on annual goals and leadership journey, extracts insights to semantic notes, and archives to Periodic/Yearly/. Accepts an optional target year (default: current year).
 argument-hint: "[target-year: (empty)|this year|last year|YYYY]"
 metadata:

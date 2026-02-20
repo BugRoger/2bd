@@ -1,5 +1,5 @@
 ---
-name: daily-review
+name: ritual-review-daily
 description: Review and archive a day's work. Guides reflection on wins and insights, synthesizes learnings to semantic notes (People, Projects, Insights, Resources), and archives to Periodic. Accepts an optional target date (default: today).
 argument-hint: "[target-date: today|yesterday|YYYY-MM-DD]"
 metadata:
