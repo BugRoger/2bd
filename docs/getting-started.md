@@ -1,5 +1,5 @@
 ---
-title: "Quickstart"
+title: "Getting Started"
 description: "Get 2bd running in five minutes."
 ---
 

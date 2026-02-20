@@ -15,15 +15,9 @@
   "appearance": {
     "default": "dark"
   },
-  "topbarLinks": [
-    {
-      "name": "GitHub",
-      "url": "https://github.com/bugroger/2bd"
-    }
-  ],
   "topbarCtaButton": {
-    "name": "Jack In",
-    "url": "/quickstart"
+    "type": "github",
+    "url": "https://github.com/bugroger/2bd"
   },
   "navigation": {
     "tabs": [
@@ -34,7 +28,7 @@
             "group": "Getting Started",
             "pages": [
               "introduction",
-              "quickstart"
+              "getting-started"
             ]
           },
           {
