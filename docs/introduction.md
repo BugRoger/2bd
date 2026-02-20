@@ -3,25 +3,45 @@ title: "Introduction"
 description: "A personal knowledge system that runs itself—powered by Claude, driven by daily rituals, stored in markdown."
 ---
 
-# 2bd (Second Brain Daemon)
+```
+[BOOT_SEQUENCE]
+> BIOMETRIC_SCAN.............. [MATCH]
+> SYNCING_AUGMENT............. [100%]
+> NEURAL_STORM_FILTER......... [ACTIVE]
 
-Most productivity systems fail because they depend on you to maintain them. Miss a few days, and everything falls out of date.
+ ____________________________________
+|  ___   ___   ___                   |
+| |__ \ | _ ) |   \   [SYSTEM_ON]    |
+|  / __/| _ \ | |) |   v0.1.269      |
+| |____||___/ |___/   [LINK_ACTIVE]  |
+|____________________________________|
+    |||   |||   |||
+    `-----'-----'---[NEURAL_FEED]
 
-2bd runs itself. Daily **rituals** archive your notes, synthesize insights, and prepare tomorrow's workspace. You write in markdown files that sync to the cloud. Claude handles the housekeeping.
+> ALLOCATING_BUFFERS...
+> MOUNTING: /mnt/brain/2bd/vault
+> STATUS: ONLINE
+```
 
-## Core philosophy
+# Second Brain Daemon
+
+Most productivity systems fail because they depend on *you* to maintain them. Miss a few days, and everything falls out of date.
+
+**2bd runs itself.** Daily rituals archive your notes, synthesize insights, and prepare tomorrow's workspace. You write in markdown files that sync to the cloud. Claude handles the housekeeping.
+
+## Core architecture
 
 Notes are organized by **metabolic state**—how active and volatile they are—rather than by topic.
 
 | State | Purpose |
 |-------|---------|
-| **Captive** | Working notes — high-velocity, volatile intake |
-| **Synthetic** | Active drafts — projects in progress |
-| **Periodic** | Archives — the permanent timeline |
-| **Semantic** | Reference — crystallized knowledge |
-| **Systemic** | Structure — templates, workflows |
+| `CAPTIVE` | Working notes — high-velocity, volatile intake |
+| `SYNTHETIC` | Active drafts — projects in progress |
+| `PERIODIC` | Archives — the permanent timeline |
+| `SEMANTIC` | Reference — crystallized knowledge |
+| `SYSTEMIC` | Structure — templates, workflows |
 
-## How it works
+## Neural pathways
 
 Time scales nest inside each other, each feeding into the next:
 
@@ -29,23 +49,23 @@ Time scales nest inside each other, each feeding into the next:
 
 Two rituals drive the system:
 
-- **Planning** — Prepares your working notes from templates, synthesizes prior knowledge
-- **Review** — Archives working notes to Periodic, synthesizes forward
+- **PLANNING** — Prepares your working notes from templates, synthesizes prior knowledge
+- **REVIEW** — Archives working notes to Periodic, synthesizes forward
 
 ```bash
 cd ~/Code/2bd-engine
-claude skill run ritual-planning-daily   # morning
-claude skill run ritual-review-daily     # evening
+claude skill run ritual-planning-daily   # morning cycle
+claude skill run ritual-review-daily     # evening cycle
 ```
 
-## What you get
+## System capabilities
 
 - **Self-maintaining notes** — Rituals archive your working notes daily, so nothing falls out of date.
 - **Synthesized insights** — The system learns your patterns and crystallizes insights over time.
 - **Leadership coaching** — Daily intentions and coaching prompts integrated into your workflow.
 - **Cloud-synced** — Works with OneDrive, iCloud, Dropbox. Your notes follow you everywhere.
 
-## Next steps
+## Jack in
 
-- [Quickstart](/quickstart) — Get 2bd running in five minutes.
+- [Getting Started](/getting-started) — Get 2bd running in five minutes.
 - [Metabolic states](/concepts/metabolic-states) — Understand the core organizational principle.
