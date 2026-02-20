@@ -50,3 +50,17 @@ Docs are hosted on Mintlify (2bd.l48a.de).
 - **Content must be generic**: no personal device names/hostnames/paths; use placeholders like `user@gateway-host`
 
 When working with documentation, read the mintlify skill.
+
+## Agent-Specific Notes
+
+- **High-confidence answers only**: verify in code; do not guess
+- **Multi-agent safety**: do not create/apply/drop git stash entries unless explicitly requested (includes `git pull --rebase --autostash`)
+- **Multi-agent safety**: assume other agents may be working; keep unrelated WIP untouched; avoid cross-cutting state changes
+- **Multi-agent safety**: do not create/remove/modify git worktree checkouts (or edit `.worktrees/*`) unless explicitly requested
+- **Multi-agent safety**: do not switch branches or check out a different branch unless explicitly requested
+- **Multi-agent safety**: running multiple agents is OK as long as each agent has its own session
+- **When user says "push"**: you may `git pull --rebase` to integrate latest changes (never discard other agents' work)
+- **When user says "commit"**: scope to your changes only
+- **When user says "commit all"**: commit everything in grouped chunks
+- **Unrecognized files**: keep going; focus on your changes and commit only those
+- **Reports**: focus on your edits; avoid guard-rail disclaimers unless truly blocked; end with brief "other files present" note only if relevant
