@@ -14,12 +14,19 @@ claude skill run archive-project         # archive completed project
 
 ## Documentation
 
-Comprehensive documentation is split into two human-readable files:
+- **[README.md](README.md)** — User guide (installation, usage, concepts)
+- **[DEVELOPING.md](DEVELOPING.md)** — Developer guide (architecture, skills, templates)
+- **[docs/](docs/)** — Authoritative conceptual documentation
 
-- **[README.md](README.md)** — User guide (installation, usage, concepts, integrations)
-- **[DEVELOPING.md](DEVELOPING.md)** — Developer guide (architecture, creating skills, templates, GitHub workflow)
+## Authoritative Documentation
 
-Reference these files for detailed information. This file contains Claude-specific instructions only.
+Files in `docs/` are the source of truth:
+
+| File | Covers |
+|------|--------|
+| [docs/rituals.md](docs/rituals.md) | Ritual structure, template contracts, self-learning |
+
+Read relevant docs before implementing features.
 
 ## Documentation Maintenance
 

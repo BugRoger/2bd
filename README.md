@@ -267,14 +267,18 @@ Scheduled operations that drive the productivity loop:
 
 | Ritual | When | Purpose |
 |--------|------|---------|
-| **Daily Planning** | Every morning | Prepare Today.md with priorities |
-| **Daily Review** | Every evening | Archive Today.md, synthesize forward |
-| **Weekly Planning** | Every Monday | Prepare Week.md with weekly focus |
-| **Weekly Review** | Every Sunday | Archive Week.md, synthesize to Month |
-| **Monthly Review** | First of month | Archive Month.md, synthesize patterns |
-| **Quarterly Review** | Every 3 months | Archive Quarter.md, assess direction |
-| **Yearly Planning** | January 1 | Set vision, prepare Year.md |
-| **Yearly Review** | December 31 | Archive Year.md, capture insights |
+| **Daily Planning** | Morning | Prepare Today.md with priorities |
+| **Daily Review** | Evening | Archive Today.md, synthesize forward |
+| **Weekly Planning** | Monday | Prepare Week.md with weekly focus |
+| **Weekly Review** | Sunday | Archive Week.md, synthesize to Month |
+| **Monthly Planning** | First of month | Prepare Month.md with theme |
+| **Monthly Review** | End of month | Archive Month.md, synthesize patterns |
+| **Quarterly Planning** | Start of quarter | Prepare Quarter.md with direction |
+| **Quarterly Review** | End of quarter | Archive Quarter.md, assess direction |
+| **Yearly Planning** | January | Set vision, prepare Year.md |
+| **Yearly Review** | December | Archive Year.md, capture insights |
+
+See [docs/rituals.md](docs/rituals.md) for ritual architecture.
 
 ### Actions
 
