@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "maple",
   "name": "2bd",
   "logo": {
     "dark": "/images/logo-dark.svg",
@@ -8,9 +8,12 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#6366f1",
-    "light": "#818cf8",
-    "dark": "#4f46e5"
+    "primary": "#39ff14",
+    "light": "#39ff14",
+    "dark": "#00ff41"
+  },
+  "appearance": {
+    "default": "dark"
   },
   "topbarLinks": [
     {
@@ -19,7 +22,7 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Get Started",
+    "name": "Jack In",
     "url": "/quickstart"
   },
   "navigation": {
@@ -74,5 +77,11 @@
   },
   "footerSocials": {
     "github": "https://github.com/bugroger/2bd"
+  },
+  "search": {
+    "enabled": false
+  },
+  "ai": {
+    "enabled": false
   }
 }

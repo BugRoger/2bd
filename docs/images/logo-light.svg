@@ -1,4 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="45" fill="none" stroke="#6366f1" stroke-width="4"/>
-  <text x="50" y="55" text-anchor="middle" fill="#6366f1" font-family="system-ui" font-size="24" font-weight="bold">2bd</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 40">
+  <style>
+    .logo {
+      font-family: ui-monospace, 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .glow { filter: drop-shadow(0 0 2px #39ff14); }
+  </style>
+  <g class="glow">
+    <text x="0" y="14" class="logo" fill="#39ff14">┌──┬──┐</text>
+    <text x="0" y="26" class="logo" fill="#39ff14">│◉◉│2bd├───◇───</text>
+    <text x="0" y="38" class="logo" fill="#39ff14">└──┴──┘</text>
+  </g>
 </svg>
