@@ -67,5 +67,5 @@ claude skill run ritual-review-daily     # evening cycle
 
 ## Jack in
 
-- [Getting Started](/getting-started) — Get 2bd running in five minutes.
-- [Metabolic states](/concepts/metabolic-states) — Understand the core organizational principle.
+- [Getting Started](/setup/installation) — Get 2bd running in five minutes.
+- [Core concepts](/overview/concepts) — Understand the organizing principles.

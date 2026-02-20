@@ -22,33 +22,44 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "Overview",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Overview",
             "pages": [
-              "introduction",
-              "getting-started"
-            ]
-          },
-          {
-            "group": "Concepts",
-            "pages": [
-              "concepts/metabolic-states",
-              "concepts/rituals"
+              "overview/introduction",
+              "overview/how-it-works",
+              "overview/concepts"
             ]
           }
         ]
       },
       {
-        "tab": "Guides",
+        "tab": "Setup",
         "groups": [
           {
-            "group": "Guides",
+            "group": "Setup",
             "pages": [
-              "guides/daily-workflow",
-              "guides/obsidian-setup",
-              "guides/calendar-integration"
+              "setup/prerequisites",
+              "setup/installation",
+              "setup/configuration"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Development",
+        "groups": [
+          {
+            "group": "Development",
+            "pages": [
+              "development/skills",
+              "development/rituals",
+              "development/actions",
+              "development/templates",
+              "development/directives",
+              "development/paths",
+              "development/style"
             ]
           }
         ]
@@ -61,8 +72,8 @@
             "pages": [
               "reference/rituals",
               "reference/actions",
-              "reference/templates",
-              "reference/vault-structure"
+              "reference/vault-structure",
+              "reference/naming-conventions"
             ]
           }
         ]
