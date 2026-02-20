@@ -25,7 +25,6 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 7. Read `00_Brain/Captive/Month.md`
 8. Read `00_Brain/Captive/Quarter.md`
 9. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
-10. Read `00_Brain/Systemic/Templates/Captive/today.md`
 
 ### Derived
 
