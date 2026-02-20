@@ -74,7 +74,7 @@ The system automatically groups observations by semantic similarity.
 
 ### What This Means
 
-- No user effort categorizing observations during observe sessions
+- No user effort categorizing observations during reflection sessions
 - Pattern discovery is system-driven, not user-predetermined
 - Novel patterns emerge rather than fitting into predefined boxes
 - Clusters can reorganize as new evidence arrives

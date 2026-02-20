@@ -91,4 +91,4 @@ After writing, summarize:
 
 Suggest strategies for the quarter ahead if helpful.
 
-Proceed to Observe.
+Proceed to Reflection.

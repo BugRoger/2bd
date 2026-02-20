@@ -99,4 +99,4 @@ If directives were not available during the session, suggest:
 
 "Consider running `/init` to set up your profile for richer coaching context."
 
-Proceed to Observe.
+Proceed to Reflection.

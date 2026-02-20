@@ -90,4 +90,4 @@ After setting intention:
 4. Add coaching prompts to relevant sections
 5. Write entire file back to `00_Brain/Captive/Week.md`
 
-Proceed to Observe.
+Proceed to Reflection.

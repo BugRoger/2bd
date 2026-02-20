@@ -91,4 +91,4 @@ After setting theme:
 4. Add coaching prompts to relevant sections
 5. Write entire file back to `00_Brain/Captive/Month.md`
 
-Proceed to Observe.
+Proceed to Reflection.

@@ -48,4 +48,4 @@ After writing, summarize:
 
 Suggest time-blocking strategies if helpful. Confirm the day is planned.
 
-Proceed to Observe.
+Proceed to Reflection.

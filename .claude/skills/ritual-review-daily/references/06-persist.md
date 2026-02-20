@@ -70,4 +70,4 @@ Suggest next steps:
 
 If directives were not available, suggest running `/init`.
 
-Proceed to Observe.
+Proceed to Reflection.

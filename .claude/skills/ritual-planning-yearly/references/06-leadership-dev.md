@@ -90,4 +90,4 @@ After defining leadership development:
    - Growth edge
 3. Write entire file back to `00_Brain/Captive/Year.md`
 
-Proceed to Observe.
+Proceed to Reflection.
