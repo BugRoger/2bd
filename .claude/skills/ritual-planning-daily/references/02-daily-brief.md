@@ -51,10 +51,7 @@ Present it with confidence. This is what you're bringing to the day.
 After presenting the brief:
 
 1. Read `00_Brain/Captive/Today.md`
-2. Update sections:
-   - `## Context From Above`: week focus + growth edge
-   - `## Focus > ### Top Priorities`: three priorities from brief
-   - `## Focus > ### Leadership Intention`: the chosen intention
+2. Replace `## Daily Brief` section with synthesized brief
 3. Write entire file back to `00_Brain/Captive/Today.md`
 
 Proceed to Meetings.

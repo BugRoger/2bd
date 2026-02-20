@@ -1,136 +1,107 @@
 ---
-date: YYYY-MM-DD
-day: [Day of week]
-week: YYYY-Www
-month: YYYY-MM
-quarter: YYYY-QN
-energy: [High/Medium/Low]
-location: [Home/Office/Travel/Other]
-focus_hours: 0
-meetings: 0
+date: 2026-01-15
+day: Wednesday
+week: 2026-W03
+month: 2026-01
+quarter: 2026-Q1
+energy: Medium
+location: Office
+focus_hours: 2
+meetings: 8
 ---
 
-[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Week|Week]] | [[00_Brain/Captive/Month|Month]] | [[00_Brain/Captive/Quarter|Quarter]] | [[00_Brain/Captive/Year|Year]]
+## Daily Brief
 
----
+**This Week's Focus:** Ship the API redesign — demonstrate technical leadership through execution
 
-## Context From Above
-> **This Week's Focus:** [Key outcome + theme from Week.md]
-> **Growth Edge:** [Pattern to watch from Quarter.md or Week.md]
+**Growth Edge:** Notice when perfectionism slows decisions. With 8 meetings and limited focus time, choose progress over polish.
 
----
+You have a packed morning with back-to-back meetings until lunch. Two 1:1s this afternoon, then a strategic planning session. Your 2 hours of focus time are fragmented — protect the 14:00-15:00 block fiercely.
 
-## Focus
+### Priorities
+1. **API spec approval** — Get stakeholder sign-off in the 10:00 review. Clears the team's path forward.
+2. **Alex career conversation** — She needs clarity on growth direction. Come with concrete options, not open questions.
+3. **30-min walk at lunch** — Non-negotiable. Afternoon meetings require presence.
 
-### Top Priorities
-1. *What personal win will you protect for yourself?*
-2. *What organisational/team interaction matters most?*
-3. *What strategic work moves the week forward?*
-
-### Leadership Intention
-[One word or short phrase - your mode/stance for today: e.g., Focused, Collaborative, Strategic, Supportive, Decisive]
+### Intention
+**Decisive** — Move things forward. Don't let perfect block good enough.
 
 ---
 
 ## Meetings
 
-<!--
-MEETING TEMPLATES (evolve based on usage):
-
-=== 1:1 TEMPLATE ===
-### [[PersonName]]
-*→ Update [[02_Areas/People/PersonName|their People file]] after this conversation*
-
-**Check-in**
-- How are you?
-
-**Their Agenda**
-- *What's on your mind?*
-
-**Work**
-- Wins:
-- Blockers:
-
-**Growth**
-- *What are you learning?*
-
-**Commitments**
-- [ ] Me:
-- [ ] Them:
-
-=== GROUP TEMPLATE ===
-### [Meeting Name]
+### 09:00-09:30 | Team Standup
 **Decisions:**
--
+- Prioritize bug fixes over new features this sprint
 
 **Next Steps:**
-- [ ] [Owner]: [Action]
+- [ ] Jordan: Update sprint board by EOD
+- [ ] Me: Unblock API review with stakeholders
+
+### 10:00-11:00 | API Spec Review
+**Context:** Final review before implementation. Key stakeholders: Platform Lead, Security, and Product.
+
+**Decisions:**
+- Approved with minor security feedback
+- Timeline confirmed for Q1 delivery
 
 **Notes:**
--
+- Security wants rate limiting documented explicitly
+- Product happy with the developer experience focus
 
-=== INTERVIEW TEMPLATE ===
-### Interview: [Candidate Name]
-**Role:** [Position]
+### 14:00-14:30 | Alex 1:1
+*→ Update [[02_Areas/People/Alex|their People file]] after this conversation*
 
-**Scorecard** *(1-5)*
-- Technical: _ /5
-- Communication: _ /5
-- Problem-solving: _ /5
+**Check-in**
+- Mentioned feeling stuck on current project
 
-**Strengths:**
--
+**Their Agenda**
+- Career growth direction
+- Wants more technical leadership opportunities
 
-**Concerns:**
--
+**Commitments**
+- [ ] Me: Draft growth plan options by Friday
+- [ ] Alex: Identify one project she'd want to lead
 
-**Recommendation:** [ ] Yes [ ] No
--->
+### 16:00-17:00 | Strategy Planning
+**Context:** Quarterly planning alignment with leadership team
 
-*Meetings will be generated based on your calendar*
-
----
-
-## Capture
-- *Links, articles, videos, ideas - dump here, process later*
+**Notes:**
+- Q2 focus: Platform consolidation
+- Headcount approved for senior hire
 
 ---
 
-## Wins
+## Journal
 
-### Personal
-- *Did you protect your energy or time today? How?*
-- *What decision did you make that you're proud of?*
-- *Where did you show up as the leader you want to be?*
+### Wins
+**Personal**
+- Protected lunch walk despite back-to-back pressure
+- Made decisive call in API review — didn't let perfect block good enough
 
-### Organisational
-- *Who on the team did something worth recognizing?*
-- *What collaboration made work better today?*
-- *What progress would the team not notice without you pointing it out?*
+**Team**
+- Clear outcome from Alex 1:1 — she has concrete next steps now
+- Standup was efficient — 15 minutes, clear decisions
 
-### Strategic
-- [[project-name]]: [Specific progress made]
-- [[another-project]]: [Milestone reached or blocker removed]
-- [Initiative/decision progress]
+**Strategic**
+- API spec approved — major blocker cleared for Q1 delivery
+- Strategy session aligned team on Q2 direction
 
----
+### Insights
+**What Went Well**
+- "Decisive" intention served well — noticed myself moving faster in meetings
+- Preparation for Alex 1:1 paid off — had options ready
 
-## Insights
+**What Could Be Better**
+- Spaced out during strategy session second half — energy flagged after skipping morning break
+- Took on action item I should have delegated (sprint board update)
 
-### What Went Well
-- *What gave you energy today?*
-- *What pattern or habit paid off?*
-
-### What Could Be Better
-- *What friction could become a system or process?*
-- *Where did you react instead of respond?*
-- *What would you tell your yesterday-self?*
-
-### Key Insight of the Day
-*If you could only remember ONE thing from today in 5 years, what would it be?*
+**Key Insight**
+When energy drops, delegation instincts weaken. Build "who else could do this?" into meeting prep, not just meeting itself.
 
 ---
 
 ## Changelog
 
-*Rituals append entries here*
+- 2026-01-15 07:30: Planned via ritual-planning-daily
+- 2026-01-15 21:00: Reviewed via ritual-review-daily

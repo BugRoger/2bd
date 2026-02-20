@@ -1,4 +1,4 @@
-# Coaching
+# Journal
 
 Guide for generating Wins and Insights prompts.
 
@@ -36,9 +36,7 @@ Connect prompts to the user's growth edge and coaching questions from directives
 After generating prompts:
 
 1. Read `00_Brain/Captive/Today.md`
-2. Update sections:
-   - `## Wins`: personalized prompts for Personal, Organisational, Strategic
-   - `## Insights`: personalized prompts for What Went Well, What Could Be Better, Key Insight
+2. Replace `## Journal` section with personalized prompts
 3. Write entire file back to `00_Brain/Captive/Today.md`
 
 ## Confirm
