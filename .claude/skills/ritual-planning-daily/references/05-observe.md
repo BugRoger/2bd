@@ -22,7 +22,7 @@ Note: H2 sections are fixed contracts. Only analyze H3 and content changes.
 
 ### Record Observations
 
-Append to `00_Brain/Synthetic/planning-daily.md` ## Observations with type `user-modification` or `skill-generated`:
+Append to `00_Brain/Synthetic/planning-daily/observations.md` ## Observations with type `user-modification` or `skill-generated`:
 - `user-modification`: Changes user made after skill generated content
 - `skill-generated`: How phases produced content differently than template examples
 
@@ -44,7 +44,7 @@ Analyze user's interaction patterns during the ritual.
 
 ### Record Observations
 
-Append to `00_Brain/Synthetic/planning-daily.md` ## Observations with type `session-interaction`:
+Append to `00_Brain/Synthetic/planning-daily/observations.md` ## Observations with type `session-interaction`:
 - Conversational preferences
 - Engagement patterns per phase
 - Feedback signals
@@ -59,14 +59,14 @@ The system automatically groups observations by semantic similarity.
 
 ### Process
 
-1. Read `00_Brain/Synthetic/planning-daily.md` ## Observations
+1. Read `00_Brain/Synthetic/planning-daily/observations.md` ## Observations
 2. Run semantic grouping to suggest 2-3 potential clusters with example observations
 3. Present clusters to user:
    - Suggested cluster name (auto-generated from observation themes)
    - Example observations in each cluster
    - Confidence score (0-5, based on observation count and recency weighting)
 4. User reviews suggested names and optionally renames clusters or rejects groupings
-5. System records cluster state in `00_Brain/Synthetic/planning-daily.md` ## Clusters:
+5. System records cluster state in `00_Brain/Synthetic/planning-daily/observations.md` ## Clusters:
    - Cluster name (user-approved)
    - Member observations (full list)
    - Confidence score (calculated)
@@ -94,8 +94,8 @@ A cluster graduates when:
 When criteria met:
 1. System identifies graduating cluster
 2. Notifies user: "Cluster '[name]' is ready for crystallization"
-3. Removes cluster from `00_Brain/Synthetic/planning-daily.md` ## Clusters (prune)
-4. Removes member observations from `00_Brain/Synthetic/planning-daily.md` ## Observations (prune)
+3. Removes cluster from `00_Brain/Synthetic/planning-daily/observations.md` ## Clusters (prune)
+4. Removes member observations from `00_Brain/Synthetic/planning-daily/observations.md` ## Observations (prune)
 5. Transitions to Step 5 (Crystallization)
 
 ### Why Auto-Graduation?
@@ -120,7 +120,7 @@ When a cluster reaches graduation criteria, user synthesizes the insight and not
    - Note any template changes this suggests (e.g., "add Blockers section to Daily Brief")
    - Note uncertainty if needed (e.g., "might indicate time pressure OR preference for conciseness")
 
-3. System writes to `00_Brain/Semantic/planning-daily.md` with structure:
+3. System writes to `00_Brain/Semantic/planning-daily/insights.md` with structure:
 
 ```markdown
 ## cluster-name
@@ -148,7 +148,7 @@ Review Semantic file for template changes suggested by crystallized insights.
 
 ### Process
 
-1. Read `00_Brain/Semantic/planning-daily.md`
+1. Read `00_Brain/Semantic/planning-daily/insights.md`
 2. For each cluster's "Template Implications" notes:
    - If clear and minor (H3 additions, content reordering, example changes): auto-evolve template
    - If unclear or major: flag for discussion before applying

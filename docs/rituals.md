@@ -1,65 +1,134 @@
 # Rituals
 
-Rituals are scheduled operations that drive the productivity loop. They follow a canonical structure defined by ritual-planning-daily.
+Rituals are scheduled operations that drive the productivity loop. This document defines the canonical structure all rituals follow.
 
 ## Anatomy
 
-**SKILL.md** is a table of contents:
+A ritual skill consists of:
 
-```markdown
-1. [Phase Name](references/00-phase.md)
-2. [Phase Name](references/01-phase.md)
+```
+.claude/skills/ritual-{name}/
+  SKILL.md              # Table of contents with phase links
+  references/
+    00-setup.md         # Always first: load context, validate
+    01-{phase}.md       # Core phases (ritual-specific)
+    ...
+    NN-observe.md       # Always last: self-learning
 ```
 
-**Reference files** contain phase implementations:
-- Named `NN-name.md` with numbered prefix for sequence
-- Execute in order during ritual invocation
+**SKILL.md** is a numbered table of contents:
 
-**Template Contract** declares H2 ownership:
+```markdown
+1. [Setup](references/00-setup.md)
+2. [Phase Name](references/01-phase.md)
+...
+N. [Observe](references/NN-observe.md)
+```
+
+Phases execute in order. Each ritual is self-contained.
+
+## Phase Pattern
+
+Every ritual follows Setup -> Core Phases -> Observe:
+
+| Phase | Purpose |
+|-------|---------|
+| **Setup** | Load context (sub-skills, files, derived data), validate state, initialize output |
+| **Core** | Ritual-specific work (interactive or non-interactive) |
+| **Observe** | Learn from session, evolve templates |
+
+Setup always runs first. Observe always runs last. Core phases vary by ritual.
+
+## Template Contract
+
+Each ritual declares which H2 sections its phases update:
 
 ```markdown
 ## Template Contract
 
 | Phase | Updates |
 |-------|---------|
-| Phase Name | `## Section` |
+| Daily Brief | `## Daily Brief` |
+| Meetings | `## Meetings` |
 ```
-
-## Template Contracts
-
-Phases declare which H2 sections they update in the output file.
 
 | Principle | Rule |
 |-----------|------|
-| H2 = stable | Skills reference H2 sections only |
+| H2 = stable | Phases reference H2 sections only |
 | H3 = dynamic | Structure within H2s can evolve |
-| Ownership | Each H2 has exactly one owning phase |
+| Single owner | Each H2 has exactly one owning phase |
 
-## Self-Learning (Observe)
+## Self-Learning Pipeline (Observe)
 
-The Observe phase enables rituals to learn from user behavior.
+Observe enables rituals to learn from user behavior through a six-step pipeline.
 
-**Pipeline:**
+### Step 1: Diff Analysis
 
-1. **Diff Analysis** — Compare output against template, note structural changes
-2. **Session Review** — Track interaction patterns (response length, rephrasing, skips)
-3. **Auto-Clustering** — Group observations by semantic similarity
-4. **Graduation** — Clusters graduate when confidence ≥ 4.5 and stable for 3+ sessions
-5. **Crystallization** — User synthesizes graduated cluster into insight
-6. **Template Evolution** — Apply insight to template H3 structure
+Compare output against template. For each H2 section, note:
+- H3s added, removed, or renamed
+- Content patterns (bullet types, ordering, emphasis)
+- Structural divergence from template examples
 
-**Storage:**
-- Observations: `$VAULT/00_Brain/Synthetic/planning-daily.md`
-- Crystallized: `$VAULT/00_Brain/Semantic/planning-daily.md`
+Record observations with type `user-modification` or `skill-generated`.
+
+### Step 2: Session Review
+
+Track interaction patterns during the ritual:
+- Questions answered vs skipped
+- Response length (brief vs expansive)
+- Rephrasing of suggestions
+- Explicit feedback
+
+Record observations with type `session-interaction`.
+
+### Step 3: Auto-Cluster
+
+System groups observations by semantic similarity:
+1. Suggest 2-3 clusters with example observations
+2. Present with confidence score (0-5)
+3. User reviews/renames cluster names
+4. Record cluster state (name, members, confidence, stability flag)
+
+### Step 4: Monitor Graduation
+
+Clusters graduate automatically when:
+- Confidence >= 4.5
+- Membership stable for 3+ sessions
+
+On graduation: notify user, prune cluster and observations from Synthetic, transition to Step 5.
+
+### Step 5: Crystallize
+
+User synthesizes the graduated cluster:
+1. System presents cluster with observation lineage
+2. User answers: "What does this pattern mean?"
+3. System writes insight to Semantic with status `forming`
+
+### Step 6: Template Evolution
+
+Apply crystallized insights to templates:
+- Minor changes (H3 additions, reordering): auto-evolve
+- Major changes: flag for discussion
+- Update insight status to `active` when applied
+
+## Storage Paths
+
+| Type | Path | Purpose |
+|------|------|---------|
+| Observations | `$VAULT/00_Brain/Synthetic/{ritual-name}/observations.md` | Raw observations and active clusters |
+| Insights | `$VAULT/00_Brain/Semantic/{ritual-name}/insights.md` | Crystallized patterns |
+| Coaching | `$VAULT/00_Brain/Systemic/Coaching/{domain}.md` | Cross-ritual guidance (planning, review, leadership) |
 
 ## Living Templates
 
-Templates are living examples, not frozen structures.
+Templates are living examples, not frozen structures:
 
-- H2 sections are the contract — phases reference these
-- H3 structure is dynamic — Observe can add, rename, reorder
-- Changes flow: observation → cluster → graduation → template update
+- **H2 sections are contracts** - phases reference these, never change them
+- **H3 structure is dynamic** - Observe can add, rename, reorder within H2s
+- **Evolution flow**: observation -> cluster -> graduation -> crystallization -> template update
+
+Templates start as sensible defaults. User behavior shapes them over time through the Observe pipeline.
 
 ## Reference Implementation
 
-See `.claude/skills/ritual-planning-daily/` for the canonical implementation.
+See `.claude/skills/ritual-planning-daily/` for the canonical implementation demonstrating all patterns.

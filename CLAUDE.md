@@ -104,68 +104,6 @@ Apply directives throughout:
 
 If directives don't exist (user hasn't run `/init`), proceed with defaults and suggest running `/init` at the end.
 
-### Prose-Driven Orchestration
-
-Skills declare context needs in natural language. The orchestrator interprets these needs and coordinates fulfillment transparently.
-
-#### Context Pre-Loading
-
-The orchestrator loads all context into the conversation history before skill execution. Skills reference context naturally without mentioning orchestration mechanics.
-
-**State is conversation history:**
-- All context is loaded via Read tool calls in the orchestrator conversation
-- Skills inherit full conversation history with all context already present
-- No session directories or intermediate files needed
-
-**Context references in skills:**
-- "Review the calendar" (calendar loaded via Read in parent conversation)
-- "Check Week.md" (Week.md loaded via Read in parent conversation)
-- "Check active projects" (project files loaded via Read in parent conversation)
-
-**File writing in skills:**
-- "Write Today.md to Captive" (declarative; orchestrator resolves path and uses Write tool)
-- "Update Week.md" (declarative; orchestrator uses Edit tool with resolved path)
-
-The orchestrator translates these natural phrases into tool calls with resolved absolute paths.
-
-**Detecting prose-driven skills:**
-
-Skills with a "Context" section use prose-driven orchestration:
-
-```markdown
-## Context
-
-- Calendar events for the day
-- User's directives and preferences
-- Week.md for weekly context
-- People files for anyone with 1:1 meetings
-- Active project files
-```
-
-**How orchestration works:**
-
-1. **Date Resolution** - Resolves time arguments (today, tomorrow, "next monday", YYYY-MM-DD) to concrete dates
-2. **Need Interpretation** - Parses prose needs and determines fulfillment strategy:
-   - "Calendar events" → spawn fetch-calendar sub-skill, load output into conversation
-   - "Week.md" / "Month.md" → resolve vault paths, load via Read
-   - "People files for 1:1s" → resolve from calendar + vault, load via Read
-   - "Active projects" → scan vault for project files, load via Read
-3. **Context Assembly** - Spawns sub-skills in parallel, uses Read tool to load vault files
-4. **Inline Execution** - Executes skill prose with full conversation history containing all context
-
-**All context is pre-loaded into the conversation:**
-- The orchestrator uses Read tool calls to load all requested context
-- Skills inherit the parent conversation with all context already present
-- All external data and vault files are already visible in conversation history
-- No manual loading or file operations needed within the skill prose
-
-**Benefits:**
-- **No orchestration mechanics in skills** - pure declarative intent
-- **Natural language** - describe what you need, not how to get it
-- **Flexible fulfillment** - orchestrator chooses appropriate sub-skills
-- **Pre-loaded context** - all requested context available from the start
-- **Conversation history as state** - no session directories or intermediate files
-
 ### Key Paths
 
 **Vault path:** Read from `.claude/config.md`
@@ -187,7 +125,13 @@ vault_path: /Users/you/OneDrive/2bd-vault
 - Archives: `$VAULT/00_Brain/Periodic/`
 - Templates: `$VAULT/00_Brain/Systemic/Templates/`
 - Directives: `$VAULT/00_Brain/Systemic/Directives/`
-- Insights: `$VAULT/00_Brain/Systemic/Insights/`
+- Coaching: `$VAULT/00_Brain/Systemic/Coaching/` (planning.md, review.md, leadership.md)
+
+**Self-learning paths (per ritual):**
+- Observations: `$VAULT/00_Brain/Synthetic/{ritual-name}/observations.md`
+- Insights: `$VAULT/00_Brain/Semantic/{ritual-name}/insights.md`
+
+See [docs/rituals.md](docs/rituals.md) for the authoritative reference on ritual structure and self-learning.
 
 **Scaffold vs Vault:** The scaffold is a template copied to the vault during `init`. After initialization, skills always read templates and content from the vault—never from the engine's scaffold. This lets users customize their templates without affecting the engine.
 

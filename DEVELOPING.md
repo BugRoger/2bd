@@ -44,19 +44,20 @@ Skills use a flat structure with naming conventions:
 
 ```
 .claude/skills/
-├── ritual-planning-daily.md      # Rituals: ritual- prefix
-├── ritual-review-weekly.md
-├── init.md                       # Commands: no prefix
-├── create-project.md
-├── _fetch-calendar.md            # Internal: _ prefix
-├── _resolve-references.md
-└── _orchestrator.md
+├── ritual-planning-daily/        # Rituals: ritual- prefix
+│   ├── SKILL.md
+│   └── references/
+├── ritual-review-weekly/
+├── init/                         # Commands: no prefix
+├── create-project/
+├── _fetch-calendar/              # Internal: _ prefix
+└── _resolve-references/
 ```
 
 **Naming Conventions:**
 - **Rituals** (`ritual-*`) — Scheduled routines that drive the engine
 - **Commands** (no prefix) — Discrete one-shot helpers triggered on-demand
-- **Internal** (`_*`) — Sub-skills, orchestrator, and dev tools (not user-facing)
+- **Internal** (`_*`) — Sub-skills and dev tools (not user-facing)
 
 **Auxiliary Files:**
 
@@ -84,8 +85,7 @@ The scaffold (`.claude/skills/init/assets/scaffold/`) contains the initial vault
 │       ├── create-project/
 │       ├── archive-project/
 │       ├── _fetch-calendar/
-│       ├── _resolve-references/
-│       └── _orchestrator/
+│       └── _resolve-references/
 │
 ├── README.md                 # User documentation
 ├── DEVELOPING.md             # This file
@@ -209,7 +209,7 @@ Actions are one-shot helpers invoked on-demand.
 
 ### Creating Internal Skills
 
-Internal skills (sub-skills, orchestrator, dev tools) are composable building blocks for operations the orchestrator cannot handle. Underscore prefix (`_`) signals internal/not user-facing.
+Internal skills (sub-skills, dev tools) are composable building blocks. Underscore prefix (`_`) signals internal/not user-facing.
 
 **Current Internal Skills:**
 
@@ -217,20 +217,17 @@ Internal skills (sub-skills, orchestrator, dev tools) are composable building bl
 |----------|---------|----------|
 | `_fetch-calendar` | External calendar API access | Calendar events via ekctl |
 | `_resolve-references` | Wikilink and embed resolution | Resolve `[[wikilinks]]` |
-| `_orchestrator` | Skill orchestration | Context loading, subagent spawning |
-
-**Note:** The orchestrator handles most data loading (config, directives, vault files, date resolution). Only create internal skills for complex operations the orchestrator cannot perform.
 
 **Creating:**
 
-1. Create skill file `.claude/skills/_{skill-name}.md`
+1. Create skill folder `.claude/skills/_{skill-name}/SKILL.md`
 
 2. Add YAML frontmatter:
    ```yaml
    ---
    name: _fetch-calendar
    description: Fetch calendar events for a date using ekctl
-   disable-model-invocation: true  # Invoked by orchestrator
+   disable-model-invocation: true  # Not user-facing
    allowed-tools: Read, Bash(ekctl *)
    ---
    ```
@@ -245,222 +242,53 @@ Internal skills (sub-skills, orchestrator, dev tools) are composable building bl
 
 ### Ritual Structure
 
-All rituals follow a canonical 6-phase lifecycle. Each phase has a specific purpose and uses a standardized section name.
+Rituals follow a canonical structure with SKILL.md as the table of contents and separate phase files.
 
-#### The 6 Phases
+#### File Organization
 
-| Phase | Section Name | Purpose | Gate? |
-|-------|--------------|---------|-------|
-| 1 | `## Context` | Declare context needs (orchestrator loads) | No |
-| 2 | `## Validate` | Check prerequisites and state | Yes (proceed only when safe) |
-| 3 | `## Session` | Interactive guided conversation | No |
-| 4 | `## Compose` | Build artifact in memory | No |
-| 5 | `## Persist` | Write to vault | No |
-| 6 | `## Confirm` | Summarize and suggest next steps | No |
-
-**Phase 1: Context**
-
-Declare what context is needed in natural prose. The orchestrator interprets these needs and pre-loads all context before execution.
-
-```markdown
-## Context
-
-- Calendar events for the target period
-- User's directives and preferences
-- Week.md, Month.md, Quarter.md for hierarchical context
-- People files for anyone with 1:1 meetings
-- Active project files
+```
+.claude/skills/ritual-{type}-{period}/
+├── SKILL.md                    # Table of contents + frontmatter
+└── references/
+    ├── 00-setup.md             # Context loading, validation
+    ├── 10-core.md              # Main ritual logic
+    ├── 20-observe.md           # Self-learning observations
+    └── template-contract.md    # Template structure spec
 ```
 
-**Phase 2: Validate**
+#### The Three Phases
 
-Check prerequisites and state. Verify dates, check for existing files, warn about risks, offer alternatives. Proceed only when safe.
+| Phase | File | Purpose |
+|-------|------|---------|
+| **Setup** | `00-setup.md` | Load context, validate state, handle edge cases |
+| **Core** | `10-core.md` | Interactive session, compose artifacts, persist |
+| **Observe** | `20-observe.md` | Record observations for self-learning |
 
-**Phase 3: Session**
+**Setup** loads directives, calendar, vault files, and validates prerequisites (existing files, dates, etc.).
 
-Interactive guided conversation with the user. Personalized greeting, present context, gather input, facilitate reflection. May include subsections to organize conversation flow (subsections are ritual-specific).
+**Core** contains the main ritual logic — greeting, conversation, artifact composition, and persistence.
 
-**Phase 4: Compose**
+**Observe** records raw observations about user behavior and ritual effectiveness for later synthesis.
 
-Build the complete artifact in memory. Generate content, fill templates, prepare everything for persistence.
+#### Template Contract
 
-**Phase 5: Persist**
+Each ritual has a `template-contract.md` that defines:
+- Which template it uses
+- Required sections
+- Optional sections
+- Section update rules
 
-Execute file operations. Write to vault, update changelogs. Document what will be written before executing.
+This contract ensures rituals interact with templates predictably.
 
-**Phase 6: Confirm**
+#### Full Documentation
 
-Summarize what was done. Show key outcomes, suggest next steps. This is verification after persistence, not an approval gate.
-
-#### Principles
-
-- **Universal:** All rituals use these exact phase names
-- **No variations:** No ritual-specific phase names
-- **Subsections allowed:** Within phases (especially Session), use subsections to organize content
-- **Separation:** Keep Compose and Persist as separate phases
+See [docs/rituals.md](docs/rituals.md) for the complete reference on:
+- Ritual lifecycle and phases
+- Template contracts
+- Self-learning system (observations → insights)
+- Coaching integration
 
 ---
-
-## Prose-Driven Orchestration
-
-Skills declare context needs in natural language. The orchestrator interprets needs and coordinates fulfillment transparently.
-
-### Writing Prose-Driven Skills
-
-Skills declare context needs in prose and reference context naturally without orchestration mechanics.
-
-**1. Declare Context Needs (Phase 1: Context)**
-
-Add a "Context" section using the prose-driven pattern:
-
-```markdown
----
-name: planning-daily
-description: Morning ritual for planning the day
-argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
----
-
-# Daily Planning
-
-Help the user plan their day.
-
-## Context
-
-- Calendar events for the target period
-- User's directives and preferences
-- Week.md for weekly context
-- Month.md for monthly context
-- People files for anyone with 1:1 meetings
-- Active project files
-```
-
-**2. Write Phases as Natural Language**
-
-Phases reference context naturally. The orchestrator pre-loads everything into the conversation:
-
-```markdown
-## Validate
-
-Check if Today.md already exists at the target date. If it does, ask whether to:
-- Review existing plan
-- Update existing plan
-- Start fresh
-
-## Session
-
-Greet the user using their preferred name from directives.
-
-Review the calendar. What meetings do they have? Highlight any 1:1s.
-Check Week.md for weekly goals.
-
-### Focus and Priorities
-
-Ask: What's the leadership intention for today?
-Ask: What are the top 2-3 priorities?
-```
-
-**3. No Orchestration Mechanics**
-
-The orchestrator handles date resolution, sub-skill spawning, context assembly, and file loading. Skills focus on user interaction and artifact creation.
-
-### How Orchestration Works
-
-The orchestrator coordinates context loading and skill execution entirely through conversation history.
-
-**1. Initialization**
-
-The main orchestrator agent (Claude) receives the skill invocation. It:
-- Resolves flexible time arguments (`tomorrow` → `2026-02-16`, etc.)
-- Parses the skill's `## Context` section to identify needs
-
-**2. Context Loading Strategy**
-
-For each context need, the orchestrator determines fulfillment:
-
-| Need Pattern | Action |
-|--------------|--------|
-| "Calendar events" | Spawn `_fetch-calendar` as subagent |
-| "Week.md" / "Month.md" | Read vault file directly |
-| "People files for 1:1s" | Parse calendar → read matching vault files |
-| "Active project files" | Scan vault → read active projects |
-| "User directives" | Read directives file |
-
-**3. Subagent Invocations**
-
-External data fetches (calendar) spawn subagents in parallel:
-- Each subagent runs in isolated conversation with SKILL.md + date context
-- Returns structured markdown to main conversation
-- Main orchestrator integrates results into conversation history
-
-**4. Context Pre-Loading**
-
-The orchestrator loads all context before skill execution:
-- External data (calendar.md) loaded as messages
-- Vault files read and added to conversation
-- All context pre-loaded into conversation history
-
-**5. Skill Execution**
-
-Execute skill prose inline in main conversation:
-- All context already present in conversation history
-- Skills reference context naturally ("review the calendar", "check Week.md")
-- Write operations use declarative language ("Write Today.md to Captive")
-
-### Internal Skills for Orchestration
-
-Internal skills run as isolated subagents and return markdown to the orchestrator.
-
-**External Data Skills:**
-- `_fetch-calendar` - Calendar events via ekctl
-
-**Note:** Date resolution is now handled directly by the orchestrator, not by sub-skills.
-
-**Subagent Pattern:**
-
-Internal skills receive date context and return structured markdown:
-
-```markdown
----
-name: _fetch-calendar
-description: Fetch calendar events for a date using ekctl
----
-
-Receive date from orchestrator (YYYY-MM-DD).
-Run: ekctl calendar list --date {date}
-Return natural markdown of events.
-```
-
-Orchestrator spawns subagent, receives output, integrates into main conversation.
-
-### Benefits
-
-| Benefit | Description |
-|---------|-------------|
-| **Pure declarative intent** | Skills describe WHAT, not HOW |
-| **Natural language** | Prose that Claude interprets directly |
-| **Flexible fulfillment** | Orchestrator chooses fetch strategy per need |
-| **Conversation-native** | All context in conversation history |
-| **Parallel subagents** | External data fetched simultaneously |
-| **Pre-loaded context** | Everything available before skill execution |
-| **No implementation coupling** | Skills resilient to orchestration changes |
-
-### Skill Writing Pattern
-
-Skills describe work naturally, without orchestration mechanics.
-
-**Context references:**
-- ✓ "Review the calendar"
-- ✗ "Load calendar.md from context"
-- ✓ "Check Week.md for weekly goals"
-- ✗ "Load Week.md from vault path"
-
-**File operations:**
-- ✓ "Write Today.md to Captive"
-- ✗ Manual path construction and file operations
-- ✓ "Update Week.md with outcomes"
-- ✗ Manual path resolution with config.md
-
-The orchestrator interprets natural phrases and handles implementation.
 
 ### Creating Dev Skills
 
@@ -611,17 +439,13 @@ Directives personalize how Claude interacts with the user. Located in `$VAULT/00
 
 ### Loading Directives in Skills
 
-Rituals and user-facing skills automatically receive directives through the orchestrator's context loading. The orchestrator pre-loads directives into the conversation before skill execution.
+Rituals load directives in their Setup phase (`00-setup.md`). The directives are read from the vault and made available to subsequent phases.
 
-**Context Declaration:**
+**Loading Pattern:**
 
-```markdown
-## Context
-
-- User's directives and preferences
-- Calendar events for the day
-- Week.md for weekly context
-```
+Directives are loaded from `$VAULT/00_Brain/Systemic/Directives/`:
+- `user-profile.md` — User preferences and identity
+- `ai-personality.md` — Communication style settings
 
 **Usage in Skills:**
 

@@ -154,7 +154,11 @@ After init, your vault contains everything—templates, directives, and all your
 │   │   ├── Quarterly/           # YYYY-QN.md
 │   │   └── Yearly/              # YYYY.md
 │   ├── Semantic/                # Crystallized knowledge
-│   ├── Synthetic/               # Active drafts
+│   │   └── {ritual-name}/       # (created on first use)
+│   │       └── insights.md
+│   ├── Synthetic/               # Active drafts & observations
+│   │   └── {ritual-name}/       # (created on first use)
+│   │       └── observations.md
 │   └── Systemic/
 │       ├── Templates/           # Your templates (customize freely)
 │       └── Directives/          # Your profile & AI personality
