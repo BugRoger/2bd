@@ -3,6 +3,24 @@ title: "Rituals reference"
 description: "Complete list of all rituals and when to run them."
 ---
 
+## Quick reference
+
+```bash
+# Planning (start of period)
+claude skill run ritual-planning-daily     # Morning
+claude skill run ritual-planning-weekly    # Monday
+claude skill run ritual-planning-monthly   # 1st of month
+claude skill run ritual-planning-quarterly # Start of Q
+claude skill run ritual-planning-yearly    # January
+
+# Review (end of period)
+claude skill run ritual-review-daily       # Evening
+claude skill run ritual-review-weekly      # Sunday
+claude skill run ritual-review-monthly     # End of month
+claude skill run ritual-review-quarterly   # End of Q
+claude skill run ritual-review-yearly      # December
+```
+
 ## Planning rituals
 
 | Ritual | Command | When | Prepares |
@@ -42,28 +60,14 @@ description: "Complete list of all rituals and when to run them."
 ## Running rituals
 
 ```bash
-# Always from engine directory
-cd ~/Code/2bd-engine
-
 # Pattern: claude skill run ritual-{type}-{period}
 claude skill run ritual-planning-daily
 claude skill run ritual-review-daily
 ```
 
-## Ritual structure
+## Related
 
-Each ritual follows a three-phase pattern:
+- [Rituals development](/development/rituals) — Creating custom rituals
+- [How it works](/overview/how-it-works) — The ritual cycle explained
+- [Actions reference](/reference/actions) — One-shot commands
 
-| Phase | Purpose |
-|-------|---------|
-| **Setup** | Load context, validate state, initialize |
-| **Core** | Main ritual work (interactive or automated) |
-| **Observe** | Record observations for self-learning |
-
-## Template contracts
-
-Rituals declare which sections they update. This ensures predictable behavior:
-
-- **H2 sections are stable** — Rituals reference these, never change them
-- **H3 structure is dynamic** — Can evolve through self-learning
-- **Single ownership** — Each H2 has exactly one owning phase

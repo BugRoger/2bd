@@ -3,6 +3,8 @@ title: "Vault structure"
 description: "Complete reference for vault organization."
 ---
 
+The vault stores your notes organized by [metabolic state](/overview/concepts#metabolic-states). See [Core concepts](/overview/concepts) for the reasoning behind this organization.
+
 ## Top-level structure
 
 ```
@@ -14,7 +16,7 @@ description: "Complete reference for vault organization."
 └── .obsidian/         # Obsidian config
 ```
 
-## 00_Brain — Core system
+## 00_Brain: Core system
 
 The heart of 2bd. Organized by metabolic state.
 
@@ -45,7 +47,7 @@ The heart of 2bd. Organized by metabolic state.
     └── Coaching/
 ```
 
-## 01_Projects — Active work
+## 01_Projects: Active work
 
 ```
 01_Projects/
@@ -57,7 +59,7 @@ The heart of 2bd. Organized by metabolic state.
 
 Projects use end-date prefix so nearest deadlines sort first.
 
-## 02_Areas — Ongoing domains
+## 02_Areas: Ongoing domains
 
 ```
 02_Areas/
@@ -131,3 +133,10 @@ Systemic/Coaching/
 ├── review.md          # Review ritual guidance
 └── leadership.md      # Leadership coaching prompts
 ```
+
+## Related
+
+- [Core concepts](/overview/concepts) — Understanding metabolic states
+- [Templates](/development/templates) — Modifying templates
+- [Directives](/development/directives) — Personalizing Claude
+- [Naming conventions](/reference/naming-conventions) — Detailed naming rules

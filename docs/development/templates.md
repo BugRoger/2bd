@@ -3,6 +3,8 @@ title: "Templates"
 description: "How templates work and how to modify them."
 ---
 
+Templates define the structure of your working notes. [Rituals](/development/rituals) use templates to create Captive notes and declare which sections they update through [template contracts](/development/rituals#template-contracts).
+
 ## Template locations
 
 Templates live in your vault at `$VAULT/00_Brain/Systemic/Templates/`:
@@ -61,3 +63,9 @@ Rituals declare which sections they update:
 - **H2 sections are stable** — Never change these names
 - **H3 structure is dynamic** — Can evolve through self-learning
 - **Single ownership** — Each H2 has exactly one owning phase
+
+## Related
+
+- [Rituals](/development/rituals) — How rituals use templates
+- [Vault structure](/reference/vault-structure) — Where templates live
+- [Configuration](/setup/configuration) — Customizing templates

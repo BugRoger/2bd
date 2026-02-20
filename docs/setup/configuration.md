@@ -3,6 +3,8 @@ title: "Configuration"
 description: "Customize your vault, profile, and integrations."
 ---
 
+After [installation](/setup/installation), configure your vault and profile to personalize 2bd.
+
 ## Vault path
 
 The engine stores your vault path in `.claude/config.md` (git-ignored):
@@ -11,72 +13,85 @@ The engine stores your vault path in `.claude/config.md` (git-ignored):
 vault_path: /Users/you/OneDrive/2bd-vault
 ```
 
-To change it:
+To change your vault location, run the reconnect wizard:
 
 ```bash
-claude skill run init --args "reconnect --vault=/new/path"
-ln -sf /new/path ./vault
+claude skill run init --args "reconnect --vault=/new/path/to/vault"
 ```
 
 ## User profile
 
-Personalize how Claude interacts with you:
+The initialization wizard creates [directives](/development/directives) in your vault:
+
+| File | Purpose |
+|------|---------|
+| `user-profile.md` | Your name, role, goals, growth edge |
+| `ai-personality.md` | Formality, directness, coaching style |
+
+### Editing your profile
+
+Run the profile wizard anytime:
 
 ```bash
 claude skill run init --args "profile"
 ```
 
-This creates directives in your vault:
-- **user-profile.md** — Your name, role, goals, growth edge
-- **ai-personality.md** — Formality, directness, coaching style
+Or edit directives directly in your vault at `00_Brain/Systemic/Directives/`.
 
-## Obsidian setup
+### Profile fields
 
-### Hotkeys
+**user-profile.md**:
+- `preferred_name` — How Claude addresses you
+- `role` — Your job title or primary role
+- `leadership_identity` — How you see yourself as a leader
+- `growth_edge` — What you're working to improve
+- `patterns_to_watch` — Habits or tendencies to flag
 
-| Hotkey | Action |
-|--------|--------|
-| `Cmd+Shift+D` | Open Today.md |
-| `Cmd+Shift+W` | Open Week.md |
-| `Cmd+Shift+M` | Open Month.md |
-| `Cmd+Shift+Q` | Open Quarter.md |
-| `Cmd+Shift+H` | Open ✱ Home.md |
+**ai-personality.md**:
+- `formality` — Casual to formal communication style
+- `directness` — How blunt feedback should be
+- `humor` — Dry, playful, minimal, or none
+- `coaching_style` — Supportive, challenging, or balanced
 
-### Templater
+## Calendar integration
 
-If using the Templater plugin, configure folder templates:
-- New file in `01_Projects/` → uses project.md
-- New file in `02_Areas/People/` → uses person.md
+Calendar integration (macOS only) pulls events into your daily planning ritual.
 
-## Calendar integration (macOS)
+### Setup
 
-Fetch calendar events using `ekctl`:
+1. Complete the [prerequisites](/setup/prerequisites) calendar authorization
+2. Events automatically appear in `ritual-planning-daily`
 
-1. **Install ekctl**
+### What gets pulled
 
-   ```bash
-   brew install schappim/tap/ekctl
-   ```
+- Today's meetings with times and attendees
+- 1:1s trigger loading the person's dossier from `02_Areas/People/`
+- All-day events and reminders
 
-2. **Grant calendar access** when prompted
+## Template customization
 
-3. **List and alias calendars**
+Templates live in your vault at `00_Brain/Systemic/Templates/`. After init, customize them freely.
 
-   ```bash
-   ekctl list calendars
-   ekctl alias set work "YOUR-WORK-CALENDAR-ID"
-   ekctl alias set personal "YOUR-PERSONAL-CALENDAR-ID"
-   ```
+See [Templates](/development/templates) for:
+- Template locations and structure
+- Standard sections and their purpose
+- How rituals interact with templates
 
-4. **Configure the skill**
+## Coaching prompts
 
-   Edit `.claude/skills/fetch-calendar/calendars.json`:
+Coaching prompts in `00_Brain/Systemic/Coaching/` guide ritual interactions:
 
-   ```json
-   {
-     "calendars": ["work", "personal"],
-     "default_scope": "today"
-   }
-   ```
+| File | Used by |
+|------|---------|
+| `planning.md` | Planning rituals — intention setting |
+| `review.md` | Review rituals — reflection prompts |
+| `leadership.md` | Leadership coaching integration |
 
-Planning rituals will pre-populate meetings in Today.md.
+Edit these to customize how Claude coaches you through rituals.
+
+## Related
+
+- [Directives](/development/directives) — How directives personalize Claude
+- [Templates](/development/templates) — Template structure and modification
+- [Vault structure](/reference/vault-structure) — Complete vault organization
+- [Core concepts](/overview/concepts) — Understanding metabolic states

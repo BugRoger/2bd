@@ -24,3 +24,8 @@ description: "File and folder naming patterns."
 | Insights | lowercase-hyphens | leadership.md |
 | Folders | Numbered prefix | 00_Brain/, 01_Projects/ |
 | Skills | Own folder + SKILL.md | ritual-planning-daily/ |
+
+## Related
+
+- [Vault structure](/reference/vault-structure) — Where files go
+- [Glossary](/reference/glossary) — Term definitions

@@ -3,6 +3,8 @@ title: "Skills"
 description: "How to create and structure Claude skills."
 ---
 
+Skills are the building blocks of 2bd. There are three types: [rituals](/development/rituals) (scheduled routines), [actions](/development/actions) (one-shot helpers), and internal skills (sub-skills not user-facing).
+
 ## Skill architecture
 
 Skills use a flat structure with naming conventions:
@@ -60,3 +62,9 @@ Skills read as prose describing *what happens*, not scripts with directives.
 2. Add `SKILL.md` with frontmatter
 3. Write instructions as prose
 4. Test: `claude skill run {skill-name}`
+
+## Related
+
+- [Rituals](/development/rituals) — Creating scheduled rituals
+- [Actions](/development/actions) — Creating one-shot actions
+- [Templates](/development/templates) — Template structure for rituals

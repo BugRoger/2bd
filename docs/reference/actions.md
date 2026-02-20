@@ -5,11 +5,27 @@ description: "One-shot commands you invoke on demand."
 
 Actions are discrete helpers you run when needed, unlike rituals which follow a schedule.
 
+## Quick reference
+
+```bash
+# Initialize or configure
+claude skill run init --args "fresh --vault=~/path"     # New vault
+claude skill run init --args "reconnect --vault=~/path" # Existing vault
+claude skill run init --args "profile"                   # Update profile
+
+# Projects
+claude skill run create-project --args "Project Name"
+claude skill run archive-project --args "project-name"
+
+# People
+claude skill run onboard-person
+```
+
 ## Available actions
 
 ### init
 
-Bootstrap or configure 2bd.
+Bootstrap or configure 2bd. Creates [directives](/development/directives) for personalizing Claude.
 
 ```bash
 # Create new vault
@@ -87,3 +103,9 @@ claude skill run create-project --args "Q1 Launch"
 | Frequency | As needed | Daily/weekly/etc |
 | Purpose | Discrete task | System maintenance |
 | Examples | Create project | Morning planning |
+
+## Related
+
+- [Actions development](/development/actions) — Creating custom actions
+- [Skills](/development/skills) — Understanding skill types
+- [Rituals reference](/reference/rituals) — Scheduled ritual commands

@@ -25,3 +25,9 @@ Rituals load directives in their Setup phase (`00-setup.md`).
 ## Graceful degradation
 
 If directives don't exist, proceed with defaults and suggest running `/init` at the end.
+
+## Related
+
+- [Configuration](/setup/configuration) — Editing your profile
+- [Actions reference](/reference/actions) — The init action
+- [Rituals](/development/rituals) — How rituals load directives
