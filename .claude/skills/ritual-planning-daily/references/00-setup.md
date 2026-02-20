@@ -17,7 +17,7 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 
 3. Read `00_Brain/Systemic/Directives/user-profile.md`
 4. Read `00_Brain/Systemic/Directives/ai-personality.md`
-5. Glob `00_Brain/Semantic/planning-daily/*.md`, read all matches (create folder if missing)
+5. Read `00_Brain/Semantic/planning-daily.md` (graceful if not exists)
 
 ### Planning Context
 
@@ -43,12 +43,7 @@ Check if `00_Brain/Captive/Today.md` exists for target date:
 After validation passes:
 
 1. Read template from `00_Brain/Systemic/Templates/Captive/today.md`
-2. Fill date frontmatter from resolved date:
-   - `date`: YYYY-MM-DD
-   - `day`: Day of week
-   - `week`: YYYY-Www
-   - `month`: YYYY-MM
-   - `quarter`: YYYY-QN
+2. Fill frontmatter fields derivable from resolved date
 3. Keep other frontmatter fields as placeholders
 4. Write to `00_Brain/Captive/Today.md`
 
