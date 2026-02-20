@@ -1,116 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 0 660 790" width="660" height="790">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 880" width="680" height="880">
   <defs>
-    <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="context-stroke"/>
     </marker>
-    <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#22c55e"/>
-    </marker>
-    <marker id="arrowhead-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
-    </marker>
-    <style>
-      .font-hand { font-family: 'Virgil', 'Segoe UI', system-ui, sans-serif; }
-      .font-mono { font-family: 'Cascadia Code', 'Consolas', monospace; }
-    </style>
   </defs>
-
-  <!-- Background -->
-  <rect width="100%" height="100%" fill="#ffffff"/>
-
-  <!-- Title -->
-  <text x="550" y="48" font-size="32" fill="#1e1e1e" text-anchor="middle" class="font-hand" font-weight="600">2bd: How It Works</text>
-
-  <!-- Time Scales Title -->
-  <text x="215" y="96" font-size="16" fill="#6b7280" text-anchor="middle" class="font-hand">Time Scales</text>
-
-  <!-- Nested circles - drawn from largest to smallest -->
-  <!-- Yearly circle -->
-  <ellipse cx="360" cy="240" rx="140" ry="140" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
-  <!-- Quarterly circle -->
-  <ellipse cx="360" cy="240" rx="110" ry="110" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
-  <!-- Monthly circle -->
-  <ellipse cx="360" cy="240" rx="80" ry="80" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
-  <!-- Weekly circle -->
-  <ellipse cx="360" cy="240" rx="50" ry="50" fill="#fdf4ff" stroke="#c084fc" stroke-width="2"/>
-  <!-- Daily circle -->
-  <ellipse cx="360" cy="240" rx="25" ry="25" fill="#fdf2f8" stroke="#e879f9" stroke-width="2"/>
-
-  <!-- Time scale labels - Yearly -->
-  <text x="265" y="366" font-size="14" fill="#6366f1" text-anchor="middle" class="font-hand" font-weight="500">Yearly</text>
-  <text x="270" y="381" font-size="12" fill="#6b7280" text-anchor="middle" class="font-hand">Vision planning</text>
-
-  <!-- Quarterly label -->
-  <text x="500" y="146" font-size="14" fill="#8b5cf6" text-anchor="start" class="font-hand" font-weight="500">Quarterly</text>
-  <text x="500" y="161" font-size="12" fill="#6b7280" text-anchor="start" class="font-hand">Direction reflection</text>
-
-  <!-- Monthly label -->
-  <text x="500" y="206" font-size="14" fill="#a855f7" text-anchor="start" class="font-hand" font-weight="500">Monthly</text>
-  <text x="500" y="221" font-size="12" fill="#6b7280" text-anchor="start" class="font-hand">Strategy synthesis</text>
-
-  <!-- Weekly label -->
-  <text x="500" y="266" font-size="14" fill="#c084fc" text-anchor="start" class="font-hand" font-weight="500">Weekly</text>
-  <text x="500" y="281" font-size="12" fill="#6b7280" text-anchor="start" class="font-hand">Tactics review</text>
-
-  <!-- Daily label -->
-  <text x="500" y="326" font-size="14" fill="#e879f9" text-anchor="start" class="font-hand" font-weight="500">Daily</text>
-  <text x="500" y="341" font-size="12" fill="#6b7280" text-anchor="start" class="font-hand">Small wins</text>
-
-  <!-- Section title: Two Rituals -->
-  <text x="200" y="456" font-size="24" fill="#1e1e1e" text-anchor="middle" class="font-hand" font-weight="600">Two Rituals</text>
-
-  <!-- Templates box -->
-  <rect x="290" y="440" width="140" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-  <text x="360" y="466" font-size="14" fill="#d97706" text-anchor="middle" class="font-hand" font-weight="500">Templates</text>
-
-  <!-- Template arrow to Captive -->
-  <path d="M 310 465 L 240 510" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrowhead-orange)"/>
-
-  <!-- Cycle arrows (top and bottom) -->
-  <path d="M 260 520 Q 360 480 460 520" stroke="#9ca3af" stroke-width="2" fill="none" opacity="0.6"/>
-  <path d="M 460 700 Q 360 740 260 700" stroke="#9ca3af" stroke-width="2" fill="none" opacity="0.6"/>
-
-  <!-- Captive box -->
-  <rect x="60" y="490" width="200" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-  <text x="160" y="520" font-size="18" fill="#1d4ed8" text-anchor="middle" class="font-hand" font-weight="600">CAPTIVE</text>
-  <text x="160" y="538" font-size="12" fill="#6b7280" text-anchor="middle" class="font-hand">Working Notes</text>
-  <text x="80" y="568" font-size="14" fill="#1e1e1e" class="font-mono">
-    <tspan x="80" dy="0">Today.md</tspan>
-    <tspan x="80" dy="20">Week.md</tspan>
-    <tspan x="80" dy="20">Month.md</tspan>
-    <tspan x="80" dy="20">Quarter.md</tspan>
-    <tspan x="80" dy="20">Year.md</tspan>
-  </text>
-
-  <!-- Periodic box -->
-  <rect x="460" y="490" width="200" height="200" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-  <text x="560" y="520" font-size="18" fill="#16a34a" text-anchor="middle" class="font-hand" font-weight="600">PERIODIC</text>
-  <text x="560" y="538" font-size="12" fill="#6b7280" text-anchor="middle" class="font-hand">Archives</text>
-  <text x="480" y="568" font-size="14" fill="#1e1e1e" class="font-mono">
-    <tspan x="480" dy="0">Daily/</tspan>
-    <tspan x="480" dy="20">Weekly/</tspan>
-    <tspan x="480" dy="20">Monthly/</tspan>
-    <tspan x="480" dy="20">Quarterly/</tspan>
-    <tspan x="480" dy="20">Yearly/</tspan>
-  </text>
-
-  <!-- Planning arrow (pointing left, from center to Captive) -->
-  <line x1="280" y1="540" x2="180" y2="540" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowhead-blue)"/>
-  <text x="360" y="536" font-size="16" fill="#3b82f6" text-anchor="middle" class="font-hand" font-weight="500">PLANNING</text>
-  <text x="360" y="572" font-size="12" fill="#6b7280" text-anchor="middle" class="font-hand">
-    <tspan x="360" dy="0">Prepares from</tspan>
-    <tspan x="360" dy="16">templates</tspan>
-  </text>
-
-  <!-- Review arrow (pointing right, from Captive to Periodic) -->
-  <line x1="280" y1="640" x2="440" y2="640" stroke="#22c55e" stroke-width="3" marker-end="url(#arrowhead-green)"/>
-  <text x="360" y="636" font-size="16" fill="#22c55e" text-anchor="middle" class="font-hand" font-weight="500">REVIEW</text>
-  <text x="360" y="672" font-size="12" fill="#6b7280" text-anchor="middle" class="font-hand">
-    <tspan x="360" dy="0">Archives &amp; synthesizes</tspan>
-    <tspan x="360" dy="16">forward</tspan>
-  </text>
-
-  <!-- Cycle label -->
-  <text x="360" y="766" font-size="14" fill="#9ca3af" text-anchor="middle" class="font-hand" opacity="0.8">The Cycle</text>
+  <rect x="0" y="0" width="680" height="880" fill="#ffffff"/>
+  <ellipse cx="320" cy="240" rx="140" ry="140" fill="#eef2ff" stroke="#6366f1" stroke-width="2" opacity="1"/>
+  <ellipse cx="320" cy="240" rx="110" ry="110" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" opacity="1"/>
+  <ellipse cx="320" cy="240" rx="80" ry="80" fill="#faf5ff" stroke="#a855f7" stroke-width="2" opacity="1"/>
+  <ellipse cx="320" cy="240" rx="50" ry="50" fill="#fdf4ff" stroke="#c084fc" stroke-width="2" opacity="1"/>
+  <ellipse cx="320" cy="240" rx="25" ry="25" fill="#fdf2f8" stroke="#e879f9" stroke-width="2" opacity="1"/>
+  <rect x="20" y="490" width="200" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" opacity="1"/>
+  <rect x="420" y="490" width="200" height="200" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2" opacity="1"/>
+  <rect x="420" y="720" width="200" height="140" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="2" opacity="1"/>
+  <rect x="250" y="440" width="140" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" opacity="1"/>
+  <path d="M 460 110 L 470 110" fill="none" stroke="#6366f1" stroke-width="1" opacity="0.5" marker-end="none"/>
+  <path d="M 430 160 L 470 160" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.5" marker-end="none"/>
+  <path d="M 400 210 L 470 210" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.5" marker-end="none"/>
+  <path d="M 370 258 L 470 258" fill="none" stroke="#c084fc" stroke-width="1" opacity="0.5" marker-end="none"/>
+  <path d="M 345 308 L 470 308" fill="none" stroke="#e879f9" stroke-width="1" opacity="0.5" marker-end="none"/>
+  <path d="M 520 690 L 520 715" fill="none" stroke="#f97316" stroke-width="2" opacity="1" marker-end="url(#arrowhead)"/>
+  <path d="M 240 540 L 140 540" fill="none" stroke="#3b82f6" stroke-width="3" opacity="1" marker-end="url(#arrowhead)"/>
+  <path d="M 240 660 L 400 660" fill="none" stroke="#22c55e" stroke-width="3" opacity="1" marker-end="url(#arrowhead)"/>
+  <path d="M 220 520 L 320 480 L 420 520" fill="none" stroke="#6b7280" stroke-width="2" opacity="0.8" marker-end="url(#arrowhead)"/>
+  <path d="M 420 720 L 320 760 L 220 720" fill="none" stroke="#6b7280" stroke-width="2" opacity="0.8" marker-end="url(#arrowhead)"/>
+  <path d="M 270 465 L 200 510" fill="none" stroke="#f59e0b" stroke-width="2" opacity="1" marker-end="url(#arrowhead)"/>
+  <path d="M 120 490 L 80 460 L 160 430 L 250 460" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.5" marker-end="url(#arrowhead)"/>
+  <path d="M 320 380 L 320 430" fill="none" stroke="#9ca3af" stroke-width="1" opacity="0.4" marker-end="url(#arrowhead)"/>
+  <text x="510" y="52" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="32" fill="#1e1e1e" text-anchor="middle" opacity="1">2bd: How It Works</text>
+  <text x="470" y="114" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#6366f1" text-anchor="start" opacity="1">Yearly</text>
+  <text x="470" y="127" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" opacity="1">Vision planning</text>
+  <text x="470" y="164" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#8b5cf6" text-anchor="start" opacity="1">Quarterly</text>
+  <text x="470" y="177" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" opacity="1">Direction reflection</text>
+  <text x="470" y="214" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#a855f7" text-anchor="start" opacity="1">Monthly</text>
+  <text x="470" y="227" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" opacity="1">Strategy synthesis</text>
+  <text x="470" y="264" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#c084fc" text-anchor="start" opacity="1">Weekly</text>
+  <text x="470" y="277" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" opacity="1">Tactics review</text>
+  <text x="470" y="314" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#e879f9" text-anchor="start" opacity="1">Daily</text>
+  <text x="470" y="327" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" opacity="1">Execution focus</text>
+  <text x="160" y="454" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="24" fill="#1e1e1e" text-anchor="middle" opacity="1">Two Rituals</text>
+  <text x="120" y="518" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="18" fill="#1d4ed8" text-anchor="middle" opacity="1">CAPTIVE</text>
+  <text x="120" y="534" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" opacity="1">Working Notes</text>
+  <text x="40" y="564" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Today.md</text>
+  <text x="40" y="581.5" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Week.md</text>
+  <text x="40" y="599" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Month.md</text>
+  <text x="40" y="616.5" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Quarter.md</text>
+  <text x="40" y="634" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Year.md</text>
+  <text x="520" y="518" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="18" fill="#16a34a" text-anchor="middle" opacity="1">PERIODIC</text>
+  <text x="520" y="534" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" opacity="1">Archives</text>
+  <text x="440" y="564" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Daily/</text>
+  <text x="440" y="581.5" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Weekly/</text>
+  <text x="440" y="599" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Monthly/</text>
+  <text x="440" y="616.5" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Quarterly/</text>
+  <text x="440" y="634" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Yearly/</text>
+  <text x="520" y="748" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="18" fill="#ea580c" text-anchor="middle" opacity="1">SEMANTIC</text>
+  <text x="520" y="764" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" opacity="1">Reference</text>
+  <text x="440" y="794" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">People/</text>
+  <text x="440" y="811.5" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Projects/</text>
+  <text x="440" y="829" font-family="Cascadia, monospace" font-size="14" fill="#1e1e1e" text-anchor="start" opacity="1">Insights/</text>
+  <text x="530" y="706" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="11" fill="#f97316" text-anchor="start" opacity="1">Extracts insights</text>
+  <text x="320" y="536" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="16" fill="#3b82f6" text-anchor="middle" opacity="1">PLANNING</text>
+  <text x="320" y="567" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" opacity="1">Loads context,</text>
+  <text x="320" y="582" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" opacity="1">prepares workspace</text>
+  <text x="320" y="612" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#9ca3af" text-anchor="middle" opacity="0.7">You work here</text>
+  <text x="320" y="646" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="16" fill="#22c55e" text-anchor="middle" opacity="1">REVIEW</text>
+  <text x="320" y="682" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" opacity="1">Archives, extracts,</text>
+  <text x="320" y="697" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" opacity="1">synthesizes</text>
+  <text x="320" y="784" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#6b7280" text-anchor="middle" opacity="0.8">The Cycle</text>
+  <text x="320" y="464" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="14" fill="#d97706" text-anchor="middle" opacity="1">Templates</text>
+  <text x="90" y="418" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="10" fill="#f59e0b" text-anchor="middle" opacity="0.5">Learns patterns</text>
+  <text x="315" y="96" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="16" fill="#6b7280" text-anchor="middle" opacity="1">Time Scales</text>
+  <text x="330" y="405" font-family="Virgil, Segoe UI Emoji, system-ui, sans-serif" font-size="10" fill="#9ca3af" text-anchor="start" opacity="0.6">Drives rituals</text>
 </svg>
