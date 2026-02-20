@@ -41,14 +41,14 @@ Rituals follow a three-phase pattern:
 └── references/
     ├── 00-setup.md             # Load context, validate
     ├── 10-core.md              # Main ritual logic
-    └── 20-observe.md           # Self-learning
+    └── 20-reflection.md        # Self-learning
 ```
 
 | Phase | Purpose |
 |-------|---------|
 | **Setup** | Load directives, calendar, vault files, validate prerequisites |
 | **Core** | Interactive session, compose artifacts, persist |
-| **Observe** | Record observations for self-learning |
+| **Reflection** | Record observations for self-learning |
 
 ## Template contracts
 
@@ -139,11 +139,11 @@ Rituals update specific H2 sections. Document which phases update which sections
 | Meetings | `## Meetings` |
 | Journal | `## Journal` |
 
-H3 structure within sections is dynamic and can evolve through the Observe phase.
+H3 structure within sections is dynamic and can evolve through the Reflection phase.
 
-### Observe phase patterns
+### Reflection phase patterns
 
-Self-learning rituals include an Observe phase that:
+Self-learning rituals include a Reflection phase that:
 
 1. **Diff analysis** — Compare `00_Brain/Captive/Today.md` against `00_Brain/Systemic/Templates/Captive/today.md`
 2. **Session review** — Analyze user interaction patterns

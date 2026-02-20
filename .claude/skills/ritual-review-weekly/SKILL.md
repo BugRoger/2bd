@@ -14,7 +14,7 @@ argument-hint: "[target-week: this week|last week|YYYY-Www]"
 6. [Forward Synthesis](references/05-forward-synthesis.md)
 7. [Compose](references/06-compose.md)
 8. [Persist](references/07-persist.md)
-9. [Observe](references/08-observe.md)
+9. [Reflection](references/08-reflection.md)
 
 ## Template Contract
 

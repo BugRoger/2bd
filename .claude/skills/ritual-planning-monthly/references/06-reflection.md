@@ -1,6 +1,6 @@
-# Observe
+# Reflection
 
-Learn from the session to improve future monthly review rituals. Observations flow into Synthetic, cluster automatically, graduate when mature, and crystallize into template insights.
+Learn from the session to improve future monthly planning rituals. Observations flow freely into Synthetic, cluster automatically, graduate when mature, and crystallize into template insights.
 
 ## Step 1: Diff Analysis
 
@@ -8,12 +8,12 @@ Compare the final Month.md against the template to identify structural changes.
 
 ### Load Files
 
-1. Read archived `00_Brain/Periodic/Monthly/YYYY-MM.md` (user's final version)
+1. Read `00_Brain/Captive/Month.md` (user's final version)
 2. Read `00_Brain/Systemic/Templates/Captive/month.md` (current template)
 
 ### Compare Structure
 
-For each H2 section (Month Summary, Outcome Review, Theme Reflection, Coaching Check-in):
+For each H2 section (Month Overview, Synthesis from Prior Month, Key Outcomes, Monthly Theme):
 - H3s added, removed, or renamed
 - Content patterns (bullet types, ordering, emphasis)
 - Structural divergence from template examples
@@ -22,13 +22,13 @@ Note: H2 sections are fixed contracts. Only analyze H3 and content changes.
 
 ### Record Observations
 
-Append to `00_Brain/Synthetic/review-monthly/observations.md` ## Observations with type `user-modification` or `skill-generated`:
+Append to `00_Brain/Synthetic/planning-monthly/observations.md` ## Observations with type `user-modification` or `skill-generated`:
 - `user-modification`: Changes user made after skill generated content
 - `skill-generated`: How phases produced content differently than template examples
 
 Format: `- YYYY-MM-DD | type | section | observation text | optional interpretation notes`
 
-Example: `- 2026-02-28 | user-modification | Outcome Review | Added "Blockers Encountered" subsection | Might indicate need for friction tracking`
+Example: `- 2026-02-20 | user-modification | Key Outcomes | Added "Learning Goals" subsection | Interest in explicit skill development tracking`
 
 ## Step 2: Session Review
 
@@ -36,22 +36,23 @@ Analyze user's interaction patterns during the ritual.
 
 ### What to Track
 
-- Engagement level with outcome review (brief vs expansive)
-- Theme reflection depth (surface vs introspective)
-- Coaching check-in openness (guarded vs revealing)
-- Semantic update acceptance rate
-- Forward setup focus (tactical vs strategic)
+- Questions answered vs skipped during Check-In
+- Response length (brief vs expansive)
+- Rephrasing of suggestions (accepted, modified, rejected)
+- Explicit feedback ("this is too much", "I like this")
+- Engagement level with outcome-setting prompts
+- Theme selection patterns
 
 ### Record Observations
 
-Append to `00_Brain/Synthetic/review-monthly/observations.md` ## Observations with type `session-interaction`:
+Append to `00_Brain/Synthetic/planning-monthly/observations.md` ## Observations with type `session-interaction`:
 - Conversational preferences
 - Engagement patterns per phase
 - Feedback signals
 
 Format: `- YYYY-MM-DD | session-interaction | section | observation text | optional interpretation notes`
 
-Example: `- 2026-02-28 | session-interaction | Theme Reflection | Spent significant time on "what emerged" — longer than other sections | Theme drift might be common pattern`
+Example: `- 2026-02-20 | session-interaction | Outcomes | Consistently strengthens Strategic outcome connection to quarter | Values clear alignment to higher-level goals`
 
 ## Step 3: Auto-Cluster
 
@@ -59,14 +60,14 @@ The system automatically groups observations by semantic similarity.
 
 ### Process
 
-1. Read `00_Brain/Synthetic/review-monthly/observations.md` ## Observations
+1. Read `00_Brain/Synthetic/planning-monthly/observations.md` ## Observations
 2. Run semantic grouping to suggest 2-3 potential clusters with example observations
 3. Present clusters to user:
    - Suggested cluster name (auto-generated from observation themes)
    - Example observations in each cluster
    - Confidence score (0-5, based on observation count and recency weighting)
 4. User reviews suggested names and optionally renames clusters or rejects groupings
-5. System records cluster state in `00_Brain/Synthetic/review-monthly/observations.md` ## Clusters:
+5. System records cluster state in `00_Brain/Synthetic/planning-monthly/observations.md` ## Clusters:
    - Cluster name (user-approved)
    - Member observations (full list)
    - Confidence score (calculated)
@@ -94,8 +95,8 @@ A cluster graduates when:
 When criteria met:
 1. System identifies graduating cluster
 2. Notifies user: "Cluster '[name]' is ready for crystallization"
-3. Removes cluster from `00_Brain/Synthetic/review-monthly/observations.md` ## Clusters (prune)
-4. Removes member observations from `00_Brain/Synthetic/review-monthly/observations.md` ## Observations (prune)
+3. Removes cluster from `00_Brain/Synthetic/planning-monthly/observations.md` ## Clusters (prune)
+4. Removes member observations from `00_Brain/Synthetic/planning-monthly/observations.md` ## Observations (prune)
 5. Transitions to Step 5 (Crystallization)
 
 ### Why Auto-Graduation?
@@ -112,15 +113,15 @@ When a cluster reaches graduation criteria, user synthesizes the insight and not
 
 1. System presents graduated cluster with:
    - Cluster name
-   - Observation lineage: count and date range (e.g., "5 observations from 2026-01-31 to 2026-05-31")
+   - Observation lineage: count and date range (e.g., "5 observations from 2026-01-01 to 2026-02-20")
    - List of member observations for reference
 
-2. User answers: **"What does this pattern mean for your monthly reviews?"**
+2. User answers: **"What does this pattern mean for your monthly planning?"**
    - Write 1-2 sentence synthesis of the insight
-   - Note any template changes this suggests (e.g., "add Blockers section to Outcome Review")
+   - Note any template changes this suggests (e.g., "add Learning Goals section to Key Outcomes")
    - Note uncertainty if needed
 
-3. System writes to `00_Brain/Semantic/review-monthly/insights.md` with structure:
+3. System writes to `00_Brain/Semantic/planning-monthly/insights.md` with structure:
 
 ```markdown
 ## cluster-name
@@ -148,7 +149,7 @@ Review Semantic file for template changes suggested by crystallized insights.
 
 ### Process
 
-1. Read `00_Brain/Semantic/review-monthly/insights.md`
+1. Read `00_Brain/Semantic/planning-monthly/insights.md`
 2. For each cluster's "Template Implications" notes:
    - If clear and minor (H3 additions, content reordering, example changes): auto-evolve template
    - If unclear or major: flag for discussion before applying
@@ -162,6 +163,6 @@ Review Semantic file for template changes suggested by crystallized insights.
 
 ### Note on Structure
 
-- H2 sections (Month Summary, Outcome Review, Theme Reflection, Coaching Check-in, Changelog) never change
+- H2 sections (Month Overview, Synthesis from Prior Month, Key Outcomes, Monthly Theme, Changelog) never change
 - Only H3 structure and content within sections evolve
 - Template remains a living example that observation clusters shape over time

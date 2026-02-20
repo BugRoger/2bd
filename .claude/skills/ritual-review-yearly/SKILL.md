@@ -13,7 +13,7 @@ argument-hint: "[target-year: this year|last year|YYYY]"
 5. [Life Reflection](references/04-life-reflection.md)
 6. [Compose](references/05-compose.md)
 7. [Persist](references/06-persist.md)
-8. [Observe](references/07-observe.md)
+8. [Reflection](references/07-reflection.md)
 
 ## Template Contract
 
@@ -27,4 +27,4 @@ Year.md sections updated during review:
 | Life Reflection | `## Life Reflection` |
 | (append-only) | `## Changelog` |
 
-Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Observe can evolve based on patterns.
+Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Reflection can evolve based on patterns.

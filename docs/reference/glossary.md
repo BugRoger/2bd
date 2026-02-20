@@ -36,7 +36,7 @@ See [Skills](/development/skills) for architecture details.
 | **Review ritual** | Archives Captive notes to Periodic. Runs at end of period |
 | **Setup phase** | First ritual phase: loads context, validates prerequisites |
 | **Core phase** | Main ritual phase: interactive session, creates artifacts |
-| **Observe phase** | Final ritual phase: records observations for self-learning |
+| **Reflection phase** | Final ritual phase: records observations for self-learning |
 | **Template contract** | Declaration of which template sections a ritual updates |
 
 See [Rituals](/development/rituals) for implementation details.

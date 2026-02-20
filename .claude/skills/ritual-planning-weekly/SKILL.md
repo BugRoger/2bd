@@ -12,7 +12,7 @@ argument-hint: "[target-week: this week|next week|YYYY-Www]"
 4. [Prior Synthesis](references/03-prior-synthesis.md)
 5. [Priorities](references/04-priorities.md)
 6. [Intention](references/05-intention.md)
-7. [Observe](references/06-observe.md)
+7. [Reflection](references/06-reflection.md)
 
 ## Template Contract
 
@@ -26,4 +26,4 @@ Week.md has these H2 sections that phases update:
 | Intention | `## Leadership Intention` |
 | (append-only) | `## Changelog` |
 
-Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Observe can evolve based on patterns.
+Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Reflection can evolve based on patterns.

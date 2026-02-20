@@ -13,7 +13,7 @@ argument-hint: "[target-month: this month|last month|YYYY-MM]"
 5. [Coaching Check-in](references/04-coaching-checkin.md)
 6. [Compose](references/05-compose.md)
 7. [Persist](references/06-persist.md)
-8. [Observe](references/07-observe.md)
+8. [Reflection](references/07-reflection.md)
 
 ## Template Contract
 

@@ -92,7 +92,7 @@ theme: "[Week theme - added during synthesis]"
 ### Key Accomplishments
 - [Major accomplishments aggregated from daily wins]
 
-### Patterns Observed
+### Patterns Noted
 - [Patterns and trends from daily insights]
 
 ### Leadership Development

@@ -13,7 +13,7 @@ argument-hint: "[target-year: this year|next year|YYYY]"
 5. [Vision](references/04-vision.md)
 6. [Goals](references/05-goals.md)
 7. [Leadership Development](references/06-leadership-dev.md)
-8. [Observe](references/07-observe.md)
+8. [Reflection](references/07-reflection.md)
 
 ## Template Contract
 
@@ -28,4 +28,4 @@ Year.md has these H2 sections that phases update:
 | Leadership Development | `## Leadership Development` |
 | (append-only) | `## Changelog` |
 
-Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Observe can evolve based on patterns.
+Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Reflection can evolve based on patterns.

@@ -25,7 +25,7 @@ leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 ### Carryover Priorities
 - [ ] [Incomplete items from last week]
 
-### Patterns Observed
+### Patterns Noted
 - [Synthesized from prior week's daily archives]
 
 ### Leadership Development Progress
@@ -129,7 +129,7 @@ leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 ### Key Learning
 [One synthesized learning from the week - the most important insight]
 
-### Patterns Observed
+### Patterns Noted
 [Recurring themes, team dynamics, organizational trends, seasonal patterns in your work]
 
 ---

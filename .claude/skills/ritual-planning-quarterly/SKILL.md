@@ -13,7 +13,7 @@ argument-hint: "[target-quarter: this quarter|next quarter|YYYY-QN]"
 5. [Outcomes](references/04-outcomes.md)
 6. [Theme](references/05-theme.md)
 7. [Coaching Themes](references/06-coaching-themes.md)
-8. [Observe](references/07-observe.md)
+8. [Reflection](references/07-reflection.md)
 
 ## Template Contract
 
@@ -28,4 +28,4 @@ Quarter.md has these H2 sections that phases update:
 | Coaching Themes | `## Coaching Themes` |
 | (append-only) | `## Changelog` |
 
-Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Observe can evolve based on patterns.
+Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Reflection can evolve based on patterns.

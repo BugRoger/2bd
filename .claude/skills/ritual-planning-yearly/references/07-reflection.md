@@ -1,19 +1,19 @@
-# Observe
+# Reflection
 
-Learn from the session to improve future planning rituals. Observations flow freely into Synthetic, cluster automatically, graduate when mature, and crystallize into template insights.
+Learn from the session to improve future yearly planning rituals. Observations flow into Synthetic, cluster automatically, graduate when mature, and crystallize into template insights.
 
 ## Step 1: Diff Analysis
 
-Compare the final Today.md against the template to identify structural changes.
+Compare the final Year.md against the template to identify structural changes.
 
 ### Load Files
 
-1. Read `00_Brain/Captive/Today.md` (user's final version)
-2. Read `00_Brain/Systemic/Templates/Captive/today.md` (current template)
+1. Read `00_Brain/Captive/Year.md` (user's final version)
+2. Read `00_Brain/Systemic/Templates/Captive/year.md` (current template)
 
 ### Compare Structure
 
-For each H2 section (Daily Brief, Meetings, Journal):
+For each H2 section (Year Overview, Leadership Development, Quarterly Progress, etc.):
 - H3s added, removed, or renamed
 - Content patterns (bullet types, ordering, emphasis)
 - Structural divergence from template examples
@@ -22,13 +22,13 @@ Note: H2 sections are fixed contracts. Only analyze H3 and content changes.
 
 ### Record Observations
 
-Append to `00_Brain/Synthetic/planning-daily/observations.md` ## Observations with type `user-modification` or `skill-generated`:
+Append to `00_Brain/Synthetic/planning-yearly.md` ## Observations with type `user-modification` or `skill-generated`:
 - `user-modification`: Changes user made after skill generated content
 - `skill-generated`: How phases produced content differently than template examples
 
 Format: `- YYYY-MM-DD | type | section | observation text | optional interpretation notes`
 
-Example: `- 2026-02-20 | user-modification | Daily Brief | Added "Blockers" section after Priorities | First time; might indicate friction awareness`
+Example: `- 2026-02-20 | user-modification | Leadership Development | Added "Anti-patterns to avoid" subsection | Might indicate desire to track what NOT to do`
 
 ## Step 2: Session Review
 
@@ -37,21 +37,22 @@ Analyze user's interaction patterns during the ritual.
 ### What to Track
 
 - Questions answered vs skipped during Check-In
-- Response length (brief vs expansive)
-- Rephrasing of suggestions (accepted, modified, rejected)
-- Explicit feedback ("this is too much", "I like this")
-- Engagement level with meeting prep prompts
+- Depth of prior year reflection (brief vs extensive)
+- Theme selection process (quick vs exploratory)
+- Goal refinement iterations
+- Leadership development engagement
+- Explicit feedback ("this is too abstract", "I like this framing")
 
 ### Record Observations
 
-Append to `00_Brain/Synthetic/planning-daily/observations.md` ## Observations with type `session-interaction`:
+Append to `00_Brain/Synthetic/planning-yearly.md` ## Observations with type `session-interaction`:
 - Conversational preferences
 - Engagement patterns per phase
 - Feedback signals
 
 Format: `- YYYY-MM-DD | session-interaction | section | observation text | optional interpretation notes`
 
-Example: `- 2026-02-20 | session-interaction | Check-In | Answered all questions but kept responses very brief | Time pressure or preference for conciseness?`
+Example: `- 2026-02-20 | session-interaction | Vision | Quickly settled on theme without exploring alternatives | Might indicate prior clarity or discomfort with exploration`
 
 ## Step 3: Auto-Cluster
 
@@ -59,14 +60,14 @@ The system automatically groups observations by semantic similarity.
 
 ### Process
 
-1. Read `00_Brain/Synthetic/planning-daily/observations.md` ## Observations
+1. Read `00_Brain/Synthetic/planning-yearly.md` ## Observations
 2. Run semantic grouping to suggest 2-3 potential clusters with example observations
 3. Present clusters to user:
    - Suggested cluster name (auto-generated from observation themes)
    - Example observations in each cluster
    - Confidence score (0-5, based on observation count and recency weighting)
 4. User reviews suggested names and optionally renames clusters or rejects groupings
-5. System records cluster state in `00_Brain/Synthetic/planning-daily/observations.md` ## Clusters:
+5. System records cluster state in `00_Brain/Synthetic/planning-yearly.md` ## Clusters:
    - Cluster name (user-approved)
    - Member observations (full list)
    - Confidence score (calculated)
@@ -86,7 +87,7 @@ Periodically check cluster maturity (no human action needed until graduation).
 ### Graduation Criteria
 
 A cluster graduates when:
-- Confidence ≥ 4.5/5 (calculated from observation count and recency weighting)
+- Confidence >= 4.5/5 (calculated from observation count and recency weighting)
 - AND membership stable for 3+ sessions (no new observations added or removed)
 
 ### Graduation Process
@@ -94,8 +95,8 @@ A cluster graduates when:
 When criteria met:
 1. System identifies graduating cluster
 2. Notifies user: "Cluster '[name]' is ready for crystallization"
-3. Removes cluster from `00_Brain/Synthetic/planning-daily/observations.md` ## Clusters (prune)
-4. Removes member observations from `00_Brain/Synthetic/planning-daily/observations.md` ## Observations (prune)
+3. Removes cluster from `00_Brain/Synthetic/planning-yearly.md` ## Clusters (prune)
+4. Removes member observations from `00_Brain/Synthetic/planning-yearly.md` ## Observations (prune)
 5. Transitions to Step 5 (Crystallization)
 
 ### Why Auto-Graduation?
@@ -112,15 +113,15 @@ When a cluster reaches graduation criteria, user synthesizes the insight and not
 
 1. System presents graduated cluster with:
    - Cluster name
-   - Observation lineage: count and date range (e.g., "5 observations from 2026-02-15 to 2026-02-20")
+   - Observation lineage: count and date range (e.g., "5 observations from 2025-01-15 to 2026-01-15")
    - List of member observations for reference
 
-2. User answers: **"What does this pattern mean for your planning?"**
+2. User answers: **"What does this pattern mean for your yearly planning?"**
    - Write 1-2 sentence synthesis of the insight
-   - Note any template changes this suggests (e.g., "add Blockers section to Daily Brief")
-   - Note uncertainty if needed (e.g., "might indicate time pressure OR preference for conciseness")
+   - Note any template changes this suggests
+   - Note uncertainty if needed
 
-3. System writes to `00_Brain/Semantic/planning-daily/insights.md` with structure:
+3. System writes to `00_Brain/Semantic/planning-yearly.md` with structure:
 
 ```markdown
 ## cluster-name
@@ -148,13 +149,13 @@ Review Semantic file for template changes suggested by crystallized insights.
 
 ### Process
 
-1. Read `00_Brain/Semantic/planning-daily/insights.md`
+1. Read `00_Brain/Semantic/planning-yearly.md`
 2. For each cluster's "Template Implications" notes:
    - If clear and minor (H3 additions, content reordering, example changes): auto-evolve template
    - If unclear or major: flag for discussion before applying
 
 3. When applying minor changes:
-   - Read `00_Brain/Systemic/Templates/Captive/today.md`
+   - Read `00_Brain/Systemic/Templates/Captive/year.md`
    - Apply change to relevant H2 section
    - Write updated template
    - Update cluster Status to "active"
@@ -162,6 +163,18 @@ Review Semantic file for template changes suggested by crystallized insights.
 
 ### Note on Structure
 
-- H2 sections (Daily Brief, Meetings, Journal, Changelog) never change
+- H2 sections (Year Overview, Leadership Development, Quarterly Progress, Annual Wins, Reflections, Changelog) never change
 - Only H3 structure and content within sections evolve
 - Template remains a living example that observation clusters shape over time
+
+## Session Close
+
+Present a summary of the yearly planning:
+
+- The vision theme and what it means
+- The three annual goals (personal, organisational, strategic)
+- Leadership development focus (primary, secondary, identity, growth edge)
+- Any observations recorded this session
+- Suggested first focus for Q1
+
+Offer encouragement for the year ahead.

@@ -56,7 +56,7 @@ archived: YYYY-MM-DD
 - [Major accomplishments]
 
 ### Patterns & Trends
-- [Patterns observed across weeks]
+- [Patterns noted across weeks]
 
 ### Next Month Setup
 [What carries forward to next month's Captive notes]

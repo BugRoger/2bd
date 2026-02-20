@@ -1,4 +1,4 @@
-# Observe
+# Reflection
 
 Self-learning phase for ritual improvement.
 
@@ -6,17 +6,16 @@ Self-learning phase for ritual improvement.
 
 Observations are stored in two locations:
 
-- **Synthetic**: `$VAULT/00_Brain/Synthetic/review-yearly.md` - active observations being collected
-- **Semantic**: `$VAULT/00_Brain/Semantic/review-yearly.md` - crystallized insights that have graduated
+- **Synthetic**: `$VAULT/00_Brain/Synthetic/review-quarterly.md` - active observations being collected
+- **Semantic**: `$VAULT/00_Brain/Semantic/review-quarterly.md` - crystallized insights that have graduated
 
 ## Diff Analysis
 
-Compare the completed Year.md against the template:
+Compare the completed Quarter.md against the template:
 
 - Which H3 sections were added, removed, or renamed?
 - Which sections consistently get more/less content?
 - What structural patterns emerge in user modifications?
-- What's unique about yearly review compared to other review rituals?
 
 Note deviations as observations with context.
 
@@ -28,18 +27,12 @@ Analyze interaction patterns from this review session:
 - **Rephrasing**: Which questions needed clarification?
 - **Skips**: Which sections did the user want to skip?
 - **Enthusiasm**: Where did energy increase in the conversation?
-- **Depth**: Which reflections went deepest?
-
-Pay special attention to:
-- Leadership journey engagement (this is the heart of yearly review)
-- Life reflection vs. professional reflection balance
-- Goal review patterns across the three categories
 
 ## Auto-Clustering
 
 Group new observations with existing ones by semantic similarity:
 
-- Check Synthetic/review-yearly.md for existing clusters
+- Check Synthetic/review-quarterly.md for existing clusters
 - Add new observations to matching clusters
 - Create new clusters for novel patterns
 - Update cluster confidence based on recurrence
@@ -60,13 +53,13 @@ Review clusters for graduation eligibility:
 
 **Graduation criteria:**
 - Confidence >= 4.5
-- Stable for 3+ sessions (yearly rituals have fewer sessions, so 2 may suffice)
+- Stable for 3+ sessions
 - Clear, actionable pattern
 
 **Graduation process:**
 1. Present graduated cluster to user
 2. User synthesizes into insight
-3. Move insight to Semantic/review-yearly.md
+3. Move insight to Semantic/review-quarterly.md
 4. Apply to template H3 structure if applicable
 
 ## Template Evolution
@@ -82,7 +75,7 @@ H2 sections remain stable (template contract). Only H3 structure evolves.
 
 ## Record Observations
 
-Append session observations to Synthetic/review-yearly.md:
+Append session observations to Synthetic/review-quarterly.md:
 
 ```markdown
 ## Session: YYYY-MM-DD

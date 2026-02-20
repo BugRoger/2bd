@@ -55,7 +55,7 @@ Daily insights feed into weekly reviews. Weekly patterns inform monthly themes. 
 
 Rituals learn from your behavior:
 
-1. **Observe** — Track how you modify templates
+1. **Reflect** — Track how you modify templates
 2. **Cluster** — Group similar patterns
 3. **Graduate** — Stable patterns mature automatically
 4. **Crystallize** — Insights update templates

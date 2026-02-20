@@ -13,7 +13,7 @@ argument-hint: "[target-quarter: this quarter|last quarter|YYYY-QN]"
 5. [Coaching Synthesis](references/04-coaching-synthesis.md)
 6. [Compose](references/05-compose.md)
 7. [Persist](references/06-persist.md)
-8. [Observe](references/07-observe.md)
+8. [Reflection](references/07-reflection.md)
 
 ## Template Contract
 
