@@ -33,6 +33,20 @@ Use `$VAULT` prefix when referencing vault files.
 
 ## Documentation
 
-**[Full docs →](https://2bd.mintlify.app/development/skills)**
+**[Full docs →](https://2bd.l48a.de/development/skills)**
 
 For skill creation, templates, rituals, and guidelines, see the Development tab in docs.
+
+## Docs Linking (Mintlify)
+
+Docs are hosted on Mintlify (2bd.l48a.de).
+
+- **Internal doc links** in `docs/**/*.md`: root-relative, no `.md`/`.mdx` (example: `[Config](/configuration)`)
+- **Section cross-references**: use anchors on root-relative paths (example: `[Hooks](/configuration#hooks)`)
+- **Headings and anchors**: avoid em dashes and apostrophes — they break Mintlify anchor links
+- **When asked for links**: reply with full `https://2bd.l48a.de/...` URLs (not root-relative)
+- **When you touch docs**: end the reply with the `https://2bd.l48a.de/...` URLs you referenced
+- **README (GitHub)**: keep absolute docs URLs so links work on GitHub
+- **Content must be generic**: no personal device names/hostnames/paths; use placeholders like `user@gateway-host`
+
+When working with documentation, read the mintlify skill.
