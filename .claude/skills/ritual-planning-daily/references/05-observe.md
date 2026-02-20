@@ -1,10 +1,10 @@
 # Observe
 
-Learn from the session to improve future planning rituals.
+Learn from the session to improve future planning rituals. Observations flow freely into Synthetic, cluster automatically, graduate when mature, and crystallize into template insights.
 
 ## Step 1: Diff Analysis
 
-Compare the final Today.md against the template to identify evolution patterns.
+Compare the final Today.md against the template to identify structural changes.
 
 ### Load Files
 
@@ -20,11 +20,15 @@ For each H2 section (Daily Brief, Meetings, Journal):
 
 Note: H2 sections are fixed contracts. Only analyze H3 and content changes.
 
-### Document-Level Observations
+### Record Observations
 
-Record observations with type `user-modification` or `skill-generated`:
+Append to `00_Brain/Synthetic/planning-daily.md` ## Observations with type `user-modification` or `skill-generated`:
 - `user-modification`: Changes user made after skill generated content
 - `skill-generated`: How phases produced content differently than template examples
+
+Format: `- YYYY-MM-DD | type | section | observation text | optional interpretation notes`
+
+Example: `- 2026-02-20 | user-modification | Daily Brief | Added "Blockers" section after Priorities | First time; might indicate friction awareness`
 
 ## Step 2: Session Review
 
@@ -38,93 +42,126 @@ Analyze user's interaction patterns during the ritual.
 - Explicit feedback ("this is too much", "I like this")
 - Engagement level with meeting prep prompts
 
-### Session-Level Observations
+### Record Observations
 
-Record observations with type `session-interaction`:
+Append to `00_Brain/Synthetic/planning-daily.md` ## Observations with type `session-interaction`:
 - Conversational preferences
 - Engagement patterns per phase
 - Feedback signals
 
-## Step 3: Record Observations
+Format: `- YYYY-MM-DD | session-interaction | section | observation text | optional interpretation notes`
 
-Append observations to `00_Brain/Synthetic/planning-daily.md`.
+Example: `- 2026-02-20 | session-interaction | Check-In | Answered all questions but kept responses very brief | Time pressure or preference for conciseness?`
 
-### Observation Format
+## Step 3: Auto-Cluster
 
-```
-- YYYY-MM-DD | type | section | evidence | tags
-```
+The system automatically groups observations by semantic similarity.
 
-- **type**: `user-modification`, `skill-generated`, or `session-interaction`
-- **section**: `Daily Brief`, `Meetings`, `Journal`, or `Check-In`
-- **evidence**: Specific change or behavior observed
-- **tags**: Semantic categories (e.g., `friction-capture`, `prefers-concise`, `skips-energy`)
+### Process
 
-### Semantic Tagging
+1. Read `00_Brain/Synthetic/planning-daily.md` ## Observations
+2. Run semantic grouping to suggest 2-3 potential clusters with example observations
+3. Present clusters to user:
+   - Suggested cluster name (auto-generated from observation themes)
+   - Example observations in each cluster
+   - Confidence score (0-5, based on observation count and recency weighting)
+4. User reviews suggested names and optionally renames clusters or rejects groupings
+5. System records cluster state in `00_Brain/Synthetic/planning-daily.md` ## Clusters:
+   - Cluster name (user-approved)
+   - Member observations (full list)
+   - Confidence score (calculated)
+   - Stability flag (unchanged member count over past 3 sessions: yes/no)
 
-Assign tags based on the conceptual meaning, not literal text:
-- "user adds Blockers section" → `friction-capture`
-- "user shortens intention" → `prefers-concise`
-- "user skips energy question" → `minimal-checkin`
+### What This Means
 
-## Step 4: Cluster & Score
+- No user effort categorizing observations during observe sessions
+- Pattern discovery is system-driven, not user-predetermined
+- Novel patterns emerge rather than fitting into predefined boxes
+- Clusters can reorganize as new evidence arrives
 
-Group observations by semantic similarity and calculate confidence.
+## Step 4: Monitor for Auto-Graduation
 
-### Clustering Rules
+Periodically check cluster maturity (no human action needed until graduation).
 
-- Group observations with same or related tags
-- Similar-but-not-identical patterns cluster together
-- Example: `friction-capture` clusters "adds Blockers", "adds Challenges", "adds Obstacles"
+### Graduation Criteria
 
-### Confidence Scoring
-
-- Each observation in a cluster adds to confidence
-- Recent observations weight slightly higher
-- Threshold for graduation: 5+ observations or 3+ in last 10 sessions
-
-## Step 5: Graduate to Semantic
-
-When a cluster crosses confidence threshold, crystallize the insight.
+A cluster graduates when:
+- Confidence ≥ 4.5/5 (calculated from observation count and recency weighting)
+- AND membership stable for 3+ sessions (no new observations added or removed)
 
 ### Graduation Process
 
-1. Read `00_Brain/Synthetic/planning-daily.md`
-2. Identify clusters crossing confidence threshold
-3. For each graduating cluster:
-   - Run deeper analysis: What does this pattern mean for the user?
-   - Synthesize into prose insight
-   - Append to appropriate section in `00_Brain/Semantic/planning-daily.md`
-   - Remove graduated observations from Synthetic (keep cluster summary)
+When criteria met:
+1. System identifies graduating cluster
+2. Notifies user: "Cluster '[name]' is ready for crystallization"
+3. Removes cluster from `00_Brain/Synthetic/planning-daily.md` ## Clusters (prune)
+4. Removes member observations from `00_Brain/Synthetic/planning-daily.md` ## Observations (prune)
+5. Transitions to Step 5 (Crystallization)
 
-### Semantic File Sections
+### Why Auto-Graduation?
 
-- **Session Style**: How user prefers to interact with the ritual
-- **Content Preferences**: Patterns in Today.md structure and content
-- **Template Adaptations**: Log of template changes made
+- Removes manual work of flagging when clusters are ready
+- User only makes decisions when insights are crystallizing, not during clustering
+- Keeps cognitive overhead low until patterns are solid
+
+## Step 5: Crystallize & Graduate to Semantic
+
+When a cluster reaches graduation criteria, user synthesizes the insight and notes implications.
+
+### Crystallization Process
+
+1. System presents graduated cluster with:
+   - Cluster name
+   - Observation lineage: count and date range (e.g., "5 observations from 2026-02-15 to 2026-02-20")
+   - List of member observations for reference
+
+2. User answers: **"What does this pattern mean for your planning?"**
+   - Write 1-2 sentence synthesis of the insight
+   - Note any template changes this suggests (e.g., "add Blockers section to Daily Brief")
+   - Note uncertainty if needed (e.g., "might indicate time pressure OR preference for conciseness")
+
+3. System writes to `00_Brain/Semantic/planning-daily.md` with structure:
+
+```markdown
+## cluster-name
+
+**Pattern:** [User's synthesis, 1-2 sentences]
+
+**Observations:** N from YYYY-MM-DD to YYYY-MM-DD
+[Bullet list of key evidence]
+
+**Template Implications:**
+[User's notes about template changes suggested]
+
+**Status:** forming (pending template decision) | active (implemented)
+```
+
+### User Only Reviews When Crystallizing
+
+- No review of clustering step (automatic)
+- No review of graduation criteria (automatic)
+- Only review when synthesis matters: moving insight into template
 
 ## Step 6: Template Evolution
 
-Apply high-confidence insights to evolve the template.
+Review Semantic file for template changes suggested by crystallized insights.
 
-### Check for Evolution
+### Process
 
 1. Read `00_Brain/Semantic/planning-daily.md`
-2. Identify insights that imply template changes
-3. Classify change impact:
-   - **Minor**: H3 additions, content pattern changes, reordering
-   - **Unclear**: Anything not obviously minor
+2. For each cluster's "Template Implications" notes:
+   - If clear and minor (H3 additions, content reordering, example changes): auto-evolve template
+   - If unclear or major: flag for discussion before applying
 
-### Apply Changes
+3. When applying minor changes:
+   - Read `00_Brain/Systemic/Templates/Captive/today.md`
+   - Apply change to relevant H2 section
+   - Write updated template
+   - Update cluster Status to "active"
+   - Log change in cluster's "Template Implications" (add date and result)
 
-- **Minor changes**: Auto-evolve template, notify user in next Check-In
-- **Unclear changes**: Ask user for confirmation before applying
+### Note on Structure
 
-### Update Template
-
-1. Read `00_Brain/Systemic/Templates/Captive/today.md`
-2. Apply the change to relevant H2 section
-3. Write updated template
-4. Log change in Template Adaptations section of Semantic file
-
-Note: H2 sections (Daily Brief, Meetings, Journal, Changelog) never change. Only H3 structure and content within sections evolve.
+- H2 sections (Daily Brief, Meetings, Journal, Changelog) never change
+- Only H3 structure and content within sections evolve
+- Template remains a living example that observation clusters shape over time
