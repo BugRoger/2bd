@@ -33,7 +33,8 @@ See all rules in section **## Timescale Architecture**
 
 ### 5. Agent-Specific Notes
 See all rules in section **## Agent-Specific Notes**
-1. ALWAYS verify in code; NEVER guess
+1. `vault/` is a symlink to user's OneDrive Second Brain folder
+2. ALWAYS verify in code; NEVER guess
 2. NEVER create/apply/drop git stash entries unless explicitly requested
 3. ALWAYS assume other agents may be working; keep unrelated WIP untouched
 4. NEVER create/remove/modify git worktrees unless explicitly requested
@@ -119,6 +120,7 @@ When working with documentation, read the mintlify skill.
 When modifying timescales, update these locations:
 - `.claude/skills/ritual-planning-{scale}/` — planning ritual
 - `.claude/skills/ritual-review-{scale}/` — review ritual
+- `init/assets/scaffold/00_Brain/Systemic/Coaching/{domain}/{scale}.md` — coaching files (leadership, planning, review)
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Captive/{scale}.md`
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Periodic/{scale}ly.md`
 - Adjacent timescale rituals (context loading, synthesis references)
@@ -131,6 +133,7 @@ When modifying timescales, update these locations:
 
 ## Agent-Specific Notes
 
+- **Vault location**: `vault/` is a symlink to the user's OneDrive Second Brain folder
 - **High-confidence answers only**: verify in code; do not guess
 - **Multi-agent safety**: do not create/apply/drop git stash entries unless explicitly requested (includes `git pull --rebase --autostash`)
 - **Multi-agent safety**: assume other agents may be working; keep unrelated WIP untouched; avoid cross-cutting state changes
