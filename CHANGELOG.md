@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- Renamed review rituals to reflection rituals (`ritual-review-*` → `ritual-reflection-*`) for semantic alignment
+- Renamed Reflection phase to Learning phase across all rituals to avoid terminology collision
+- Updated all documentation, templates, and scaffold files to use new terminology
+
 ## 0.2.0
 
 - Added timescale coaches with configurable personality — 12 coaching files organized as `Coaching/{domain}/{timescale}.md` where domain is leadership/planning/review and timescale is daily/weekly/quarterly/yearly
