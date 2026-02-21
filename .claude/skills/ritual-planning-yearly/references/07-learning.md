@@ -1,4 +1,4 @@
-# Reflection
+# Learning
 
 Learn from the session to improve future yearly planning rituals. Observations flow into Synthetic, cluster automatically, graduate when mature, and crystallize into template insights.
 

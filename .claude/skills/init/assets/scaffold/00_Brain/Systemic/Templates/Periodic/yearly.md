@@ -46,7 +46,7 @@ archived: YYYY-MM-DD
 
 ## Synthesis
 
-*Added during yearly review ritual*
+*Added during yearly reflection ritual*
 
 ### Year Theme
 [What this year was about - the defining narrative]

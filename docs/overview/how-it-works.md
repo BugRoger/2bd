@@ -5,7 +5,7 @@ description: "The daily rhythm that keeps your system running itself."
 
 ## The ritual loop
 
-2bd operates on a simple cycle: **plan → work → review → archive**.
+2bd operates on a simple cycle: **plan → work → reflect → archive**.
 
 ![Planning and review cycles across time scales](/images/how-it-works.svg)
 
@@ -17,7 +17,7 @@ Run in the morning (or start of period). They:
 - Prepare your working note from a template
 - Prompt for intention setting
 
-### Review rituals
+### Reflection rituals
 
 Run in the evening (or end of period). They:
 - Guide reflection on wins and learnings
@@ -29,7 +29,7 @@ Run in the evening (or end of period). They:
 
 The loop runs at four scales, each nesting into the next:
 
-| Scale | Planning | Review | Working note | Archive |
+| Scale | Planning | Reflection | Working note | Archive |
 |-------|----------|--------|--------------|---------|
 | Daily | Morning | Evening | Today.md | Daily/ |
 | Weekly | Monday | Sunday | Week.md | Weekly/ |
@@ -41,10 +41,10 @@ The loop runs at four scales, each nesting into the next:
 ```
 Captive (you write)              Periodic (rituals archive)
 ────────────────────             ────────────────────────────
-Today.md   ──review──►           Daily/YYYY-MM-DD.md
-Week.md    ──review──►           Weekly/YYYY-Www.md
-Quarter.md ──review──►           Quarterly/YYYY-QN.md
-Year.md    ──review──►           Yearly/YYYY.md
+Today.md   ──reflect──►           Daily/YYYY-MM-DD.md
+Week.md    ──reflect──►           Weekly/YYYY-Www.md
+Quarter.md ──reflect──►           Quarterly/YYYY-QN.md
+Year.md    ──reflect──►           Yearly/YYYY.md
 ```
 
 Daily insights feed into weekly reviews. Weekly patterns inform quarterly direction. The system synthesizes upward automatically.

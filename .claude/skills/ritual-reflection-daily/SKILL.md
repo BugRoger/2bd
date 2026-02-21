@@ -1,10 +1,10 @@
 ---
-name: ritual-review-daily
-description: Review and archive a day's work. Guides reflection on wins and insights, synthesizes learnings to semantic notes, and archives to Periodic.
+name: ritual-reflection-daily
+description: Reflect on and archive a day's work. Guides reflection on wins and insights, synthesizes learnings to semantic notes, and archives to Periodic.
 argument-hint: "[target-date: today|yesterday|YYYY-MM-DD]"
 ---
 
-# Daily Review
+# Daily Reflection
 
 1. [Setup](references/00-setup.md)
 2. [Check-In](references/01-checkin.md)
@@ -13,7 +13,7 @@ argument-hint: "[target-date: today|yesterday|YYYY-MM-DD]"
 5. [Coached Insights](references/04-coached-insights.md)
 6. [Compose](references/05-compose.md)
 7. [Persist](references/06-persist.md)
-8. [Reflection](references/07-reflection.md)
+8. [Learning](references/07-learning.md)
 
 ## Template Contract
 

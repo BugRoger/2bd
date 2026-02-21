@@ -36,7 +36,7 @@ Skills read as prose, not scripts.
 | Label | Description |
 |-------|-------------|
 | `scope:skill` | Skill implementation |
-| `scope:ritual` | Planning or review ritual |
+| `scope:ritual` | Planning or reflection ritual |
 | `scope:template` | Template files |
 | `scope:integration` | External integration |
 

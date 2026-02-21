@@ -30,7 +30,7 @@ Scheduled operations that drive the productivity loop.
 
 **Planning rituals** — Forward-looking. Prepare Captive notes from templates.
 
-**Review rituals** — Reflective. Archive Captive notes to Periodic.
+**Reflection rituals** — Reflective. Archive Captive notes to Periodic.
 
 See [How it works](/overview/how-it-works) for the full ritual cycle.
 

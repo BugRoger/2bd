@@ -104,4 +104,4 @@ When energy drops, delegation instincts weaken. Build "who else could do this?" 
 ## Changelog
 
 - 2026-01-15 07:30: Planned via ritual-planning-daily
-- 2026-01-15 21:00: Reviewed via ritual-review-daily
+- 2026-01-15 21:00: Reviewed via ritual-reflection-daily

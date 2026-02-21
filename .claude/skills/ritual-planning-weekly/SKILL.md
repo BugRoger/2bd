@@ -12,7 +12,7 @@ argument-hint: "[target-week: this week|next week|YYYY-Www]"
 4. [Prior Synthesis](references/03-prior-synthesis.md)
 5. [Priorities](references/04-priorities.md)
 6. [Intention](references/05-intention.md)
-7. [Reflection](references/06-reflection.md)
+7. [Learning](references/06-learning.md)
 
 ## Template Contract
 

@@ -13,7 +13,7 @@ argument-hint: "[target-year: this year|next year|YYYY]"
 5. [Vision](references/04-vision.md)
 6. [Goals](references/05-goals.md)
 7. [Leadership Development](references/06-leadership-dev.md)
-8. [Reflection](references/07-reflection.md)
+8. [Learning](references/07-learning.md)
 
 ## Template Contract
 

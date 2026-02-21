@@ -11,7 +11,7 @@ argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
 3. [Daily Brief](references/02-daily-brief.md)
 4. [Meetings](references/03-meetings.md)
 5. [Journal](references/04-journal.md)
-6. [Reflection](references/05-reflection.md)
+6. [Learning](references/05-learning.md)
 
 ## Template Contract
 
