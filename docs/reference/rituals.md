@@ -21,12 +21,12 @@ claude skill run ritual-reflection-yearly      # December
 
 ## Planning rituals
 
-| Ritual | Command | When | Prepares |
-|--------|---------|------|----------|
-| Daily | `ritual-planning-daily` | Morning | Today.md |
-| Weekly | `ritual-planning-weekly` | Monday | Week.md |
-| Quarterly | `ritual-planning-quarterly` | Start of quarter | Quarter.md |
-| Yearly | `ritual-planning-yearly` | January | Year.md |
+| Ritual | Command | When | Prepares | GPS Components |
+|--------|---------|------|----------|----------------|
+| Daily | `ritual-planning-daily` | Morning | Today.md | 1-3-5 |
+| Weekly | `ritual-planning-weekly` | Monday | Week.md | Balanced Week Blueprint |
+| Quarterly | `ritual-planning-quarterly` | Start of quarter | Quarter.md | Quest, Major Moves, 80% Check, Crystal Ball |
+| Yearly | `ritual-planning-yearly` | January | Year.md | Life Compass, 3-Year Sketch, Why, Anti-Goals |
 
 ### What planning rituals do
 
@@ -65,5 +65,7 @@ claude skill run ritual-reflection-daily
 
 - [Rituals development](/development/rituals) — Creating custom rituals
 - [How it works](/overview/how-it-works) — The ritual cycle explained
+- [GPS methodology](/overview/gps-methodology) — Goal, Plan, System framework
+- [Templates reference](/reference/templates) — What each template contains
 - [Actions reference](/reference/actions) — One-shot commands
 

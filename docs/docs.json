@@ -29,6 +29,7 @@
             "pages": [
               "overview/introduction",
               "overview/how-it-works",
+              "overview/gps-methodology",
               "overview/concepts"
             ]
           }
@@ -71,6 +72,7 @@
             "group": "Reference",
             "pages": [
               "reference/rituals",
+              "reference/templates",
               "reference/actions",
               "reference/vault-structure",
               "reference/naming-conventions",

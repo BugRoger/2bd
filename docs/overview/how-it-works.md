@@ -7,6 +7,8 @@ description: "The daily rhythm that keeps your system running itself."
 
 2bd operates on a simple cycle: **plan → work → reflect → archive**.
 
+This loop is powered by the [GPS methodology](/overview/gps-methodology) — Goal, Plan, System — which cascades from yearly vision down to daily execution.
+
 ![Planning and review cycles across time scales](/images/how-it-works.svg)
 
 ### Planning rituals
