@@ -1,6 +1,6 @@
 # Review Coaching Guide
 
-Reusable coaching patterns for daily and weekly review rituals.
+Reusable coaching patterns for daily and weekly reflection rituals.
 
 ## Dynamic Question Generation
 

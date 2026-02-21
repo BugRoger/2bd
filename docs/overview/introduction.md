@@ -55,7 +55,7 @@ Two rituals drive the system:
 ```bash
 cd ~/Code/2bd-engine
 claude skill run ritual-planning-daily   # morning cycle
-claude skill run ritual-review-daily     # evening cycle
+claude skill run ritual-reflection-daily  # evening cycle
 ```
 
 ## System capabilities

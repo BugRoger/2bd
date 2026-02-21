@@ -43,7 +43,7 @@ Patterns to watch are self-awareness flags. They help the user notice recurring 
 Powerful coaching questions from the user's directives. Use sparingly for maximum impact.
 
 - Reference when decisions feel stuck
-- Use during reflection phases
+- Use during learning phases
 - Connect to specific situations, not abstractly
 
 ## Energy as Signal

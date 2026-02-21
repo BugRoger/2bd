@@ -20,7 +20,7 @@ Transform and archive to Periodic/Yearly/:
 
 5. **Record archival**: Append to Changelog:
    ```
-   - YYYY-MM-DD HH:MM - Archived via yearly-review ritual
+   - YYYY-MM-DD HH:MM - Archived via yearly-reflection ritual
    ```
 
 ## Replace Captive Year.md

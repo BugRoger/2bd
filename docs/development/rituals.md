@@ -10,7 +10,7 @@ Rituals are [skills](/development/skills) that run on a schedule, driving the 2b
 | Type | Prefix | Purpose |
 |------|--------|---------|
 | Planning | `ritual-planning-*` | Prepare Captive notes from templates |
-| Review | `ritual-review-*` | Archive Captive notes to Periodic |
+| Reflection | `ritual-reflection-*` | Archive Captive notes to Periodic |
 
 ## Creating a ritual
 
@@ -41,14 +41,14 @@ Rituals follow a three-phase pattern:
 └── references/
     ├── 00-setup.md             # Load context, validate
     ├── 10-core.md              # Main ritual logic
-    └── 20-reflection.md        # Self-learning
+    └── 20-learning.md          # Self-learning
 ```
 
 | Phase | Purpose |
 |-------|---------|
 | **Setup** | Load directives, calendar, vault files, validate prerequisites |
 | **Core** | Interactive session, compose artifacts, persist |
-| **Reflection** | Record observations for self-learning |
+| **Learning** | Record observations for self-improvement |
 
 ## Template contracts
 
@@ -139,11 +139,11 @@ Rituals update specific H2 sections. Document which phases update which sections
 | Meetings | `## Meetings` |
 | Journal | `## Journal` |
 
-H3 structure within sections is dynamic and can evolve through the Reflection phase.
+H3 structure within sections is dynamic and can evolve through the Learning phase.
 
-### Reflection phase patterns
+### Learning phase patterns
 
-Self-learning rituals include a Reflection phase that:
+Self-learning rituals include a Learning phase that:
 
 1. **Diff analysis** — Compare `00_Brain/Captive/Today.md` against `00_Brain/Systemic/Templates/Captive/today.md`
 2. **Session review** — Analyze user interaction patterns

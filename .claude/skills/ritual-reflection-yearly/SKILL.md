@@ -1,10 +1,10 @@
 ---
-name: ritual-review-yearly
-description: Review and archive a year's work. Synthesizes quarterly patterns and archives to Periodic.
+name: ritual-reflection-yearly
+description: Reflect on and archive a year's work. Synthesizes quarterly patterns and archives to Periodic.
 argument-hint: "[target-year: this year|last year|YYYY]"
 ---
 
-# Yearly Review
+# Yearly Reflection
 
 1. [Setup](references/00-setup.md)
 2. [Year Summary](references/01-year-summary.md)
@@ -13,7 +13,7 @@ argument-hint: "[target-year: this year|last year|YYYY]"
 5. [Life Reflection](references/04-life-reflection.md)
 6. [Compose](references/05-compose.md)
 7. [Persist](references/06-persist.md)
-8. [Reflection](references/07-reflection.md)
+8. [Learning](references/07-learning.md)
 
 ## Template Contract
 

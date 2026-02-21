@@ -1,10 +1,10 @@
 ---
-name: ritual-review-weekly
-description: Review and archive a week's work. Synthesizes daily archives into weekly patterns and archives to Periodic.
+name: ritual-reflection-weekly
+description: Reflect on and archive a week's work. Synthesizes daily archives into weekly patterns and archives to Periodic.
 argument-hint: "[target-week: this week|last week|YYYY-Www]"
 ---
 
-# Weekly Review
+# Weekly Reflection
 
 1. [Setup](references/00-setup.md)
 2. [Week Summary](references/01-week-summary.md)
@@ -14,7 +14,7 @@ argument-hint: "[target-week: this week|last week|YYYY-Www]"
 6. [Forward Synthesis](references/05-forward-synthesis.md)
 7. [Compose](references/06-compose.md)
 8. [Persist](references/07-persist.md)
-9. [Reflection](references/08-reflection.md)
+9. [Learning](references/08-learning.md)
 
 ## Template Contract
 

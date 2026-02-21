@@ -65,7 +65,7 @@ archived: YYYY-MM-DD
 
 ## Synthesis
 
-*Added during daily review ritual*
+*Added during daily reflection ritual*
 
 ### Key Themes
 - [Theme extracted from the day]

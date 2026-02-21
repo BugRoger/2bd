@@ -127,7 +127,7 @@ Systemic/Directives/
 ```
 Systemic/Coaching/
 ├── planning.md        # Planning ritual guidance
-├── review.md          # Review ritual guidance
+├── review.md          # Reflection ritual guidance
 └── leadership.md      # Leadership coaching prompts
 ```
 

@@ -78,7 +78,7 @@ theme: "[Week theme - added during synthesis]"
 
 ## Synthesis
 
-*Added during weekly review ritual*
+*Added during weekly reflection ritual*
 
 ### Week Theme
 [What this week was about]

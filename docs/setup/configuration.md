@@ -84,7 +84,7 @@ Coaching prompts in `00_Brain/Systemic/Coaching/` guide ritual interactions:
 | File | Used by |
 |------|---------|
 | `planning.md` | Planning rituals — intention setting |
-| `review.md` | Review rituals — reflection prompts |
+| `review.md` | Reflection rituals — reflection prompts |
 | `leadership.md` | Leadership coaching integration |
 
 Edit these to customize how Claude coaches you through rituals.

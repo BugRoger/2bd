@@ -19,7 +19,7 @@ Transform and archive to Periodic/Quarterly/:
 
 5. **Record archival**: Append to Changelog:
    ```
-   - YYYY-MM-DD HH:MM - Archived via quarterly-review ritual
+   - YYYY-MM-DD HH:MM - Archived via quarterly-reflection ritual
    ```
 
 ## Replace Captive Quarter.md

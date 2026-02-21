@@ -43,7 +43,7 @@ archived: YYYY-MM-DD
 
 ## Synthesis
 
-*Added during quarterly review ritual*
+*Added during quarterly reflection ritual*
 
 ### Quarter Theme
 [What this quarter was about]

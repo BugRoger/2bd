@@ -12,11 +12,11 @@ claude skill run ritual-planning-weekly    # Monday
 claude skill run ritual-planning-quarterly # Start of Q
 claude skill run ritual-planning-yearly    # January
 
-# Review (end of period)
-claude skill run ritual-review-daily       # Evening
-claude skill run ritual-review-weekly      # Sunday
-claude skill run ritual-review-quarterly   # End of Q
-claude skill run ritual-review-yearly      # December
+# Reflection (end of period)
+claude skill run ritual-reflection-daily       # Evening
+claude skill run ritual-reflection-weekly      # Sunday
+claude skill run ritual-reflection-quarterly   # End of Q
+claude skill run ritual-reflection-yearly      # December
 ```
 
 ## Planning rituals
@@ -36,16 +36,16 @@ claude skill run ritual-review-yearly      # December
 4. Synthesize relevant information from prior periods
 5. Prompt for intention setting
 
-## Review rituals
+## Reflection rituals
 
 | Ritual | Command | When | Archives to |
 |--------|---------|------|-------------|
-| Daily | `ritual-review-daily` | Evening | Periodic/Daily/ |
-| Weekly | `ritual-review-weekly` | Sunday | Periodic/Weekly/ |
-| Quarterly | `ritual-review-quarterly` | End of quarter | Periodic/Quarterly/ |
-| Yearly | `ritual-review-yearly` | December | Periodic/Yearly/ |
+| Daily | `ritual-reflection-daily` | Evening | Periodic/Daily/ |
+| Weekly | `ritual-reflection-weekly` | Sunday | Periodic/Weekly/ |
+| Quarterly | `ritual-reflection-quarterly` | End of quarter | Periodic/Quarterly/ |
+| Yearly | `ritual-reflection-yearly` | December | Periodic/Yearly/ |
 
-### What review rituals do
+### What reflection rituals do
 
 1. Guide reflection on the period
 2. Archive Captive note to Periodic
@@ -58,7 +58,7 @@ claude skill run ritual-review-yearly      # December
 ```bash
 # Pattern: claude skill run ritual-{type}-{period}
 claude skill run ritual-planning-daily
-claude skill run ritual-review-daily
+claude skill run ritual-reflection-daily
 ```
 
 ## Related

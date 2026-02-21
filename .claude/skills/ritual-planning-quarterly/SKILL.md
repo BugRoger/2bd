@@ -13,7 +13,7 @@ argument-hint: "[target-quarter: this quarter|next quarter|YYYY-QN]"
 5. [Outcomes](references/04-outcomes.md)
 6. [Theme](references/05-theme.md)
 7. [Coaching Themes](references/06-coaching-themes.md)
-8. [Reflection](references/07-reflection.md)
+8. [Learning](references/07-learning.md)
 
 ## Template Contract
 
