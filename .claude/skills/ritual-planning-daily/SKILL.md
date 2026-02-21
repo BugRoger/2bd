@@ -6,22 +6,41 @@ argument-hint: "[target: (empty)|tomorrow|next monday|YYYY-MM-DD]"
 
 # Daily Planning
 
-1. [Setup](references/00-setup.md)
-2. [Check-In](references/01-checkin.md)
-3. [Daily Brief](references/02-daily-brief.md)
-4. [Meetings](references/03-meetings.md)
-5. [Journal](references/04-journal.md)
-6. [Learning](references/05-learning.md)
+1. [Setup](references/00-Setup.md)
+2. [Brief](references/01-Brief.md)
+3. [Goals](references/02-Goals.md)
+4. [Calendar](references/03-Calendar.md)
+5. [Journal](references/04-Journal.md)
+6. [Achievements](references/05-Achievements.md)
+7. [Relationships](references/06-Relationships.md)
+8. [Projects](references/07-Projects.md)
+9. [Compose](references/08-Compose.md)
+10. [Persist](references/09-Persist.md)
+11. [Learning](references/10-Learning.md)
 
 ## Template Contract
 
-Today.md has four H2 sections that phases update:
+Today.md has these H2 sections:
 
-| Phase | Updates |
-|-------|---------|
-| Daily Brief | `## Daily Brief` |
-| Meetings | `## Meetings` |
-| Journal | `## Journal` |
-| (append-only) | `## Changelog` |
+| Track | Section | Updated By |
+|-------|---------|------------|
+| Brief | `## Brief` | Brief phase |
+| Goals | `## Goals` | Goals phase |
+| Calendar | `## Calendar` | Calendar phase |
+| Journal | `## Journal` | Journal phase |
+| Achievements | `## Achievements` | Achievements phase |
+| Relationships | `## Relationships` | Relationships phase |
+| Projects | `## Projects` | Projects phase |
+| (append-only) | `## Changelog` | All phases |
 
-Skills reference only H2s. H3 structure within sections is dynamic — the template is a living example that Reflection can evolve based on patterns.
+## Track Agents
+
+| Track | Agent |
+|-------|-------|
+| Brief | haiku |
+| Goals | sonnet |
+| Calendar | haiku |
+| Journal | sonnet |
+| Achievements | haiku |
+| Relationships | sonnet |
+| Projects | haiku |

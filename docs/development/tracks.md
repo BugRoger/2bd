@@ -101,6 +101,59 @@ Tracks in reflection rituals use **explicit inheritance**:
 
    Add the new track row to the matrix above.
 
+## Coach system
+
+Each track has a coach that provides guidance and learns from usage.
+
+### Coach files
+
+| Component | Path | Purpose |
+|-----------|------|---------|
+| Guidance | `Systemic/Coaching/{Track}/{timescale}.md` | Static guidance, prompts, agent selection |
+| Insights (raw) | `Synthetic/Coaching/{Track}/insights.md` | Observations, clusters |
+| Insights (crystallized) | `Semantic/Coaching/{Track}/insights.md` | Graduated, human-validated learnings |
+
+### Guidance file structure
+
+```markdown
+# {Track} Coach - {Timescale}
+
+## Intent
+
+[What this track does at this timescale]
+
+## Agent
+
+[haiku|sonnet|opus]
+
+## Guidance
+
+[How to run this track phase]
+
+### Prompts
+
+[Questions to ask the user]
+
+## References
+
+[Files to load before running]
+```
+
+### Learning flow
+
+1. Each track phase captures observations → `Synthetic/Coaching/{Track}/insights.md`
+2. Observations auto-cluster with confidence scoring (0-5)
+3. Clusters graduate when confidence ≥ 4.5 AND stable for 3+ sessions
+4. User crystallizes insight → `Semantic/Coaching/{Track}/insights.md`
+5. Crystallized insights inform guidance updates
+
+### Template learning
+
+Templates also learn using the same flow:
+- Observations → `Synthetic/Coaching/Template/insights.md`
+- Crystallized → `Semantic/Coaching/Template/insights.md`
+- Changes applied to `Systemic/Templates/Captive/{timescale}.md`
+
 ## Common phases
 
 These phases exist in all rituals:
