@@ -1,58 +1,28 @@
 # Setup
 
-Load context and validate state before starting the weekly review session.
+Initialize the weekly reflection ritual by loading context.
 
-## Paths
+## Step 1: Resolve Target Week
 
-Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below are relative to vault root.
+1. Invoke skill `_resolve-date` with argument (default: this week)
+2. Store resolved week for all phases
 
-## Load Context
+## Step 2: Load Global Context
 
-### Sub-skills
+Read in order:
+1. `00_Brain/Systemic/Directives/user-profile.md`
+2. `00_Brain/Systemic/Directives/ai-personality.md`
 
-1. Invoke `_resolve-dates` with argument (default: this week)
-2. Invoke `_fetch-calendar` for the entire target week
+## Step 3: Load Week's Plan and Daily Archives
 
-### Configuration
+Read:
+1. `00_Brain/Captive/Week.md` — Week's plan (required)
+2. `00_Brain/Periodic/Daily/*.md` — Daily archives for this week
 
-3. Read `00_Brain/Systemic/Directives/user-profile.md`
-4. Read `00_Brain/Systemic/Directives/ai-personality.md`
-5. Read `00_Brain/Semantic/review-weekly.md` (graceful if not exists)
-6. Read `00_Brain/Systemic/Coaching/review/weekly.md`
-7. Read `00_Brain/Systemic/Coaching/leadership/weekly.md`
+## Step 4: Validate Prerequisites
 
-### Weekly Context
+Check if `00_Brain/Captive/Week.md` exists:
+1. If not exists → warn, cannot reflect without plan
+2. If exists → continue
 
-8. Read `00_Brain/Captive/Week.md`
-9. Read `00_Brain/Captive/Quarter.md`
-
-### Daily Archives
-
-10. Glob `00_Brain/Periodic/Daily/YYYY-MM-DD*.md` for each workday (Mon-Fri) in target week
-11. Read all matching daily archive files
-
-### Derived
-
-12. Parse daily archives for mentioned People and Projects
-13. Glob `02_Areas/People/*.md` for matching names, read matches
-14. Glob `01_Projects/*.md` for matching projects, read matches
-
-## Validate
-
-Check state before reviewing:
-
-1. **Date alignment** — Verify Week.md frontmatter matches target review week
-   - If mismatched → ask which week to review
-
-2. **Archive check** — Check if archive exists in `00_Brain/Periodic/Weekly/YYYY-Www.md`
-   - If exists → offer to view existing or re-review
-
-3. **Archive marker** — Check Week.md frontmatter for `archived: true`
-   - If present → week already archived, confirm intent to re-review
-
-4. **Daily coverage** — Count workdays (Mon-Fri) with daily archives available
-   - If incomplete → offer to proceed with partial data or complete daily reviews first
-
-If directives are unavailable, note that and proceed with limited coaching context.
-
-Proceed to Week Summary when state is validated.
+Proceed to Brief.

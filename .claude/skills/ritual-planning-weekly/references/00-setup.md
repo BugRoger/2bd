@@ -1,48 +1,40 @@
 # Setup
 
-Load context and validate state before starting the session.
+Initialize the weekly planning ritual by loading context and validating prerequisites.
 
-## Paths
+## Step 1: Resolve Target Week
 
-Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below are relative to vault root.
+1. Invoke skill `_resolve-date` with argument (default: this week)
+2. Store resolved week for all phases
 
-## Load Context
+## Step 2: Load Global Context
 
-### Sub-skills
+Read in order:
+1. `00_Brain/Systemic/Directives/user-profile.md`
+2. `00_Brain/Systemic/Directives/ai-personality.md`
 
-1. Invoke `_resolve-dates` with argument (default: this week)
-2. Invoke `_fetch-calendar` for target week (Monday through Sunday)
+## Step 3: Load Hierarchical Context
 
-### Configuration
+Read:
+1. `00_Brain/Captive/Quarter.md` — Current quarter (Quests)
+2. `00_Brain/Captive/Year.md` — Current year (Goals, Compass)
 
-3. Read `00_Brain/Systemic/Directives/user-profile.md`
-4. Read `00_Brain/Systemic/Directives/ai-personality.md`
-5. Read `00_Brain/Semantic/planning-weekly/insights.md` (graceful if not exists)
-6. Read `00_Brain/Systemic/Coaching/planning/weekly.md`
-7. Read `00_Brain/Systemic/Coaching/leadership/weekly.md`
+## Step 4: Load Calendar
 
-### Planning Context
+1. Invoke skill `_fetch-calendar` for target week
+2. Store calendar events for Calendar phase
 
-8. Read `00_Brain/Captive/Quarter.md`
-9. Read `00_Brain/Captive/Year.md`
-10. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
+## Step 5: Validate Prerequisites
 
-## Validate
-
-Check if `00_Brain/Captive/Week.md` exists and contains a different week:
+Check if `00_Brain/Captive/Week.md` exists for target week:
 1. If exists → warn, offer Abort or Start fresh
 2. If abort → end session
 3. If start fresh → continue
 
-Only proceed with explicit confirmation when there's unarchived work.
+## Step 6: Initialize Week.md
 
-## Write Initial Week.md
+1. Read template from `00_Brain/Systemic/Templates/Captive/Week.md`
+2. Replace placeholders with resolved date values
+3. Write to `00_Brain/Captive/Week.md`
 
-After validation passes:
-
-1. Read template from `00_Brain/Systemic/Templates/Captive/week.md`
-2. Fill frontmatter fields derivable from resolved date
-3. Keep other frontmatter fields as placeholders
-4. Write to `00_Brain/Captive/Week.md`
-
-Proceed to Check-In.
+Proceed to Brief.

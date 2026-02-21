@@ -1,49 +1,28 @@
 # Setup
 
-Load context and validate state before starting the review session.
+Initialize the daily reflection ritual by loading context.
 
-## Paths
+## Step 1: Resolve Target Date
 
-Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below are relative to vault root.
+1. Invoke skill `_resolve-date` with argument (default: today)
+2. Store resolved date for all phases
 
-## Load Context
+## Step 2: Load Global Context
 
-### Sub-skills
+Read in order:
+1. `00_Brain/Systemic/Directives/user-profile.md`
+2. `00_Brain/Systemic/Directives/ai-personality.md`
 
-1. Invoke `_resolve-dates` with argument (default: today)
-2. Invoke `_fetch-calendar` for target date
+## Step 3: Load Today's Plan
 
-### Configuration
+Read:
+1. `00_Brain/Captive/Today.md` — Today's plan (required)
+2. `00_Brain/Captive/Week.md` — Week context (Major Moves)
 
-3. Read `00_Brain/Systemic/Directives/user-profile.md`
-4. Read `00_Brain/Systemic/Directives/ai-personality.md`
-5. Read `00_Brain/Systemic/Coaching/review/daily.md`
-6. Read `00_Brain/Systemic/Coaching/leadership/daily.md`
-7. Read `00_Brain/Semantic/review-daily/insights.md` (graceful if not exists)
+## Step 4: Validate Prerequisites
 
-### Review Context
+Check if `00_Brain/Captive/Today.md` exists:
+1. If not exists → warn, cannot reflect without plan
+2. If exists → continue
 
-8. Read `00_Brain/Captive/Today.md` for target date
-9. Read `00_Brain/Captive/Week.md`
-10. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
-
-### Derived
-
-11. Parse calendar and Today.md for mentioned people, glob `02_Areas/People/*.md` for matching names, read matches
-
-## Validate
-
-Check Today.md state before reviewing:
-
-1. **Date alignment** — Compare Today.md frontmatter date with target review date
-   - If mismatched → ask which date to review
-
-2. **Archive check** — Check if `00_Brain/Periodic/Daily/{date}.md` exists
-   - If exists → offer to view or re-review
-
-3. **Archived marker** — Check Today.md frontmatter for `archived: true`
-   - If present → day already archived, offer to view archive
-
-If directives are unavailable, note that and proceed with limited coaching context.
-
-Proceed only when state is validated.
+Proceed to Brief.

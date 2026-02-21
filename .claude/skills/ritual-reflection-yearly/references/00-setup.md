@@ -1,42 +1,28 @@
 # Setup
 
-Load context for yearly review.
+Initialize the yearly reflection ritual by loading context.
 
-## Context Loading
+## Step 1: Resolve Target Year
 
-Load from vault:
-- Year.md for the target year (Captive/Year.md)
-- Quarterly archives from Periodic/Quarterly/ for the year's four quarters
-- User directives for leadership identity, growth edge, patterns to watch
-- `00_Brain/Systemic/Coaching/review/yearly.md` (graceful if not exists)
-- `00_Brain/Systemic/Coaching/leadership/yearly.md` (graceful if not exists)
-- Semantic notes from Semantic/review-yearly/ for prior crystallized insights
+1. Invoke skill `_resolve-date` with argument (default: this year)
+2. Store resolved year for all phases
 
-## Validation
+## Step 2: Load Global Context
 
-Verify year state before proceeding:
+Read in order:
+1. `00_Brain/Systemic/Directives/user-profile.md`
+2. `00_Brain/Systemic/Directives/ai-personality.md`
 
-1. **Date alignment** - Check Year.md frontmatter matches target review year. If mismatched, ask which year to review.
+## Step 3: Load Year's Plan and Quarterly Archives
 
-2. **Archive check** - Look for existing archive in Periodic/Yearly/. If exists, offer to view existing or re-review.
+Read:
+1. `00_Brain/Captive/Year.md` — Year's plan (required)
+2. `00_Brain/Periodic/Quarterly/*.md` — Quarterly archives for this year
 
-3. **Quarterly coverage** - Check which quarters have archives in Periodic/Quarterly/. If incomplete, offer to:
-   - Proceed with partial data
-   - Complete quarterly reviews first
+## Step 4: Validate Prerequisites
 
-4. **Archived marker** - Check Year.md frontmatter for `archived: true`. If present, year was already archived.
+Check if `00_Brain/Captive/Year.md` exists:
+1. If not exists → warn, cannot reflect without plan
+2. If exists → continue
 
-## Year Resolution
-
-Parse the target year argument:
-- Empty or "this year" - current calendar year
-- "last year" - previous calendar year
-- "YYYY" format - specific year (e.g., 2024)
-
-Calculate the four quarters belonging to the year:
-- Q1: January - March
-- Q2: April - June
-- Q3: July - September
-- Q4: October - December
-
-Proceed only when validation passes.
+Proceed to Brief.

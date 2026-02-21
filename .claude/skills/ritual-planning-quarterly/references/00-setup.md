@@ -1,60 +1,34 @@
 # Setup
 
-Load context and validate state before starting the session.
+Initialize the quarterly planning ritual by loading context and validating prerequisites.
 
-## Paths
+## Step 1: Resolve Target Quarter
 
-Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below are relative to vault root.
+1. Invoke skill `_resolve-date` with argument (default: this quarter)
+2. Store resolved quarter for all phases
 
-## Load Context
+## Step 2: Load Global Context
 
-### Sub-skills
+Read in order:
+1. `00_Brain/Systemic/Directives/user-profile.md`
+2. `00_Brain/Systemic/Directives/ai-personality.md`
 
-1. Invoke `_resolve-dates` with argument (default: this quarter)
-   - Parse: "this quarter", "next quarter", "YYYY-QN"
-   - Return: quarter number (1-4), year, start/end dates
+## Step 3: Load Hierarchical Context
 
-### Configuration
+Read:
+1. `00_Brain/Captive/Year.md` — Current year (Goals, Compass)
 
-2. Read `00_Brain/Systemic/Directives/user-profile.md`
-3. Read `00_Brain/Systemic/Directives/ai-personality.md`
-4. Read `00_Brain/Semantic/planning-quarterly.md` (graceful if not exists)
-5. Read `00_Brain/Systemic/Coaching/planning/quarterly.md` (graceful if not exists)
-6. Read `00_Brain/Systemic/Coaching/leadership/quarterly.md` (graceful if not exists)
+## Step 4: Validate Prerequisites
 
-### Planning Context
+Check if `00_Brain/Captive/Quarter.md` exists for target quarter:
+1. If exists → warn, offer Abort or Start fresh
+2. If abort → end session
+3. If start fresh → continue
 
-5. Read `00_Brain/Captive/Year.md`
-6. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
-7. Read `00_Brain/Systemic/Templates/Captive/quarter.md`
+## Step 5: Initialize Quarter.md
 
-### Prior Quarter Context
+1. Read template from `00_Brain/Systemic/Templates/Captive/Quarter.md`
+2. Replace placeholders with resolved date values
+3. Write to `00_Brain/Captive/Quarter.md`
 
-8. If not Q1: read `00_Brain/Periodic/Quarterly/YYYY-QN.md` for prior quarter
-9. Read weekly archives from prior quarter: `00_Brain/Periodic/Weekly/YYYY-Www.md` for ~13 weeks
-
-## Validate
-
-Before overwriting the current Quarter.md, verify its state:
-
-1. Read `00_Brain/Captive/Quarter.md` if exists
-2. If Quarter.md contains a different quarter (check frontmatter):
-   - If hasn't been archived → block and suggest running quarterly-review first
-   - Offer: Abort, Archive now, or Start fresh (discards unarchived work)
-3. If planning for a past quarter → warn that this is unusual, confirm intent
-4. If target quarter already has archived Quarter.md → warn about re-planning completed quarter
-
-## Write Initial Quarter.md
-
-After validation passes:
-
-1. Read template from `00_Brain/Systemic/Templates/Captive/quarter.md`
-2. Fill frontmatter fields derivable from resolved quarter:
-   - `quarter`: N
-   - `year`: YYYY
-   - `start_date`: first day of quarter
-   - `end_date`: last day of quarter
-3. Keep other frontmatter fields as placeholders
-4. Write to `00_Brain/Captive/Quarter.md`
-
-Proceed to Check-In.
+Proceed to Brief.

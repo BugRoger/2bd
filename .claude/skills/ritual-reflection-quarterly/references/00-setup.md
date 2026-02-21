@@ -1,42 +1,28 @@
 # Setup
 
-Load context for quarterly review.
+Initialize the quarterly reflection ritual by loading context.
 
-## Context Loading
+## Step 1: Resolve Target Quarter
 
-Load from vault:
-- Quarter.md for the target quarter (Captive/Quarter.md)
-- Weekly archives from Periodic/Weekly/ for the quarter's ~13 weeks
-- Year.md for annual context and goals
-- User directives for leadership identity, growth edge, patterns to watch
-- `00_Brain/Systemic/Coaching/review/quarterly.md` (graceful if not exists)
-- `00_Brain/Systemic/Coaching/leadership/quarterly.md` (graceful if not exists)
+1. Invoke skill `_resolve-date` with argument (default: this quarter)
+2. Store resolved quarter for all phases
 
-## Validation
+## Step 2: Load Global Context
 
-Verify quarter state before proceeding:
+Read in order:
+1. `00_Brain/Systemic/Directives/user-profile.md`
+2. `00_Brain/Systemic/Directives/ai-personality.md`
 
-1. **Date alignment** - Check Quarter.md frontmatter matches target review quarter. If mismatched, ask which quarter to review.
+## Step 3: Load Quarter's Plan and Weekly Archives
 
-2. **Archive check** - Look for existing archive in Periodic/Quarterly/. If exists, offer to view existing or re-review.
+Read:
+1. `00_Brain/Captive/Quarter.md` — Quarter's plan (required)
+2. `00_Brain/Periodic/Weekly/*.md` — Weekly archives for this quarter
 
-3. **Weekly coverage** - Check which weeks have archives in Periodic/Weekly/. If incomplete, offer to:
-   - Proceed with partial data
-   - Complete weekly reviews first
+## Step 4: Validate Prerequisites
 
-4. **Archived marker** - Check Quarter.md frontmatter for `archived: true`. If present, quarter was already archived.
+Check if `00_Brain/Captive/Quarter.md` exists:
+1. If not exists → warn, cannot reflect without plan
+2. If exists → continue
 
-## Quarter Resolution
-
-Parse the target quarter argument:
-- Empty or "this quarter" - current calendar quarter
-- "last quarter" - previous calendar quarter
-- "YYYY-QN" format - specific quarter (e.g., 2024-Q3)
-
-Calculate the three months belonging to the quarter:
-- Q1: January, February, March
-- Q2: April, May, June
-- Q3: July, August, September
-- Q4: October, November, December
-
-Proceed only when validation passes.
+Proceed to Brief.
