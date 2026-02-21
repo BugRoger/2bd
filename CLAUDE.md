@@ -20,6 +20,21 @@ Docs are hosted on Mintlify (2bd.l48a.de).
 
 When working with documentation, read the mintlify skill.
 
+## Timescale Architecture
+
+2bd uses 4 timescales: Daily → Weekly → Quarterly → Yearly
+
+When modifying timescales, update these locations:
+- `.claude/skills/ritual-planning-{scale}/` — planning ritual
+- `.claude/skills/ritual-review-{scale}/` — review ritual
+- `init/assets/scaffold/00_Brain/Systemic/Templates/Captive/{scale}.md`
+- `init/assets/scaffold/00_Brain/Systemic/Templates/Periodic/{scale}ly.md`
+- Adjacent timescale rituals (context loading, synthesis references)
+- `docs/reference/rituals.md`, `docs/overview/how-it-works.md`
+- `docs/reference/vault-structure.md`, `docs/reference/glossary.md`
+- `docs/how-it-works.excalidraw.json`
+- `init/assets/scaffold/00_Brain/✱ Home.md` (navigation)
+
 ## Agent-Specific Notes
 
 - **High-confidence answers only**: verify in code; do not guess
