@@ -1,10 +1,9 @@
 ---
 quarter: YYYY-QN
 year: YYYY
-months: [YYYY-MM, YYYY-MM, YYYY-MM]
 ---
 
-[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Week|Week]] | [[00_Brain/Captive/Month|Month]] | [[00_Brain/Captive/Year|Year]]
+[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Week|Week]] | [[00_Brain/Captive/Year|Year]]
 
 ---
 
@@ -50,18 +49,11 @@ months: [YYYY-MM, YYYY-MM, YYYY-MM]
 
 ---
 
-## Monthly Progress
+## Weekly Progress
 
-### Month 1 ([Month Name])
-- [Key activities and progress]
-- [Important decisions or strategic shifts]
-- [Notable wins and challenges]
+*Synthesized from weekly archives during quarterly review*
 
-### Month 2 ([Month Name])
-- [Monthly capture continues]
-
-### Month 3 ([Month Name])
--
+[Week-by-week highlights captured during quarter]
 
 ---
 

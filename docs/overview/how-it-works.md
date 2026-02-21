@@ -27,13 +27,12 @@ Run in the evening (or end of period). They:
 
 ## Time scales
 
-The loop runs at five scales, each nesting into the next:
+The loop runs at four scales, each nesting into the next:
 
 | Scale | Planning | Review | Working note | Archive |
 |-------|----------|--------|--------------|---------|
 | Daily | Morning | Evening | Today.md | Daily/ |
 | Weekly | Monday | Sunday | Week.md | Weekly/ |
-| Monthly | 1st | End of month | Month.md | Monthly/ |
 | Quarterly | Start | End of quarter | Quarter.md | Quarterly/ |
 | Yearly | January | December | Year.md | Yearly/ |
 
@@ -44,12 +43,11 @@ Captive (you write)              Periodic (rituals archive)
 ────────────────────             ────────────────────────────
 Today.md   ──review──►           Daily/YYYY-MM-DD.md
 Week.md    ──review──►           Weekly/YYYY-Www.md
-Month.md   ──review──►           Monthly/YYYY-MM.md
 Quarter.md ──review──►           Quarterly/YYYY-QN.md
 Year.md    ──review──►           Yearly/YYYY.md
 ```
 
-Daily insights feed into weekly reviews. Weekly patterns inform monthly themes. Monthly progress shapes quarterly direction. The system synthesizes upward automatically.
+Daily insights feed into weekly reviews. Weekly patterns inform quarterly direction. The system synthesizes upward automatically.
 
 ## Self-learning
 

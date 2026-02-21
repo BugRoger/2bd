@@ -14,11 +14,11 @@ Three outcomes, each serving a different dimension:
    - Make it behavioral, not aspirational
 
 2. **Organisational** — What team conversation, decision, or collaboration is needed?
-   - Align with monthly/quarterly themes
+   - Align with quarterly themes
    - Reference key relationships from synthesis
    - Make it relational, not task-oriented
 
-3. **Strategic** — What deliverable moves the month/quarter forward?
+3. **Strategic** — What deliverable moves the quarter forward?
    - Reference active projects with urgency
    - Connect to quarterly outcomes
    - Make it outcome-focused, not activity-based
@@ -30,7 +30,7 @@ Frame these as outcomes, not tasks. What will be different by end of week?
 Help the user refine:
 - If too vague → "What would you see or feel if this succeeded?"
 - If too task-focused → "What's the outcome behind this task?"
-- If disconnected from hierarchy → "How does this connect to [month/quarter theme]?"
+- If disconnected from hierarchy → "How does this connect to [quarter theme]?"
 
 Reference coaching questions from Quarter.md when helpful.
 

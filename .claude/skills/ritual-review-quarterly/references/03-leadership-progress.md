@@ -32,7 +32,7 @@ Ask: "What was your biggest leadership moment this quarter?"
 
 ## Avoided Conversations
 
-Review avoided conversations trend across monthly archives.
+Review avoided conversations trend across weekly archives.
 
 Identify patterns:
 - Which conversations persisted all quarter?

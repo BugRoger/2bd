@@ -2,20 +2,20 @@
 
 Synthesize the quarter into an actionable overview.
 
-## Months Reviewed
+## Weeks Reviewed
 
-List the three months with their archive status:
-- Month 1: [Name] - archived/not archived
-- Month 2: [Name] - archived/not archived
-- Month 3: [Name] - archived/not archived
+List the ~13 weeks with their archive status:
+- Weeks 1-4: [archived count]/4 archived
+- Weeks 5-9: [archived count]/5 archived
+- Weeks 10-13: [archived count]/4 archived
 
-Pull one-line summaries from each monthly archive's theme or key accomplishment.
+Pull key themes from weekly archives across the quarter.
 
 ## Energy Trend
 
-Analyze energy patterns across the quarter from monthly archives:
-- Which months had highest sustained energy?
-- Which months showed energy drain?
+Analyze energy patterns across the quarter from weekly archives:
+- Which periods had highest sustained energy?
+- Which periods showed energy drain?
 - What was the overall trajectory: rising, falling, stable, volatile?
 
 Connect energy patterns to workload, projects, or life events.

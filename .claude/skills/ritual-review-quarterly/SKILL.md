@@ -1,6 +1,6 @@
 ---
 name: ritual-review-quarterly
-description: Review and archive a quarter's work. Synthesizes monthly patterns and archives to Periodic.
+description: Review and archive a quarter's work. Synthesizes weekly patterns and archives to Periodic.
 argument-hint: "[target-quarter: this quarter|last quarter|YYYY-QN]"
 ---
 

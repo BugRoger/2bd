@@ -21,10 +21,9 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 
 ### Planning Context
 
-6. Read `00_Brain/Captive/Month.md`
-7. Read `00_Brain/Captive/Quarter.md`
-8. Read `00_Brain/Captive/Year.md`
-9. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
+6. Read `00_Brain/Captive/Quarter.md`
+7. Read `00_Brain/Captive/Year.md`
+8. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
 
 ## Validate
 

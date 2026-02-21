@@ -38,12 +38,12 @@ Present the detected week type and let the user confirm or override.
 
 ### Key Dates Preview
 
-Reference Month.md and Quarter.md to extract key dates.
+Reference Quarter.md and Year.md to extract key dates.
 
 **Countdown alerts:**
 - Show dates within 14 days with urgency indicators
 - Highlight prep-required events
-- Note any dates cascading from Month/Quarter
+- Note any dates cascading from Quarter/Year
 
 Ask: "Any other key dates to add for this week?"
 
@@ -52,10 +52,6 @@ Capture additional dates for inclusion in Week.md Key Dates section.
 ### Hierarchical Context
 
 Present context from higher-level planning:
-
-**Monthly Context** (from Month.md):
-- Monthly Theme — What this month is about
-- Key Outcomes — The three monthly outcomes
 
 **Quarterly Context** (from Quarter.md):
 - Quarterly Theme — What this quarter is about

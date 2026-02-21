@@ -10,7 +10,7 @@ Transform and archive to Periodic/Quarterly/:
 
 2. **Transform content**: Convert Quarter.md to archive format per quarterly.md template:
    - Add `archived: YYYY-MM-DD` to frontmatter
-   - Add Monthly Summary section with links to Periodic/Monthly/
+   - Add Weekly Summary section with links to Periodic/Weekly/
    - Add Synthesis section with quarter theme, key accomplishments, strategic patterns, next quarter setup
 
 3. **Write archive**: Save to `Periodic/Quarterly/YYYY-QN.md`

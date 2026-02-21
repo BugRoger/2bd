@@ -18,7 +18,7 @@ Make prompts feel personalized to the specific day. Reference actual project nam
 Generate personalized prompts connecting to:
 
 - Patterns to watch (from Week.md coaching check-in)
-- Monthly theme alignment
+- Quarterly theme alignment
 - Leadership development themes from directives
 - Day-type context (meeting-heavy, deadline, creative)
 
@@ -27,7 +27,7 @@ Connect prompts to the user's growth edge and coaching questions from directives
 ## Principles
 
 - No generic templates — reference the actual day
-- Connect to hierarchical context (week, month, quarter)
+- Connect to hierarchical context (week, quarter)
 - Surface relevant growth edges without being preachy
 - Keep prompts open-ended, not leading
 

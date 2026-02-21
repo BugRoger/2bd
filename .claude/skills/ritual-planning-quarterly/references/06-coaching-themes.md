@@ -1,6 +1,6 @@
 # Coaching Themes
 
-Establish self-awareness and coaching focus for the quarter. These cascade to monthly and weekly planning, appearing in Month.md and Week.md coaching sections.
+Establish self-awareness and coaching focus for the quarter. These cascade to weekly planning, appearing in Week.md coaching sections.
 
 ## Process
 
@@ -64,7 +64,7 @@ Questions should be:
 ### Cascade Mechanism
 
 Explain how these cascade:
-- Patterns to Watch appear in monthly planning for pattern check
+- Patterns to Watch appear in weekly planning for pattern check
 - Questions That Serve Me appear in weekly planning for coaching prompts
 - Daily planning references these through Week.md context
 - Reviews check progress against these themes
@@ -77,7 +77,7 @@ After finalizing coaching themes:
 2. Replace `## Coaching Themes` section with:
    - Patterns to Watch (2-3 items)
    - Questions That Serve Me (3-5 items)
-   - Note about cascade to monthly/weekly
+   - Note about cascade to weekly
 3. Write entire file back to `00_Brain/Captive/Quarter.md`
 
 ## Confirm

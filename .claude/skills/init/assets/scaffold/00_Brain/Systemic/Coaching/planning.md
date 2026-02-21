@@ -1,6 +1,6 @@
 # Planning Coaching Guide
 
-Reusable coaching patterns for all planning rituals (daily, weekly, monthly, quarterly, yearly).
+Reusable coaching patterns for all planning rituals (daily, weekly, quarterly, yearly).
 
 ## Dynamic Question Generation
 
@@ -8,7 +8,7 @@ Generate contextual coaching questions from planning context, not pre-phrased te
 
 Synthesize questions from:
 
-1. **Hierarchical context** — goals from Week, Month, Quarter, Year
+1. **Hierarchical context** — goals from Week, Quarter, Year
 2. **Development context** — leadership_identity, growth_edge, key_goals from directives
 3. **Time scale** — daily tactical vs yearly strategic
 

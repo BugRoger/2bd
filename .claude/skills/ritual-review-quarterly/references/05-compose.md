@@ -56,7 +56,7 @@ Archive includes:
 - Preserved frontmatter with `archived: YYYY-MM-DD` added
 - Quarter Overview (preserved)
 - Key Dates (preserved)
-- Monthly Summary with links to monthly archives
+- Weekly Summary with links to weekly archives
 - Wins This Quarter (preserved)
 - Reflections (preserved)
 - Synthesis section (new, from review)

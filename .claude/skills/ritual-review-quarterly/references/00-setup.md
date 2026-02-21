@@ -6,7 +6,7 @@ Load context for quarterly review.
 
 Load from vault:
 - Quarter.md for the target quarter (Captive/Quarter.md)
-- Monthly archives from Periodic/Monthly/ for the quarter's three months
+- Weekly archives from Periodic/Weekly/ for the quarter's ~13 weeks
 - Year.md for annual context and goals
 - User directives for leadership identity, growth edge, patterns to watch
 - Coaching files from Systemic/Coaching/
@@ -19,9 +19,9 @@ Verify quarter state before proceeding:
 
 2. **Archive check** - Look for existing archive in Periodic/Quarterly/. If exists, offer to view existing or re-review.
 
-3. **Monthly coverage** - Check which months have archives in Periodic/Monthly/. If incomplete, offer to:
+3. **Weekly coverage** - Check which weeks have archives in Periodic/Weekly/. If incomplete, offer to:
    - Proceed with partial data
-   - Complete monthly reviews first
+   - Complete weekly reviews first
 
 4. **Archived marker** - Check Quarter.md frontmatter for `archived: true`. If present, quarter was already archived.
 

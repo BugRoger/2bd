@@ -1,7 +1,6 @@
 ---
 week: YYYY-Www
 dates: YYYY-MM-DD to YYYY-MM-DD
-month: YYYY-MM
 quarter: YYYY-QN
 year: YYYY
 week_type: [balanced|meeting-heavy|focus|travel|deadline]
@@ -9,14 +8,14 @@ energy_trend: [rising|stable|declining]
 leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 ---
 
-[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Month|Month]] | [[00_Brain/Captive/Quarter|Quarter]] | [[00_Brain/Captive/Year|Year]]
+[[00_Brain/✱ Home|✱ Home]] | [[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Quarter|Quarter]] | [[00_Brain/Captive/Year|Year]]
 
 ---
 
 ## Context From Above
-> **Month Theme:** [From Month.md Monthly Theme]
-> **Month Outcomes:** [From Month.md Key Outcomes]
 > **Quarter Theme:** [From Quarter.md Quarterly Theme]
+> **Quarter Outcomes:** [From Quarter.md Key Outcomes]
+> **Year Theme:** [From Year.md Vision & Theme]
 
 ---
 
@@ -41,7 +40,7 @@ leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 ### Key Outcomes This Week
 1. *What personal habit or system will you strengthen?*
 2. *What organisational conversation or decision is needed?*
-3. *What strategic deliverable moves the month forward?*
+3. *What strategic deliverable moves the quarter forward?*
 
 ### Focus Theme
 [One theme or area of focus for the week - e.g., "Team building," "Strategic planning," "Execution mode"]
@@ -53,7 +52,7 @@ leadership_intention: [Weekly stance - Decisive, Collaborative, Strategic, etc.]
 
 ## Key Dates
 
-- [Populated during weekly planning from Month + Quarter]
+- [Populated during weekly planning from Quarter + Year]
 
 *Dates within this week's window with countdown urgency*
 

@@ -28,7 +28,7 @@ From daily archives and calendar, compute:
 
 ## Key Dates Check
 
-Load Month.md and review key dates:
+Load Quarter.md and review key dates:
 
 ### Status Check
 
@@ -36,7 +36,7 @@ Load Month.md and review key dates:
 - Were deadlines met?
 - Any dates requiring attention next week?
 
-Surface upcoming dates from Month.md Key Dates section with countdown.
+Surface upcoming dates from Quarter.md Key Dates section with countdown.
 
 ## Present Summary
 

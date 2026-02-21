@@ -29,7 +29,7 @@ For each question:
 - Should it continue or evolve?
 
 Identify new questions that emerged:
-- From monthly reviews
+- From weekly reviews
 - From leadership moments
 - From challenges faced
 

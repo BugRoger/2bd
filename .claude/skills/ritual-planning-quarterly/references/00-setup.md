@@ -12,7 +12,7 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 
 1. Invoke `_resolve-dates` with argument (default: this quarter)
    - Parse: "this quarter", "next quarter", "YYYY-QN"
-   - Return: quarter number (1-4), year, start/end dates, array of 3 months
+   - Return: quarter number (1-4), year, start/end dates
 
 ### Configuration
 
@@ -28,8 +28,8 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 
 ### Prior Quarter Context
 
-8. If not Q1: read `00_Brain/Periodic/YYYY/QN/Quarter.md` for prior quarter
-9. Read monthly archives from prior quarter: `00_Brain/Periodic/YYYY/QN/MM-Month.md` for each month
+8. If not Q1: read `00_Brain/Periodic/Quarterly/YYYY-QN.md` for prior quarter
+9. Read weekly archives from prior quarter: `00_Brain/Periodic/Weekly/YYYY-Www.md` for ~13 weeks
 
 ## Validate
 
@@ -50,7 +50,6 @@ After validation passes:
 2. Fill frontmatter fields derivable from resolved quarter:
    - `quarter`: N
    - `year`: YYYY
-   - `months`: [MM, MM, MM] array
    - `start_date`: first day of quarter
    - `end_date`: last day of quarter
 3. Keep other frontmatter fields as placeholders

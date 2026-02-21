@@ -26,13 +26,11 @@ The heart of 2bd. Organized by metabolic state.
 ├── Captive/               # Working notes
 │   ├── Today.md
 │   ├── Week.md
-│   ├── Month.md
 │   ├── Quarter.md
 │   └── Year.md
 ├── Periodic/              # Archives
 │   ├── Daily/             # YYYY-MM-DD.md
 │   ├── Weekly/            # YYYY-Www.md
-│   ├── Monthly/           # YYYY-MM.md
 │   ├── Quarterly/         # YYYY-QN.md
 │   └── Yearly/            # YYYY.md
 ├── Semantic/              # Crystallized knowledge
@@ -80,7 +78,6 @@ Projects use end-date prefix so nearest deadlines sort first.
 | Hubs | `✱ Title.md` | `✱ Home.md` |
 | Daily | `YYYY-MM-DD.md` | `2026-02-08.md` |
 | Weekly | `YYYY-Www.md` | `2026-W06.md` |
-| Monthly | `YYYY-MM.md` | `2026-02.md` |
 | Quarterly | `YYYY-QN.md` | `2026-Q1.md` |
 | Yearly | `YYYY.md` | `2026.md` |
 | Projects | `YYYY-MM-DD-name.md` | `2026-03-15-launch.md` |

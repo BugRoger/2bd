@@ -22,13 +22,12 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 ### Planning Context
 
 6. Read `00_Brain/Captive/Week.md`
-7. Read `00_Brain/Captive/Month.md`
-8. Read `00_Brain/Captive/Quarter.md`
-9. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
+7. Read `00_Brain/Captive/Quarter.md`
+8. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
 
 ### Derived
 
-11. Parse calendar for 1:1 meetings, glob `02_Areas/People/*.md` for matching names, read matches
+9. Parse calendar for 1:1 meetings, glob `02_Areas/People/*.md` for matching names, read matches
 
 ## Validate
 

@@ -1,6 +1,6 @@
 # Leadership Development
 
-Establish the leadership development context that cascades to all quarterly and monthly planning.
+Establish the leadership development context that cascades to all quarterly and weekly planning.
 
 ## Components
 

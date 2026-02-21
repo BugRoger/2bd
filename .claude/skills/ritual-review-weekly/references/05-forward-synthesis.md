@@ -62,7 +62,7 @@ Guide forward-looking synthesis:
 
 Connect to:
 - Incomplete high-priority items
-- Upcoming key dates from Month.md
+- Upcoming key dates from Quarter.md
 - Energy recovery needs
 - Strategic priorities from Quarter.md
 

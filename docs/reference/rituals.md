@@ -9,14 +9,12 @@ description: "Complete list of all rituals and when to run them."
 # Planning (start of period)
 claude skill run ritual-planning-daily     # Morning
 claude skill run ritual-planning-weekly    # Monday
-claude skill run ritual-planning-monthly   # 1st of month
 claude skill run ritual-planning-quarterly # Start of Q
 claude skill run ritual-planning-yearly    # January
 
 # Review (end of period)
 claude skill run ritual-review-daily       # Evening
 claude skill run ritual-review-weekly      # Sunday
-claude skill run ritual-review-monthly     # End of month
 claude skill run ritual-review-quarterly   # End of Q
 claude skill run ritual-review-yearly      # December
 ```
@@ -27,7 +25,6 @@ claude skill run ritual-review-yearly      # December
 |--------|---------|------|----------|
 | Daily | `ritual-planning-daily` | Morning | Today.md |
 | Weekly | `ritual-planning-weekly` | Monday | Week.md |
-| Monthly | `ritual-planning-monthly` | First of month | Month.md |
 | Quarterly | `ritual-planning-quarterly` | Start of quarter | Quarter.md |
 | Yearly | `ritual-planning-yearly` | January | Year.md |
 
@@ -45,7 +42,6 @@ claude skill run ritual-review-yearly      # December
 |--------|---------|------|-------------|
 | Daily | `ritual-review-daily` | Evening | Periodic/Daily/ |
 | Weekly | `ritual-review-weekly` | Sunday | Periodic/Weekly/ |
-| Monthly | `ritual-review-monthly` | End of month | Periodic/Monthly/ |
 | Quarterly | `ritual-review-quarterly` | End of quarter | Periodic/Quarterly/ |
 | Yearly | `ritual-review-yearly` | December | Periodic/Yearly/ |
 

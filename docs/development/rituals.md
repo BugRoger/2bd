@@ -113,7 +113,7 @@ Load context in this order:
 1. **Skills** — Invoke `_resolve-dates`, `_fetch-calendar`
 2. **Configuration** — Read `00_Brain/Systemic/Directives/user-profile.md`, `00_Brain/Systemic/Directives/ai-personality.md`
 3. **Semantic knowledge** — Read `00_Brain/Semantic/planning-daily/insights.md`
-4. **Planning context** — Read `00_Brain/Captive/Week.md`, `00_Brain/Captive/Month.md`, `00_Brain/Captive/Quarter.md`
+4. **Planning context** — Read `00_Brain/Captive/Week.md`, `00_Brain/Captive/Quarter.md`
 5. **Derived context** — Glob and read files referenced by calendar (e.g., `02_Areas/People/*.md` for 1:1s)
 
 ### Validation gates

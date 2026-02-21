@@ -23,19 +23,18 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 ### Weekly Context
 
 7. Read `00_Brain/Captive/Week.md`
-8. Read `00_Brain/Captive/Month.md`
-9. Read `00_Brain/Captive/Quarter.md`
+8. Read `00_Brain/Captive/Quarter.md`
 
 ### Daily Archives
 
-10. Glob `00_Brain/Periodic/Daily/YYYY-MM-DD*.md` for each workday (Mon-Fri) in target week
-11. Read all matching daily archive files
+9. Glob `00_Brain/Periodic/Daily/YYYY-MM-DD*.md` for each workday (Mon-Fri) in target week
+10. Read all matching daily archive files
 
 ### Derived
 
-12. Parse daily archives for mentioned People and Projects
-13. Glob `02_Areas/People/*.md` for matching names, read matches
-14. Glob `01_Projects/*.md` for matching projects, read matches
+11. Parse daily archives for mentioned People and Projects
+12. Glob `02_Areas/People/*.md` for matching names, read matches
+13. Glob `01_Projects/*.md` for matching projects, read matches
 
 ## Validate
 

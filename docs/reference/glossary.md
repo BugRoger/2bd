@@ -9,8 +9,8 @@ How notes are organized based on their activity level and volatility.
 
 | Term | Definition |
 |------|------------|
-| **Captive** | Working notes with high-velocity, volatile intake. Lives in `00_Brain/Captive/`. Examples: Today.md, Week.md |
-| **Periodic** | Archived notes forming the permanent timeline. Lives in `00_Brain/Periodic/`. Examples: Daily/, Weekly/ |
+| **Captive** | Working notes with high-velocity, volatile intake. Lives in `00_Brain/Captive/`. Examples: Today.md, Week.md, Quarter.md |
+| **Periodic** | Archived notes forming the permanent timeline. Lives in `00_Brain/Periodic/`. Examples: Daily/, Weekly/, Quarterly/ |
 | **Semantic** | Crystallized knowledge and reference material. Lives in `00_Brain/Semantic/`. Contains insights extracted from rituals |
 | **Synthetic** | Active drafts and works in progress. Lives in `00_Brain/Synthetic/`. Contains observations being processed |
 | **Systemic** | Infrastructure: templates, directives, coaching. Lives in `00_Brain/Systemic/` |

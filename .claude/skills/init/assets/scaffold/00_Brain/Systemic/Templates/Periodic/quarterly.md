@@ -1,7 +1,6 @@
 ---
 quarter: YYYY-QN
 year: YYYY
-months: [YYYY-MM, YYYY-MM, YYYY-MM]
 archived: YYYY-MM-DD
 ---
 
@@ -25,12 +24,10 @@ archived: YYYY-MM-DD
 
 ---
 
-## Monthly Summary
+## Weekly Summary
 
-### Months This Quarter
-- [[00_Brain/Periodic/Monthly/YYYY-MM|Month 1]] - [One-line summary]
-- [[00_Brain/Periodic/Monthly/YYYY-MM|Month 2]] - [One-line summary]
-- [[00_Brain/Periodic/Monthly/YYYY-MM|Month 3]] - [One-line summary]
+### Weeks This Quarter
+[Links to ~13 weekly archives with one-line summaries]
 
 ---
 

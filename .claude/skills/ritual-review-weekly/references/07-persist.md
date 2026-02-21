@@ -89,7 +89,6 @@ Semantic Updates:
 
 Next Steps:
 - Weekly planning when ready
-- Monthly review approaching (Feb 28)
 - Quarter.md update suggested (new pattern observed)
 ```
 

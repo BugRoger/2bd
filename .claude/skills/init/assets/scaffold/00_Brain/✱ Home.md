@@ -3,7 +3,7 @@ cssClasses: dashboard
 type: hub
 ---
 
-[[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Week|Week]] | [[00_Brain/Captive/Month|Month]] | [[00_Brain/Captive/Quarter|Quarter]] | [[00_Brain/Captive/Year|Year]]
+[[00_Brain/Captive/Today|Today]] | [[00_Brain/Captive/Week|Week]] | [[00_Brain/Captive/Quarter|Quarter]] | [[00_Brain/Captive/Year|Year]]
 
 ---
 
@@ -22,9 +22,9 @@ type: hub
 
 ## Metabolic States
 
-- **Captive** - Active working notes (Today, Week, Month, Quarter, Year)
+- **Captive** - Active working notes (Today, Week, Quarter, Year)
 - **Synthetic** - Project drafts and active work
-- **Periodic** - Timeline archives (Daily, Weekly, Monthly, Quarterly, Yearly)
+- **Periodic** - Timeline archives (Daily, Weekly, Quarterly, Yearly)
 - **Semantic** - Crystallized knowledge and evergreen notes
 - **Systemic** - Templates and SOPs
 

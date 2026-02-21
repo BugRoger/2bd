@@ -7,23 +7,23 @@ Skip this phase for Q1 planning when no prior quarter exists.
 ## Process
 
 1. Extract data from prior quarter archives
-2. Synthesize patterns across the three months
+2. Synthesize patterns across ~13 weeks
 3. Present summary to user
 
 ## Content
 
-### Monthly Themes
+### Weekly Themes
 
-From the three monthly archives:
-- **Month 1** — Theme and key focus
-- **Month 2** — Theme and evolution
-- **Month 3** — Theme and completion arc
+From the weekly archives (~13 weeks):
+- **Early quarter** — Themes and momentum in weeks 1-4
+- **Mid quarter** — Evolution and pivots in weeks 5-9
+- **Late quarter** — Completion arc in weeks 10-13
 
 Look for: progression, organic themes that emerged, unexpected pivots
 
 ### Accomplishments
 
-Synthesize from monthly archives:
+Synthesize from weekly archives:
 
 **By Category:**
 - **Personal** — Leadership growth wins, skills leveled up
@@ -37,7 +37,7 @@ Synthesize from monthly archives:
 
 ### Carryover Candidates
 
-From prior Quarter.md and monthly archives:
+From prior Quarter.md and weekly archives:
 - Incomplete outcomes from prior quarter
 - Items explicitly marked for continuation
 - Patterns that need continued attention
@@ -47,8 +47,8 @@ For each candidate: assess honest effort vs deferral vs abandonment
 
 ### Leadership Development Progress
 
-From monthly coaching sections:
-- **Growth edge progress** — Movement across three months
+From weekly coaching sections:
+- **Growth edge progress** — Movement across weeks
 - **Coaching insights** — Key realizations captured
 - **Avoided conversations** — Trend (improving or recurring)
 - **Delegation patterns** — Evolution over the quarter
@@ -69,7 +69,7 @@ After presenting prior synthesis:
 
 1. Read `00_Brain/Captive/Quarter.md`
 2. Replace `## Synthesis from Prior Quarter` section with:
-   - Monthly themes progression
+   - Weekly themes progression
    - Key accomplishments by category
    - Carryover candidates with honest assessment
    - Leadership development progress summary
