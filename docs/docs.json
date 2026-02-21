@@ -56,6 +56,7 @@
             "pages": [
               "development/skills",
               "development/rituals",
+              "development/tracks",
               "development/actions",
               "development/templates",
               "development/directives",

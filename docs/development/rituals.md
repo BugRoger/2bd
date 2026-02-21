@@ -170,6 +170,7 @@ This shapes tone, initiative level, and interaction style.
 
 ## Related
 
+- [Tracks](/development/tracks) — Track system and extensibility
 - [Skills](/development/skills) — Skill architecture and creation
 - [Templates](/development/templates) — Template structure and contracts
 - [Rituals reference](/reference/rituals) — Complete ritual command reference
