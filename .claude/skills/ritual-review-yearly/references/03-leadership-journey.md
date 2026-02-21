@@ -45,7 +45,7 @@ Identify the through-line:
 
 ## Coaching Guidance Integration
 
-Apply yearly coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review-yearly.md` if available.
+Apply yearly coaching guidance from `$VAULT/00_Brain/Systemic/Coaching/review/yearly.md` and `leadership/yearly.md`.
 
 ## Synthesis Questions
 

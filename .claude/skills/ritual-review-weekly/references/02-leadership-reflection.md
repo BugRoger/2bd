@@ -59,7 +59,7 @@ Connect to:
 
 ## Apply Coaching
 
-Load `00_Brain/Systemic/Coaching/review-weekly.md` if available.
+Load `00_Brain/Systemic/Coaching/review/weekly.md` and `leadership/weekly.md`.
 
 Reference coaching questions for leadership reflection. Connect observations to user's growth edge from directives.
 

@@ -9,7 +9,8 @@ Load from vault:
 - Weekly archives from Periodic/Weekly/ for the quarter's ~13 weeks
 - Year.md for annual context and goals
 - User directives for leadership identity, growth edge, patterns to watch
-- Coaching files from Systemic/Coaching/
+- `00_Brain/Systemic/Coaching/review/quarterly.md` (graceful if not exists)
+- `00_Brain/Systemic/Coaching/leadership/quarterly.md` (graceful if not exists)
 
 ## Validation
 

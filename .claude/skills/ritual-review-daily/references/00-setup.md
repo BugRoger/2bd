@@ -17,8 +17,8 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 
 3. Read `00_Brain/Systemic/Directives/user-profile.md`
 4. Read `00_Brain/Systemic/Directives/ai-personality.md`
-5. Read `00_Brain/Systemic/Coaching/review.md`
-6. Read `00_Brain/Systemic/Coaching/leadership.md`
+5. Read `00_Brain/Systemic/Coaching/review/daily.md`
+6. Read `00_Brain/Systemic/Coaching/leadership/daily.md`
 7. Read `00_Brain/Semantic/review-daily/insights.md` (graceful if not exists)
 
 ### Review Context

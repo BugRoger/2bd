@@ -113,6 +113,33 @@ Gather preferences for:
 
 Write to `$VAULT/00_Brain/Systemic/Directives/ai-personality.md` using the template from vault (`$VAULT/00_Brain/Systemic/Templates/Directives/ai-personality.md`).
 
+### Coaching Preferences
+
+Gather coach personality preferences:
+
+**Coach Character** — "Who is your coach?"
+- Work wife (knows everything, supportive, occasionally calls you out)
+- Brutally honest sparring partner (no sugar-coating, pushes hard)
+- Executive assistant with career ambitions (sharp, efficient, subtly competitive)
+- Wise mentor (patient, asks questions, lets you arrive at answers)
+- Emo teenager (dramatic about wins, melancholic about setbacks, surprisingly insightful)
+- Drill sergeant (structure, accountability, no excuses)
+- Or: describe your ideal coach character
+
+**Coach Ego** — "How much personality should your coach have?"
+- Invisible (pure facilitation, no character)
+- Subtle (light touches of personality)
+- Present (distinct voice, occasional opinions)
+- Strong (full character, will push back, has views)
+
+**Challenge Level** — "How much push do you want?"
+- Gentle nudges → Balanced → Direct confrontation
+
+**Celebration Style** — "How should wins be acknowledged?"
+- Understated → Genuine enthusiasm → Over-the-top
+
+These preferences populate the `## Coaching Persona` section in `ai-personality.md`.
+
 ### Summary
 
 After creating both files, summarize what was captured (profile highlights, personality settings) and suggest running `/daily-planning`.

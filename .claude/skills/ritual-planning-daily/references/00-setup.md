@@ -17,17 +17,19 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 
 3. Read `00_Brain/Systemic/Directives/user-profile.md`
 4. Read `00_Brain/Systemic/Directives/ai-personality.md`
-5. Read `00_Brain/Semantic/planning-daily/insights.md` (graceful if not exists)
+5. Read `00_Brain/Systemic/Coaching/planning/daily.md`
+6. Read `00_Brain/Systemic/Coaching/leadership/daily.md`
+7. Read `00_Brain/Semantic/planning-daily/insights.md` (graceful if not exists)
 
 ### Planning Context
 
-6. Read `00_Brain/Captive/Week.md`
-7. Read `00_Brain/Captive/Quarter.md`
-8. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
+8. Read `00_Brain/Captive/Week.md`
+9. Read `00_Brain/Captive/Quarter.md`
+10. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
 
 ### Derived
 
-9. Parse calendar for 1:1 meetings, glob `02_Areas/People/*.md` for matching names, read matches
+11. Parse calendar for 1:1 meetings, glob `02_Areas/People/*.md` for matching names, read matches
 
 ## Validate
 

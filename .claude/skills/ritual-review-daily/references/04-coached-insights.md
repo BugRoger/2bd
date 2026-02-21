@@ -4,7 +4,7 @@ Guide through insights reflection with personalized coaching. Look for patterns,
 
 ## Coaching Source
 
-Apply patterns from `$VAULT/00_Brain/Systemic/Coaching/review.md` and `leadership.md`.
+Apply patterns from `$VAULT/00_Brain/Systemic/Coaching/review/daily.md` and `leadership/daily.md`.
 
 Synthesize questions from:
 1. **Energy trajectory** — morning vs. evening, what shifted

@@ -18,12 +18,14 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 3. Read `00_Brain/Systemic/Directives/user-profile.md`
 4. Read `00_Brain/Systemic/Directives/ai-personality.md`
 5. Read `00_Brain/Semantic/planning-weekly/insights.md` (graceful if not exists)
+6. Read `00_Brain/Systemic/Coaching/planning/weekly.md`
+7. Read `00_Brain/Systemic/Coaching/leadership/weekly.md`
 
 ### Planning Context
 
-6. Read `00_Brain/Captive/Quarter.md`
-7. Read `00_Brain/Captive/Year.md`
-8. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
+8. Read `00_Brain/Captive/Quarter.md`
+9. Read `00_Brain/Captive/Year.md`
+10. Glob `01_Projects/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md`, read all matches
 
 ## Validate
 

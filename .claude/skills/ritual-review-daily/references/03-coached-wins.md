@@ -4,7 +4,7 @@ Guide through wins reflection with personalized coaching. Generate contextual qu
 
 ## Coaching Source
 
-Apply patterns from `$VAULT/00_Brain/Systemic/Coaching/review.md` and `leadership.md`.
+Apply patterns from `$VAULT/00_Brain/Systemic/Coaching/review/daily.md` and `leadership/daily.md`.
 
 Synthesize questions from:
 1. **Day content** — meetings held, priorities addressed, captures made, energy reported

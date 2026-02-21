@@ -8,7 +8,8 @@ Load from vault:
 - Year.md for the target year (Captive/Year.md)
 - Quarterly archives from Periodic/Quarterly/ for the year's four quarters
 - User directives for leadership identity, growth edge, patterns to watch
-- Coaching files from Systemic/Coaching/
+- `00_Brain/Systemic/Coaching/review/yearly.md` (graceful if not exists)
+- `00_Brain/Systemic/Coaching/leadership/yearly.md` (graceful if not exists)
 - Semantic notes from Semantic/review-yearly/ for prior crystallized insights
 
 ## Validation

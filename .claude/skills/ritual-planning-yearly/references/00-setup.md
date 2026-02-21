@@ -18,6 +18,8 @@ Skill root is `.claude/`. Read vault path from `config.md`. Vault paths below ar
 2. Read `00_Brain/Systemic/Directives/user-profile.md`
 3. Read `00_Brain/Systemic/Directives/ai-personality.md`
 4. Read `00_Brain/Semantic/planning-yearly.md` (graceful if not exists)
+5. Read `00_Brain/Systemic/Coaching/planning/yearly.md` (graceful if not exists)
+6. Read `00_Brain/Systemic/Coaching/leadership/yearly.md` (graceful if not exists)
 
 ### Planning Context
 
