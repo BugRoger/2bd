@@ -107,9 +107,9 @@ When adding new rules to this document, follow these principles:
 
 ## Documentation
 
-**[Full docs →](https://2bd.l48a.de/development/skills)**
+**[Full docs →](https://2bd.l48a.de/reference/creating-custom-assistants)**
 
-For skill creation, templates, rituals, and guidelines, see the Development tab in docs.
+For skill creation, templates, rituals, and guidelines, see the Reference tab in docs.
 
 ## Docs Linking (Mintlify)
 
