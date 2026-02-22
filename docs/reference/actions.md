@@ -95,4 +95,4 @@ cd ~/Code/2bd-engine
 
 - [Actions development](/development/actions) — Creating custom actions
 - [Skills](/development/skills) — Understanding skill types
-- [Rituals reference](/reference/rituals) — Scheduled ritual commands
+- [How Ada works](/ada/how-it-works) — Scheduled ritual commands

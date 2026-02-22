@@ -330,7 +330,6 @@ A constraint that forces prioritization:
 
 ## Related
 
-- [GPS methodology](/overview/gps-methodology) - The framework behind these templates
-- [Rituals reference](/reference/rituals) - When templates get updated
+- [Goals](/ada/goals) - The GPS methodology behind these templates
+- [How Ada works](/ada/how-it-works) - The ritual cycle explained
 - [Vault structure](/reference/vault-structure) - Where templates live
-- [How it works](/overview/how-it-works) - The ritual cycle explained

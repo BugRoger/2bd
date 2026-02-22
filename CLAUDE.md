@@ -47,6 +47,10 @@ See all rules in section **## Agent-Specific Notes**
 See all rules in section **## Refactoring**
 1. Implementation plans in `.plans/` are authoritative over existing documentation during refactoring
 
+### 7. Skill Development
+See all rules in section **## Skill Development**
+1. ALWAYS use @skill-creator:skill-creator when creating or modifying skills
+
 ---
 
 ## META - MAINTAINING THIS DOCUMENT
@@ -125,7 +129,7 @@ When modifying timescales, update these locations:
 - `init/assets/scaffold/00_Brain/Systemic/Assistants/` — Ada multi-assistant sequences
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Captive/{scale}.md`
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Periodic/{scale}ly.md`
-- `docs/reference/rituals.md`, `docs/overview/how-it-works.md`
+- `docs/ada/how-it-works.md`
 - `docs/reference/vault-structure.md`, `docs/reference/glossary.md`
 - `docs/how-it-works.excalidraw.json`
 - `init/assets/scaffold/00_Brain/✱ Home.md` (navigation)
@@ -153,3 +157,9 @@ When modifying timescales, update these locations:
 
 - **Implementation plans are authoritative**: when executing a `.plans/*.md` file, the plan takes precedence over existing documentation or code comments that may be outdated
 - **Grep for old names**: when renaming/deleting skills, run `grep -r "old-skill-name" docs/` to find all documentation references that need updating
+
+---
+
+## Skill Development
+
+- **Use skill-creator**: ALWAYS use @skill-creator:skill-creator when creating or modifying skills for patterns and conventions

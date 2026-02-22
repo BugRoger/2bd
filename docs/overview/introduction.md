@@ -67,5 +67,5 @@ claude skill run ritual-reflection-daily  # evening cycle
 
 ## Jack in
 
-- [Getting Started](/setup/installation) — Get 2bd running in five minutes.
-- [Core concepts](/overview/concepts) — Understand the organizing principles.
+- [Getting Started](/setup/installation) — Get 2bd running in five minutes
+- [Meet Ada](/ada/how-it-works) — Your executive assistant and how she works

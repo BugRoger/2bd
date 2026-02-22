@@ -3,7 +3,7 @@ title: "Rituals"
 description: "How to create and modify rituals."
 ---
 
-Rituals are [skills](/development/skills) that run on a schedule, driving the 2bd productivity loop. See [How it works](/overview/how-it-works) for the ritual cycle.
+Rituals are [skills](/development/skills) that run on a schedule, driving the 2bd productivity loop. See [How Ada works](/ada/how-it-works) for the ritual cycle.
 
 ## Ritual types
 
@@ -173,4 +173,4 @@ This shapes tone, initiative level, and interaction style.
 - [Tracks](/development/tracks) — Track system and extensibility
 - [Skills](/development/skills) — Skill architecture and creation
 - [Templates](/development/templates) — Template structure and contracts
-- [Rituals reference](/reference/rituals) — Complete ritual command reference
+- [How Ada works](/ada/how-it-works) — Complete ritual command reference

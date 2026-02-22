@@ -15,7 +15,7 @@ How notes are organized based on their activity level and volatility.
 | **Synthetic** | Active drafts and works in progress. Lives in `00_Brain/Synthetic/`. Contains observations being processed |
 | **Systemic** | Infrastructure: templates, directives, coaching. Lives in `00_Brain/Systemic/` |
 
-See [Core concepts](/overview/concepts) for detailed explanation.
+See [How Ada works](/ada/how-it-works) for detailed explanation.
 
 ## Skills
 
@@ -73,4 +73,4 @@ See [Naming conventions](/reference/naming-conventions) for complete rules.
 | **Crystallize** | Converting graduated observations into Semantic knowledge |
 | **Template evolution** | Applying crystallized insights to improve templates |
 
-See [How it works](/overview/how-it-works#self-learning) for the learning cycle.
+See [How Ada works](/ada/how-it-works#self-learning) for the learning cycle.

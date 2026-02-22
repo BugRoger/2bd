@@ -99,4 +99,4 @@ Edit these to customize how Claude coaches you through rituals.
 - [Directives](/development/directives) — How directives personalize Claude
 - [Templates](/development/templates) — Template structure and modification
 - [Vault structure](/reference/vault-structure) — Complete vault organization
-- [Core concepts](/overview/concepts) — Understanding metabolic states
+- [How Ada works](/ada/how-it-works) — Understanding metabolic states
