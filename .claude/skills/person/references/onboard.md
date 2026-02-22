@@ -1,11 +1,3 @@
----
-name: onboard-person 
-description: Create a new person dossier through guided interview. Use to onboard a colleague into your people management system.
-argument-hint: "[firstname-lastname]"
-metadata:
-  orchestrated: true
----
-
 # Person Onboard
 
 Create a living dossier for a colleague through a guided interview.
@@ -57,7 +49,7 @@ If the user doesn't have this info yet, skip gracefully.
 
 ### Filename
 
-Derive from full name if not provided in arguments: lowercase, spaces to hyphens, remove special characters (umlauts to base letter). Example: "Fabian Krönner" → `fabian-kronner.md`.
+Derive from full name if not provided in arguments: lowercase, spaces to hyphens, remove special characters (umlauts to base letter). Example: "Fabian Kronner" -> `fabian-kronner.md`.
 
 ### File Structure
 

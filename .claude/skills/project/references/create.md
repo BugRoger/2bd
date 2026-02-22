@@ -1,11 +1,3 @@
----
-name: create-project
-description: Create a new project with guided setup. Syncs to vault (and future: Finder, Outlook).
-argument-hint: "[project-name]"
-metadata:
-  orchestrated: true
----
-
 # Create Project Command
 
 Interactive wizard for creating new projects with full lifecycle support.

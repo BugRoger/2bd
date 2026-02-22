@@ -1,11 +1,3 @@
----
-name: archive-project
-description: Archive a completed project. Captures final summary and moves to archives across synced tools.
-argument-hint: "[project-slug]"
-metadata:
-  orchestrated: true
----
-
 # Archive Project Command
 
 Interactive workflow for archiving completed projects with summary capture and vault sync.

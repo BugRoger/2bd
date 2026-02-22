@@ -14,11 +14,11 @@ claude skill run init --args "reconnect --vault=~/path" # Existing vault
 claude skill run init --args "profile"                   # Update profile
 
 # Projects
-claude skill run create-project --args "Project Name"
-claude skill run archive-project --args "project-name"
+/project create "Project Name"
+/project archive "project-name"
 
 # People
-claude skill run onboard-person
+/person onboard "firstname-lastname"
 ```
 
 ## Available actions
@@ -44,46 +44,33 @@ claude skill run init --args "profile"
 | `reconnect --vault=PATH` | Connect to existing vault |
 | `profile` | Update user profile and AI personality |
 
-### create-project
+### project
 
-Initialize a new project file.
-
-```bash
-claude skill run create-project --args "Project Name"
-```
-
-Creates a project file at `01_Projects/YYYY-MM-DD-project-name.md` with:
-- End date in filename (for sorting)
-- Project template structure
-- Link in ✱ Projects.md hub
-
-### archive-project
-
-Archive a completed project.
+Manage project lifecycle.
 
 ```bash
-claude skill run archive-project --args "project-name"
+/project create "Project Name"
+/project archive "project-name"
 ```
 
-Moves project to `04_Archives/` and updates:
-- ✱ Projects.md hub
-- Any linked notes
+| Subaction | Purpose |
+|-----------|---------|
+| `create "Name"` | Create new project file at `01_Projects/YYYY-MM-DD-name.md` |
+| `archive "slug"` | Move project to `04_Archives/` with summary |
 
-### onboard-person
+### person
 
-Create a new person dossier through guided interview.
+Manage people in your network.
 
 ```bash
-claude skill run onboard-person
+/person onboard "firstname-lastname"
 ```
 
-Walks through:
-- Basic information
-- Role and relationship
-- Communication preferences
-- Key context to remember
+| Subaction | Purpose |
+|-----------|---------|
+| `onboard "name"` | Create person dossier via guided interview |
 
-Creates file at `02_Areas/People/FirstNameL.md`.
+Creates file at `02_Areas/People/firstname-lastname.md`.
 
 ## Running actions
 
@@ -91,8 +78,8 @@ Creates file at `02_Areas/People/FirstNameL.md`.
 # Always from engine directory
 cd ~/Code/2bd-engine
 
-# Pattern: claude skill run {action-name} [--args "arguments"]
-claude skill run create-project --args "Q1 Launch"
+# Pattern: /skill [action] [arguments]
+/project create "Q1 Launch"
 ```
 
 ## Action vs ritual
