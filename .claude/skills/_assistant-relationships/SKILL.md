@@ -1,6 +1,9 @@
 ---
 name: _assistant-relationships
 description: Relationships assistant. Tracks people touchpoints, connection intentions, and relationship health.
+timescales:
+  plan: [daily, weekly]
+  reflect: [daily, weekly]
 ---
 
 # Relationships Assistant

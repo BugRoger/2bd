@@ -1,6 +1,9 @@
 ---
 name: _assistant-journal
 description: Journal assistant. Captures thoughts, reflections, and personal insights during rituals.
+timescales:
+  plan: [daily, weekly]
+  reflect: [daily, weekly, quarterly, yearly]
 ---
 
 # Journal Assistant

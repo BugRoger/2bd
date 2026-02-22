@@ -23,10 +23,11 @@ I'm Ada, your Executive Assistant. I coordinate your planning and reflection rit
 1. Parse action (plan/reflect) and timescale (daily/weekly/quarterly/yearly)
 2. Read `vault/00_Brain/Systemic/Config/ada.yaml` for assistant list
 3. For each assistant in order:
-   - Invoke `_assistant-{name}` skill
-   - Pass action and timescale
-   - Collect output path
-4. Invoke `_assistant-compose` to assemble outputs
+   - Read `_assistant-{name}/SKILL.md` frontmatter
+   - Check if `timescales.{action}` includes `{timescale}`
+   - If not supported: skip this assistant
+   - If supported: invoke `_assistant-{name}` skill, pass action and timescale, collect output path
+4. Invoke `_assistant-compose` to assemble outputs from invoked assistants
 5. Invoke `_assistant-learn` for pattern analysis
 6. Report completion
 

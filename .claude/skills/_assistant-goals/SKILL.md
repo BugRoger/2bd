@@ -1,6 +1,9 @@
 ---
 name: _assistant-goals
 description: Goals planning and reflection assistant. Handles 1-3-5 (daily), Major Moves (weekly), Quests (quarterly), Annual Goals (yearly).
+timescales:
+  plan: [daily, weekly, quarterly, yearly]
+  reflect: [daily, weekly, quarterly, yearly]
 ---
 
 # Goals Assistant

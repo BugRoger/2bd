@@ -1,6 +1,9 @@
 ---
 name: _assistant-achievements
 description: Achievements assistant. Captures wins, accomplishments, and evidence of impact.
+timescales:
+  plan: [daily, weekly]
+  reflect: [daily, weekly, quarterly, yearly]
 ---
 
 # Achievements Assistant

@@ -1,6 +1,9 @@
 ---
 name: _assistant-brief
 description: Brief assistant. Generates daily/weekly brief with context, priorities, and leadership intention.
+timescales:
+  plan: [daily, weekly]
+  reflect: [daily, weekly]
 ---
 
 # Brief Assistant

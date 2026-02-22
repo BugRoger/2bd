@@ -1,6 +1,9 @@
 ---
 name: _assistant-calendar
 description: Calendar assistant. Meeting prep, day shape analysis, and post-meeting reflection.
+timescales:
+  plan: [daily, weekly]
+  reflect: [daily, weekly]
 ---
 
 # Calendar Assistant

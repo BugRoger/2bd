@@ -9,3 +9,4 @@ Shared references for all Ada assistants.
 
 1. [Output Format](references/output-format.md)
 2. [Knowledge Model](references/knowledge-model.md)
+3. [Timescale Declaration](references/timescales.md)

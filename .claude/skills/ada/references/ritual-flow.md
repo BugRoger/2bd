@@ -53,16 +53,10 @@ Same flow with action=reflect, outputs to Periodic/{timescale}/
 | "plan the year" | plan | yearly |
 | "yearly reflection" | reflect | yearly |
 
-## Assistant Subset by Timescale
+## Assistant Timescale Support
 
-Not all assistants run at all timescales:
+Each assistant declares its supported timescales in SKILL.md frontmatter.
 
-| Assistant | Daily | Weekly | Quarterly | Yearly |
-|-----------|-------|--------|-----------|--------|
-| brief | ✓ | ✓ | - | - |
-| goals | ✓ | ✓ | ✓ | ✓ |
-| calendar | ✓ | ✓ | - | - |
-| journal | ✓ | ✓ | ✓ | ✓ |
-| achievements | ✓ | ✓ | ✓ | ✓ |
-| relationships | ✓ | ✓ | - | - |
-| projects | ✓ | ✓ | - | - |
+See @_assistant-protocol/references/timescales.md for the contract.
+
+Ada reads this declaration and skips assistants that don't support the current action+timescale.

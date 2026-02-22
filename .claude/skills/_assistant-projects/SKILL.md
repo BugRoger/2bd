@@ -1,6 +1,9 @@
 ---
 name: _assistant-projects
 description: Projects assistant. Tracks project status, blockers, and next actions.
+timescales:
+  plan: [daily, weekly]
+  reflect: [daily, weekly]
 ---
 
 # Projects Assistant
