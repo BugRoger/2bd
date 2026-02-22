@@ -23,10 +23,13 @@ timescales:
 
 ## How Ada Uses This
 
-1. Ada reads the assistant's SKILL.md frontmatter
-2. Checks if `timescales.{action}` includes current `{timescale}`
-3. If yes: invokes the assistant
-4. If no: skips (no invocation, no output file)
+1. Ada reads the assistant's SKILL.md file directly (using Read tool)
+2. Parses YAML frontmatter to extract `timescales`
+3. Checks if `timescales.{action}` includes current `{timescale}`
+4. If yes: invokes the assistant
+5. If no: skips (no invocation, no output file)
+
+**Note:** The `timescales` attribute is custom — not part of Claude Code's built-in skill schema. IDE warnings about "unsupported attribute" are expected. Ada reads files directly, bypassing Claude Code's skill loader, so custom frontmatter works.
 
 ## Adding Timescale Support
 
