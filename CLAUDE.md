@@ -43,6 +43,10 @@ See all rules in section **## Agent-Specific Notes**
 7. When user says "commit": scope to your changes only
 8. When user says "commit all": commit everything in grouped chunks
 
+### 6. Refactoring
+See all rules in section **## Refactoring**
+1. Implementation plans in `.plans/` are authoritative over existing documentation during refactoring
+
 ---
 
 ## META - MAINTAINING THIS DOCUMENT
@@ -142,3 +146,10 @@ When modifying timescales, update these locations:
 - **When user says "commit all"**: commit everything in grouped chunks
 - **Unrecognized files**: keep going; focus on your changes and commit only those
 - **Reports**: focus on your edits; avoid guard-rail disclaimers unless truly blocked; end with brief "other files present" note only if relevant
+
+---
+
+## Refactoring
+
+- **Implementation plans are authoritative**: when executing a `.plans/*.md` file, the plan takes precedence over existing documentation or code comments that may be outdated
+- **Grep for old names**: when renaming/deleting skills, run `grep -r "old-skill-name" docs/` to find all documentation references that need updating
