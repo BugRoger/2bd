@@ -1,5 +1,25 @@
 # 2bd (Second Brain Daemon)
 
+```
+[BOOT_SEQUENCE]
+> BIOMETRIC_SCAN.............. [MATCH]
+> SYNCING_AUGMENT............. [100%]
+> NEURAL_STORM_FILTER......... [ACTIVE]
+
+ ____________________________________
+|  ___   ___   ___                   |
+| |__ \ | _ ) |   \   [SYSTEM_ON]    |
+|  / __/| _ \ | |) |   v0.1.269      |
+| |____||___/ |___/   [LINK_ACTIVE]  |
+|____________________________________|
+    |||   |||   |||
+    `-----'-----'---[NEURAL_FEED]
+
+> ALLOCATING_BUFFERS...
+> MOUNTING: /mnt/brain/2bd/vault
+> STATUS: ONLINE
+```
+
 A personal knowledge system that runs itself—powered by Claude, driven by daily rituals, stored in markdown.
 
 ## Quick Start

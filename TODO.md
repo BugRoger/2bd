@@ -3,11 +3,10 @@
 Ideas, improvements, and features for later reference.
 
 ## Ideas
-- 
+- Explore split coaches / assistants into agents 
 
 ## Improvements
-- Move docs into a structure docs. Reference docs as single source of truth e.g. /docs/rituals.md
-- Restructure Readme to an installation and contribution instruction
+- 
 
 ## Features
 -
