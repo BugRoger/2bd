@@ -1,31 +1,28 @@
 #!/bin/bash
-# UserPromptSubmit hook that forces explicit skill evaluation
+# UserPromptSubmit hook that enforces skill activation
 #
-# This hook requires Claude to explicitly evaluate each available skill
-# before proceeding with implementation.
-#
-# Installation: Copy to .claude/hooks/UserPromptSubmit
+# This hook requires Claude to activate relevant skills before implementation.
 
 cat <<'EOF'
-INSTRUCTION: MANDATORY SKILL ACTIVATION SEQUENCE
+INSTRUCTION: MANDATORY SKILL ACTIVATION
 
-Step 1 - EVALUATE (do this in your response):
-For each skill in <available_skills>, state: [skill-name] - YES/NO - [reason]
+Check <available_skills> for relevance before proceeding.
 
-Step 2 - ACTIVATE (do this immediately after Step 1):
-IF any skills are YES → Use Skill(skill-name) tool for EACH relevant skill NOW
-IF no skills are YES → State "No skills needed" and proceed
+IF any skills are relevant:
+  1. State which skills and why (only mention relevant ones)
+  2. Activate ALL relevant skills with Skill() tool - multiple skills can be activated together
+  3. Then proceed with implementation
 
-Step 3 - IMPLEMENT:
-Only after Step 2 is complete, proceed with implementation.
+IF no skills are relevant:
+  - Proceed directly (no statement needed)
 
-CRITICAL: You MUST call Skill() tool in Step 2. Do NOT skip to implementation.
-The evaluation (Step 1) is WORTHLESS unless you ACTIVATE (Step 2) the skills.
+Example when multiple skills are relevant:
+  relevant skills: mongo (querying database), local-docs (using go-pkgz)
+  [activates Skill(mongo)]
+  [activates Skill(local-docs)]
+  [then proceeds with implementation]
 
-Example of correct sequence:
-- research: NO - not a research task
-- svelte5-runes: YES - need reactive state
-- sveltekit-structure: YES - creating routes
-
-[THEN and ONLY THEN start implementation]
+CRITICAL: Activate ALL relevant skills via Skill() tool before implementation.
+Multiple skills can and should be activated when applicable.
+Mentioning a skill without activating it is worthless.
 EOF
