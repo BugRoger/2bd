@@ -41,7 +41,7 @@ After meetings, Calendar prompts:
 
 ## Configuration
 
-Calendar requires a provider. See [Configuration](/setup/configuration) for setup.
+Calendar requires a provider. See [Configuration](/configuration/hooks-and-integrations) for setup.
 
 ## What Calendar produces
 

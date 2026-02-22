@@ -129,7 +129,7 @@ When modifying timescales, update these locations:
 - `init/assets/scaffold/00_Brain/Systemic/Assistants/` — Ada multi-assistant sequences
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Captive/{scale}.md`
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Periodic/{scale}ly.md`
-- `docs/ada/how-it-works.md`
+- `docs/ada/how-ada-works.md`
 - `docs/reference/vault-structure.md`, `docs/reference/glossary.md`
 - `docs/how-it-works.excalidraw.json`
 - `init/assets/scaffold/00_Brain/✱ Home.md` (navigation)

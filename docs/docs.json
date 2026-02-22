@@ -26,7 +26,24 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["overview/introduction"]
+            "pages": [
+              "overview/what-is-2bd",
+              "overview/what-you-get",
+              "overview/quick-start"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Configuration",
+        "groups": [
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/installation",
+              "configuration/settings-and-directives",
+              "configuration/hooks-and-integrations"
+            ]
           }
         ]
       },
@@ -35,49 +52,28 @@
         "groups": [
           {
             "group": "Ada",
-            "pages": ["ada/how-it-works"]
-          },
-          {
-            "group": "Domain Assistants",
             "pages": [
-              "ada/brief",
-              "ada/goals",
-              "ada/calendar",
-              "ada/journal",
-              "ada/achievements",
-              "ada/relationships",
-              "ada/projects"
+              "ada/how-ada-works",
+              "ada/talking-to-ada",
+              "ada/your-first-ritual"
             ]
           }
         ]
       },
       {
-        "tab": "Setup",
+        "tab": "Assistants",
         "groups": [
           {
-            "group": "Setup",
+            "group": "Assistants",
             "pages": [
-              "setup/prerequisites",
-              "setup/installation",
-              "setup/configuration"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Development",
-        "groups": [
-          {
-            "group": "Development",
-            "pages": [
-              "development/skills",
-              "development/rituals",
-              "development/tracks",
-              "development/actions",
-              "development/templates",
-              "development/directives",
-              "development/paths",
-              "development/style"
+              "assistants/overview",
+              "assistants/brief",
+              "assistants/goals",
+              "assistants/calendar",
+              "assistants/journal",
+              "assistants/achievements",
+              "assistants/relationships",
+              "assistants/projects"
             ]
           }
         ]
@@ -88,9 +84,10 @@
           {
             "group": "Reference",
             "pages": [
-              "reference/templates",
-              "reference/actions",
+              "reference/creating-custom-assistants",
+              "reference/creating-custom-rituals",
               "reference/vault-structure",
+              "reference/templates",
               "reference/naming-conventions",
               "reference/glossary"
             ]

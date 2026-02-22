@@ -1,6 +1,6 @@
 ---
-title: "Skills"
-description: "How to create and structure Claude skills."
+title: "Creating Custom Assistants"
+description: "Build your own domain assistants for Ada"
 ---
 
 Skills are the building blocks of 2bd. Ada is the central orchestrator that owns all logic. Entity skills and aliases dispatch to Ada.
@@ -71,6 +71,5 @@ Skills read as prose describing *what happens*, not scripts with directives.
 
 ## Related
 
-- [Rituals](/development/rituals) — Creating scheduled rituals
-- [Actions](/development/actions) — Creating one-shot actions
-- [Templates](/development/templates) — Template structure for rituals
+- [Creating Custom Rituals](/reference/creating-custom-rituals) - Creating scheduled rituals
+- [Templates](/reference/templates) - Template structure for rituals

@@ -169,6 +169,6 @@ If a phase has no work for a given ritual type, it executes as a no-op.
 
 ## Related
 
-- [Rituals](/development/rituals) — Ritual structure and creation
-- [Templates](/development/templates) — Template structure and contracts
-- [Goals](/ada/goals) — The Goals track framework
+- [Creating Custom Rituals](/reference/creating-custom-rituals) — Ritual structure and creation
+- [Templates](/reference/templates) — Template structure and contracts
+- [Goals](/assistants/goals) — The Goals track framework

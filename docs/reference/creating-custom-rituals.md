@@ -1,9 +1,9 @@
 ---
-title: "Rituals"
-description: "How to create and modify rituals."
+title: "Creating Custom Rituals"
+description: "Build custom ritual sequences for Ada"
 ---
 
-Rituals are [skills](/development/skills) that run on a schedule, driving the 2bd productivity loop. See [How Ada works](/ada/how-it-works) for the ritual cycle.
+Rituals are [skills](/reference/creating-custom-assistants) that run on a schedule, driving the 2bd productivity loop. See [How Ada Works](/ada/how-ada-works) for the ritual cycle.
 
 ## Ritual types
 
@@ -11,6 +11,37 @@ Rituals are [skills](/development/skills) that run on a schedule, driving the 2b
 |------|--------|---------|
 | Planning | `ritual-planning-*` | Prepare Captive notes from templates |
 | Reflection | `ritual-reflection-*` | Archive Captive notes to Periodic |
+
+## Actions vs Rituals
+
+Actions are one-shot skills triggered on demand. Rituals are scheduled and recurring.
+
+| Aspect | Actions | Rituals |
+|--------|---------|---------|
+| Trigger | On demand | Scheduled |
+| Frequency | As needed | Daily/weekly/etc |
+| Purpose | Discrete task | System maintenance |
+| Prefix | None | `ritual-` |
+
+## Creating an action
+
+1. Create skill folder: `.claude/skills/{action-name}/`
+
+2. Add `SKILL.md` with frontmatter:
+
+   ```yaml
+   ---
+   name: create-project
+   description: Initialize a new project file
+   disable-model-invocation: false
+   allowed-tools: Read, Write
+   argument-hint: "Project Name"
+   ---
+   ```
+
+3. Write clear `description` so Claude knows when to use it
+
+4. Test: `claude skill run create-project --args "Project Name"`
 
 ## Creating a ritual
 
@@ -68,10 +99,10 @@ When building or modifying rituals, follow these patterns extracted from existin
 
 Each phase follows a consistent pattern:
 
-1. **Load** — Read required files at phase start
-2. **Process** — Transform data, interact with user if needed
-3. **Update** — Write changes to target file
-4. **Transition** — Explicit "Proceed to [Next Phase]" statement
+1. **Load** - Read required files at phase start
+2. **Process** - Transform data, interact with user if needed
+3. **Update** - Write changes to target file
+4. **Transition** - Explicit "Proceed to [Next Phase]" statement
 
 Never skip the transition statement. It signals phase completion and guides the agent.
 
@@ -93,7 +124,7 @@ Never skip the transition statement. It signals phase completion and guides the 
 **Non-interactive phases** (like Daily Brief):
 - Present, do not negotiate
 - Synthesize context into narrative
-- No interaction—let user absorb
+- No interaction - let user absorb
 
 ### Skill invocation
 
@@ -104,17 +135,17 @@ Rituals invoke other skills by name for reusable operations:
 2. Invoke `@_assistant-calendar` for target date
 ```
 
-Skills prefixed with `_` are internal—not user-invocable via `/skillname`.
+Skills prefixed with `_` are internal - not user-invocable via `/skillname`.
 
 ### Context loading order
 
 Load context in this order:
 
-1. **Skills** — Invoke `_resolve-dates`, `@_assistant-calendar`
-2. **Configuration** — Read `00_Brain/Systemic/Directives/user-profile.md`, `00_Brain/Systemic/Directives/ai-personality.md`
-3. **Semantic knowledge** — Read `00_Brain/Semantic/planning-daily/insights.md`
-4. **Planning context** — Read `00_Brain/Captive/Week.md`, `00_Brain/Captive/Quarter.md`
-5. **Derived context** — Glob and read files referenced by calendar (e.g., `02_Areas/People/*.md` for 1:1s)
+1. **Skills** - Invoke `_resolve-dates`, `@_assistant-calendar`
+2. **Configuration** - Read `00_Brain/Systemic/Directives/user-profile.md`, `00_Brain/Systemic/Directives/ai-personality.md`
+3. **Semantic knowledge** - Read `00_Brain/Semantic/planning-daily/insights.md`
+4. **Planning context** - Read `00_Brain/Captive/Week.md`, `00_Brain/Captive/Quarter.md`
+5. **Derived context** - Glob and read files referenced by calendar (e.g., `02_Areas/People/*.md` for 1:1s)
 
 ### Validation gates
 
@@ -145,12 +176,12 @@ H3 structure within sections is dynamic and can evolve through the Learning phas
 
 Self-learning rituals include a Learning phase that:
 
-1. **Diff analysis** — Compare `00_Brain/Captive/Today.md` against `00_Brain/Systemic/Templates/Captive/today.md`
-2. **Session review** — Analyze user interaction patterns
-3. **Auto-cluster** — Group observations by semantic similarity
-4. **Auto-graduate** — Monitor clusters for maturity criteria
-5. **Crystallize** — User synthesizes insight when cluster graduates
-6. **Template evolution** — Apply insights to templates
+1. **Diff analysis** - Compare `00_Brain/Captive/Today.md` against `00_Brain/Systemic/Templates/Captive/today.md`
+2. **Session review** - Analyze user interaction patterns
+3. **Auto-cluster** - Group observations by semantic similarity
+4. **Auto-graduate** - Monitor clusters for maturity criteria
+5. **Crystallize** - User synthesizes insight when cluster graduates
+6. **Template evolution** - Apply insights to templates
 
 Record observations to `00_Brain/Synthetic/planning-daily/observations.md` with this format:
 
@@ -170,7 +201,6 @@ This shapes tone, initiative level, and interaction style.
 
 ## Related
 
-- [Tracks](/development/tracks) — Track system and extensibility
-- [Skills](/development/skills) — Skill architecture and creation
-- [Templates](/development/templates) — Template structure and contracts
-- [How Ada works](/ada/how-it-works) — Complete ritual command reference
+- [Creating Custom Assistants](/reference/creating-custom-assistants) - Skill architecture and creation
+- [Templates](/reference/templates) - Template structure and contracts
+- [How Ada Works](/ada/how-ada-works) - Complete ritual command reference

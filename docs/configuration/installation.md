@@ -1,6 +1,6 @@
 ---
 title: "Installation"
-description: "Get 2bd running in five minutes."
+description: "Detailed installation and setup options"
 ---
 
 ## Fresh install
@@ -8,8 +8,8 @@ description: "Get 2bd running in five minutes."
 1. **Clone the engine**
 
    ```bash
-   git clone https://github.com/bugroger/2bd 
-   cd 2bd 
+   git clone https://github.com/bugroger/2bd
+   cd 2bd
    ```
 2. **Create your vault**
 
