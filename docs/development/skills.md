@@ -14,7 +14,7 @@ Skills use a flat structure with naming conventions:
 ├── ritual-planning-daily/    # Rituals: ritual- prefix
 │   └── SKILL.md
 ├── init/                     # Actions: no prefix
-├── _fetch-calendar/          # Internal: _ prefix
+├── _assistant-calendar/      # Internal: _ prefix
 └── ...
 ```
 

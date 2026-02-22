@@ -6,7 +6,7 @@ Generate morning brief with context and leadership intention.
 
 1. Read `vault/00_Brain/Captive/Week.md` for weekly focus
 2. Read `vault/00_Brain/Systemic/Coaching/leadership/daily.md`
-3. Read calendar for today (via _fetch-calendar skill)
+3. Read calendar for today (via @_assistant-calendar)
 
 ## Process
 

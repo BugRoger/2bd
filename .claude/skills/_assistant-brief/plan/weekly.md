@@ -6,7 +6,7 @@ Generate week ahead brief with context and leadership intention.
 
 1. Read `vault/00_Brain/Captive/Quarter.md` for quarterly focus
 2. Read `vault/00_Brain/Systemic/Coaching/leadership/weekly.md`
-3. Read calendar for the week (via _fetch-calendar skill)
+3. Read calendar for the week (via @_assistant-calendar)
 
 ## Process
 

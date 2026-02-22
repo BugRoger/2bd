@@ -101,7 +101,7 @@ Rituals invoke other skills by name for reusable operations:
 
 ```markdown
 1. Invoke skill `_resolve-dates` with argument (default: today)
-2. Invoke skill `_fetch-calendar` for target date
+2. Invoke `@_assistant-calendar` for target date
 ```
 
 Skills prefixed with `_` are internal—not user-invocable via `/skillname`.
@@ -110,7 +110,7 @@ Skills prefixed with `_` are internal—not user-invocable via `/skillname`.
 
 Load context in this order:
 
-1. **Skills** — Invoke `_resolve-dates`, `_fetch-calendar`
+1. **Skills** — Invoke `_resolve-dates`, `@_assistant-calendar`
 2. **Configuration** — Read `00_Brain/Systemic/Directives/user-profile.md`, `00_Brain/Systemic/Directives/ai-personality.md`
 3. **Semantic knowledge** — Read `00_Brain/Semantic/planning-daily/insights.md`
 4. **Planning context** — Read `00_Brain/Captive/Week.md`, `00_Brain/Captive/Quarter.md`

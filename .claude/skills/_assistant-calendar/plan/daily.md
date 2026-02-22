@@ -4,7 +4,7 @@ Prepare for today's meetings.
 
 ## Context to Load
 
-1. Fetch today's calendar events
+1. Fetch today's calendar events using [Fetch Events](../SKILL.md#fetch-events)
 2. Read person dossiers for key attendees from `vault/00_Brain/Semantic/People/`
 3. Read `vault/00_Brain/Semantic/Assistants/calendar/memory.md` if exists
 

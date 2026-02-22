@@ -48,15 +48,16 @@ Fetch calendar events using `ekctl`:
    ekctl alias set personal "YOUR-PERSONAL-CALENDAR-ID"
    ```
 
-4. **Configure the skill**
+4. **Configure calendars**
 
-   Edit `.claude/skills/fetch-calendar/calendars.json`:
+   After running `/init`, edit your vault's `00_Brain/Systemic/Config/config.yaml`:
 
-   ```json
-   {
-     "calendars": ["work", "personal"],
-     "default_scope": "today"
-   }
+   ```yaml
+   calendar:
+     provider: ekctl
+     calendars:
+       - work
+       - personal
    ```
 
 Planning rituals will pre-populate meetings in Today.md.
