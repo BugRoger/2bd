@@ -3,7 +3,7 @@ title: "Skills"
 description: "How to create and structure Claude skills."
 ---
 
-Skills are the building blocks of 2bd. There are three types: [rituals](/development/rituals) (scheduled routines), [actions](/development/actions) (one-shot helpers), and internal skills (sub-skills not user-facing).
+Skills are the building blocks of 2bd. Ada is the central orchestrator that owns all logic. Entity skills and aliases dispatch to Ada.
 
 ## Skill architecture
 
@@ -11,18 +11,24 @@ Skills use a flat structure with naming conventions:
 
 ```
 .claude/skills/
-├── ritual-planning-daily/    # Rituals: ritual- prefix
-│   └── SKILL.md
-├── init/                     # Actions: no prefix
-├── _assistant-calendar/      # Internal: _ prefix
-└── ...
+├── ada/                      # Orchestrator - owns all logic
+│   ├── SKILL.md
+│   └── references/
+│       ├── plan/daily.md     # Ritual sequences
+│       ├── project/create.md # Entity actions
+│       └── person/onboard.md
+├── project/                  # Alias → dispatches to Ada
+├── person/                   # Alias → dispatches to Ada
+├── planning/                 # Alias → /ada plan
+├── _assistant-goals/         # Internal assistant
+└── _util-resolve-date/       # Internal utility
 ```
 
-| Type | Prefix | Purpose |
-|------|--------|---------|
-| Rituals | `ritual-*` | Scheduled routines |
-| Actions | (none) | One-shot helpers |
-| Internal | `_*` | Sub-skills, not user-facing |
+| Prefix | Type | User-invokable |
+|--------|------|----------------|
+| (none) | Entity/Alias | Yes |
+| `_assistant-*` | Assistant | No |
+| `_util-*` | Utility | No |
 
 ## Skill file structure
 

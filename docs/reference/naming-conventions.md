@@ -23,7 +23,15 @@ description: "File and folder naming patterns."
 | People | FirstNameL | EstherS.md |
 | Insights | lowercase-hyphens | leadership.md |
 | Folders | Numbered prefix | 00_Brain/, 01_Projects/ |
-| Skills | Own folder + SKILL.md | ritual-planning-daily/ |
+| Skills | Own folder + SKILL.md | ada/, project/ |
+
+## Skill prefixes
+
+| Prefix | Type | User-invokable | Description |
+|--------|------|----------------|-------------|
+| (none) | Entity/Alias | Yes | User-facing skills that route to Ada |
+| `_assistant-*` | Assistant | No | Domain specialists coordinated by Ada |
+| `_util-*` | Utility | No | Pure helpers with no user interaction |
 
 ## Related
 

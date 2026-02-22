@@ -1,5 +1,5 @@
 ---
-name: _resolve-dates
+name: _util-resolve-date
 description: Resolve flexible time expressions (tomorrow, next monday, last week) to concrete dates
 disable-model-invocation: true
 ---

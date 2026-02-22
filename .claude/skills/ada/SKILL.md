@@ -129,28 +129,24 @@ Summarize what was captured. Suggest next step:
 
 ## Entity Actions
 
-When user asks Ada to work with projects or people, dispatch to the appropriate skill:
+When user asks Ada to work with projects or people, or when dispatched from an alias skill:
 
-### Project Requests
+### Project Actions
 
-Triggers: "create a project", "archive project", "new project", "close out project"
+Load and execute the corresponding reference:
+- Create → [references/project/create.md](references/project/create.md)
+- Archive → [references/project/archive.md](references/project/archive.md)
 
-Parse intent and invoke:
-- Create → `/project create "extracted-name"`
-- Archive → `/project archive "extracted-slug"`
+### Person Actions
 
-### Person Requests
-
-Triggers: "onboard someone", "add a person", "new team member"
-
-Parse intent and invoke:
-- Onboard → `/person onboard "extracted-name"`
+Load and execute the corresponding reference:
+- Onboard → [references/person/onboard.md](references/person/onboard.md)
 
 ### Examples
 
-- "Ada, create a project for the Q2 launch" → `/project create "Q2 Launch"`
-- "Ada, I need to onboard Marcus" → `/person onboard "marcus"`
-- "Ada, archive the hiring project" → `/project archive "hiring"`
+- "Ada, create a project for the Q2 launch" → Load `references/project/create.md`
+- "Ada, I need to onboard Marcus" → Load `references/person/onboard.md`
+- "Ada, archive the hiring project" → Load `references/project/archive.md`
 
 ---
 

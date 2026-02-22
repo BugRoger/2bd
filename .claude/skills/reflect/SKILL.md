@@ -1,19 +1,19 @@
 ---
-name: reflection
+name: reflect
 description: Run a reflection ritual. Invokes Ada.
 argument-hint: "[timescale: daily|weekly|quarterly|yearly]"
 ---
 
-# Reflection
+# Reflect
 
 Invoke Ada with action=reflect and the specified timescale.
 
 ## Usage
 
-- `/reflection` or `/reflection daily` - reflect on today
-- `/reflection weekly` - reflect on the week
-- `/reflection quarterly` - reflect on the quarter
-- `/reflection yearly` - reflect on the year
+- `/reflect` or `/reflect daily` - reflect on today
+- `/reflect weekly` - reflect on the week
+- `/reflect quarterly` - reflect on the quarter
+- `/reflect yearly` - reflect on the year
 
 ## Process
 

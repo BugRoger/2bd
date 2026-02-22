@@ -1,14 +1,12 @@
 ---
 name: person
-description: People management. Subactions: onboard.
+description: People management. Dispatches to Ada.
 argument-hint: "[action: onboard] [args...]"
-metadata:
-  orchestrated: true
 ---
 
 # Person
 
-Manage people in your network.
+Manage people in your network. This skill dispatches to Ada.
 
 ## Usage
 
@@ -16,7 +14,7 @@ Manage people in your network.
 
 ## Dispatch
 
-Parse first argument and load corresponding reference:
-- `onboard` → [references/onboard.md](references/onboard.md)
+Parse first argument and invoke Ada with the corresponding reference:
+- `onboard` → Invoke @ada to execute `references/person/onboard.md`
 
 If no subaction provided, show usage and ask which action to run.

@@ -1,5 +1,5 @@
 ---
-name: _append-changelog
+name: _util-changelog
 description: Append a changelog entry to a note. Called by write skills after modifying files.
 disable-model-invocation: true
 allowed-tools: Read, Write

@@ -1,19 +1,19 @@
 ---
-name: planning
+name: plan
 description: Run a planning ritual. Invokes Ada.
 argument-hint: "[timescale: daily|weekly|quarterly|yearly]"
 ---
 
-# Planning
+# Plan
 
 Invoke Ada with action=plan and the specified timescale.
 
 ## Usage
 
-- `/planning` or `/planning daily` - plan today
-- `/planning weekly` - plan the week
-- `/planning quarterly` - plan the quarter
-- `/planning yearly` - plan the year
+- `/plan` or `/plan daily` - plan today
+- `/plan weekly` - plan the week
+- `/plan quarterly` - plan the quarter
+- `/plan yearly` - plan the year
 
 ## Process
 

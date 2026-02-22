@@ -1,14 +1,12 @@
 ---
 name: project
-description: Project lifecycle management. Subactions: create, archive.
+description: Project lifecycle management. Dispatches to Ada.
 argument-hint: "[action: create|archive] [args...]"
-metadata:
-  orchestrated: true
 ---
 
 # Project
 
-Manage project lifecycle.
+Manage project lifecycle. This skill dispatches to Ada.
 
 ## Usage
 
@@ -17,8 +15,8 @@ Manage project lifecycle.
 
 ## Dispatch
 
-Parse first argument and load corresponding reference:
-- `create` → [references/create.md](references/create.md)
-- `archive` → [references/archive.md](references/archive.md)
+Parse first argument and invoke Ada with the corresponding reference:
+- `create` → Invoke @ada to execute `references/project/create.md`
+- `archive` → Invoke @ada to execute `references/project/archive.md`
 
 If no subaction provided, show usage and ask which action to run.
