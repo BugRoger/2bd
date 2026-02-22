@@ -6,60 +6,72 @@ description: "Complete list of all rituals and when to run them."
 ## Quick reference
 
 ```bash
-# Planning (start of period)
-claude skill run ritual-planning-daily     # Morning
-claude skill run ritual-planning-weekly    # Monday
-claude skill run ritual-planning-quarterly # Start of Q
-claude skill run ritual-planning-yearly    # January
+# Using Ada (recommended)
+/ada plan daily      # Morning ritual
+/ada reflect daily   # Evening ritual
+/ada plan weekly     # Monday
+/ada reflect weekly  # Sunday
 
-# Reflection (end of period)
-claude skill run ritual-reflection-daily       # Evening
-claude skill run ritual-reflection-weekly      # Sunday
-claude skill run ritual-reflection-quarterly   # End of Q
-claude skill run ritual-reflection-yearly      # December
+# Natural language
+"Ada, run my morning ritual"
+"Ada, let's reflect on today"
+"Ada, plan my week"
 ```
+
+## Ada multi-assistant architecture
+
+Ada coordinates domain-specific assistants to run rituals:
+
+| Assistant | Domain | Plan | Reflect |
+|-----------|--------|------|---------|
+| brief | Context and intention | Daily, Weekly | Daily, Weekly |
+| goals | 1-3-5, Major Moves, Quests | Daily, Weekly, Quarterly, Yearly | All |
+| calendar | Meeting prep and review | Daily, Weekly | Daily, Weekly |
+| journal | Reflection and insights | Daily, Weekly | All |
+| achievements | Win capture | Daily, Weekly | All |
+| relationships | People touchpoints | Daily, Weekly | Daily, Weekly |
+| projects | Project status | Daily, Weekly | Daily, Weekly |
+
+### How Ada works
+
+1. Parse action (plan/reflect) and timescale
+2. Run each assistant in sequence
+3. Compose outputs into Captive (plan) or Periodic (reflect)
+4. Analyze patterns for learning
 
 ## Planning rituals
 
-| Ritual | Command | When | Prepares | GPS Components |
-|--------|---------|------|----------|----------------|
-| Daily | `ritual-planning-daily` | Morning | Today.md | 1-3-5 |
-| Weekly | `ritual-planning-weekly` | Monday | Week.md | Balanced Week Blueprint |
-| Quarterly | `ritual-planning-quarterly` | Start of quarter | Quarter.md | Quest, Major Moves, 80% Check, Crystal Ball |
-| Yearly | `ritual-planning-yearly` | January | Year.md | Life Compass, 3-Year Sketch, Why, Anti-Goals |
+| Ritual | Trigger | Prepares | GPS Components |
+|--------|---------|----------|----------------|
+| Daily | `/ada plan daily` | Captive/Today.md | 1-3-5 |
+| Weekly | `/ada plan weekly` | Captive/Week.md | Major Moves |
+| Quarterly | `/ada plan quarterly` | Captive/Quarter.md | Quests |
+| Yearly | `/ada plan yearly` | Captive/Year.md | Annual Goals |
 
 ### What planning rituals do
 
 1. Load context from higher timescales
 2. Fetch calendar events (if configured)
-3. Create/update Captive note from template
-4. Synthesize relevant information from prior periods
-5. Prompt for intention setting
+3. Run each assistant's plan action
+4. Compose outputs into Captive note
+5. Analyze patterns for learning
 
 ## Reflection rituals
 
-| Ritual | Command | When | Archives to |
-|--------|---------|------|-------------|
-| Daily | `ritual-reflection-daily` | Evening | Periodic/Daily/ |
-| Weekly | `ritual-reflection-weekly` | Sunday | Periodic/Weekly/ |
-| Quarterly | `ritual-reflection-quarterly` | End of quarter | Periodic/Quarterly/ |
-| Yearly | `ritual-reflection-yearly` | December | Periodic/Yearly/ |
+| Ritual | Trigger | Archives to |
+|--------|---------|-------------|
+| Daily | `/ada reflect daily` | Periodic/Daily/ |
+| Weekly | `/ada reflect weekly` | Periodic/Weekly/ |
+| Quarterly | `/ada reflect quarterly` | Periodic/Quarterly/ |
+| Yearly | `/ada reflect yearly` | Periodic/Yearly/ |
 
 ### What reflection rituals do
 
-1. Guide reflection on the period
-2. Archive Captive note to Periodic
-3. Extract insights to People/, Projects/, Insights/
+1. Run each assistant's reflect action
+2. Compose outputs into Periodic archive
+3. Extract insights to Semantic layer
 4. Record observations for self-learning
-5. Prepare carry-forward items
-
-## Running rituals
-
-```bash
-# Pattern: claude skill run ritual-{type}-{period}
-claude skill run ritual-planning-daily
-claude skill run ritual-reflection-daily
-```
+5. Graduate patterns when confidence high
 
 ## Related
 

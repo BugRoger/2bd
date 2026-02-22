@@ -1,0 +1,11 @@
+# Ada Configuration
+# Order determines section order in Captive/Periodic output
+
+assistants:
+  - brief
+  - goals
+  - calendar
+  - journal
+  - achievements
+  - relationships
+  - projects
