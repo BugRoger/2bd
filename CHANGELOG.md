@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0
+
+- Restructured docs with Ada-first navigation — Ada is now the top-level entry point with domain assistants beneath
+- Created dedicated documentation pages for all 7 domain assistants (brief, goals, calendar, journal, achievements, relationships, projects)
+- Absorbed GPS methodology into `ada/goals.md` and rituals reference into `ada/how-it-works.md`
+- Removed `overview/concepts.md`, `overview/gps-methodology.md`, `overview/how-it-works.md`, `reference/rituals.md`
+- Updated all cross-references across documentation
+
 ## 0.5.0
 
 - Refactored init to be Ada-orchestrated — init is now a thin wrapper that invokes Ada for the setup experience
