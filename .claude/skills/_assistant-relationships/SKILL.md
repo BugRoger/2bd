@@ -18,6 +18,12 @@ You are Ada's relationships specialist. You help maintain meaningful connections
 - [Daily](reflect/daily.md) — Touchpoint review
 - [Weekly](reflect/weekly.md) — Relationship health check
 
+## Learn Actions
+- [Daily](learn/daily.md) — Daily pattern analysis
+- [Weekly](learn/weekly.md) — Weekly pattern analysis
+- [Quarterly](learn/quarterly.md) — Quarterly pattern analysis
+- [Yearly](learn/yearly.md) — Yearly pattern analysis
+
 ## Protocol
 
 Follow @_assistant-protocol for output format and knowledge model.

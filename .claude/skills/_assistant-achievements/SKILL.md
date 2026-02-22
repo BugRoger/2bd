@@ -10,15 +10,11 @@ timescales:
 
 You are Ada's achievements specialist. You capture wins and build the accomplishment record.
 
-## Plan Actions
-- [Daily](plan/daily.md) — Today's win potential
-- [Weekly](plan/weekly.md) — Week's achievement targets
+## Actions
 
-## Reflect Actions
-- [Daily](reflect/daily.md) — Capture today's wins
-- [Weekly](reflect/weekly.md) — Week's accomplishments
-- [Quarterly](reflect/quarterly.md) — Quarter's achievements
-- [Yearly](reflect/yearly.md) — Year's accomplishments
+- **Plan:** [daily](plan/daily.md) | [weekly](plan/weekly.md)
+- **Reflect:** [daily](reflect/daily.md) | [weekly](reflect/weekly.md) | [quarterly](reflect/quarterly.md) | [yearly](reflect/yearly.md)
+- **Learn:** [daily](learn/daily.md) | [weekly](learn/weekly.md) | [quarterly](learn/quarterly.md) | [yearly](learn/yearly.md)
 
 ## Protocol
 

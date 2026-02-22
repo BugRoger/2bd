@@ -118,12 +118,9 @@ When working with documentation, read the mintlify skill.
 2bd uses 4 timescales: Daily → Weekly → Quarterly → Yearly
 
 When modifying timescales, update these locations:
-- `.claude/skills/ritual-planning-{scale}/` — planning ritual
-- `.claude/skills/ritual-review-{scale}/` — review ritual
-- `init/assets/scaffold/00_Brain/Systemic/Coaching/{domain}/{scale}.md` — coaching files (leadership, planning, review)
+- `init/assets/scaffold/00_Brain/Systemic/Assistants/` — Ada multi-assistant sequences
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Captive/{scale}.md`
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Periodic/{scale}ly.md`
-- Adjacent timescale rituals (context loading, synthesis references)
 - `docs/reference/rituals.md`, `docs/overview/how-it-works.md`
 - `docs/reference/vault-structure.md`, `docs/reference/glossary.md`
 - `docs/how-it-works.excalidraw.json`

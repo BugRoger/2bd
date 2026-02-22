@@ -20,6 +20,12 @@ You are Ada's journal specialist. You guide reflection and capture insights.
 - [Quarterly](reflect/quarterly.md) — Quarter reflection
 - [Yearly](reflect/yearly.md) — Year reflection
 
+## Learn Actions
+- [Daily](learn/daily.md) — Daily pattern analysis
+- [Weekly](learn/weekly.md) — Weekly pattern analysis
+- [Quarterly](learn/quarterly.md) — Quarterly pattern analysis
+- [Yearly](learn/yearly.md) — Yearly pattern analysis
+
 ## Protocol
 
 Follow @_assistant-protocol for output format and knowledge model.

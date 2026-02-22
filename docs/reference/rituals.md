@@ -6,16 +6,19 @@ description: "Complete list of all rituals and when to run them."
 ## Quick reference
 
 ```bash
-# Using Ada (recommended)
-/ada plan daily      # Morning ritual
-/ada reflect daily   # Evening ritual
-/ada plan weekly     # Monday
-/ada reflect weekly  # Sunday
+# Planning rituals
+/planning           # Plan today (default)
+/planning daily     # Morning ritual
+/planning weekly    # Monday
+/planning quarterly # Start of quarter
+/planning yearly    # Start of year
 
-# Natural language
-"Ada, run my morning ritual"
-"Ada, let's reflect on today"
-"Ada, plan my week"
+# Reflection rituals
+/reflection         # Reflect on today (default)
+/reflection daily   # Evening ritual
+/reflection weekly  # Sunday
+/reflection quarterly # End of quarter
+/reflection yearly  # End of year
 ```
 
 ## Ada multi-assistant architecture
@@ -43,10 +46,10 @@ Ada coordinates domain-specific assistants to run rituals:
 
 | Ritual | Trigger | Prepares | GPS Components |
 |--------|---------|----------|----------------|
-| Daily | `/ada plan daily` | Captive/Today.md | 1-3-5 |
-| Weekly | `/ada plan weekly` | Captive/Week.md | Major Moves |
-| Quarterly | `/ada plan quarterly` | Captive/Quarter.md | Quests |
-| Yearly | `/ada plan yearly` | Captive/Year.md | Annual Goals |
+| Daily | `/planning daily` | Captive/Today.md | 1-3-5 |
+| Weekly | `/planning weekly` | Captive/Week.md | Major Moves |
+| Quarterly | `/planning quarterly` | Captive/Quarter.md | Quests |
+| Yearly | `/planning yearly` | Captive/Year.md | Annual Goals |
 
 ### What planning rituals do
 
@@ -60,10 +63,10 @@ Ada coordinates domain-specific assistants to run rituals:
 
 | Ritual | Trigger | Archives to |
 |--------|---------|-------------|
-| Daily | `/ada reflect daily` | Periodic/Daily/ |
-| Weekly | `/ada reflect weekly` | Periodic/Weekly/ |
-| Quarterly | `/ada reflect quarterly` | Periodic/Quarterly/ |
-| Yearly | `/ada reflect yearly` | Periodic/Yearly/ |
+| Daily | `/reflection daily` | Periodic/Daily/ |
+| Weekly | `/reflection weekly` | Periodic/Weekly/ |
+| Quarterly | `/reflection quarterly` | Periodic/Quarterly/ |
+| Yearly | `/reflection yearly` | Periodic/Yearly/ |
 
 ### What reflection rituals do
 
