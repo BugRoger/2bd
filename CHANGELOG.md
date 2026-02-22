@@ -7,6 +7,7 @@
 - Introduced prefix scheme: (none)=user-invokable, `_assistant-*`=internal assistants, `_util-*`=utilities
 - Renamed utilities: `_resolve-date` → `_util-resolve-date`, `_append-changelog` → `_util-changelog`
 - Simplified aliases: `planning` → `plan`, `reflection` → `reflect`
+- Updated ritual command examples in `ada/how-it-works.md` to match renamed commands
 - Updated documentation with new skill architecture and prefix conventions
 
 ## 0.6.0
