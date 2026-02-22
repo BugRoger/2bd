@@ -23,34 +23,31 @@ description: "A personal knowledge system that runs itself—powered by Claude, 
 > CONNECTING_TO_ADA........... [OK]
 > STATUS: ONLINE
 
-╭─────────────────────────────────────────────────────────────────╮
-│ ADA://EXECUTIVE_ASSISTANT                                       │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Morning. I'm Ada—your executive assistant.                     │
-│                                                                 │
-│  You have a very busy day. Six meetings, two deadlines,         │
-│  and... oh. It's Valentine's Day.                               │
-│                                                                 │
-│  Did you make that dinner reservation?                          │
-│                                                                 │
-│  You forgot last year. Spent six months making up for it        │
-│  with a habit-tracked chore list. Your journal entries from     │
-│  that period were... let's say "rich with frustration."         │
-│                                                                 │
-│  Ever heard of "happy wife, happy life"? Just checking.         │
-│                                                                 │
-│  > SCANNING: Calendar ............. 6 conflicts detected        │
-│  > SCANNING: Relationships ........ 1 anniversary flagged       │
-│  > SCANNING: Goals ................ Q1 review overdue           │
-│  > SCANNING: Journal .............. patterns identified         │
-│                                                                 │
-│  I've already prepped your daily brief. Want me to              │
-│  reschedule that 4pm so you can leave early?                    │
-│                                                                 │
-│  Your move.                                                     │
-│                                                                 │
-╰─────────────────────────────────────────────────────────────────╯
+> ADA://EXECUTIVE_ASSISTANT
+>
+> Morning, boss! Ada here. Can you stop doom-scrolling
+> when I'm talking to you?
+>
+> You have a very busy day. Six meetings, two deadlines,
+> and... oh. It's Valentine's Day.
+>
+> Did you make that dinner reservation?
+>
+> You forgot last year. Spent six months making up for it
+> with a habit-tracked chore list. Your journal entries from
+> that period were... let's say "rich with frustration."
+>
+> Ever heard of "happy wife, happy life"? Just checking.
+>
+> SCANNING: Calendar ............. 6 conflicts detected
+> SCANNING: Relationships ........ 1 anniversary flagged
+> SCANNING: Goals ................ Q1 review overdue
+> SCANNING: Journal .............. patterns identified
+>
+> I've already prepped your daily brief. Want me to
+> reschedule that 4pm so you can leave early?
+>
+> Your move.
 ```
 
 # Second Brain Daemon
@@ -83,9 +80,8 @@ Two rituals drive the system:
 - **REVIEW** — Archives working notes to Periodic, synthesizes forward
 
 ```bash
-cd ~/Code/2bd-engine
-claude skill run ritual-planning-daily   # morning cycle
-claude skill run ritual-reflection-daily  # evening cycle
+/plan    # morning ritual
+/reflect # evening ritual
 ```
 
 ## System capabilities
