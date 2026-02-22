@@ -25,33 +25,38 @@ The initialization wizard creates [directives](/development/directives) in your 
 
 | File | Purpose |
 |------|---------|
-| `user-profile.md` | Your name, role, goals, growth edge |
-| `ai-personality.md` | Formality, directness, coaching style |
+| `human.md` | Your name, role, goals, growth edge |
+| `ada.md` | Ada's personality, coaching style, communication preferences |
 
 ### Editing your profile
 
-Run the profile wizard anytime:
+Update your profile anytime by asking Ada:
 
 ```bash
-claude skill run init --args "profile"
+/ada profile
 ```
+
+Or just say "Ada, let's update my profile."
 
 Or edit directives directly in your vault at `00_Brain/Systemic/Directives/`.
 
 ### Profile fields
 
-**user-profile.md**:
-- `preferred_name` — How Claude addresses you
+**human.md**:
+- `preferred_name` — How Ada addresses you
 - `role` — Your job title or primary role
 - `leadership_identity` — How you see yourself as a leader
 - `growth_edge` — What you're working to improve
 - `patterns_to_watch` — Habits or tendencies to flag
 
-**ai-personality.md**:
+**ada.md**:
+- `character` — Who Ada is for you (work wife, sparring partner, mentor, etc.)
+- `ego` — How much personality Ada shows
+- `challenge` — How much Ada pushes back
+- `celebration` — How Ada acknowledges wins
 - `formality` — Casual to formal communication style
 - `directness` — How blunt feedback should be
 - `humor` — Dry, playful, minimal, or none
-- `coaching_style` — Supportive, challenging, or balanced
 
 ## Calendar integration
 

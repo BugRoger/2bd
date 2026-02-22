@@ -4,7 +4,7 @@ preferred_name: {{preferred_name}}
 role: {{role}}
 ---
 
-# {{name}}
+# {{preferred_name}}
 
 ## Overview
 
