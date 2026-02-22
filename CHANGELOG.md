@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0
+
+- Implemented Ada-centric skill architecture — Ada owns all logic, entity skills are thin dispatchers
+- Moved entity actions into `ada/references/{entity}/{action}.md` (project/create, project/archive, person/onboard)
+- Introduced prefix scheme: (none)=user-invokable, `_assistant-*`=internal assistants, `_util-*`=utilities
+- Renamed utilities: `_resolve-date` → `_util-resolve-date`, `_append-changelog` → `_util-changelog`
+- Simplified aliases: `planning` → `plan`, `reflection` → `reflect`
+- Updated documentation with new skill architecture and prefix conventions
+
 ## 0.6.0
 
 - Restructured docs with Ada-first navigation — Ada is now the top-level entry point with domain assistants beneath
