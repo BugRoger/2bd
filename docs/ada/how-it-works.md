@@ -61,18 +61,18 @@ Each assistant specializes in one domain and knows how to handle that domain acr
 
 ```bash
 # Planning rituals
-/planning           # Plan today (default)
-/planning daily     # Morning ritual
-/planning weekly    # Monday
-/planning quarterly # Start of quarter
-/planning yearly    # Start of year
+/plan           # Plan today (default)
+/plan daily     # Morning ritual
+/plan weekly    # Monday
+/plan quarterly # Start of quarter
+/plan yearly    # Start of year
 
 # Reflection rituals
-/reflection         # Reflect on today (default)
-/reflection daily   # Evening ritual
-/reflection weekly  # Sunday
-/reflection quarterly # End of quarter
-/reflection yearly  # End of year
+/reflect         # Reflect on today (default)
+/reflect daily   # Evening ritual
+/reflect weekly  # Sunday
+/reflect quarterly # End of quarter
+/reflect yearly  # End of year
 ```
 
 ### Planning rituals
