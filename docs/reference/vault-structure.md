@@ -3,7 +3,7 @@ title: "Vault structure"
 description: "Complete reference for vault organization."
 ---
 
-The vault stores your notes organized by [metabolic state](/ada/how-it-works#metabolic-states). See [How Ada works](/ada/how-it-works) for the reasoning behind this organization.
+The vault stores your notes organized by [metabolic state](/ada/how-ada-works#metabolic-states). See [How Ada Works](/ada/how-ada-works) for the reasoning behind this organization.
 
 ## Top-level structure
 
@@ -133,7 +133,7 @@ Systemic/Coaching/
 
 ## Related
 
-- [How Ada works](/ada/how-it-works) — Understanding metabolic states
-- [Templates](/development/templates) — Modifying templates
-- [Directives](/development/directives) — Personalizing Claude
+- [How Ada Works](/ada/how-ada-works) — Understanding metabolic states
+- [Templates](/reference/templates) — Modifying templates
+- [Settings and Directives](/configuration/settings-and-directives) — Personalizing your experience
 - [Naming conventions](/reference/naming-conventions) — Detailed naming rules

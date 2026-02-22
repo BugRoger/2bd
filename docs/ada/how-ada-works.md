@@ -1,5 +1,5 @@
 ---
-title: "How Ada works"
+title: "How Ada Works"
 description: "Your executive assistant and the ritual loop that keeps your system running."
 ---
 
@@ -13,7 +13,7 @@ When you say "Ada, run my morning ritual" or invoke `/ada plan daily`, Ada orche
 
 2bd operates on a simple cycle: **plan - work - reflect - archive**.
 
-This loop is powered by the [GPS methodology](/ada/goals) - Goal, Plan, System - which cascades from yearly vision down to daily execution.
+This loop is powered by the [GPS methodology](/assistants/goals) - Goal, Plan, System - which cascades from yearly vision down to daily execution.
 
 ![Planning and review cycles across time scales](/images/how-it-works.svg)
 

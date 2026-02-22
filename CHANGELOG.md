@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.8.0
+
+- Restructured documentation for new user journey — 5 top-level sections: Overview → Configuration → Ada → Assistants → Reference
+- Added Overview section with "What is 2bd?", "What You Get", and "Quick Start" pages
+- Created Configuration section consolidating installation, settings, and hooks documentation
+- Promoted Assistants to top-level section with overview and 7 assistant pages
+- Consolidated development docs into Reference — renamed "skills" to "creating-custom-assistants", "rituals" to "creating-custom-rituals"
+- Merged tracks documentation into creating-custom-assistants (assistant matrix, coach system)
+- Moved skill writing style and GitHub workflow labels to CLAUDE.md
+- Fixed all internal documentation links
+- Removed obsolete `docs/setup/` and `docs/development/` directories
+
 ## 0.7.0
 
 - Implemented Ada-centric skill architecture — Ada owns all logic, entity skills are thin dispatchers

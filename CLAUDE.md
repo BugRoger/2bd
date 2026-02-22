@@ -50,6 +50,12 @@ See all rules in section **## Refactoring**
 ### 7. Skill Development
 See all rules in section **## Skill Development**
 1. ALWAYS use @skill-creator:skill-creator when creating or modifying skills
+2. Skills read as prose, not scripts — use descriptive prose, avoid template syntax and imperative directives
+
+### 8. GitHub Workflow
+See all rules in section **## GitHub Workflow**
+1. Use standard labels: type:epic, type:story, type:task, type:bug, type:chore, type:docs
+2. Use scope labels: scope:skill, scope:ritual, scope:template, scope:integration
 
 ---
 
@@ -101,9 +107,9 @@ When adding new rules to this document, follow these principles:
 
 ## Documentation
 
-**[Full docs →](https://2bd.l48a.de/development/skills)**
+**[Full docs →](https://2bd.l48a.de/reference/creating-custom-assistants)**
 
-For skill creation, templates, rituals, and guidelines, see the Development tab in docs.
+For skill creation, templates, rituals, and guidelines, see the Reference tab in docs.
 
 ## Docs Linking (Mintlify)
 
@@ -129,7 +135,7 @@ When modifying timescales, update these locations:
 - `init/assets/scaffold/00_Brain/Systemic/Assistants/` — Ada multi-assistant sequences
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Captive/{scale}.md`
 - `init/assets/scaffold/00_Brain/Systemic/Templates/Periodic/{scale}ly.md`
-- `docs/ada/how-it-works.md`
+- `docs/ada/how-ada-works.md`
 - `docs/reference/vault-structure.md`, `docs/reference/glossary.md`
 - `docs/how-it-works.excalidraw.json`
 - `init/assets/scaffold/00_Brain/✱ Home.md` (navigation)
@@ -163,3 +169,42 @@ When modifying timescales, update these locations:
 ## Skill Development
 
 - **Use skill-creator**: ALWAYS use @skill-creator:skill-creator when creating or modifying skills for patterns and conventions
+
+### Skill writing style
+
+Skills read as prose, not scripts.
+
+**Do:**
+- Descriptive prose: "Load the vault path. Validate the structure."
+- Section-based flow: Context, Validate, Session, Compose, Persist
+- Natural references: "Review the calendar", "Load Week.md"
+
+**Don't:**
+- Template syntax: `{{VAULT}}`, `{{#if}}`
+- Phase markers: `<!-- phase:name -->`
+- Imperative directives: "Ask:", "Check:", numbered steps
+- Inline file structure examples
+
+---
+
+## GitHub Workflow
+
+### Labels
+
+| Label | Description | Color |
+|-------|-------------|-------|
+| `type:epic` | Large initiative | Purple |
+| `type:story` | User-facing capability | Blue |
+| `type:task` | Implementation work | Cyan |
+| `type:bug` | Something broken | Red |
+| `type:chore` | Maintenance | Gray |
+| `type:docs` | Documentation | Green |
+
+### Scope labels
+
+| Label | Description |
+|-------|-------------|
+| `scope:skill` | Skill implementation |
+| `scope:ritual` | Planning or reflection ritual |
+| `scope:template` | Template files |
+| `scope:integration` | External integration |

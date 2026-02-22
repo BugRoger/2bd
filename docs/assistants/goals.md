@@ -99,6 +99,5 @@ Daily     ->  1-3-5 picks today's tasks from the week
 
 ## Related
 
-- [How Ada works](/ada/how-it-works) - The ritual cycle that drives GPS
+- [How Ada Works](/ada/how-ada-works) - The ritual cycle that drives GPS
 - [Templates reference](/reference/vault-structure#templates) - GPS templates in your vault
-- [How Ada works](/ada/how-it-works) - When GPS components get updated

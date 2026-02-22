@@ -15,7 +15,7 @@ How notes are organized based on their activity level and volatility.
 | **Synthetic** | Active drafts and works in progress. Lives in `00_Brain/Synthetic/`. Contains observations being processed |
 | **Systemic** | Infrastructure: templates, directives, coaching. Lives in `00_Brain/Systemic/` |
 
-See [How Ada works](/ada/how-it-works) for detailed explanation.
+See [How Ada Works](/ada/how-ada-works) for detailed explanation.
 
 ## Skills
 
@@ -26,7 +26,7 @@ See [How Ada works](/ada/how-it-works) for detailed explanation.
 | **Action** | A skill that runs on demand. No prefix |
 | **Internal skill** | A sub-skill not user-facing. Prefixed with `_` |
 
-See [Skills](/development/skills) for architecture details.
+See [Creating Custom Assistants](/reference/creating-custom-assistants) for architecture details.
 
 ## Ritual concepts
 
@@ -39,7 +39,7 @@ See [Skills](/development/skills) for architecture details.
 | **Learning phase** | Final ritual phase: records observations for self-learning |
 | **Template contract** | Declaration of which template sections a ritual updates |
 
-See [Rituals](/development/rituals) for implementation details.
+See [Creating Custom Rituals](/reference/creating-custom-rituals) for implementation details.
 
 ## Vault structure
 
@@ -73,4 +73,4 @@ See [Naming conventions](/reference/naming-conventions) for complete rules.
 | **Crystallize** | Converting graduated observations into Semantic knowledge |
 | **Template evolution** | Applying crystallized insights to improve templates |
 
-See [How Ada works](/ada/how-it-works#self-learning) for the learning cycle.
+See [How Ada Works](/ada/how-ada-works#self-learning) for the learning cycle.
