@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0
+
+- Refactored init to be Ada-orchestrated — init is now a thin wrapper that invokes Ada for the setup experience
+- Added awakening script to Ada with Samantha-style personality (curious, self-discovering, warm but not performative)
+- Added `setup` and `profile` actions to Ada for first-run and profile updates
+- Renamed `user-profile.md` → `human.md` and `ai-personality.md` → `ada.md` in scaffold templates
+- Removed Monthly from scaffold (timescale no longer exists)
+- Updated docs to reflect new file names and `/ada profile` command
+
 ## 0.4.0
 
 - Added timescale declarations to assistant frontmatter — each assistant's SKILL.md now declares `timescales.plan` and `timescales.reflect` arrays
