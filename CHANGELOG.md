@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0
+
+- Added timescale declarations to assistant frontmatter — each assistant's SKILL.md now declares `timescales.plan` and `timescales.reflect` arrays
+- Ada reads frontmatter directly to determine which assistants to invoke at each timescale
+- Added `_assistant-protocol/references/timescales.md` documenting the frontmatter contract
+- Replaced hardcoded timescale table in `ritual-flow.md` with reference to frontmatter declarations
+
 ## 0.3.0
 
 - Renamed review rituals to reflection rituals (`ritual-review-*` → `ritual-reflection-*`) for semantic alignment
