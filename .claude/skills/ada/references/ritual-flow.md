@@ -9,11 +9,10 @@ User: "Ada, run my morning ritual"
 Ada parses: action=plan, timescale=daily
          │
          ▼
-Ada reads ada.yaml → [brief, goals, calendar, journal, ...]
+Ada reads ada.yaml → [goals, calendar, journal, ...]
          │
          ▼
 For each assistant:
-├─ Invoke _assistant-brief (plan, daily)
 ├─ Invoke _assistant-goals (plan, daily)
 ├─ Invoke _assistant-calendar (plan, daily)
 ├─ Invoke _assistant-journal (plan, daily)
@@ -25,7 +24,7 @@ For each assistant:
 Invoke compose (plan, daily)
          │
          ▼
-Assembles → Captive/Today.md
+Synthesizes brief + Assembles → Captive/Today.md
          │
          ▼
 Invoke _assistant-learn (daily)
@@ -37,6 +36,8 @@ Invoke _assistant-learn (daily)
 ## Reflection Ritual
 
 Same flow with action=reflect, outputs to Periodic/{timescale}/
+
+Note: Brief synthesis only happens for plan actions, not reflect.
 
 ## Timescale Mapping
 

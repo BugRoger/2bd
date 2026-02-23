@@ -14,13 +14,14 @@ For `plan` actions, assemble into `vault/00_Brain/Captive/{Timescale}.md`:
 ### Assembly Order
 
 Read `vault/00_Brain/Systemic/Config/ada.yaml` for assistant order:
-1. brief
-2. goals
-3. calendar
-4. journal
-5. achievements
-6. relationships
-7. projects
+1. goals
+2. calendar
+3. journal
+4. achievements
+5. relationships
+6. projects
+
+Note: Brief section is synthesized by compose, not read from an assistant.
 
 ### Section Extraction
 
@@ -34,7 +35,21 @@ For each assistant output file:
 ```markdown
 # {Timescale} Plan — {date}
 
-{Brief section}
+## Brief
+
+**This Week's Focus:** {synthesized from context}
+
+**Growth Edge:** {from leadership coaching}
+
+{Day/week shape narrative}
+
+### Priorities
+1. {Priority 1} — {Why it matters}
+2. {Priority 2} — {Why it matters}
+3. {Priority 3} — {Why it matters}
+
+### Intention
+**{One word}** — {Brief explanation}
 
 ---
 
@@ -46,7 +61,19 @@ For each assistant output file:
 
 ---
 
-(etc.)
+{Journal section}
+
+---
+
+{Achievements section}
+
+---
+
+{Relationships section}
+
+---
+
+{Projects section}
 
 ---
 
@@ -69,11 +96,11 @@ For `reflect` actions, assemble into `vault/00_Brain/Periodic/{timescale}/{date}
 ```markdown
 # {Timescale} Reflection — {date}
 
-{Brief section}
+{Goals section}
 
 ---
 
-{Goals section}
+{Calendar section}
 
 ---
 
@@ -95,10 +122,12 @@ Write to `vault/00_Brain/Synthetic/Assistants/compose/{date}-compose-{action}-{t
 ok
 
 ## Assembled From
-- brief: {path}
 - goals: {path}
 - calendar: {path}
 - (etc.)
+
+## Brief Synthesized
+yes (plan actions) / no (reflect actions)
 
 ## Output
 {path to assembled file}

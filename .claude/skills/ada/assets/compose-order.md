@@ -2,23 +2,23 @@
 
 Defines which assistant section templates are included and in what order for each timescale.
 
+Note: Brief section is synthesized by compose during plan actions, not listed here.
+
 ## Daily
 
-1. brief
-2. goals
-3. calendar
-4. projects
-5. relationships
-6. journal
+1. goals
+2. calendar
+3. projects
+4. relationships
+5. journal
 
 ## Weekly
 
 1. goals
 2. calendar
 3. relationships
-4. brief
-5. achievements
-6. journal
+4. achievements
+5. journal
 
 ## Quarterly
 
