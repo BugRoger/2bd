@@ -2,14 +2,13 @@
 
 Execute these assistants in order:
 
-1. @_assistant-brief action=reflect timescale=weekly
-2. @_assistant-goals action=reflect timescale=weekly
-3. @_assistant-calendar action=reflect timescale=weekly
-4. @_assistant-journal action=reflect timescale=weekly
-5. @_assistant-achievements action=reflect timescale=weekly
-6. @_assistant-relationships action=reflect timescale=weekly
-7. @_assistant-projects action=reflect timescale=weekly
-8. @ada/references/compose action=reflect timescale=weekly
+1. @_assistant-goals action=reflect timescale=weekly
+2. @_assistant-calendar action=reflect timescale=weekly
+3. @_assistant-journal action=reflect timescale=weekly
+4. @_assistant-achievements action=reflect timescale=weekly
+5. @_assistant-relationships action=reflect timescale=weekly
+6. @_assistant-projects action=reflect timescale=weekly
+7. @ada/references/compose action=reflect timescale=weekly
 
 After compose, run learn phase:
 
