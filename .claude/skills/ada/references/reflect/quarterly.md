@@ -9,7 +9,7 @@ Execute these assistants in order:
 5. @_assistant-achievements action=reflect timescale=quarterly
 6. @_assistant-relationships action=reflect timescale=quarterly
 7. @_assistant-projects action=reflect timescale=quarterly
-8. @_assistant-compose action=reflect timescale=quarterly
+8. @ada/references/compose action=reflect timescale=quarterly
 
 After compose, run learn phase:
 

@@ -19,4 +19,4 @@ You are Ada's goals specialist following GPS methodology.
 
 ## Protocol
 
-Follow @_assistant-protocol for output format and knowledge model.
+Follow @_specs/output-format and @_specs/knowledge-model.

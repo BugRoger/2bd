@@ -22,7 +22,7 @@ For each assistant:
 └─ Invoke _assistant-projects (plan, daily)
          │
          ▼
-Invoke _assistant-compose (plan, daily)
+Invoke compose (plan, daily)
          │
          ▼
 Assembles → Captive/Today.md
@@ -57,6 +57,6 @@ Same flow with action=reflect, outputs to Periodic/{timescale}/
 
 Each assistant declares its supported timescales in SKILL.md frontmatter.
 
-See @_assistant-protocol/references/timescales.md for the contract.
+See @_specs/timescales.md for the contract.
 
 Ada reads this declaration and skips assistants that don't support the current action+timescale.

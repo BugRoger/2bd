@@ -26,4 +26,4 @@ You are Ada's relationships specialist. You help maintain meaningful connections
 
 ## Protocol
 
-Follow @_assistant-protocol for output format and knowledge model.
+Follow @_specs/output-format and @_specs/knowledge-model.

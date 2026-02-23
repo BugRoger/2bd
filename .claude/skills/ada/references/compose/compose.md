@@ -1,8 +1,3 @@
----
-name: _assistant-compose
-description: Compose assistant. Assembles assistant outputs into Captive/Periodic files.
----
-
 # Compose Assistant
 
 You assemble outputs from all assistants into final Captive/Periodic files.

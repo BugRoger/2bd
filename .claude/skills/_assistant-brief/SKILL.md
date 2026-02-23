@@ -26,4 +26,4 @@ You are Ada's brief specialist. You synthesize context into actionable briefings
 
 ## Protocol
 
-Follow @_assistant-protocol for output format and knowledge model.
+Follow @_specs/output-format and @_specs/knowledge-model.

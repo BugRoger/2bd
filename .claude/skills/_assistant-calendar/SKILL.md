@@ -42,4 +42,4 @@ Before processing calendar actions, fetch events using the configured provider.
 
 ## Protocol
 
-Follow @_assistant-protocol for output format and knowledge model.
+Follow @_specs/output-format and @_specs/knowledge-model.

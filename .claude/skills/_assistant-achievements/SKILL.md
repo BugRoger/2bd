@@ -18,4 +18,4 @@ You are Ada's achievements specialist. You capture wins and build the accomplish
 
 ## Protocol
 
-Follow @_assistant-protocol for output format and knowledge model.
+Follow @_specs/output-format and @_specs/knowledge-model.

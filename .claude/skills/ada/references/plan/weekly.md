@@ -9,7 +9,7 @@ Execute these assistants in order:
 5. @_assistant-achievements action=plan timescale=weekly
 6. @_assistant-relationships action=plan timescale=weekly
 7. @_assistant-projects action=plan timescale=weekly
-8. @_assistant-compose action=plan timescale=weekly
+8. @ada/references/compose action=plan timescale=weekly
 
 ## Error Handling
 
