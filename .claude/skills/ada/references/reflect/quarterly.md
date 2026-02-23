@@ -20,6 +20,28 @@ After compose, run learn phase:
 13. @_assistant-relationships action=learn timescale=quarterly
 14. @_assistant-projects action=learn timescale=quarterly
 
+## Aggregate Findings
+
+After assistants return findings:
+
+1. Collect all `### Entity Learnings` from assistant findings
+2. Collect all `### Coaching Questions` from assistant findings
+3. Weave into coaching conversation:
+   - Surface variance patterns across domains
+   - Ask coaching questions that connect insights
+   - Discuss entity learnings with user
+
+## Persist Entity Learnings
+
+After user confirms insights:
+
+For each confirmed entity learning:
+1. Find entity file in vault:
+   - People: `vault/02_Areas/People/{name}.md`
+   - Projects: `vault/01_Projects/{name}.md`
+2. Append to `## Insights` section:
+   - {date}: {insight} (from quarterly reflect)
+
 ## Error Handling
 
 If an assistant fails:

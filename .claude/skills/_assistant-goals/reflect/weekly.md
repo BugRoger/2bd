@@ -1,28 +1,49 @@
 # Goals: Reflect Weekly
 
-Review Major Moves progress.
+Compare planned Major Moves to actual progress and return findings to Ada.
 
 ## Context to Load
 
-1. Read `vault/00_Brain/Captive/Week.md` for planned Major Moves
-2. Read daily reflections from this week
-3. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
+1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/goals/weekly.md`
+2. Read plan output: `vault/00_Brain/Synthetic/Assistants/goals/{date}-plan-weekly.md`
+3. Read capture note `vault/00_Brain/Captive/Week.md` — find `## Week Overview` and `## Weekly Commitments` sections by H2 header
+4. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
 
 ## Process
 
-1. Show the Major Moves from Week.md
+1. Extract planned Major Moves from plan output (what was intended)
+2. Extract actual progress from capture note section (what happened)
+3. Generate variance narrative:
+   - What was completed as planned
+   - What was planned but not done
+   - What emerged that wasn't planned
+4. Identify entity learnings (people, projects mentioned with insights)
+5. Generate coaching questions based on patterns
 
-2. Interactive review:
-   - For each Major Move: "What progress did you make?"
-   - Rate: Met / Partial / Missed
-   - If partial/missed: "What got in the way?"
+## Return to Ada
 
-3. Quest alignment:
-   - "Did this week move your Quarterly Quests forward?"
+Return findings for coaching conversation:
+
+```markdown
+## Findings
+
+### Variance
+- Planned: [Summary of Major Moves from plan]
+- Actual: [What happened]
+- Gap: [What shifted, notable patterns]
+
+### Coaching Questions
+- [Question exploring the variance]
+- [Question about patterns worth examining]
+
+### Entity Learnings
+- [[Person]]: [Insight discovered]
+- [[Project]]: [Insight discovered]
+```
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-reflect-weekly.md`:
+After coaching, write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-reflect-weekly.md`:
 
 ```markdown
 # Goals: reflect(weekly) {date}
@@ -33,20 +54,13 @@ ok
 ## Section
 ### Major Moves Review
 
-**Move 1:** {Quest} — {Met/Partial/Missed}
-- Target was: {Original target}
-- Actual: {What happened}
+[Variance narrative from coaching conversation]
 
-**Move 2:** {Quest} — {Met/Partial/Missed}
-- Target was: {Original target}
-- Actual: {What happened}
-
-(etc.)
-
-**Quest Progress:** {Assessment of quarterly momentum}
+## Entity Learnings
+- [[Entity]]: [Confirmed insight]
 
 ## Observations
-- {Patterns, blockers, learnings}
+- [Patterns for goals memory]
 
 ## Timestamp
 {ISO timestamp}

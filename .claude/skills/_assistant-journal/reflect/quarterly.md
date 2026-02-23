@@ -1,25 +1,49 @@
 # Journal: Reflect Quarterly
 
-Quarterly reflection on growth and themes.
+Compare planned quarterly reflection to actual growth themes and return findings to Ada.
 
 ## Context to Load
 
-1. Read `vault/00_Brain/Captive/Quarter.md` for quarterly intention
-2. Read weekly reflections from this quarter
-3. Read `vault/00_Brain/Semantic/Assistants/journal/memory.md` if exists
+1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/journal/quarterly.md`
+2. Read plan output: `vault/00_Brain/Synthetic/Assistants/journal/{date}-plan-quarterly.md`
+3. Read capture note `vault/00_Brain/Captive/Quarter.md` — find `## Weekly Progress` and `## Reflections` sections by H2 header
+4. Read `vault/00_Brain/Semantic/Assistants/journal/memory.md` if exists
 
 ## Process
 
-1. Interactive conversation:
-   - Ask: "What defined this quarter for you?"
-   - Ask: "How have you changed?"
-   - Ask: "What do you want to carry into the next quarter?"
+1. Extract planned quarterly themes from plan output (what was intended)
+2. Extract actual reflections from capture note section (what happened)
+3. Generate variance narrative:
+   - What was completed as planned
+   - What was planned but not done
+   - What emerged that wasn't planned
+4. Identify entity learnings (people, projects mentioned with insights)
+5. Generate coaching questions based on patterns
 
-2. Capture quarterly reflection
+## Return to Ada
+
+Return findings for coaching conversation:
+
+```markdown
+## Findings
+
+### Variance
+- Planned: [Summary of quarterly themes from plan]
+- Actual: [What happened]
+- Gap: [What shifted, notable patterns]
+
+### Coaching Questions
+- [Question exploring the variance]
+- [Question about patterns worth examining]
+
+### Entity Learnings
+- [[Person]]: [Insight discovered]
+- [[Project]]: [Insight discovered]
+```
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/journal/{date}-reflect-quarterly.md`:
+After coaching, write to `vault/00_Brain/Synthetic/Assistants/journal/{date}-reflect-quarterly.md`:
 
 ```markdown
 # Journal: reflect(quarterly) {date}
@@ -30,16 +54,13 @@ ok
 ## Section
 ### Quarterly Reflection
 
-**Defining moment:** {What defined the quarter}
+[Variance narrative from coaching conversation]
 
-**Growth:** {How you changed}
-
-**Insight:** {Key realization}
-
-**Carrying forward:** {What to remember}
+## Entity Learnings
+- [[Entity]]: [Confirmed insight]
 
 ## Observations
-- {Patterns noticed}
+- [Patterns for journal memory]
 
 ## Timestamp
 {ISO timestamp}

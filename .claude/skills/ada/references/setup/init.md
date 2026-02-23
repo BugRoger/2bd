@@ -42,6 +42,17 @@ Get the path. Validate it exists. Warn if inside a git repo. Warn if folder has 
 
 Copy the scaffold structure from `assets/scaffold/` to the vault path. This creates the directory structure, templates, coaching prompts, and config files.
 
+## Copy Templates to Vault
+
+Copy assistant templates:
+1. For each assistant with templates folder:
+   - Create `vault/00_Brain/Systemic/Templates/Assistants/{assistant}/`
+   - Copy all `.md` files from `.claude/skills/_assistant-{name}/templates/`
+
+Copy Ada templates:
+1. Create `vault/00_Brain/Systemic/Templates/Ada/`
+2. Copy all `.md` files from `.claude/skills/ada/templates/`
+
 Write `.claude/config.md` with the vault path:
 
 ```markdown

@@ -1,29 +1,49 @@
 # Goals: Reflect Yearly
 
-Review Annual Goals progress.
+Compare planned Annual Goals to actual progress and return findings to Ada.
 
 ## Context to Load
 
-1. Read `vault/00_Brain/Captive/Year.md` for Annual Goals
-2. Read quarterly reflections from this year
-3. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
+1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/goals/yearly.md`
+2. Read plan output: `vault/00_Brain/Synthetic/Assistants/goals/{date}-plan-yearly.md`
+3. Read capture note `vault/00_Brain/Captive/Year.md` — find `## Year Overview` and `## Leadership Development` sections by H2 header
+4. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
 
 ## Process
 
-1. Show the Annual Goals from Year.md
+1. Extract planned Annual Goals from plan output (what was intended)
+2. Extract actual progress from capture note section (what happened)
+3. Generate variance narrative:
+   - What was completed as planned
+   - What was planned but not done
+   - What emerged that wasn't planned
+4. Identify entity learnings (people, projects mentioned with insights)
+5. Generate coaching questions based on patterns
 
-2. Interactive review:
-   - For each Goal: "What progress did you make?"
-   - Rate: Met / Partial / Missed
-   - "What did you learn about yourself?"
+## Return to Ada
 
-3. Vision alignment:
-   - "Did this year move you toward your larger vision?"
-   - "What's different about who you are now?"
+Return findings for coaching conversation:
+
+```markdown
+## Findings
+
+### Variance
+- Planned: [Summary of Annual Goals from plan]
+- Actual: [What happened]
+- Gap: [What shifted, notable patterns]
+
+### Coaching Questions
+- [Question exploring the variance]
+- [Question about patterns worth examining]
+
+### Entity Learnings
+- [[Person]]: [Insight discovered]
+- [[Project]]: [Insight discovered]
+```
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-reflect-yearly.md`:
+After coaching, write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-reflect-yearly.md`:
 
 ```markdown
 # Goals: reflect(yearly) {date}
@@ -34,25 +54,13 @@ ok
 ## Section
 ### Annual Goals Review
 
-**Theme:** {Year theme}
+[Variance narrative from coaching conversation]
 
-**Goal 1:** {Goal} — {Met/Partial/Missed}
-- Why it mattered: {Original why}
-- Actual: {What happened}
-- Learning: {What you learned}
-
-**Goal 2:** {Goal} — {Met/Partial/Missed}
-- Why it mattered: {Original why}
-- Actual: {What happened}
-- Learning: {What you learned}
-
-(etc.)
-
-### Year Summary
-{Narrative of the year's journey}
+## Entity Learnings
+- [[Entity]]: [Confirmed insight]
 
 ## Observations
-- {Patterns, blockers, major learnings}
+- [Patterns for goals memory]
 
 ## Timestamp
 {ISO timestamp}

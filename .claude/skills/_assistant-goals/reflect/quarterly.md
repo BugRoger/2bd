@@ -1,28 +1,49 @@
 # Goals: Reflect Quarterly
 
-Review Quests progress.
+Compare planned Quests to actual progress and return findings to Ada.
 
 ## Context to Load
 
-1. Read `vault/00_Brain/Captive/Quarter.md` for planned Quests
-2. Read weekly reflections from this quarter
-3. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
+1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/goals/quarterly.md`
+2. Read plan output: `vault/00_Brain/Synthetic/Assistants/goals/{date}-plan-quarterly.md`
+3. Read capture note `vault/00_Brain/Captive/Quarter.md` — find `## Quarter Overview` and `## Coaching Themes` sections by H2 header
+4. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
 
 ## Process
 
-1. Show the Quests from Quarter.md
+1. Extract planned Quests from plan output (what was intended)
+2. Extract actual progress from capture note section (what happened)
+3. Generate variance narrative:
+   - What was completed as planned
+   - What was planned but not done
+   - What emerged that wasn't planned
+4. Identify entity learnings (people, projects mentioned with insights)
+5. Generate coaching questions based on patterns
 
-2. Interactive review:
-   - For each Quest: "What progress did you make?"
-   - Rate: Met / Partial / Missed
-   - If partial/missed: "What got in the way?"
+## Return to Ada
 
-3. Annual Goals alignment:
-   - "Did this quarter advance your Annual Goals?"
+Return findings for coaching conversation:
+
+```markdown
+## Findings
+
+### Variance
+- Planned: [Summary of Quests from plan]
+- Actual: [What happened]
+- Gap: [What shifted, notable patterns]
+
+### Coaching Questions
+- [Question exploring the variance]
+- [Question about patterns worth examining]
+
+### Entity Learnings
+- [[Person]]: [Insight discovered]
+- [[Project]]: [Insight discovered]
+```
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-reflect-quarterly.md`:
+After coaching, write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-reflect-quarterly.md`:
 
 ```markdown
 # Goals: reflect(quarterly) {date}
@@ -33,22 +54,13 @@ ok
 ## Section
 ### Quests Review
 
-**Theme:** {Quarter theme}
+[Variance narrative from coaching conversation]
 
-**Quest 1:** {Goal} — {Met/Partial/Missed}
-- Success criteria: {Original criteria}
-- Actual: {What happened}
-
-**Quest 2:** {Goal} — {Met/Partial/Missed}
-- Success criteria: {Original criteria}
-- Actual: {What happened}
-
-(etc.)
-
-**Annual Goals Progress:** {Assessment}
+## Entity Learnings
+- [[Entity]]: [Confirmed insight]
 
 ## Observations
-- {Patterns, blockers, learnings}
+- [Patterns for goals memory]
 
 ## Timestamp
 {ISO timestamp}

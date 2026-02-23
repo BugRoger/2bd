@@ -1,22 +1,49 @@
 # Relationships: Reflect Daily
 
-Review today's interactions.
+Compare planned touchpoints to actual interactions and return findings to Ada.
 
 ## Context to Load
 
-1. Read today's relationship plan
-2. Read `vault/00_Brain/Semantic/Assistants/relationships/memory.md` if exists
+1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/relationships/daily.md`
+2. Read plan output: `vault/00_Brain/Synthetic/Assistants/relationships/{date}-plan-daily.md`
+3. Read capture note `vault/00_Brain/Captive/Today.md` — find `## People Touchpoints` section by H2 header
+4. Read `vault/00_Brain/Semantic/Assistants/relationships/memory.md` if exists
 
 ## Process
 
-1. Review touchpoints:
-   - Who did you connect with?
-   - Any notable interactions?
-   - Updates for person dossiers?
+1. Extract planned touchpoints from plan output (what was intended)
+2. Extract actual interactions from capture note section (what happened)
+3. Generate variance narrative:
+   - What was completed as planned
+   - What was planned but not done
+   - What emerged that wasn't planned
+4. Identify entity learnings (people, projects mentioned with insights)
+5. Generate coaching questions based on patterns
+
+## Return to Ada
+
+Return findings for coaching conversation:
+
+```markdown
+## Findings
+
+### Variance
+- Planned: [Summary of touchpoints from plan]
+- Actual: [What happened]
+- Gap: [What shifted, notable patterns]
+
+### Coaching Questions
+- [Question exploring the variance]
+- [Question about patterns worth examining]
+
+### Entity Learnings
+- [[Person]]: [Insight discovered]
+- [[Project]]: [Insight discovered]
+```
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/relationships/{date}-reflect-daily.md`:
+After coaching, write to `vault/00_Brain/Synthetic/Assistants/relationships/{date}-reflect-daily.md`:
 
 ```markdown
 # Relationships: reflect(daily) {date}
@@ -27,14 +54,13 @@ ok
 ## Section
 ### Touchpoint Review
 
-**Connected with:**
-- {Person} — {Context} — {Notes}
+[Variance narrative from coaching conversation]
 
-**Updates needed:**
-- {Person} — {What to update in dossier}
+## Entity Learnings
+- [[Entity]]: [Confirmed insight]
 
 ## Observations
-- {Interaction patterns}
+- [Patterns for relationships memory]
 
 ## Timestamp
 {ISO timestamp}
