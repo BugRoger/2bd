@@ -18,7 +18,7 @@ claude plugin install 2bd
 
 ```bash
 claude
-> /init
+> /ada setup
 ```
 
 Ada will guide you through setup. Answer her questions about:

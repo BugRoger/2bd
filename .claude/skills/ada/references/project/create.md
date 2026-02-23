@@ -187,7 +187,7 @@ Next steps:
 
 | Phase | Error | Behavior |
 |-------|-------|----------|
-| Setup | Config not found | Suggest running `/init` |
+| Setup | Config not found | Suggest running `/ada setup` |
 | Setup | Vault not accessible | Report error, abort |
 | Interact | User cancels | Exit gracefully |
 | Generate | Invalid data | Show validation errors, retry |

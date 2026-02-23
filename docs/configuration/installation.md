@@ -14,7 +14,7 @@ description: "Detailed installation and setup options"
 2. **Create your vault**
 
    ```bash
-   claude skill run init
+   /ada setup
    ```
 
    This guides you through initalizing the system.

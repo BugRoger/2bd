@@ -235,7 +235,7 @@ Next steps:
 
 | Phase | Error | Behavior |
 |-------|-------|----------|
-| Setup | Config not found | Suggest running `/init` |
+| Setup | Config not found | Suggest running `/ada setup` |
 | Setup | Vault not accessible | Report error, abort |
 | Setup | No active projects | Report "No active projects to archive", abort |
 | Select | Invalid selection | Show options again, retry |

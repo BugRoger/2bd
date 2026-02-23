@@ -13,10 +13,10 @@ The engine stores your vault path in `.claude/config.md` (git-ignored):
 vault_path: /Users/you/OneDrive/2bd-vault
 ```
 
-To change your vault location, run the reconnect wizard:
+To change your vault location, update your profile:
 
 ```bash
-claude skill run init --args "reconnect --vault=/new/path/to/vault"
+/ada profile
 ```
 
 ## User profile

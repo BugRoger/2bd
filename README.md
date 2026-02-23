@@ -25,10 +25,10 @@ A personal knowledge system that runs itself—powered by Claude, driven by dail
 ## Quick Start
 
 ```bash
-git clone https://github.com/bugroger/2bd 
-cd 2bd 
-claude skill run init 
-claude skill run ritual-planning-daily
+git clone https://github.com/bugroger/2bd
+cd 2bd
+/ada setup
+/ada plan
 ```
 
 ## Documentation

@@ -18,7 +18,7 @@ Templates live in your vault at `$VAULT/00_Brain/Systemic/Templates/`:
 
 ## Scaffold vs vault
 
-The scaffold (`.claude/skills/init/assets/scaffold/`) is the source template for new vaults. After init, users customize their vault's templates.
+The scaffold (`.claude/skills/ada/assets/scaffold/`) is the source template for new vaults. After init, users customize their vault's templates.
 
 Use `_sync-templates` to propagate changes between vault and scaffold during development.
 

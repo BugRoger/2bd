@@ -5,7 +5,7 @@ description: "A guided walkthrough of your first planning session"
 
 ## Starting the Ritual
 
-After running `/init`, start your first planning ritual:
+After running `/ada setup`, start your first planning ritual:
 
 ```
 > /plan
