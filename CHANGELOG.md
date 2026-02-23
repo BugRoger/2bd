@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.9.0
+
+- Absorbed init skill into Ada — `/ada setup` replaces `/init`, Ada is now the central UX for all human interactions
+- Merged brief assistant into compose phase — brief synthesis happens during composition with access to all assistant outputs
+- Split templates into Ada base + assistant sections — 19 assistant-owned templates, 4 Ada base templates with compose order
+- Added variance-based reflect flow — each assistant compares plan output to actual capture, returns findings to Ada for coaching
+- Moved section order to Ada's systemic memory — `vault/00_Brain/Systemic/Ada/section-order.md` stores Ada's preferences
+- Renamed `ada.yaml` → `assistants.yaml` for user-configurable assistant settings
+- Moved protocol specs to `_specs/` and compose to `ada/references/compose/` (never were assistants)
+- Removed `_assistant-brief` and `init` skills entirely
+- Updated all documentation and cross-references
+
 ## 0.8.0
 
 - Restructured documentation for new user journey — 5 top-level sections: Overview → Configuration → Ada → Assistants → Reference
