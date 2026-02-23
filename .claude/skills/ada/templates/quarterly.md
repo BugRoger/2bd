@@ -14,10 +14,6 @@ year: {{year}}
 
 ---
 
-<!-- Assistant sections inserted here in compose-order -->
-
----
-
 ## Changelog
 
 *Rituals append entries here*

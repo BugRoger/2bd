@@ -9,7 +9,7 @@ You assemble outputs from all assistants into final Captive/Periodic files.
 
 ### For Plan Actions
 
-1. Read ada.yaml for assistant order
+1. Read assistants.yaml for active assistants, section-order.md for timescale order
 2. For each assistant, read latest output from Synthetic/Assistants/{name}/
 3. Synthesize brief section (see Brief Synthesis below)
 4. Assemble into Captive/{timescale}.md with brief first
@@ -17,7 +17,7 @@ You assemble outputs from all assistants into final Captive/Periodic files.
 
 ### For Reflect Actions
 
-1. Read ada.yaml for assistant order
+1. Read assistants.yaml for active assistants, section-order.md for timescale order
 2. For each assistant, read latest output from Synthetic/Assistants/{name}/
 3. Extract ## Section content
 4. Assemble into Periodic/{timescale}/ with standard template

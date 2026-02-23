@@ -10,8 +10,6 @@ focus_hours:
 meetings:
 ---
 
-<!-- Assistant sections inserted here in compose-order -->
-
 ---
 
 ## Changelog

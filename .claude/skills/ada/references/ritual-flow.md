@@ -9,7 +9,7 @@ User: "Ada, run my morning ritual"
 Ada parses: action=plan, timescale=daily
          │
          ▼
-Ada reads ada.yaml → [goals, calendar, journal, ...]
+Ada reads assistants.yaml → [goals, calendar, journal, ...]
          │
          ▼
 For each assistant:

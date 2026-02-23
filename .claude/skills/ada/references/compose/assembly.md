@@ -13,7 +13,7 @@ For `plan` actions, assemble into `vault/00_Brain/Captive/{Timescale}.md`:
 
 ### Assembly Order
 
-Read `vault/00_Brain/Systemic/Config/ada.yaml` for assistant order:
+Read `vault/00_Brain/Systemic/Ada/section-order.md` for section order per timescale:
 1. goals
 2. calendar
 3. journal

@@ -7,10 +7,6 @@ quarters: [{{year}}-Q1, {{year}}-Q2, {{year}}-Q3, {{year}}-Q4]
 
 ---
 
-<!-- Assistant sections inserted here in compose-order -->
-
----
-
 ## Changelog
 
 *Rituals append entries here*

@@ -132,11 +132,13 @@ When working with documentation, read the mintlify skill.
 2bd uses 4 timescales: Daily → Weekly → Quarterly → Yearly
 
 When modifying timescales, update these locations:
-- `.claude/skills/ada/assets/scaffold/00_Brain/Systemic/Templates/Captive/{scale}.md`
+- `.claude/skills/ada/templates/{scale}.md` - Ada base templates
+- `.claude/skills/_assistant-*/templates/{scale}.md` - Assistant section templates
+- `vault/00_Brain/Systemic/Ada/section-order.md` - Section order per timescale
 - `.claude/skills/ada/assets/scaffold/00_Brain/Systemic/Templates/Periodic/{scale}ly.md`
 - `.claude/skills/ada/assets/scaffold/00_Brain/Systemic/Coaching/{domain}/{scale}.md`
 - `docs/ada/how-ada-works.md`
-- `docs/reference/vault-structure.md`, `docs/reference/glossary.md`
+- `docs/reference/templates.md`, `docs/reference/glossary.md`
 - `docs/how-it-works.excalidraw.json`
 - `.claude/skills/ada/assets/scaffold/00_Brain/✱ Home.md` (navigation)
 

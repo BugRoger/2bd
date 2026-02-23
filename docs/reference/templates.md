@@ -7,20 +7,54 @@ Templates define the structure of your working notes. [Rituals](/reference/creat
 
 ## Template locations
 
-Templates live in your vault at `$VAULT/00_Brain/Systemic/Templates/`:
+Templates are split between Ada (base structure) and assistants (domain sections):
 
-| Type | Path | Used for |
-|------|------|----------|
-| Captive | `Templates/Captive/` | today.md, week.md, etc. |
-| Periodic | `Templates/Periodic/` | daily.md, weekly.md, etc. |
-| Projects | `Templates/Projects/` | project.md |
-| People | `Templates/Areas/People/` | person.md |
+### Source templates (in repo)
+
+| Type | Path | Purpose |
+|------|------|---------|
+| Ada templates | `.claude/skills/ada/templates/` | Base templates with frontmatter, navigation, changelog |
+| Assistant templates | `.claude/skills/_assistant-{name}/templates/` | Domain-specific section templates |
+
+### Vault config (user data)
+
+| Type | Path | Purpose |
+|------|------|---------|
+| Section order | `$VAULT/00_Brain/Systemic/Ada/section-order.md` | Defines section order per timescale |
+| Assistant config | `$VAULT/00_Brain/Systemic/Config/assistants.yaml` | Active assistants list |
+
+### Vault templates (user copy)
+
+| Type | Path | Purpose |
+|------|------|---------|
+| Ada templates | `$VAULT/00_Brain/Systemic/Templates/Ada/` | Customizable base templates |
+| Assistant templates | `$VAULT/00_Brain/Systemic/Templates/Assistants/{name}/` | Customizable section templates |
+| Periodic | `$VAULT/00_Brain/Systemic/Templates/Periodic/` | Archive templates |
+| Projects | `$VAULT/00_Brain/Systemic/Templates/Projects/` | Project templates |
+| People | `$VAULT/00_Brain/Systemic/Templates/Areas/People/` | Person templates |
 
 ## Scaffold vs vault
 
-The scaffold (`.claude/skills/ada/assets/scaffold/`) is the source template for new vaults. After init, users customize their vault's templates.
+The scaffold (`.claude/skills/ada/assets/scaffold/`) provides directory structure for new vaults. Assistant templates are separate - init copies them from their source locations.
+
+Templates copy during init:
+1. Ada templates from `.claude/skills/ada/templates/` to vault
+2. Assistant templates from `.claude/skills/_assistant-{name}/templates/` to vault
 
 Use `_sync-templates` to propagate changes between vault and scaffold during development.
+
+## Section order
+
+Ada composes Captive notes by inserting assistant sections in a defined order. The order is stored in Ada's systemic memory at `$VAULT/00_Brain/Systemic/Ada/section-order.md`:
+
+| Timescale | Section order |
+|-----------|---------------|
+| Daily | goals, calendar, projects, relationships, journal |
+| Weekly | goals, calendar, relationships, achievements, journal |
+| Quarterly | goals, journal, achievements |
+| Yearly | goals, journal, achievements |
+
+Note: Brief section is synthesized during plan actions, not listed in section order.
 
 ## Standard sections
 

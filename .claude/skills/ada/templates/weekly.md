@@ -35,10 +35,6 @@ leadership_intention:
 
 ---
 
-<!-- Assistant sections inserted here in compose-order -->
-
----
-
 ## Next Week Setup
 **Theme:** [Working title]
 

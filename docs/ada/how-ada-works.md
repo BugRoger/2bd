@@ -57,6 +57,32 @@ Each assistant specializes in one domain and knows how to handle that domain acr
 4. Compose outputs into Captive (plan) or Periodic (reflect)
 5. Learn patterns from observations
 
+### Template architecture
+
+Templates are split between Ada and assistants:
+
+| Location | Purpose |
+|----------|---------|
+| `.claude/skills/ada/templates/` | Ada's base templates (frontmatter, navigation, changelog) |
+| `.claude/skills/_assistant-{name}/templates/` | Each assistant's section templates |
+| `vault/00_Brain/Systemic/Templates/Ada/` | Vault copy of Ada templates |
+| `vault/00_Brain/Systemic/Templates/Assistants/{name}/` | Vault copy of assistant templates |
+
+Ada composes Captive notes by:
+1. Loading the base template for the timescale
+2. Reading section order from `vault/00_Brain/Systemic/Ada/section-order.md`
+3. Inserting assistant sections in the defined order
+4. Each assistant owns specific H2 sections in the final document
+
+### Reflect flow
+
+During reflection, each assistant:
+1. Loads its template from vault
+2. Compares plan output to actual capture note section
+3. Returns findings (variance, coaching questions, entity learnings) to Ada
+4. Ada aggregates findings into a coaching conversation
+5. Confirmed entity learnings persist to vault (People, Projects)
+
 ### Quick reference
 
 ```bash
