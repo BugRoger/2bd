@@ -1,43 +1,49 @@
 # Journal: Plan Weekly
 
-Capture weekly intention and focus.
+Generate weekly intention draft with placeholders for reflection.
 
 ## Context to Load
 
 1. Read `vault/00_Brain/Captive/Week.md` for context
 2. Read `vault/00_Brain/Semantic/Assistants/journal/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Interactive conversation:
-   - Ask: "How are you feeling about the week ahead?"
-   - Ask: "What intention do you want to set?"
-   - Ask: "What's one thing you want to be true by Friday?"
-
-2. Capture weekly intention
+1. Review recent patterns from memory
+2. Generate reflection prompts based on weekly themes
+3. Create draft with open-ended placeholders
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/journal/{date}-plan-weekly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/journal/weekly-draft.md`:
 
 ```markdown
-# Journal: plan(weekly) {date}
+## Journal
 
-## Status
-ok
-
-## Section
 ### Weekly Intention
 
-**Feeling:** {About the week ahead}
+<!-- ASK:journal-feeling
+How are you feeling about the week ahead?
+-->
 
-**Intention:** {What to bring to the week}
+<!-- ASK:journal-intention
+What intention do you want to set for this week?
+-->
 
-**By Friday:** {One thing to be true}
+<!-- ASK:journal-by-friday
+What's one thing you want to be true by Friday?
+-->
+```
 
-## Observations
-- {Patterns noticed}
+## Status
 
-## Timestamp
-{ISO timestamp}
+Add frontmatter:
+```
+---
+status: ok
+assistant: journal
+action: plan
+timescale: weekly
+timestamp: {ISO timestamp}
+---
 ```

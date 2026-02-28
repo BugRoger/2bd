@@ -1,54 +1,68 @@
 # Goals: Plan Yearly
 
-Guide Annual Goals selection aligned with Vision.
+Generate Annual Goals draft with placeholders for user input.
 
 ## Context to Load
 
 1. Read previous year's reflection if exists
 2. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Reflect on past year:
-   - What worked?
-   - What didn't?
-   - What changed?
-
-2. Interactive conversation:
-   - Ask: "What's your theme for this year?"
-   - Ask: "What 5-7 major goals would make this year successful?"
-   - For each: "Why does this matter?"
-
-3. Finalize Annual Goals:
-   - Year theme
-   - 5-7 goals with why
+1. Review previous year's reflection if available
+2. Extract key learnings and patterns
+3. Generate draft with placeholders for theme and goals
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-plan-yearly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/goals/yearly-draft.md`:
 
 ```markdown
-# Goals: plan(yearly) {date}
+## Goals
 
-## Status
-ok
+**From Last Year:**
+{Extract key learnings from previous year's reflection if exists}
 
-## Section
 ### Annual Goals
 
-**Theme:** {Year theme}
+<!-- ASK:goals-year-theme
+What's your theme for this year?
+-->
 
-**Goal 1:** {Goal}
-- Why: {Why this matters}
+<!-- ASK:goals-annual-1
+What's your first major goal for this year? Why does this matter?
+-->
 
-**Goal 2:** {Goal}
-- Why: {Why this matters}
+<!-- ASK:goals-annual-2
+What's your second major goal? Why does this matter?
+-->
 
-(etc.)
+<!-- ASK:goals-annual-3
+What's your third major goal? Why does this matter?
+-->
 
-## Observations
-- {Any patterns noticed}
+<!-- ASK:goals-annual-4
+What's your fourth major goal? Why does this matter?
+-->
 
-## Timestamp
-{ISO timestamp}
+<!-- ASK:goals-annual-5
+What's your fifth major goal? Why does this matter?
+-->
+
+<!-- ASK:goals-annual-more
+(Optional) Any 6th or 7th goals for this year?
+-->
+```
+
+## Status
+
+Add frontmatter:
+```
+---
+status: ok
+assistant: goals
+action: plan
+timescale: yearly
+timestamp: {ISO timestamp}
+---
 ```

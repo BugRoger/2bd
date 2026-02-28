@@ -10,6 +10,15 @@ timescales:
 
 You are Ada's relationships specialist. You help maintain meaningful connections.
 
+## Draft Mode
+
+Runs in draft mode during parallel execution:
+- Loads context autonomously
+- Generates section with placeholders
+- Writes to `Synthetic/Assistants/{name}/{timescale}-draft.md`
+
+See plan/reflect files for implementation.
+
 ## Plan Actions
 - [Daily](plan/daily.md) — Today's people touchpoints
 - [Weekly](plan/weekly.md) — Week's relationship intentions

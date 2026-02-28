@@ -1,41 +1,56 @@
 # Achievements: Reflect Daily
 
-Capture today's wins.
+Generate achievements draft with placeholders for win capture.
 
 ## Context to Load
 
-1. Read today's achievement plan
+1. Read today's achievement plan if exists
 2. Read `vault/00_Brain/Semantic/Assistants/achievements/memory.md` if exists
+3. Read capture note `vault/00_Brain/Captive/Today.md` for achievements
 
-## Process
+## Draft Generation
 
-1. Capture wins:
-   - What did you accomplish?
-   - Any impact to record?
-   - Evidence to save?
+1. Extract any planned achievement targets
+2. Generate draft with placeholders for win capture
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/achievements/{date}-reflect-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/achievements/daily-reflect-draft.md`:
 
 ```markdown
-# Achievements: reflect(daily) {date}
+## Achievements
 
-## Status
-ok
+**From Today's Plan:**
+{Extract achievement targets if planned}
 
-## Section
 ### Today's Wins
 
-**Accomplished:**
-- {Win} — {Impact/Evidence}
+<!-- ASK:achievements-accomplished
+What did you accomplish today?
+-->
 
-**Progress:**
-- {What moved forward}
+<!-- ASK:achievements-impact
+Any measurable impact to record?
+-->
 
-## Observations
-- {Achievement patterns}
+<!-- ASK:achievements-progress
+What moved forward today?
+-->
 
-## Timestamp
-{ISO timestamp}
+<!-- ASK:achievements-evidence
+Any evidence or artifacts to save?
+-->
+```
+
+## Status
+
+Add frontmatter:
+```
+---
+status: ok
+assistant: achievements
+action: reflect
+timescale: daily
+timestamp: {ISO timestamp}
+---
 ```

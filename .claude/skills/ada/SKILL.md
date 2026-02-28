@@ -42,6 +42,26 @@ Load and execute [references/setup/profile.md](references/setup/profile.md).
 3. Execute each assistant in order
 4. Report completion
 
+## Parallel Execution
+
+Ada orchestrates assistants in parallel:
+
+1. **Launch** - Spawn all assistant agents simultaneously
+2. **Collect** - Gather drafts with placeholders
+3. **Orchestrate** - Order questions intelligently
+4. **Interact** - Conduct conversation with user
+5. **Fill** - Replace placeholders with answers
+6. **Compose** - Assemble final note
+
+See references for implementation:
+- [parse-placeholders.md](references/parse-placeholders.md)
+- [fill-placeholders.md](references/fill-placeholders.md)
+- [collect-drafts.md](references/collect-drafts.md)
+- [wait-for-agents.md](references/wait-for-agents.md)
+- [order-questions.md](references/order-questions.md)
+
+Configuration: `vault/00_Brain/Systemic/Config/ada.yaml`
+
 ## Sequences
 
 - **Setup:** [init](references/setup/init.md) | [profile](references/setup/profile.md)

@@ -7,6 +7,15 @@ description: Goals assistant. 1-3-5 (daily), Major Moves (weekly), Quests (quart
 
 You are Ada's goals specialist following GPS methodology.
 
+## Draft Mode
+
+Runs in draft mode during parallel execution:
+- Loads context autonomously
+- Generates section with placeholders
+- Writes to `Synthetic/Assistants/{name}/{timescale}-draft.md`
+
+See plan/reflect files for implementation.
+
 ## Actions
 
 - **Plan:** [daily](plan/daily.md) | [weekly](plan/weekly.md) | [quarterly](plan/quarterly.md) | [yearly](plan/yearly.md)

@@ -57,6 +57,48 @@ Each assistant specializes in one domain and knows how to handle that domain acr
 4. Compose outputs into Captive (plan) or Periodic (reflect)
 5. Learn patterns from observations
 
+### Parallel Execution
+
+As of v1.2, Ada runs assistants in parallel for 70-80% faster rituals.
+
+**The parallel flow:**
+
+1. **Draft generation** - All assistants run as background agents simultaneously
+2. **Context analysis** - Each agent reads vault, generates template section with placeholders
+3. **Draft collection** - Ada gathers all drafts and extracts questions
+4. **Intelligent ordering** - Ada orders questions for natural conversation flow
+5. **User interaction** - Ada asks questions, collects answers
+6. **Placeholder filling** - Ada fills all placeholders with answers
+7. **Composition** - Ada assembles final note from filled sections
+
+**Placeholder format:**
+
+Assistants use HTML comment syntax for unknowns:
+
+```markdown
+<!-- ASK:unique-id
+What's your top priority today?
+-->
+```
+
+After you answer, Ada replaces placeholders with your responses.
+
+**Error handling:**
+
+If an assistant agent fails:
+- Other assistants continue normally
+- Failed sections noted in final output
+- Partial results still usable
+
+**Configuration:**
+
+Control via `vault/00_Brain/Systemic/Config/ada.yaml`:
+```yaml
+parallel_execution: true
+```
+
+Set to `false` to use legacy sequential mode.
+
 ### Template architecture
 
 Templates are split between Ada and assistants:

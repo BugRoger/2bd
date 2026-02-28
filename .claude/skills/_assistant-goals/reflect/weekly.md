@@ -1,6 +1,69 @@
 # Goals: Reflect Weekly
 
-Compare planned Major Moves to actual progress and return findings to Ada.
+Generate reflection draft comparing planned Major Moves to actual progress with placeholders.
+
+## Context to Load
+
+1. Read plan output: `vault/00_Brain/Synthetic/Assistants/goals/{date}-plan-weekly.md` or draft
+2. Read capture note `vault/00_Brain/Captive/Week.md`
+3. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
+
+## Draft Generation
+
+1. Extract planned Major Moves from plan output
+2. Extract actual progress from Week.md
+3. Generate draft with variance analysis and placeholders
+
+## Output
+
+Write to `vault/00_Brain/Synthetic/Assistants/goals/weekly-reflect-draft.md`:
+
+```markdown
+## Goals
+
+**Planned Major Moves:**
+{Extract from plan}
+
+**From Week.md:**
+{Extract progress}
+
+### Reflection
+
+<!-- ASK:goals-major-moves-progress
+How did you progress on your Major Moves this week?
+-->
+
+<!-- ASK:goals-incomplete-moves
+Which Major Moves didn't get the attention you planned? Why?
+-->
+
+<!-- ASK:goals-unplanned-work
+What unplanned work took priority this week?
+-->
+
+<!-- ASK:goals-weekly-patterns
+Any patterns in your goal-setting or execution this week?
+-->
+
+### Entity Learnings
+
+<!-- ASK:goals-weekly-entity-insights
+Any insights about people or projects from this week's goals work?
+-->
+```
+
+## Status
+
+Add frontmatter:
+```
+---
+status: ok
+assistant: goals
+action: reflect
+timescale: weekly
+timestamp: {ISO timestamp}
+---
+```
 
 ## Context to Load
 

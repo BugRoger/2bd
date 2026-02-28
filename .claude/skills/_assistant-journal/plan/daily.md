@@ -1,44 +1,53 @@
 # Journal: Plan Daily
 
-Capture morning intention and mindset.
+Generate check-in draft with placeholders for reflection.
 
 ## Context to Load
 
-1. Read `vault/00_Brain/Captive/Today.md` for context
-2. Read `vault/00_Brain/Semantic/Assistants/journal/memory.md` if exists
+1. Read `vault/00_Brain/Captive/Week.md` for week context
+2. Read `vault/00_Brain/Semantic/Assistants/journal/memory.md` for patterns
+3. Read yesterday's daily note from Periodic if exists
 
-## Process
+## Draft Generation
 
-1. Interactive conversation:
-   - Ask: "How are you feeling this morning?"
-   - Ask: "What mindset do you want to bring to today?"
-   - Ask: "Is there anything on your mind?"
-
-2. Capture intention
+1. Review recent patterns from memory
+2. Generate reflection prompts based on weekly themes
+3. Create draft with open-ended placeholders
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/journal/{date}-plan-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/journal/daily-draft.md`:
 
 ```markdown
-# Journal: plan(daily) {date}
+## Journal
+
+**Morning Check-In**
+
+<!-- ASK:journal-energy
+How's your energy level this morning? (1-10 and why)
+-->
+
+<!-- ASK:journal-mindset
+What's your mindset as you start today?
+-->
+
+<!-- ASK:journal-intention
+What's your intention for today? (one word + why)
+-->
+
+**From Yesterday:**
+{If yesterday note exists, extract key insights}
+```
 
 ## Status
-ok
 
-## Section
-### Morning Check-in
-
-**Energy:** {Low/Medium/High}
-**Mood:** {Description}
-
-**Intention:** {What mindset to bring}
-
-**On my mind:** {Anything surfaced}
-
-## Observations
-- {Patterns noticed}
-
-## Timestamp
-{ISO timestamp}
+Add frontmatter:
+```
+---
+status: ok
+assistant: journal
+action: plan
+timescale: daily
+timestamp: {ISO timestamp}
+---
 ```

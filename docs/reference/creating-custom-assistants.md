@@ -93,6 +93,93 @@ Assistants are processed sequentially. Each assistant:
 - Has a phase file per timescale in rituals
 - Cascades independently through timescales
 
+## Draft Mode
+
+Assistants run in **draft mode** during parallel execution.
+
+### Draft Mode Contract
+
+Each assistant must:
+
+1. **Load context** - Read vault files autonomously
+2. **Analyze** - Synthesize what it knows
+3. **Generate draft** - Create section with placeholders for unknowns
+4. **Write output** - Save to `Synthetic/Assistants/{name}/{timescale}-draft.md`
+
+### Placeholder Syntax
+
+Use HTML comments for questions:
+
+```markdown
+## Goals
+
+Based on your week goals, here's the focus:
+
+<!-- ASK:goals-priority
+What's your #1 priority today?
+-->
+```
+
+**Placeholder ID format:** `{assistant}-{question-key}`
+- Must be unique within assistant
+- Use kebab-case: `goals-top-priority`
+- Descriptive but concise
+
+### Output Location
+
+```
+vault/00_Brain/Synthetic/Assistants/{assistant-name}/{timescale}-draft.md
+```
+
+Examples:
+- `Synthetic/Assistants/goals/daily-draft.md`
+- `Synthetic/Assistants/calendar/weekly-draft.md`
+
+### Status Frontmatter
+
+Include status in draft:
+
+```markdown
+---
+status: ok | error
+assistant: goals
+action: plan | reflect
+timescale: daily | weekly | quarterly | yearly
+timestamp: 2026-02-28T10:30:00Z
+error: "error message if status=error"
+---
+```
+
+### Context Sources
+
+Assistants should read:
+- Higher timescale notes (daily reads Week.md, weekly reads Quarter.md)
+- Relevant vault sections (projects, people, etc.)
+- Assistant memory: `Semantic/Assistants/{name}/memory.md`
+
+### Example Conversion
+
+**Before (interactive):**
+```markdown
+Ask the user: "What's your top priority?"
+Write answer to section.
+```
+
+**After (draft mode):**
+```markdown
+Load Week.md to see weekly goals.
+Identify potential priorities.
+Write draft:
+
+Based on weekly Major Moves:
+- Launch feature (deadline Friday)
+- Hire engineer (pipeline building)
+
+<!-- ASK:goals-priority
+What's your #1 priority for today?
+-->
+```
+
 ## Assistant matrix
 
 | Assistant | Daily | Weekly | Quarterly | Yearly |

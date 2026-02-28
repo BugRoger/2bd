@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.0
+
+- **Parallel assistant execution** — Ada now runs assistants as parallel background agents for 70-80% faster rituals
+- **Draft-and-fill architecture** — Assistants output drafts with HTML comment placeholders, Ada orchestrates questions and fills answers
+- **Intelligent question ordering** — Ada orders questions by priority (context → strategy → tactics → capture) for natural conversation flow
+- **Graceful degradation** — Failed agents don't block ritual completion; partial results still usable
+- **Feature flag support** — Control parallel execution via `vault/00_Brain/Systemic/Config/ada.yaml`
+- Updated all 7 assistants (goals, calendar, journal, achievements, relationships, projects) for draft mode
+- Updated all plan and reflect rituals across all 4 timescales
+- Added comprehensive documentation for parallel execution and draft mode
+- Added error handling: timeouts, failures, malformed placeholders
+
 ## 0.9.0
 
 - Absorbed init skill into Ada — `/ada setup` replaces `/init`, Ada is now the central UX for all human interactions

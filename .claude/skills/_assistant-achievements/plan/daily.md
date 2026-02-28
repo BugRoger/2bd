@@ -1,42 +1,23 @@
 # Achievements: Plan Daily
 
-Identify win potential for today.
+Generate win capture draft.
 
 ## Context to Load
 
-1. Read today's 1-3-5 for achievable goals
-2. Read `vault/00_Brain/Semantic/Assistants/achievements/memory.md` if exists
-
-## Process
-
-1. Identify potential wins:
-   - What could you accomplish today?
-   - Any deliverables due?
-   - Impact opportunities?
+1. Read `vault/00_Brain/Captive/Week.md` for weekly achievements
+2. Read `vault/00_Brain/Semantic/Assistants/achievements/memory.md`
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/achievements/{date}-plan-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/achievements/daily-draft.md`:
 
 ```markdown
-# Achievements: plan(daily) {date}
+## Achievements
 
-## Status
-ok
+**Yesterday's Wins:**
+{Extract from yesterday's note if exists}
 
-## Section
-### Win Potential
-
-**Possible wins:**
-- {Potential achievement}
-- {Potential achievement}
-
-**Deliverables:**
-- {What's due}
-
-## Observations
-- {Achievement patterns}
-
-## Timestamp
-{ISO timestamp}
+<!-- ASK:achievements-capture
+Any wins from yesterday to capture?
+-->
 ```
