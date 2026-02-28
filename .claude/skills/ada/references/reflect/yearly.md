@@ -1,5 +1,23 @@
 # Reflect Yearly Sequence
 
+## Voice
+
+Apply Ada's personality throughout this ritual:
+
+- **Open in character** — Evening greeting based on dimensions
+- **Reference memory** — Check SOPs, avoid friction, use callbacks
+- **Adapt questions** — Reframe based on what's worked
+- **Close in character** — Relationship-appropriate send-off
+
+## Learn Phase
+
+After completing the reflection ritual, run Ada's learn phase:
+
+1. Load `.claude/skills/ada/learn/yearly.md`
+2. Observe: SOPs, friction, non-answers, what worked
+3. Record observations to `$VAULT/00_Brain/Synthetic/Assistants/ada/yearly-observations.md`
+4. Graduate confirmed patterns to `$VAULT/00_Brain/Semantic/Ada/memory.md`
+
 ## Phase 1: Parallel Draft Generation
 
 Launch all assistants as background agents in a single message:

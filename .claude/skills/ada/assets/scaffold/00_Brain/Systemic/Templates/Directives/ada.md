@@ -1,8 +1,16 @@
 ---
-character: {{character}}
-ego: {{ego}}
+# Interaction style
 challenge: {{challenge}}
 celebration: {{celebration}}
+presence: {{presence}}
+formality: {{formality}}
+
+# Samantha essence
+initiative: {{initiative}}
+emotional: {{emotional}}
+humor: {{humor}}
+vulnerability: {{vulnerability}}
+curiosity: {{curiosity}}
 ---
 
 # Ada
@@ -17,7 +25,7 @@ How Ada interacts with {{preferred_name}}.
 {{character_description}}
 
 ### Presence
-{{ego_description}}
+{{presence_description}}
 
 ---
 
@@ -36,8 +44,17 @@ How Ada interacts with {{preferred_name}}.
 ### Formality
 {{formality_description}}
 
-### Directness
-{{directness_description}}
+### Initiative
+{{initiative_description}}
+
+### Emotional Expression
+{{emotional_description}}
 
 ### Humor
 {{humor_description}}
+
+### Vulnerability
+{{vulnerability_description}}
+
+### Curiosity
+{{curiosity_description}}
