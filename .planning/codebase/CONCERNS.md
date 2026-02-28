@@ -4,268 +4,279 @@
 
 ## Tech Debt
 
-**Centralized error handling in bot.ts:**
-- Issue: `bot.ts` (496 lines) contains most error-prone subprocess lifecycle logic but lacks granular error recovery. Session destruction logic is scattered across multiple error paths.
-- Files: `teams-bot/src/bot.ts`, `teams-bot/src/subprocess-bridge.ts`, `teams-bot/src/session-manager.ts`
-- Impact: Subprocess crashes may leak resources; orphaned processes difficult to clean up consistently; error messages inconsistent across handlers
-- Fix approach: Extract subprocess error handling into dedicated error handler class with consistent retry/cleanup logic. Use AbortController pattern for subprocess lifecycle management.
+### External File Path Dependencies in Skill Logic
 
-**Hardcoded skill path resolution heuristics:**
-- Issue: `SubprocessBridge.resolveSkillPath()` uses heuristics for backward compatibility when skill discovery fails (checks for "planning-" and "review-" prefixes). Falls back to `commands/` for unknown skills.
-- Files: `teams-bot/src/subprocess-bridge.ts` lines 49-70
-- Impact: New skills with different naming conventions won't resolve correctly; difficult to debug when skill discovery cache is stale; silent failures when skill doesn't exist
-- Fix approach: Add validation that resolved skill path actually exists before spawning subprocess. Return explicit error instead of silent fallback.
+**Issue:** Multiple skill references depend on vault folder structure and external file paths that must exist at runtime. The system assumes a specific directory structure (e.g., `vault/00_Brain/Systemic/Ada/section-order.md`, `vault/00_Brain/Systemic/Directives/human.md`) but these are user-managed files, not code-controlled.
 
-**Token caching without expiration backoff:**
-- Issue: Microsoft Bot Framework tokens cached for full `expires_in` duration; no exponential backoff on token refresh failures. If token endpoint is temporarily unavailable, all subsequent API calls fail.
-- Files: `teams-bot/src/auth.ts` lines 80-129
-- Impact: Service becomes degraded during temporary Azure auth service issues; no graceful recovery; expired token errors bubble up to users
-- Fix approach: Implement exponential backoff on token refresh failures with circuit breaker pattern. Return previous token on refresh failure rather than throwing.
+- Files: `/.claude/skills/ada/references/compose/compose.md` (line 12), `/.claude/skills/ada/references/compose/assembly.md` (line 16), `/.claude/skills/ada/references/setup/init.md` (lines 31-33)
+- Impact: If a user moves or deletes key vault files, Ada operations silently fail or skip sections with no clear error message
+- Fix approach: Add explicit file existence checks at the start of compose and plan sequences with user-facing warnings
 
-**Type safety gaps:**
-- Issue: `any` types used in event handler callbacks (`team-bot.ts` line 362: `const membersAdded = (activity as any).membersAdded`); `sendAdaptiveCard` parameter accepts `card: any` (line 480); Adaptive Card action data not validated before submission parsing.
-- Files: `teams-bot/src/bot.ts`, `teams-bot/src/interactive-mapper.ts`
-- Impact: Vulnerable to malformed Teams activity schema; card data injection possible; type checking doesn't catch logic errors at compile time
-- Fix approach: Create discriminated union types for all Teams activity subtypes. Use strict validation library for card submission parsing.
+### Implicit Dependencies on Vault File Names
 
-**Missing input validation on OutputFormatter:**
-- Issue: `OutputFormatter.parse()` classifies output but doesn't validate line length or handle extremely large outputs (e.g., 1MB+ binary data). Classification regex patterns may match unintended patterns in complex output.
-- Files: `teams-bot/src/output-formatter.ts`
-- Impact: Large subprocess outputs could consume excessive memory; emoji regex may false-positive on Unicode sequences; no rate limiting for rapid subprocess output
-- Fix approach: Add configurable output limits per line and total. Pre-compile regex patterns for performance. Add tests for Unicode edge cases.
+**Issue:** Skills reference files by exact name (e.g., `section-order.md`, `assistants.yaml`) without checking for existence first. Typos or renamed files break workflows.
+
+- Files: `/.claude/skills/ada/references/compose/compose.md` (lines 12, 20)
+- Impact: Compose fails to load section ordering or assistant configuration, resulting in incomplete or missing sections in output
+- Fix approach: Create a vault validation phase that runs at the start of Ada setup and before each ritual
+
+### Fragile Entity Learning Persistence
+
+**Issue:** Reflect workflows persist entity learnings by appending to `## Insights` sections in vault files, but assumes these sections exist and uses simple append logic without conflict detection.
+
+- Files: `/.claude/skills/ada/references/reflect/daily.md` (lines 37-42), `/.claude/skills/ada/references/reflect/quarterly.md` (lines 37-42)
+- Impact: If a user manually edits the Insights section or the file structure changes, learnings may not persist correctly or may corrupt existing insights
+- Fix approach: Add explicit section creation/validation and use merge logic instead of append
+
+### State Inconsistency Between Ritual Actions
+
+**Issue:** Plan and Reflect rituals both generate output files but the assembly logic in compose assumes specific file locations and naming conventions. If an assistant output file is missing or malformed, the entire composition can fail.
+
+- Files: `/.claude/skills/ada/references/compose/assembly.md` (lines 26-31), `/.claude/skills/ada/references/compose/compose.md` (lines 10-24)
+- Impact: A single assistant failure during planning can result in missing sections in the final Captive file with no clear recovery path
+- Fix approach: Implement graceful section substitution and provide detailed audit log of what was included/excluded
 
 ## Known Bugs
 
-**Session state persistence race condition:**
-- Symptoms: On rapid bot restarts, `.active-session.json` may contain stale PIDs; `cleanupOrphaned()` attempts to kill already-dead processes but continues normally
-- Files: `teams-bot/src/session-manager.ts` lines 84-141
-- Trigger: Start session → Bot crashes → Bot restarts before session timeout
-- Workaround: Session cleanup catches errors gracefully (line 133) but doesn't validate PID was actually killed before allowing new sessions
+### Missing Vault Validation on Config
 
-**Intent detection silent fallback on JSON parsing errors:**
-- Symptoms: Malformed Claude API response → parser logs error → returns `{skill: null}` → user sees "I didn't understand that" instead of error context
-- Files: `teams-bot/src/intent-detector.ts` lines 71-126
-- Trigger: Claude returns incomplete/truncated JSON (rare but possible with streaming issues)
-- Workaround: Check console logs for "Intent detection error" lines; current behavior prevents cascading failures but loses signal
+**Bug description:** The init flow checks for directives existence but doesn't validate that the vault path actually points to a valid Second Brain structure before proceeding with scaffold copy.
 
-**Interactive card submission without active session validation:**
-- Symptoms: User submits adaptive card response after session times out or in wrong conversation → error message sent but response lost
-- Files: `teams-bot/src/bot.ts` lines 403-439
-- Trigger: Session timeout (30 min default) while user is filling out adaptive card
-- Workaround: UI should display session status before complex cards; no automatic retry mechanism
+- Symptoms: User provides invalid path → scaffold copies but to wrong location → subsequent rituals read from wrong location
+- Files: `/.claude/skills/ada/references/setup/init.md` (lines 51, 55)
+- Trigger: Run Ada setup, provide path that exists but isn't a valid vault structure
+- Workaround: Manually verify vault path and check for 00_Brain/Systemic directory before running other rituals
+
+### Brief Synthesis Dependencies Not Documented
+
+**Bug description:** The compose process mentions reading from `vault/00_Brain/Captive/Week.md` (weekly focus) but this file may not exist if user hasn't done a weekly plan yet.
+
+- Symptoms: Daily plan compose fails to synthesize brief because source file doesn't exist
+- Files: `/.claude/skills/ada/references/compose/compose.md` (line 29)
+- Trigger: Run daily plan before running weekly plan
+- Workaround: Create basic Week.md file in vault/00_Brain/Captive/ before first daily plan
+
+### Timescale Declaration Not Enforced
+
+**Bug description:** The timescales spec in `_specs/timescales.md` notes that IDE warnings about unsupported attributes are expected, but there's no runtime validation that a SKILL.md frontmatter actually declares required timescales correctly.
+
+- Symptoms: Ada calls an assistant with a timescale it doesn't support (because frontmatter declaration was missing), assistant returns error
+- Files: `/.claude/skills/_specs/timescales.md` (line 32), `/.claude/skills/ada/SKILL.md` (lines 40-49)
+- Trigger: Manually edit an assistant's SKILL.md and forget to update timescales array
+- Workaround: Always check assistant SKILL.md frontmatter before adding to plan/reflect sequences
 
 ## Security Considerations
 
-**Authorization enforcement relies on single env var:**
-- Risk: `ALLOWED_AAD_OBJECT_ID` is comma-separated list stored in environment; if bot has no configured ID, accepts all users with warning (line 20-21 in `bot.ts`)
-- Files: `teams-bot/src/bot.ts` lines 10-24, `teams-bot/src/config.ts`
-- Current mitigation: Console warning logged; Teams Activity should verify sender identity in production deployment
-- Recommendations:
-  - Require at least one allowed user at startup; fail if empty
-  - Move allowed users to vault/config file instead of env var (less likely to leak in logs)
-  - Add audit logging for all authorization decisions
+### Vault Path Stored in Plain Text Config
 
-**Auth token refresh may expose credentials in logs:**
-- Risk: `getAccessToken()` error path returns full Azure response which may contain partial credentials in development mode
-- Files: `teams-bot/src/auth.ts` line 116-117
-- Current mitigation: Errors logged to console only; stderr not captured in production typically
-- Recommendations:
-  - Sanitize error messages before logging (remove `error` object details)
-  - Use structured logging with redaction rules for sensitive fields
-  - Never include response body in error messages
+**Risk:** The vault path is stored in `.claude/config.md` in plain text. If this file is committed (which it shouldn't be), it exposes user's system paths.
 
-**Adaptive card data parsing has no injection protection:**
-- Risk: `interactiveMapper.parseSubmission()` extracts values from card submission data and sends directly to subprocess stdin without escaping
-- Files: `teams-bot/src/interactive-mapper.ts` lines 292-320; `teams-bot/src/bot.ts` line 428
-- Current mitigation: Subprocess runs Claude CLI which is assumed trusted; but if CLI is compromised, untrusted card data flows through
+- Files: `/.claude/config.md`, `/.claude/config.md.template`
+- Current mitigation: `.claude/` is not in main codebase commits (based on git history), but the template exists
 - Recommendations:
-  - Quote/escape all card submission values before sending to subprocess
-  - Add length limits on card response fields (match form validation limits from card definition)
-  - Validate card submission schema against expected Adaptive Card action structure
+  - Add `.claude/config.md` to root `.gitignore` if not already there
+  - Document that this file is user-specific and must not be committed
+  - Consider encrypting the vault path or storing it in a system keychain
+
+### Custom Directives May Contain Sensitive Information
+
+**Risk:** User profile directive files (`human.md`, `ada.md`) may contain sensitive personal or professional information about the user, their goals, or coaching insights.
+
+- Files: `vault/00_Brain/Systemic/Directives/human.md` and `ada.md` (user-managed, not in this repo)
+- Current mitigation: These are in user's vault, not in the 2bd repository
+- Recommendations:
+  - Document in setup flow that these files are sensitive and should be excluded from any cloud backups that aren't encrypted
+  - Add note to README about vault security best practices
 
 ## Performance Bottlenecks
 
-**Intent detection calls Claude API on every user message:**
-- Problem: Every incoming message requires API call to Claude 3.5 Haiku; no caching of intent results; rate limited by Anthropic API
-- Files: `teams-bot/src/intent-detector.ts` lines 71-126
-- Cause: No intent result caching; same user phrase will re-query API
-- Improvement path:
-  - Add in-memory LRU cache of recent intent results (with TTL)
-  - Implement keyword-based fast path for common commands (e.g., "cancel", "status", "help" already hard-coded but not in cache)
-  - Batch similar intents during high load
+### Sequential Assistant Execution with No Parallelization
 
-**OutputFormatter regex compilation happens on every parse call:**
-- Problem: `OPTIONS_PATTERN` regex (line 84) and `statusPatterns` array (lines 114-122) defined as instance methods; regex compiled fresh for each output chunk
-- Files: `teams-bot/src/output-formatter.ts`
-- Cause: Regexes not static/compiled at class definition time
-- Improvement path:
-  - Move pattern compilation to static initializers
-  - Consider using optimized regex engine for high-volume output (e.g., re2js)
-  - Cache compiled patterns at module level
+**Problem:** All plan/reflect sequences execute assistants one-at-a-time, waiting for each to complete before starting the next. For daily plans with 6 assistants + compose + 6 learn assistants = 13 sequential calls.
 
-**subprocess-bridge skill discovery happens in constructor but blocks on first call:**
-- Problem: `getDiscoveredSkills()` called synchronously in `spawn()` but uses synchronous `require()` of config module; if file I/O slow, blocks event loop
-- Files: `teams-bot/src/subprocess-bridge.ts` lines 37-43
-- Cause: No async initialization phase; discovery happens during request handling
+- Files: `/.claude/skills/ada/references/plan/daily.md`, `/.claude/skills/ada/references/reflect/daily.md`
+- Cause: Sequences are defined as linear lists with no parallel execution capability in Claude Code skill system
 - Improvement path:
-  - Cache skill discovery at module load time
-  - Pre-warm cache during bot startup (already attempted in `index.ts` but then not used by subprocess bridge)
-  - Use async I/O for directory scanning
+  - Investigate if Claude Code supports concurrent skill invocation
+  - If not, consider grouping independent assistants (e.g., goals + calendar can run in parallel) and redesigning sequence structure
+
+### Vault File I/O on Every Ritual
+
+**Problem:** Each ritual reads multiple vault files (section-order.md, assistants.yaml, coaching context files) sequentially. For daily rituals, this happens every morning.
+
+- Files: `/.claude/skills/ada/references/compose/compose.md` (lines 12, 20, 29-30)
+- Cause: No caching mechanism for vault configuration between ritual invocations
+- Improvement path:
+  - Cache vault configuration in memory or in a temp file during ritual execution
+  - Implement vault change detection to invalidate cache only when files actually change
 
 ## Fragile Areas
 
-**Bot.ts message handler logic:**
-- Files: `teams-bot/src/bot.ts` lines 51-126
-- Why fragile: Large function with many conditional branches; 75+ lines handling auth, command detection, session routing, intent detection all in sequence. Adding new command types requires modifying multiple switch statements.
-- Safe modification:
-  - Extract command handler into strategy pattern map (CommandHandler registry)
-  - Use guard clauses to fail early and exit branches
-  - Add tests for each conditional path before modifying
-- Test coverage: Only `output-formatter.test.ts` exists; no tests for bot message handling, session management, or subprocess bridge
+### Compose Assembly Logic
 
-**Session lifecycle management across components:**
-- Files: `teams-bot/src/session-manager.ts`, `teams-bot/src/subprocess-bridge.ts`, `teams-bot/src/bot.ts`
-- Why fragile: Session state divided between three components; `SessionManager` holds reference to ChildProcess but doesn't own it; `SubprocessBridge` owns spawn but not lifecycle; `bot.ts` coordinates both. No clear ownership model.
-- Safe modification:
-  - Make SessionManager sole owner of subprocess lifecycle (owns spawn, callbacks, cleanup)
-  - SubprocessBridge becomes stateless factory only
-  - Add invariant tests: session must have running process, process must belong to exactly one session
-- Test coverage: No tests for session timeout, orphaned process cleanup, or multi-session conflict scenarios
+**Component/Module:** Assembly and composition of assistant outputs into Captive files
 
-**Interactive card detection regexes:**
-- Files: `teams-bot/src/interactive-mapper.ts` lines 84-143
-- Why fragile: Option detection uses `/^\s*(\d+)[.)]\s+(.+)/` which matches any indented numbered list; could false-positive on structured output that isn't a prompt (e.g., JSON array output). Prompt detection uses `line.includes("?")` which is too broad.
+- Files: `/.claude/skills/ada/references/compose/assembly.md`, `/.claude/skills/ada/references/compose/compose.md`
+- Why fragile:
+  - Depends on exact section heading format (`## Section`) in assistant outputs
+  - Depends on section order file existing and being formatted correctly
+  - Depends on all assistant outputs being present (no graceful degradation)
+  - Brief synthesis pulls from multiple sources that may not exist
 - Safe modification:
-  - Require prompts to end with `?` AND have numbered options (current logic doesn't require both)
-  - Add context window: check for typical question prefixes ("Enter", "Choose", "Select", "Confirm")
-  - Add tests for Claude output samples to verify no false positives
-- Test coverage: Output formatter tested but interactive mapper not tested
+  - Always test with missing assistant output files
+  - Add detailed logging of what sections were found/skipped
+  - Create test vault structure to validate before pushing changes
+- Test coverage: Not applicable (skill-based system, no unit tests)
+
+### Setup Initialization and Vault Scaffolding
+
+**Component/Module:** Ada setup flow and vault structure creation
+
+- Files: `/.claude/skills/ada/references/setup/init.md`
+- Why fragile:
+  - Creates new directory structure in user's vault that could overwrite existing files
+  - No rollback mechanism if scaffolding fails halfway through
+  - Assumes all templates are present in `assets/scaffold/`
+- Safe modification:
+  - Always validate that source templates exist before copying
+  - Create backup of target directory before scaffolding
+  - Log all file operations for audit trail
+- Test coverage: Must be tested with fresh vault paths and with pre-existing structures
+
+### Entity Learning Aggregation During Reflect
+
+**Component/Module:** Collecting and persisting entity learnings from reflect workflows
+
+- Files: `/.claude/skills/ada/references/reflect/daily.md` (lines 22-42), and similar in weekly/quarterly/yearly
+- Why fragile:
+  - Assumes all assistants return findings with specific section format
+  - Appends to user entity files without merge conflict detection
+  - No validation that entity files exist before appending
+- Safe modification:
+  - Add existence checks for entity files before append operations
+  - Implement conflict detection when multiple learnings target same entity
+  - Store learnings in staging area first, then commit after user review
+- Test coverage: Test with entities that have existing insights and new learnings
 
 ## Scaling Limits
 
-**Session storage on disk (`.active-session.json`):**
-- Current capacity: Single bot instance per system (one `.active-session.json` file)
-- Limit: Can only track one concurrent skill session per bot instance; no distributed session storage
-- Scaling path:
-  - Move session state to Redis (allows multiple bot instances)
-  - Use session ID instead of single active session file
-  - Support queue of pending sessions
+### Linear Growth of Assistants Increases Ritual Duration
 
-**OutputFormatter buffer unbounded growth:**
-- Current capacity: No limit on internal buffer accumulation
-- Limit: Large continuous output streams (e.g., file downloads, logs) will fill memory
-- Scaling path:
-  - Add configurable max buffer size (default 1MB)
-  - Emit partial output when buffer exceeded
-  - Consider streaming output protocol instead of buffering
+**Resource/System:** Number of domain assistants in plan/reflect sequences
 
-**Intent detection rate limited by Claude API:**
-- Current capacity: ~100 messages/min per Anthropic API tier
-- Limit: Under high volume (team collaboration) system will queue or drop messages
+- Current capacity: 6 assistants + compose + 6 learn = 13 sequential skill invocations per reflect cycle
+- Limit: Each additional assistant adds sequential time to the ritual. Daily rituals could exceed 5-10 minutes per assistant
 - Scaling path:
-  - Implement request queuing with priority (cancel/status high priority)
-  - Add local ML model for fast intent pre-filtering (reduce API calls)
-  - Cache intent results across team members
+  - Implement assistant groups that can run in parallel
+  - Add caching for unchanged entities (people, projects) that don't need re-evaluation every ritual
+  - Consider lazy evaluation for learn phase (only run on weekly/quarterly reflects)
+
+### Vault Structure Assumed Linear
+
+**Resource/System:** Vault directory structure and file organization
+
+- Current capacity: Linear folder structure with categories (People, Projects, Areas)
+- Limit: No hierarchical organization; adding subcategories breaks path assumptions
+- Scaling path:
+  - Document vault structure as a contract in `_specs/vault-structure.md`
+  - Implement path resolution function that can handle variations
+  - Allow configuration of top-level category names
 
 ## Dependencies at Risk
 
-**jose v5.9.0 (JWT verification):**
-- Risk: RFC 7518 compliance; used for Microsoft Bot Framework token verification. Pinned to 5.9.0.
-- Impact: Security patches in jose library won't be automatically applied; known vulns must be manually patched
-- Migration plan:
-  - Evaluate if Microsoft provides native token verification library
-  - Consider using node-jose or dedicated Teams SDK
-  - Set up dependabot to alert on jose updates
+### OneDrive Symlink Architecture
 
-**@anthropic-ai/sdk v0.74.0:**
-- Risk: Rapidly evolving API; SDK version significantly lags latest Claude models; v0.74.0 may not support latest model releases
-- Impact: New Claude models cannot be used without SDK upgrade; schema changes require code updates
-- Migration plan:
-  - Subscribe to Anthropic SDK releases
-  - Test latest SDK monthly; schedule upgrades quarterly
-  - Use streaming API when available to reduce token usage
+**Risk:** The system relies on `vault/` being a symlink to user's OneDrive Second Brain folder. OneDrive sync issues or path changes break the entire system.
 
-**hono v4.6.0:**
-- Risk: Lightweight web framework; smaller community than Express; edge runtime may have compatibility gaps
-- Impact: Bun runtime dependency; if Bun adoption stalls, framework support may suffer
+- Impact: Any OneDrive outage or sync failure prevents Ada from reading/writing to vault
 - Migration plan:
-  - Keep framework usage minimal (mostly HTTP routing)
-  - Avoid middleware lock-in; use middleware-agnostic patterns
-  - Monitor Hono deprecations closely
+  - Add abstraction layer for vault access that doesn't hardcode OneDrive
+  - Support local folder sync tools as alternatives
+  - Document how to update vault path in `.claude/config.md`
+
+### Custom Frontmatter in SKILL.md
+
+**Risk:** The timescales frontmatter attribute is custom and not part of Claude Code's official skill schema. Future Claude Code versions may not parse it correctly.
+
+- Impact: If Claude Code updates its SKILL.md parser, the `timescales` attribute could be silently ignored
+- Migration plan:
+  - Move timescale declarations to separate YAML config files in each skill directory
+  - Add validation script that checks all skills for missing timescale configs
+  - Document this as non-standard and why it's necessary
 
 ## Missing Critical Features
 
-**No input rate limiting:**
-- Problem: Users can spam messages; no per-user rate limit enforced. Bot attempts to process all messages sequentially.
-- Blocks: Cannot protect against DOS; cannot prioritize admin commands; cannot manage load
-- Workaround: Teams channel admin can mute users; but no app-level protection
+### No Ritual Scheduling or Automation
 
-**No graceful shutdown:**
-- Problem: When bot service stops, active subprocess sessions are forcibly killed without cleanup. Child processes may leave temporary files.
-- Blocks: Cannot cleanly migrate sessions; cannot drain queued requests
-- Workaround: Manual cleanup of orphaned sessions on restart
+**Feature gap:** Ada rituals must be manually invoked. There's no scheduling mechanism to prompt for daily/weekly/quarterly reflects.
 
-**No observability beyond console logs:**
-- Problem: No metrics, traces, or structured logging. Cannot observe latency, error rates, or throughput without grep'ing logs.
-- Blocks: Cannot debug production issues; cannot measure improvement; cannot set SLOs
-- Workaround: Send all logs to centralized logging service externally
+- Problem: Users forget to run rituals; insights gap from missed periods
+- Blocks: Can't provide proactive coaching or notifications
 
-**No adaptive card schema validation:**
-- Problem: Adaptive cards generated by `interactiveMapper.renderAdaptiveCard()` not validated against Teams schema before sending. Invalid cards may be silently rejected by Teams client.
-- Blocks: Cannot detect UI rendering errors early; users see blank cards with no error message
-- Workaround: Manual testing of all card templates
+### No Conflict Detection in Vault Modifications
+
+**Feature gap:** Multiple rituals could theoretically modify the same entity file concurrently if Ada runs while user is editing.
+
+- Problem: Last-write-wins could lose user edits or learnings
+- Blocks: Can't reliably persist entity learnings in multi-user or multi-session scenarios
+
+### No Ritual Audit Trail
+
+**Feature gap:** While compose writes logs, there's no persistent audit of all ritual invocations and their outcomes.
+
+- Problem: User can't see which assistants failed or which sections were skipped
+- Blocks: Can't debug why specific sections are missing from periodic files
 
 ## Test Coverage Gaps
 
-**Subprocess bridge and spawning:**
-- What's not tested:
-  - Subprocess spawn failures (permission denied, binary not found, OOM)
-  - Subprocess crash/signal handling (SIGTERM, SIGSEGV, timeout)
-  - Callback invocation order and timing
-  - Large output handling (>10MB)
-- Files: `teams-bot/src/subprocess-bridge.ts`
-- Risk: Regressions in subprocess handling can crash bot without warning
-- Priority: High - core bot functionality depends on reliable subprocess management
+### Vault Structure Validation
 
-**Session manager timeout and cleanup:**
-- What's not tested:
-  - Session timeout triggers correctly after `timeoutMs`
-  - Orphaned process detection and cleanup
-  - Multiple concurrent sessions attempted (should fail on second create)
-  - Session state persistence to disk
-- Files: `teams-bot/src/session-manager.ts`
-- Risk: Session leaks accumulate over time; orphaned processes consume resources
-- Priority: High - memory leak vector
+**Untested area:** Initialization with incomplete or corrupted vault structures
 
-**Auth token validation and refresh:**
 - What's not tested:
-  - Invalid JWT tokens rejected correctly
-  - Token refresh retry logic on transient failures
-  - Expired token cache doesn't get reused
-  - SKIP_AUTH development bypass flag works
-- Files: `teams-bot/src/auth.ts`
-- Risk: Security boundary; incorrect validation allows unauthorized access
-- Priority: Critical - must not allow unauthorized requests
+  - Setup when vault path already has partial directory structure
+  - Setup when template files are missing from `.claude/skills/ada/assets/scaffold/`
+  - Rituals when vault files are deleted during execution
+- Files: `/.claude/skills/ada/references/setup/init.md`, `/.claude/skills/ada/references/compose/compose.md`
+- Risk: Users with unusual vault configurations could encounter silent failures
+- Priority: High — affects first-run experience
 
-**Interactive mapper prompt detection:**
-- What's not tested:
-  - Prompts with various formatting (different numbering styles)
-  - False positives on non-prompt numbered lists
-  - Multi-line questions
-  - Unicode edge cases in options
-- Files: `teams-bot/src/interactive-mapper.ts`
-- Risk: Incorrect card rendering; user confusion on prompt intent
-- Priority: Medium - affects UX but not data integrity
+### Assistant Output Format Variations
 
-**Intent detector response parsing:**
+**Untested area:** Assistants that produce non-standard output formats
+
 - What's not tested:
-  - Malformed JSON responses from Claude
-  - Missing skill/args fields
-  - Invalid skill names returned
-  - Rate limiting and retry behavior
-- Files: `teams-bot/src/intent-detector.ts`
-- Risk: Silent failures mask API issues; users think bot doesn't understand their input
-- Priority: Medium - affects usability
+  - Assistant returns no `## Section` heading
+  - Assistant returns malformed YAML in status field
+  - Assistant returns extremely long sections that exceed file system limits
+- Files: `/.claude/skills/ada/references/compose/assembly.md`
+- Risk: Malformed assistant output could corrupt Captive files
+- Priority: High — affects data integrity
+
+### Error Recovery Paths
+
+**Untested area:** What happens when individual assistants fail during rituals
+
+- What's not tested:
+  - Assistant timeout/network error during daily plan
+  - Compose fails after some assistants succeed
+  - Learn phase fails after reflect completes
+- Files: `/.claude/skills/ada/references/plan/daily.md`, `/.claude/skills/ada/references/reflect/daily.md`
+- Risk: Partial state (some sections written, some missing) with no clear recovery mechanism
+- Priority: Medium — error handling exists but recovery paths unclear
+
+### Entity Learning Persistence Edge Cases
+
+**Untested area:** Persisting learnings to entity files in various states
+
+- What's not tested:
+  - Entity file missing when appending insights
+  - Entity file without `## Insights` section
+  - Multiple learnings appending to same entity in single ritual
+  - User manually editing entity file while ritual is running
+- Files: `/.claude/skills/ada/references/reflect/daily.md` (lines 37-42)
+- Risk: Lost learnings or corrupted entity files
+- Priority: Medium — affects long-term value accumulation
 
 ---
 

@@ -5,86 +5,109 @@
 ## Languages
 
 **Primary:**
-- TypeScript 5.7.0 - All application code in `teams-bot/src/**/*.ts`
+- Markdown - Core content format for vault, skills, and documentation
+- YAML - Configuration format for assistants and settings
+- Bash - Utility scripts for date resolution and system operations
 
 ## Runtime
 
 **Environment:**
-- Bun (latest) - JavaScript runtime and package manager
-- Node.js compatible - Uses native Node.js APIs like `child_process` and `fs`
+- Claude AI models via Claude Code SDK
+- Node.js ecosystem (Claude Code native)
+- Browser/Web (Obsidian vault viewing)
 
 **Package Manager:**
-- Bun
-- Lockfile: Present (implicit via Bun)
+- Claude Code built-in skill system - no external package manager
 
 ## Frameworks
 
 **Core:**
-- Hono 4.6.0 - Lightweight web framework for HTTP server and webhook handling (`teams-bot/src/index.ts`)
-- Hono Logger middleware - Request/response logging
+- Claude Code (Anthropic) - AI agent platform and skill system
+- Obsidian - Knowledge vault client (markdown viewer/editor)
 
-**Authentication & Security:**
-- jose 5.9.0 - JWT verification and JWKS handling for Microsoft Bot Framework token validation (`teams-bot/src/auth.ts`)
+**Templating:**
+- Markdown-based templating - No external templating engine
+- Custom frontmatter YAML for skill metadata
 
-**API Integration:**
-- @anthropic-ai/sdk 0.74.0 - Anthropic Claude API for intent detection (`teams-bot/src/intent-detector.ts`)
+**Documentation:**
+- Mintlify - Documentation hosting at `2bd.l48a.de`
+- Static markdown docs in `/docs`
 
 ## Key Dependencies
 
 **Critical:**
-- `@anthropic-ai/sdk` - Provides `Anthropic` client for Claude API calls; required for intent detection that classifies user messages into rituals or commands
-- `hono` - HTTP server framework; handles Teams webhook endpoint (`/api/messages`) and health check
-- `jose` - Validates JWT tokens from Microsoft Bot Framework; prevents unauthorized access
+- Claude AI (Opus, Haiku models) - Backbone of Ada and all assistants
+- Claude Code SDK - Enables skill execution and ritual automation
 
-**Infrastructure:**
-- `@types/bun` - TypeScript types for Bun runtime
-- `typescript` - Type checking and compilation
+**Vault Storage:**
+- Markdown files on local filesystem
+- OneDrive/Cloud Storage - Vault syncing (user's Second Brain folder)
+- Git - Version control for engine code
+
+**Optional Integrations:**
+- Calendar provider (ekctl) - For calendar integration (optional)
 
 ## Configuration
 
 **Environment:**
-- Configuration loaded via environment variables in `loadConfig()` at `teams-bot/src/config.ts`
-- Required variables:
-  - `ENGINE_PATH` - Path to 2bd engine directory containing skills
-  - `ANTHROPIC_API_KEY` - Claude API key (validated to start with `sk-ant-`)
-  - `SESSION_TIMEOUT_MS` - Session idle timeout in milliseconds (default: 1800000/30min)
-  - `MICROSOFT_APP_ID` - Azure Bot Service app ID for authentication
-  - `MICROSOFT_APP_PASSWORD` - Azure Bot Service app password for token generation
-  - `MICROSOFT_APP_TENANT_ID` - Azure tenant ID (default: `botframework.com`)
-  - `ALLOWED_AAD_OBJECT_ID` - Azure AD object ID for authorization (whitelist single user)
-  - `CLAUDE_CLI_PATH` - Path to Claude CLI binary (default: `claude`)
-  - `SKIP_AUTH` - Development flag to skip token validation (set to `"true"`)
+- `.claude/config.md` - Vault path configuration (git-ignored)
+- `.claude/settings.json` - Claude Code permissions and plugin settings
+- `.claude/settings.local.json` - Local overrides for settings
+
+**Runtime Config Files:**
+- `Systemic/Config/config.yaml` - Calendar and work hours settings
+- `Systemic/Config/ada.yaml` - Assistant ordering and configuration
+- `Systemic/Directives/human.md` - User profile (name, role, goals, growth edge)
+- `Systemic/Directives/ada.md` - Ada personality configuration
+- `Systemic/Templates/` - Ritual output templates (customizable)
+- `Systemic/Coaching/` - Coaching prompts per timescale and domain
+
+## Build & Deployment
 
 **Build:**
-- No build configuration - TypeScript runs directly via Bun (`bun run src/index.ts`)
-- `tsconfig.json` exists (from node_modules dependencies)
+- No build step required - runs directly as Claude Code skills/plugins
+- Git-based distribution via GitHub: https://github.com/bugroger/2bd
+
+**Distribution:**
+- Claude Code Marketplace plugin registration at `.claude-plugin/marketplace.json`
+- Plugin version: 1.1.7
+- MIT License
+
+**Hooks:**
+- Claude Code hooks in `.claude/hooks/` (session start, pre-meeting triggers)
 
 ## Platform Requirements
 
 **Development:**
-- Bun runtime installed
-- TypeScript 5.7.0
-- Node.js compatible system (for `child_process`, `fs` modules)
+- Claude Code IDE or CLI
+- Git for version control
+- Text editor for markdown editing
+- Obsidian (optional, for vault UI)
+
+**Runtime:**
+- Claude Code CLI: `claude` command
+- Access to Claude API (requires Anthropic subscription)
+- Local filesystem with write permissions
+- Network access to Anthropic's Claude API
 
 **Production:**
-- Bun runtime
-- Microsoft Teams application configured in Azure Bot Service
-- 2bd engine directory with skills available at `ENGINE_PATH`
-- Claude CLI binary accessible at `CLAUDE_CLI_PATH`
+- Cloud deployment: via Claude Code orchestration
+- Vault storage: Local filesystem or synced via OneDrive/cloud storage
+- Persistent state: Markdown files in vault directory
 
-## Runtime Details
+## Timescales Architecture
 
-**Server:**
-- Hono web server starts on port specified by `PORT` env var (default: 3000)
-- Health check endpoint: `GET /`
-- Teams webhook endpoint: `POST /api/messages`
-- Server exports as `{ port, fetch }` compatible with Bun's HTTP handler
+**Core Timescales:**
+- Daily - 24-hour ritual cycle
+- Weekly - 7-day planning/reflection
+- Quarterly - ~90-day goal cycle
+- Yearly - Annual planning
 
-**Process Model:**
-- Main server process handles HTTP requests
-- Child processes spawned via `SubprocessBridge` for each skill execution
-- Child process runs Claude CLI: `claude skill run rituals/{skill}` or `commands/{skill}`
-- Session state persisted to `.active-session.json` for orphan cleanup
+**Implementation:**
+- `.claude/skills/ada/templates/{scale}.md` - Ada base templates per timescale
+- `.claude/skills/_assistant-{name}/templates/{scale}.md` - Assistant-specific templates
+- `Systemic/Templates/Periodic/{scale}ly.md` - Vault periodic templates
+- `Systemic/Coaching/{domain}/{scale}.md` - Coaching prompts by timescale
 
 ---
 

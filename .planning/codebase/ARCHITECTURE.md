@@ -4,232 +4,156 @@
 
 ## Pattern Overview
 
-**Overall:** Orchestrated multi-agent system with layered subprocess communication and skill discovery.
+**Overall:** Assistant Orchestration with Metabolic State Organization
+
+2bd implements a **coordinator-specialist** pattern where Ada (Executive Assistant) orchestrates domain-specific assistants (goals, calendar, journal, achievements, relationships, projects) across timescales. The system organizes all information by **metabolic state** (how volatile/active the information is) rather than topic.
 
 **Key Characteristics:**
-- **Coordinator pattern**: Ada skill coordinates execution of domain assistants via subprocess invocation
-- **Bridge pattern**: Teams bot bridges Microsoft Teams webhook protocol to Claude CLI processes
-- **Pipeline pattern**: Planning and reflection sequences execute domain assistants in series with error recovery
-- **Stateful session management**: Single active session per bot instance with timeout-based cleanup
-- **Intent detection**: Natural language input routed to appropriate skills via Claude API classification
+- Assistant specialization: Each domain gets a dedicated skill that knows all timescales
+- Sequence-driven rituals: Plans and reflections follow predefined sequences stored as reference documents
+- State-driven organization: Information flows through Captive (working) → Synthetic (drafts) → Periodic (archived) → Semantic (learned)
+- Time-scale nesting: Daily rituals feed weekly reviews, which inform quarterly direction, which align with yearly vision
+- Vault-centric: All persistent data lives in a markdown-based vault (symlinked to OneDrive Second Brain)
 
 ## Layers
 
-**Presentation Layer (Teams Integration):**
-- Purpose: Handle Microsoft Teams webhook protocol and convert Teams interactions to internal messages
-- Location: `teams-bot/src/index.ts`, `teams-bot/src/bot.ts`, `teams-bot/src/teams-api.ts`
-- Contains: HTTP server (Hono), activity handlers, Teams protocol adapters, authentication
-- Depends on: Session manager, intent detector, subprocess bridge, output formatter
-- Used by: External Teams service
+**Ada (Orchestrator Layer):**
+- Purpose: Entry point and ritual coordinator; parses user intent and directs assistant execution
+- Location: `.claude/skills/ada/`
+- Contains: SKILL.md manifest, templates for timescales, references for sequences, setup/profile flows
+- Depends on: Domain assistants, vault structure, reference documents
+- Used by: Users via natural language commands; called directly as `/ada [action] [timescale]`
 
-**Intent & Routing Layer:**
-- Purpose: Parse user input and determine which skill/ritual to invoke
-- Location: `teams-bot/src/intent-detector.ts`, `teams-bot/src/bot.ts` (handleMessage)
-- Contains: Claude API integration for intent classification, router logic
-- Depends on: Anthropic SDK, config
-- Used by: Bot message handler
+**Domain Assistants (Specialist Layer):**
+- Purpose: Handle specific domains (goals, calendar, journal, etc.); each knows its own timescales
+- Location: `.claude/skills/_assistant-{name}/` (e.g., `_assistant-journal`, `_assistant-goals`)
+- Contains: SKILL.md frontmatter declaring supported timescales, plan/reflect/learn action references
+- Depends on: Vault data, user profile, timescale directives
+- Used by: Ada during ritual sequences
 
-**Session Management Layer:**
-- Purpose: Track active skill execution and enforce single-session constraint
-- Location: `teams-bot/src/session-manager.ts`
-- Contains: Session lifecycle (create/destroy/timeout), process tracking, orphaned session cleanup
-- Depends on: Child process API, filesystem
-- Used by: Bot handler, subprocess bridge
+**Compose (Assembly Layer):**
+- Purpose: Synthesize assistant outputs into final Captive/Periodic files
+- Location: `.claude/skills/ada/references/compose/`
+- Contains: compose.md (orchestration logic), assembly.md (assembly protocol)
+- Depends on: All assistant outputs, brief synthesis sources, section-order configuration
+- Used by: Ada as final step in plan/reflect sequences
 
-**Subprocess & Bridge Layer:**
-- Purpose: Spawn Claude CLI processes with proper arguments and manage bidirectional I/O
-- Location: `teams-bot/src/subprocess-bridge.ts`, `teams-bot/src/config.ts`, `teams-bot/src/components.ts`
-- Contains: Child process spawning, skill path resolution, stdio piping, configuration loading
-- Depends on: Node.js child_process module, filesystem
-- Used by: Bot message handler, active session handler
+**Vault (Persistent Storage):**
+- Purpose: Markdown-based knowledge base organized by metabolic state
+- Location: Symlinked at `vault/` to user's OneDrive Second Brain
+- Contains: 00_Brain (core system), 01_Projects (active work), 02_Areas (ongoing domains), 04_Archives (completed work)
+- Depends on: File system, Obsidian configuration
+- Used by: All assistants for context, state persistence, template loading
 
-**Output Formatting Layer:**
-- Purpose: Parse subprocess stdout into typed messages for Teams display
-- Location: `teams-bot/src/output-formatter.ts`
-- Contains: ANSI code stripping, line classification (PROMPT/STATUS/ERROR/CONTENT), buffering
-- Depends on: None (pure text processing)
-- Used by: Subprocess output handler
-
-**Interactive Response Layer:**
-- Purpose: Detect prompts and render Teams Adaptive Cards for interactive input
-- Location: `teams-bot/src/interactive-mapper.ts`
-- Contains: Prompt detection, adaptive card generation, card submission parsing
-- Depends on: Adaptive card schema knowledge
-- Used by: Output handler, adaptive card submission handler
-
-**Skill Orchestration Layer (Ada):**
-- Purpose: Coordinate domain assistants for planning/reflection rituals
-- Location: `.claude/skills/ada/references/plan/`, `.claude/skills/ada/references/reflect/`
-- Contains: Sequence definitions (daily/weekly/quarterly/yearly), assistant dispatcher
-- Depends on: Domain assistant skills, compose assistant
-- Used by: Claude CLI when ada skill is invoked
-
-**Domain Assistant Skills:**
-- Purpose: Provide specialized expertise for specific life domains
-- Location: `.claude/skills/_assistant-*/` (goals, calendar, journal, achievements, relationships, projects)
-- Contains: Domain templates, references, learn modules
-- Depends on: Vault structure, timescale templates
-- Used by: Ada orchestration sequences
+**Specifications Layer (Contracts):**
+- Purpose: Define contracts between skills and the system
+- Location: `.claude/skills/_specs/`
+- Contains: output-format.md, timescales.md, knowledge-model.md
+- Depends on: Nothing; defines standards
+- Used by: Assistants during plan/reflect/learn actions
 
 ## Data Flow
 
-**Incoming Message Flow:**
+**Planning Ritual Flow (e.g., "Ada, run my morning ritual"):**
 
-1. Teams sends webhook POST to `/api/messages`
-2. `index.ts` validates JWT token via `validateToken()`
-3. `bot.ts::handleMessage()` extracts text and user context
-4. `intent-detector.ts::detectIntent()` calls Claude API to classify user input
-5. If intent matched: `startSession()` spawns subprocess for skill
-6. If no match: Return help message
+1. User invokes Ada with `action=plan, timescale=daily`
+2. Ada checks `.claude/config.md` for vault path (first-run detection)
+3. Ada reads `.claude/skills/ada/references/plan/daily.md` sequence
+4. For each assistant in sequence:
+   - Invoke `_assistant-{name} action=plan timescale=daily`
+   - Assistant reads context from vault (previous week.md, user profile, goals)
+   - Assistant runs interactive dialogue with user
+   - Assistant writes output to `vault/00_Brain/Synthetic/Assistants/{name}/observations.md`
+5. Invoke compose assistant
+   - Read all assistant outputs from Synthetic/Assistants/
+   - Synthesize brief section (priorities, intention, growth edge)
+   - Assemble into `vault/00_Brain/Captive/Today.md`
+6. Invoke learn assistant
+   - Analyze patterns across observations
+   - Cluster related insights
+   - Write to Semantic if high-confidence
+7. Report completion to user
 
-**Active Session Message Flow:**
+**Reflection Ritual Flow (e.g., "Ada, let's reflect on today"):**
 
-1. User sends follow-up message during active session
-2. `bot.ts::handleActiveSessionMessage()` checks session validity
-3. `subprocess-bridge.ts::sendInput()` writes message to subprocess stdin
-4. Session timeout is reset
-5. Subprocess output captured by stdout listener
-
-**Subprocess Output Flow:**
-
-1. Claude CLI subprocess writes to stdout
-2. `SubprocessCallbacks.onStdout` triggered with data chunk
-3. `output-formatter.ts::parse()` strips ANSI codes and buffers incomplete lines
-4. Each complete line is classified into OutputType (PROMPT/STATUS/ERROR/CONTENT)
-5. `bot.ts::handleOutputLine()` routes each output:
-   - PROMPT: Render adaptive card via `interactiveMapper.renderAdaptiveCard()`
-   - STATUS/WARNING/ERROR: Send as Teams message with formatting
-   - CONTENT: Send as Teams message
-6. If adaptive card submitted: `parseSubmission()` extracts form data → sent to subprocess stdin
-
-**Session Lifecycle:**
-
-1. Session created when skill starts: stores conversationId, skill name, process handle, timestamps
-2. Session state persisted to `.active-session.json` for crash recovery
-3. Session timeout reset on each message from user or subprocess output
-4. If timeout expires: `sessionManager.destroy()` kills subprocess, clears session
-5. On subprocess exit: flush remaining buffer, send completion message, call `destroy()`
-6. On bot startup: `cleanupOrphaned()` kills any processes from previous crashes
+1. User invokes Ada with `action=reflect, timescale=daily`
+2. Ada reads `.claude/skills/ada/references/reflect/daily.md` sequence
+3. For each assistant:
+   - Load today's plan from Captive/Today.md
+   - Load today's capture from vault's working notes
+   - Compare planned vs actual
+   - Write findings to Synthetic/Assistants/{name}/
+4. Compose assembles findings into coaching conversation format
+5. User confirms learnings; confirmed observations persist to 02_Areas/People/ and 01_Projects/
+6. Archive to `vault/00_Brain/Periodic/Daily/YYYY-MM-DD.md`
 
 **State Management:**
 
-- **Session state**: In-memory during execution, persisted to `.active-session.json` (recovered on startup)
-- **Configuration**: Loaded from environment variables at startup, validated
-- **Skills**: Discovered at startup from filesystem, cached
-- **Components**: Singleton pattern via `components.ts` - initialized once, accessed throughout
+- **Captive:** Today.md, Week.md, Quarter.md, Year.md (volatile, in-flight work)
+- **Synthetic:** Assistants/{name}/observations.md (draft outputs, working space)
+- **Periodic:** Daily/YYYY-MM-DD.md, Weekly/YYYY-Www.md, etc. (immutable timeline)
+- **Semantic:** Per-ritual/insights.md (graduated learnings, high-confidence patterns)
+- **Systemic:** Templates, Directives, Coaching (infrastructure, not data)
 
 ## Key Abstractions
 
-**Activity (Teams Protocol):**
-- Purpose: Represents incoming Teams webhook payload
-- Examples: `teams-bot/src/types.ts` - Activity, ChannelAccount, ConversationAccount
-- Pattern: Sealed union of activity types (message, conversationUpdate, invoke, etc.)
-- Mapped to internal handlers: message → intent detection, invoke → card submission
+**Ritual (Plan/Reflect/Setup):**
+- Purpose: Time-bounded action coordinating multiple assistants
+- Examples: `.claude/skills/ada/references/plan/daily.md`, `reflect/quarterly.md`
+- Pattern: Sequence of assistant invocations + compose step; error-resilient (continues if assistant fails)
 
-**Session (Execution Context):**
-- Purpose: Tracks single active skill execution with process and metadata
-- Examples: `teams-bot/src/types.ts` - Session, SessionState
-- Pattern: Temporal - created, mutated (timeout reset), destroyed
-- Persisted state subset (SessionState) for crash recovery
+**Timescale:**
+- Purpose: Temporal context (daily, weekly, quarterly, yearly)
+- Examples: Templates at `.claude/skills/ada/templates/{timescale}.md`
+- Pattern: Each timescale nests into the next; same assistants handle all scales they support
 
-**IntentResult (Classification Output):**
-- Purpose: Represents skill routing decision from intent detector
-- Examples: `teams-bot/src/intent-detector.ts` - IntentResult
-- Pattern: Optional skill match with optional arguments
-- Validation: Strict schema enforcement before returning from detector
+**Assistant:**
+- Purpose: Domain-specific skill handling one area across multiple timescales
+- Examples: `.claude/skills/_assistant-goals/`, `_assistant-journal/`
+- Pattern: Declares supported timescales in SKILL.md frontmatter; implements plan/reflect/learn actions
 
-**ParsedOutput (Formatted Line):**
-- Purpose: Classified output line from subprocess for Teams display
-- Examples: `teams-bot/src/output-formatter.ts` - ParsedOutput, OutputType enum
-- Pattern: Tagged union of output types (PROMPT/STATUS/WARNING/ERROR/CONTENT)
-- Mapping: PROMPT → interactive card, others → text message
-
-**Config (Environment-based Configuration):**
-- Purpose: Centralized, validated configuration from environment variables
-- Examples: `teams-bot/src/config.ts` - Config interface with validation
-- Pattern: Single load at startup, immutable, strict validation (path existence, API key format, timeout bounds)
-- Scope: Shared via components singleton
+**Metabolic State:**
+- Purpose: Organize information by lifecycle stage, not topic
+- Examples: Captive (working), Synthetic (drafts), Periodic (archived), Semantic (learned), Systemic (infrastructure)
+- Pattern: Information naturally flows through states without explicit categorization
 
 ## Entry Points
 
-**Teams Bot Server:**
-- Location: `teams-bot/src/index.ts`
-- Triggers: Bun server starts on PORT (default 3000)
-- Responsibilities:
-  - Load configuration and discover skills
-  - Initialize all components (session manager, intent detector, subprocess bridge, formatters)
-  - Register Hono routes (/health, /api/messages)
-  - Handle incoming Teams webhooks
-
-**Message Webhook Handler:**
-- Location: `teams-bot/src/index.ts::POST /api/messages`
-- Triggers: Teams sends activity POST with JWT Authorization header
-- Responsibilities:
-  - Validate JWT token from Azure Bot Service
-  - Parse Teams Activity JSON
-  - Dispatch to `handleActivity()` based on activity type
-  - Return 200 OK response
-
-**Ada Skill Orchestrator:**
+**Ada Skill:**
 - Location: `.claude/skills/ada/SKILL.md`
-- Triggers: User invokes via natural language ("plan my day", "reflect on week")
-- Responsibilities:
-  - Detect if first-run (setup required)
-  - Parse timescale from user input (daily/weekly/quarterly/yearly)
-  - Load and execute sequence of domain assistants
-  - Report completion and handle errors
+- Triggers: User natural language (`"Ada, plan my day"`) or `/ada [action] [timescale]`
+- Responsibilities: Parse intent, validate config, execute ritual sequences, report status
 
-**Domain Assistants:**
-- Location: `.claude/skills/_assistant-{domain}/` (goals, calendar, journal, etc.)
-- Triggers: Invoked by Ada orchestration sequence
-- Responsibilities:
-  - Load domain-specific templates for timescale
-  - Present templates and prompts to user
-  - Collect user input
-  - Persist changes to vault structure
+**Setup Action:**
+- Location: `.claude/skills/ada/references/setup/init.md`
+- Triggers: First run or missing vault configuration
+- Responsibilities: Detect vault location, initialize 00_Brain structure, create config
+
+**Profile Action:**
+- Location: `.claude/skills/ada/references/setup/profile.md`
+- Triggers: On demand or when user profile needs update
+- Responsibilities: Update user-profile.md and ai-personality.md in vault
 
 ## Error Handling
 
-**Strategy:** Fail-safe continuity - errors don't cascade; sessions terminate gracefully.
+**Strategy:** Resilient continuation - if an assistant fails, Ada logs the error and continues with remaining assistants. Missing sections are noted in compose step.
 
 **Patterns:**
-
-- **Intent Detection Failure**: Log error, return skill=null, send user "help" message. User can retry.
-
-- **Subprocess Spawn Failure**: Catch error, log with skill name, send "Failed to start {skill}" message, session remains null.
-
-- **Subprocess Runtime Failure**: Captured on stderr listener, logged, sent as error message to Teams. Subprocess continues accepting input.
-
-- **Subprocess Exit Nonzero**: Logged with exit code, send "{skill} exited with code {code}" message. Session destroyed.
-
-- **Session Timeout**: Background timeout fires, subprocess killed, session destroyed. User sees no message (can check status).
-
-- **Adaptive Card Parsing Failure**: Log error, send "Error processing your response" message. Session remains active for retry.
-
-- **Configuration Failure**: Throw at startup - fatal. Server won't start without ENGINE_PATH, ANTHROPIC_API_KEY.
-
-- **Authorization Failure**: Log unauthorized user, send "this bot is private" message, return early (no session created).
-
-- **Ada Sequence Assistant Failure**: Log error with assistant name, continue with next assistant in sequence. Compose step notes gaps.
+- Try-catch around each assistant invocation
+- Continue sequence if assistant errors
+- Compose step notes gaps in output
+- User is informed of partial completion
 
 ## Cross-Cutting Concerns
 
-**Logging:** Console.log throughout with context prefixes: "[{skill}]", "Intent detection error:", "Session timed out...". No centralized logger.
+**Logging:** Compose assistant writes logs to `vault/00_Brain/Synthetic/Assistants/compose/{date}-compose-{action}-{timescale}.md` for audit trail.
 
-**Validation:**
-- JWT validation on every incoming request via `validateToken()`
-- AAD object ID authorization check for allowed users
-- Configuration validation on startup (path existence, API key format, timeout bounds)
-- Intent result schema validation before returning from detector
-- Session state file validation on recovery
+**Validation:** Ada validates vault path on every ritual; first-run detection checks `.claude/config.md` existence.
 
-**Authentication:**
-- Incoming: JWT validation via `jose` library against Azure Bot Service public key (via URL)
-- Outgoing: API key passed to Anthropic SDK and subprocess via environment
-- Teams calls: ServiceUrl used for reply URL, no explicit auth (Teams service validates)
+**Timescale Support:** Each assistant declares supported timescales in SKILL.md frontmatter (e.g., `timescales: plan: [daily, weekly]`). Ada skips assistants that don't support current action+timescale.
 
-**Resource Management:**
-- Subprocess cleanup: explicit kill() on timeout/error, implicit on natural exit
-- Session file cleanup: explicit unlinkSync() on destroy, implicit recovery with kill on startup
-- Timeout handles: cleared and reset on every message, explicit cleanup on destroy
-- Component lifecycle: single initialization check prevents double-init
+**Brief Synthesis:** Only during plan actions; reads leadership coaching from `vault/00_Brain/Systemic/Coaching/leadership/{timescale}.md` to inject growth edge.
+
+---
+
+*Architecture analysis: 2026-02-28*

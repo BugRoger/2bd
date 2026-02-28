@@ -6,277 +6,234 @@
 
 ```
 2bd/
-├── .claude/                    # Claude skills and configuration
-│   ├── config.md               # Vault path configuration
-│   ├── skills/
-│   │   ├── ada/                # Executive Assistant orchestrator
-│   │   ├── _assistant-*/       # Domain-specific assistants (6 total)
-│   │   ├── _specs/             # Specification templates
-│   │   └── _util-*/            # Utility skills
-│   └── hooks/                  # Git hooks
-├── teams-bot/                  # Microsoft Teams integration bot
-│   ├── src/                    # TypeScript source code
-│   ├── manifest/               # Teams app manifest
-│   ├── package.json
-│   └── tsconfig.json
-├── docs/                       # Mintlify documentation site
-│   ├── ada/                    # Ada architecture docs
-│   ├── assistants/             # Skill documentation
-│   ├── overview/               # Getting started
-│   ├── reference/              # API reference
-│   └── configuration/          # Setup guides
-├── .plans/                     # Implementation plans (design documents)
-├── .planning/codebase/         # Generated codebase analysis (this folder)
-├── .obsidian/                  # Obsidian vault configuration
-├── vault/                      # Symlink to user's OneDrive Second Brain
-├── CLAUDE.md                   # Project-specific Claude guidelines
-├── README.md                   # Project overview
-├── CHANGELOG.md                # Release history
-└── 2bd.code-workspace          # VSCode workspace config
+├── .claude/                    # Claude Code configuration and skills
+│   ├── skills/                 # All executable skills
+│   │   ├── ada/                # Executive Assistant (orchestrator)
+│   │   ├── _assistant-*/       # Domain assistants (goals, calendar, journal, etc.)
+│   │   ├── _specs/             # Skill contracts (output-format, timescales, etc.)
+│   │   └── _util-*/            # Utility skills (changelog, date resolution)
+│   ├── hooks/                  # Git hooks and skill activation rules
+│   └── config.md               # User configuration (vault path, etc.)
+├── .claude-plugin/             # Claude IDE plugin configuration
+│   ├── plugin.json             # Plugin metadata (name, version, author)
+│   └── marketplace.json        # Marketplace configuration
+├── .planning/                  # GSD orchestrator outputs
+│   └── codebase/               # Codebase analysis documents (ARCHITECTURE.md, STRUCTURE.md, etc.)
+├── .plans/                     # Implementation plans created by `/gsd:plan-phase`
+├── docs/                       # Public documentation (Mintlify)
+│   ├── ada/                    # Ada-specific docs
+│   ├── assistants/             # Assistant documentation
+│   ├── configuration/          # Setup and configuration guides
+│   ├── overview/               # Getting started docs
+│   ├── reference/              # API reference and deep dives
+│   └── images/                 # Documentation assets
+├── vault/                      # Symlink to OneDrive Second Brain (user's persistent storage)
+│   └── (see Vault Structure below)
+├── README.md                   # Project overview and quick start
+├── CLAUDE.md                   # Project-specific Claude Code guidelines
+├── CHANGELOG.md                # Version history
+└── TODO.md                     # Current work items
+
 ```
 
 ## Directory Purposes
 
-**`.claude/`:**
-- Purpose: Central skill library and configuration
-- Contains: 16+ skills organized by type (ada coordinator, 6 domain assistants, utilities, specs)
+**.claude/ - Skill System:**
+- Purpose: All executable skills and Claude Code configuration
+- Contains: Ada orchestrator, 6 domain assistants, utility skills, specification contracts
+- Key files: `.claude/config.md` (user config), `.claude/skills/ada/SKILL.md` (entrypoint)
+
+**.claude/skills/ - Skill Registry:**
+- Purpose: Central repository of all executable skills
+- Contains: 3 namespaces - main skills (ada, person, plan, project, reflect), domain assistants (_assistant-*), utilities (_util-*, _specs)
+- Pattern: Each skill is a directory with SKILL.md manifest + action reference files
+
+**.claude/skills/ada/ - Executive Assistant:**
+- Purpose: Ritual orchestrator; main entry point to 2bd
+- Contains: SKILL.md, templates for daily/weekly/quarterly/yearly, references for plan/reflect/setup/compose/project/person
 - Key files:
-  - `config.md`: Vault path mapping (required for skill execution)
-  - `skills/ada/`: Orchestrator that sequences domain assistants
-  - `skills/_assistant-*/`: Domain skills (goals, calendar, journal, achievements, relationships, projects)
-- Structure: Each skill has `SKILL.md` (metadata), `templates/` (timescale-specific), `references/` (behavior)
+  - `SKILL.md` - manifest and usage documentation
+  - `templates/` - base templates for each timescale with frontmatter
+  - `references/` - sequences and actions (plan/, reflect/, setup/, compose/, etc.)
 
-**`teams-bot/`:**
-- Purpose: Microsoft Teams webhook integration and bot orchestration
-- Contains: Teams activity handlers, session management, subprocess bridging
-- Key files:
-  - `src/index.ts`: Server entry point, component initialization
-  - `src/bot.ts`: Activity routing and session lifecycle
-  - `src/session-manager.ts`: Session state tracking and timeout management
-  - `src/intent-detector.ts`: Claude API intent classification
-  - `src/subprocess-bridge.ts`: Claude CLI subprocess spawning
-  - `src/output-formatter.ts`: Terminal output parsing and classification
-  - `src/interactive-mapper.ts`: Adaptive card generation from prompts
-  - `src/config.ts`: Environment configuration loading and validation
-  - `src/auth.ts`: JWT token validation
-  - `src/types.ts`: TypeScript types for Teams protocol
+**.claude/skills/_assistant-{name}/ - Domain Assistants:**
+- Purpose: Specialize in one domain across all supported timescales
+- Contains: SKILL.md with timescale declarations, plan/reflect/learn action references, templates
+- Pattern: Each assistant repeats the same structure (6 total: goals, calendar, journal, achievements, relationships, projects)
+- Examples:
+  - `_assistant-journal/` - reflection and insight capture
+  - `_assistant-goals/` - 1-3-5 goals and Major Moves
+  - `_assistant-calendar/` - meeting prep and time shape
 
-**`docs/`:**
-- Purpose: User and developer documentation (Mintlify-based)
-- Contains: Architecture guides, setup instructions, skill reference, API docs
-- Structure: Organized by audience/topic (overview, configuration, development)
+**.claude/skills/_specs/ - Specification Contracts:**
+- Purpose: Define standards and contracts for all skills
+- Contains: output-format.md (expected output structure), timescales.md (timescale support contract), knowledge-model.md (learning contract)
+- Used by: All assistants during implementation
 
-**`.plans/`:**
-- Purpose: Implementation design documents and decision records
-- Contains: 15+ dated design documents for refactoring, features, architecture changes
-- Naming: `YYYY-MM-DD-{topic}.md` or `{topic}.md`
+**docs/ - Public Documentation:**
+- Purpose: Mintlify-hosted documentation at https://2bd.l48a.de
+- Contains: User guides, API reference, setup instructions
+- Subdirectories:
+  - `ada/` - How Ada works, talking to Ada, first ritual
+  - `assistants/` - Documentation for each assistant
+  - `configuration/` - Installation, settings, integrations
+  - `overview/` - What is 2bd, quick start, what you get
+  - `reference/` - Creating custom rituals/assistants, templates, naming conventions
+  - `images/` - SVG diagrams and assets
+
+**vault/ - Persistent User Data:**
+- Purpose: User's Second Brain - markdown knowledge base organized by metabolic state
+- Contains: 00_Brain, 01_Projects, 02_Areas, 04_Archives (see Vault Structure below)
+- Is symlink: Points to user's OneDrive Second Brain folder
+- Updated by: All assistants during plan/reflect rituals
 
 ## Key File Locations
 
 **Entry Points:**
-- `teams-bot/src/index.ts`: Bot server initialization and HTTP routes
-- `.claude/skills/ada/SKILL.md`: Ada skill metadata and action handlers
-- `.claude/skills/_assistant-{domain}/SKILL.md`: Each domain assistant metadata
+- `.claude/skills/ada/SKILL.md` - Main Ada skill manifest; user's primary interface
+- `.claude/config.md` - User configuration (vault path, profile settings)
+- `/ada` - Slash command to invoke Ada
 
 **Configuration:**
-- `.claude/config.md`: Vault path configuration
-- `teams-bot/src/config.ts`: Environment variable validation and loading
-- `teams-bot/package.json`: Dependencies, scripts (dev, start)
-- `teams-bot/tsconfig.json`: TypeScript configuration
+- `CLAUDE.md` - Project-specific guidelines and rules for Claude Code
+- `.claude/hooks/skill-activation-forced-eval.sh` - Ensures skills are activated before use
+- `2bd.code-workspace` - VS Code workspace configuration
 
-**Core Logic:**
-- `teams-bot/src/bot.ts`: Activity routing (message, conversationUpdate, invoke)
-- `teams-bot/src/intent-detector.ts`: Intent classification logic
-- `teams-bot/src/session-manager.ts`: Single-session constraint enforcement
-- `teams-bot/src/subprocess-bridge.ts`: Skill process spawning
-- `.claude/skills/ada/references/plan/`: Plan sequences (daily, weekly, quarterly, yearly)
-- `.claude/skills/ada/references/reflect/`: Reflect sequences (daily, weekly, quarterly, yearly)
+**Ritual Sequences:**
+- `.claude/skills/ada/references/plan/daily.md` - Daily planning sequence
+- `.claude/skills/ada/references/reflect/daily.md` - Daily reflection sequence
+- `.claude/skills/ada/references/plan/weekly.md` - Weekly planning sequence
+- `.claude/skills/ada/references/compose/compose.md` - Output assembly logic
 
-**Testing:**
-- `teams-bot/src/__tests__/`: Test files co-located with source
-- `teams-bot/src/__tests__/output-formatter.test.ts`: Output parser unit tests
+**Templates:**
+- `.claude/skills/ada/templates/daily.md` - Base template with frontmatter
+- `.claude/skills/_assistant-{name}/templates/daily.md` - Assistant section templates
+- `vault/00_Brain/Systemic/Templates/` - User's template copies (synced from `.claude/skills/`)
 
-**Types & Interfaces:**
-- `teams-bot/src/types.ts`: Teams Activity protocol types, Session interface, SessionState persistence
-- `teams-bot/src/config.ts`: Config interface with validation
-- `teams-bot/src/intent-detector.ts`: IntentResult interface
-- `teams-bot/src/output-formatter.ts`: ParsedOutput and OutputType enum
+**Vault Structure (User Data):**
+```
+vault/00_Brain/
+├── ✱ Home.md                  # Central navigation hub
+├── Captive/                   # Working notes (volatile)
+│   ├── Today.md               # Current day working notes
+│   ├── Week.md                # Current week working notes
+│   ├── Quarter.md             # Current quarter working notes
+│   └── Year.md                # Current year working notes
+├── Periodic/                  # Archives (immutable timeline)
+│   ├── Daily/YYYY-MM-DD.md    # Archived daily reflections
+│   ├── Weekly/YYYY-Www.md     # Archived weekly reflections
+│   ├── Quarterly/YYYY-QN.md   # Archived quarterly reflections
+│   └── Yearly/YYYY.md         # Archived yearly reflections
+├── Synthetic/Assistants/      # Assistant draft outputs
+│   ├── goals/observations.md  # Latest goals assistant output
+│   ├── calendar/observations.md # Latest calendar assistant output
+│   └── compose/               # Compose operation logs
+├── Semantic/                  # Graduated learnings
+│   └── {ritual-name}/insights.md # High-confidence pattern analysis
+└── Systemic/                  # Infrastructure
+    ├── Templates/             # Template library
+    ├── Directives/            # user-profile.md, ai-personality.md
+    ├── Ada/section-order.md   # Section ordering for compose
+    └── Coaching/              # Leadership coaching prompts
+
+vault/01_Projects/
+├── ✱ Projects.md              # Projects hub
+├── 2026-03-15-launch.md       # Project with deadline prefix (YYYY-MM-DD-name)
+└── ...
+
+vault/02_Areas/
+├── People/
+│   ├── ✱ People.md            # People hub
+│   └── FirstNameL.md          # Person note (FirstName + Initial)
+└── Insights/
+    ├── ✱ Insights.md          # Insights hub
+    └── lowercase-hyphens.md   # Thematic insight
+```
 
 ## Naming Conventions
 
 **Files:**
-- TypeScript source: camelCase.ts (e.g., `intent-detector.ts`, `session-manager.ts`)
-- Test files: `.test.ts` suffix (e.g., `output-formatter.test.ts`)
-- Skills: kebab-case directories with SKILL.md (e.g., `_assistant-goals/`, `ada/`)
-- Markdown docs: kebab-case.md or descriptive (e.g., `daily.md`, `ritual-flow.md`)
-- Configuration: lowercase with extension (`.md`, `.json`)
+- Skills: Lowercase with hyphens (e.g., `_assistant-journal`)
+- Vault hubs: `✱ Title.md` (e.g., `✱ Home.md`, `✱ Projects.md`)
+- Daily notes: `YYYY-MM-DD.md` (ISO 8601 date)
+- Weekly notes: `YYYY-Www.md` (ISO week, e.g., `2026-W06.md`)
+- Quarterly notes: `YYYY-QN.md` (e.g., `2026-Q1.md`)
+- Yearly notes: `YYYY.md` (e.g., `2026.md`)
+- Projects: `YYYY-MM-DD-name.md` (deadline prefix for sorting, lowercase-hyphens name)
+- People: `FirstNameL.md` (first name + last initial, e.g., `EstherS.md`)
+- Insights: `lowercase-hyphens.md` (thematic name)
 
 **Directories:**
-- Source code: `src/`
-- Tests: `__tests__/`
-- Skills: `skills/`, with underscore prefix for internal tools (`_assistant-*`, `_util-*`, `_specs`)
-- Subdirectories within skills: `templates/`, `references/`, `plan/`, `reflect/`, `learn/`
-- Documentation: `docs/` with subdirectories by topic (ada, assistants, overview, reference, configuration)
-
-**Code Exports:**
-- Classes: PascalCase (e.g., `SessionManager`, `IntentDetector`, `OutputFormatter`)
-- Interfaces: PascalCase (e.g., `Activity`, `Session`, `Config`)
-- Enums: PascalCase with SCREAMING_CASE members (e.g., `OutputType.PROMPT`)
-- Functions: camelCase (e.g., `handleActivity()`, `detectIntent()`)
-- Type aliases: PascalCase (e.g., `ActivityType`)
-
-**Environment Variables:**
-- SCREAMING_SNAKE_CASE (e.g., `ENGINE_PATH`, `ANTHROPIC_API_KEY`, `SESSION_TIMEOUT_MS`, `ALLOWED_AAD_OBJECT_ID`)
+- Skills: Lowercase with hyphens (`ada`, `_assistant-goals`, `_util-changelog`)
+- Metabolic states: PascalCase (`Captive`, `Periodic`, `Semantic`, `Synthetic`, `Systemic`)
+- Years/periods: Uppercase with numbers (`YYYY-MM-DD`, `YYYY-Www`)
+- Topics: lowercase or PascalCase depending on context (e.g., `Templates`, `Coaching`)
 
 ## Where to Add New Code
 
-**New Teams Bot Feature:**
-- Implementation: `teams-bot/src/{feature-name}.ts` (e.g., `teams-bot/src/webhook-validator.ts`)
-- Tests: `teams-bot/src/__tests__/{feature-name}.test.ts`
-- Register in: `teams-bot/src/index.ts` (import and initialize)
-- If new handler type: Add to `bot.ts::handleActivity()` switch statement
+**New Skill:**
+- Create `.claude/skills/{skill-name}/` directory
+- Add `SKILL.md` with manifest (name, description, argument-hint)
+- Create action reference files (e.g., `plan/daily.md`, `reflect/daily.md`)
+- If domain assistant: Add timescales declaration in SKILL.md frontmatter
+- Register skill location in `.claude/skills/` parent
 
-**New Skill/Ritual:**
-- Skill definition: `.claude/skills/{skill-type}/{skill-name}/` with `SKILL.md`
-- Timescale templates: `.claude/skills/{skill-name}/templates/{daily|weekly|quarterly|yearly}.md`
-- Behavior references: `.claude/skills/{skill-name}/references/{action}/*.md`
-- Discovery: Automatic via `discoverSkills()` scanning `.claude/skills/rituals/` or `.claude/skills/commands/`
+**New Assistant Action Reference:**
+- Location: `.claude/skills/_assistant-{name}/[plan|reflect|learn]/{timescale}.md`
+- Pattern: List @-mentions of other skills to invoke in sequence
+- Example: See `.claude/skills/ada/references/plan/daily.md`
 
-**New Domain Assistant:**
-- Pattern: `.claude/skills/_assistant-{domain-name}/`
-- Structure:
-  - `SKILL.md`: Skill metadata
-  - `templates/{timescale}.md`: User-facing templates for each timescale
-  - `references/`: Behavior definitions (how to load, process, persist)
-  - `plan/`: Plan-phase specific references
-  - `reflect/`: Reflect-phase specific references
-  - `learn/`: Learning/training materials
+**New Assistant Template Section:**
+- Location: `.claude/skills/_assistant-{name}/templates/{timescale}.md`
+- Pattern: Markdown with ## Section heading matching final output
+- Gets inserted into Captive/Periodic files at position defined by `vault/00_Brain/Systemic/Ada/section-order.md`
 
-**Utilities and Shared Code:**
-- Helper functions: `teams-bot/src/{concern}-utils.ts`
-- Shared types: `teams-bot/src/types.ts` (append to existing file)
-- Formatters/parsers: `teams-bot/src/{domain}-formatter.ts`
+**New Vault Structure Path:**
+- Must follow metabolic state pattern
+- Working paths: `vault/00_Brain/Synthetic/`
+- Archive paths: `vault/00_Brain/Periodic/`
+- Reference paths: `vault/00_Brain/Semantic/`
+- Infrastructure: `vault/00_Brain/Systemic/`
+- Active work: `vault/01_Projects/`
+- Ongoing contexts: `vault/02_Areas/`
 
-**Documentation:**
-- User guides: `docs/overview/` or `docs/configuration/`
-- API reference: `docs/reference/`
-- Development guides: `docs/development/` (check if exists)
+**Utility Skill (non-interactive helper):**
+- Location: `.claude/skills/_util-{name}/`
+- Pattern: Implements single focused action; no timescale support
+- Examples: `_util-changelog` (generates CHANGELOG.md), `_util-resolve-date` (parses date strings)
 
 ## Special Directories
 
-**`.active-session.json`:**
-- Purpose: Session state persistence for crash recovery
-- Generated: Yes (created during session, deleted on session destroy)
-- Committed: No (in .gitignore)
-- Contents: PID, skill name, conversation ID, start timestamp
-- Lifecycle: Created by `session-manager.ts::saveState()`, recovered by `cleanupOrphaned()`, deleted on destroy
-
-**`vault/`:**
-- Purpose: Symlink to user's OneDrive Second Brain
-- Generated: No (symlink created during setup)
-- Committed: No (symlink tracked, actual vault not in repo)
-- Usage: Vault path configured in `.claude/config.md`, passed to skills via environment/arguments
-
-**`.plans/`:**
-- Purpose: Implementation design documents
-- Generated: No (authored by developers)
+**.planning/codebase/ - Analysis Output:**
+- Purpose: Generated by GSD orchestrator for codebase analysis
+- Contains: ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md, TESTING.md, CONCERNS.md, STACK.md, INTEGRATIONS.md
+- Generated: Yes (on-demand via `/gsd:map-codebase`)
 - Committed: Yes
-- Naming: Dated (YYYY-MM-DD-{topic}.md) for chronological organization
-- Role: Authoritative during execution (takes precedence over outdated docs per CLAUDE.md)
 
-**`.planning/codebase/`:**
-- Purpose: Generated codebase analysis documents (ARCHITECTURE.md, STRUCTURE.md, etc.)
-- Generated: Yes (by GSD map-codebase command)
-- Committed: Yes (reference documents for future sessions)
-- Naming: UPPERCASE.md (ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md, TESTING.md, CONCERNS.md)
-
-**`.obsidian/`:**
-- Purpose: Obsidian vault configuration
-- Generated: No
-- Committed: Yes (for shared settings)
-- Contains: Plugin configs, theme settings, snippet styles
-- Modified by: Obsidian app automatically
-
-**`manifest/`:**
-- Purpose: Microsoft Teams app manifest
-- Generated: No (authored manually)
+**.plans/ - Implementation Plans:**
+- Purpose: Phase execution plans created by `/gsd:plan-phase`
+- Contains: Markdown files with task breakdowns (named by date and feature)
+- Generated: Yes (on-demand via `/gsd:plan-phase`)
 - Committed: Yes
-- Role: Defines bot capabilities for Teams app registration
-- Key file: `manifest.json` or similar (Teams app configuration)
 
-## Import Path Patterns
+**.obsidian/ - Vault Configuration:**
+- Purpose: Obsidian settings for vault rendering
+- Contains: Plugin configs (periodic-notes, templater, dataview), theme settings
+- Generated: No (user-managed)
+- Committed: Yes
 
-**Internal imports (teams-bot):**
-- Relative paths: `../config`, `./types`
-- Modules in same directory: `./intent-detector`
-- No path aliases configured (raw relative paths used)
+**.claude-plugin/ - IDE Integration:**
+- Purpose: Claude IDE configuration for 2bd plugin
+- Contains: plugin.json (metadata), marketplace.json (distribution config)
+- Generated: No (manual configuration)
+- Committed: Yes
 
-**Skill invocation (Ada sequences):**
-- Dispatch syntax: `@_assistant-{domain} action={plan|reflect} timescale={daily|weekly|quarterly|yearly}`
-- Examples: `@_assistant-goals action=plan timescale=daily`, `@ada/references/compose action=plan timescale=daily`
-- Pattern: @ prefix for skill references in sequence files
+**vault/ - Symlink to OneDrive:**
+- Purpose: User's persistent knowledge base
+- Points to: `/Users/D038720/OneDrive - SAP SE/Second Brain/`
+- Generated: No (user-managed, external)
+- Committed: No (symlink only, not contents)
 
-**Environment-based paths:**
-- Engine path: `process.env.ENGINE_PATH` (required, validated on startup)
-- Claude CLI: `process.env.CLAUDE_CLI_PATH || "claude"` (default "claude" in PATH)
-- Vault: Resolved via `.claude/config.md`, passed to subprocesses
+---
 
-## Common Patterns
-
-**Singleton Component Pattern:**
-```
-// Initialization (index.ts):
-initializeComponents({ config, sessionManager, ... })
-
-// Usage anywhere:
-const { sessionManager } = getComponents()
-```
-
-**Error-Safe Return Pattern:**
-```
-// Intent detection returns null skill on any error
-// No exception thrown, graceful degradation
-try { ... } catch (err) { return { skill: null } }
-```
-
-**Stateful Session Pattern:**
-```
-// Create, use, destroy lifecycle
-sessionManager.create(conversationId, skill, process)
-// ... active session operations ...
-sessionManager.destroy()
-```
-
-**Output Buffering Pattern:**
-```
-// Lines incomplete until newline received
-buffer += data
-const lines = buffer.split("\n")
-process(lines[0..n-1])  // complete lines
-buffer = lines[-1]      // incomplete last line
-```
-
-**Subprocess Callback Pattern:**
-```
-spawn(skill, args, {
-  onStdout: (data) => { /* handle output */ },
-  onStderr: (data) => { /* handle error */ },
-  onExit: (code) => { /* handle completion */ }
-})
-```
-
-## Generated vs. Committed Files
-
-**Not in `.gitignore` (committed):**
-- All `.md` files (docs, references, templates, plans)
-- `.claude/config.md` (vault configuration)
-- TypeScript source and tests
-- `teams-bot/package.json`, `tsconfig.json`, manifest
-- `.planning/codebase/` analysis documents
-
-**In `.gitignore` (generated/local):**
-- `node_modules/`
-- `dist/` or build output
-- `.active-session.json` (session state)
-- `.env` files and secrets
-- `.DS_Store` and OS files
+*Structure analysis: 2026-02-28*

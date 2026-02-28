@@ -5,49 +5,44 @@
 ## Test Framework
 
 **Runner:**
-- Bun built-in test runner (via `bun:test`)
-- No separate Jest or Vitest configuration
-- Config: `bun:test` imported directly in test files
+- Bun test framework
+- Config: No explicit config file (uses Bun defaults)
 
 **Assertion Library:**
-- Bun's built-in `expect()` function from `bun:test`
+- Bun built-in assertions (imports from `bun:test`)
 
 **Run Commands:**
 ```bash
-bun test                           # Run all tests
-bun test --watch                   # Watch mode (assumed supported)
-bun test --coverage               # Coverage (assumed supported)
+bun test                   # Run all tests
+bun run --watch src/       # Watch mode (dev, not test-specific)
 ```
 
-Note: Package.json has no test scripts defined; tests run directly with Bun.
+**Note:** No dedicated test watch mode configured. Development uses `bun run --watch src/index.ts` for the application. Tests run standalone with `bun test`.
 
 ## Test File Organization
 
 **Location:**
-- Co-located in `src/__tests__/` subdirectory
-- Test files in same module structure as source
+- Co-located with source code in `__tests__/` directory
+- Example: `src/__tests__/output-formatter.test.ts` for `src/output-formatter.ts`
 
 **Naming:**
-- Pattern: `{module}.test.ts`
-- Example: `src/__tests__/output-formatter.test.ts` tests `src/output-formatter.ts`
+- `.test.ts` suffix for test files
+- Example: `output-formatter.test.ts`
 
 **Structure:**
 ```
 src/
-├── __tests__/
-│   └── output-formatter.test.ts
 ├── output-formatter.ts
 ├── bot.ts
-└── [other modules]
+├── types.ts
+└── __tests__/
+    └── output-formatter.test.ts
 ```
 
 ## Test Structure
 
 **Suite Organization:**
 ```typescript
-import { describe, it, expect, beforeEach } from "bun:test";
-import { OutputFormatter, OutputType } from "../output-formatter";
-
 describe("OutputFormatter", () => {
   let formatter: OutputFormatter;
 
@@ -57,112 +52,57 @@ describe("OutputFormatter", () => {
 
   describe("ANSI code stripping", () => {
     it("should strip ANSI color codes", () => {
-      const input = "\x1B[32mGreen text\x1B[0m";
-      const results = formatter.parse(input + "\n");
-      expect(results[0].text).toBe("Green text");
+      // test body
     });
   });
 });
 ```
 
 **Patterns:**
-- Nested `describe()` blocks for feature grouping
-- `beforeEach()` for setup (instantiation of test subjects)
-- `it()` for individual test cases
-- Descriptive test names starting with "should"
-- One assertion per test or grouped related assertions
+- Top-level `describe()` wraps entire test suite (class/module being tested)
+- Nested `describe()` blocks organize related test cases by feature
+- `beforeEach()` for test setup (fixture initialization)
+- No `afterEach()` observed (cleanup not needed for stateless tests)
+- `it()` for individual test cases with descriptive names
+
+**Test Naming Convention:**
+- Start with `"should ..."` for clarity
+- Example: `"should strip ANSI color codes"`, `"should buffer incomplete lines"`
+
+**Assertion Pattern:**
+```typescript
+it("should strip ANSI color codes", () => {
+  const input = "\x1B[32mGreen text\x1B[0m";
+  const results = formatter.parse(input + "\n");
+  expect(results[0].text).toBe("Green text");
+});
+```
+
+- Arrange-Act-Assert structure (implicit)
+- Single assertion per test in most cases
+- Use `expect()` API with matchers: `toBe()`, `toHaveLength()`, `toEqual()`, `not.toBeNull()`
 
 ## Mocking
 
-**Framework:** Not detected; tests use real objects
+**Framework:** None detected
 
-**What IS Tested:**
-- Pure functions and methods (OutputFormatter.parse, OutputFormatter.classify)
-- Data transformations
-- String manipulation and ANSI code stripping
-- Classification logic (PROMPT, STATUS, ERROR, etc.)
+**What to Mock:**
+- External APIs (would use jest.mock or similar if needed)
+- Timers (not observed in tests yet)
 
-**What NOT Tested:**
-- Async operations (no API mocking)
-- Child process operations (no process mocking)
-- External dependencies (no mock for Anthropic SDK, Hono)
-- File I/O operations
+**What NOT to Mock:**
+- Pure utility functions (tested directly)
+- Buffer/state management (tested through public API)
+- Helper methods (tested indirectly through public methods)
 
-**Note:** Current test coverage is limited to `output-formatter.test.ts`. Other modules (bot.ts, session-manager.ts, subprocess-bridge.ts) lack tests due to their dependency on external systems (Teams API, child processes).
+**Stateful Testing:**
+- Avoid mocking internal state; instead test public methods that manage state
+- Use `beforeEach()` to reset state between tests
+- Example: Each test gets fresh `OutputFormatter` instance
 
 ## Fixtures and Factories
 
 **Test Data:**
-```typescript
-// From output-formatter.test.ts
-const input = "\x1B[32mGreen text\x1B[0m";
-const results = formatter.parse(input + "\n");
-expect(results[0].text).toBe("Green text");
-```
-
-- Inline test data in test functions (no factory pattern)
-- Sample strings for testing parsing: `"🚀 Starting process"`, `"Warning: Deprecated feature"`
-- Multiple test cases for edge cases (empty strings, whitespace-only, ANSI codes)
-
-**Location:**
-- Test data defined inline within `it()` blocks
-- No separate fixtures directory or factory modules
-
-## Coverage
-
-**Requirements:** None enforced
-
-**View Coverage:**
-```bash
-bun test --coverage
-```
-
-**Coverage Gaps:**
-- No tests for: `bot.ts`, `session-manager.ts`, `subprocess-bridge.ts`, `intent-detector.ts`, `auth.ts`, `teams-api.ts`, `config.ts`, `interactive-mapper.ts`
-- Only `output-formatter.ts` has comprehensive test coverage
-- Estimated coverage: ~15% of codebase
-
-## Test Types
-
-**Unit Tests:**
-- Scope: Individual methods and functions
-- Approach: Direct function invocation with known inputs, verify outputs
-- Example: `OutputFormatter.parse()` with various ANSI codes, classification logic
-
-**Integration Tests:**
-- Not present; would require mocking Teams API and child processes
-
-**E2E Tests:**
-- Framework: Not used
-- No end-to-end workflows tested
-
-## Common Patterns
-
-**Async Testing:**
-- Not present; output-formatter is synchronous
-
-**Error Testing:**
-```typescript
-// Pattern: No explicit error testing observed
-// Current tests focus on happy paths and edge cases (empty strings, whitespace)
-```
-
-**Classification Testing:**
-```typescript
-describe("Classification - PROMPT", () => {
-  it("should classify lines ending with ? as PROMPT", () => {
-    const results = formatter.parse("What is your name?\n");
-    expect(results[0].type).toBe(OutputType.PROMPT);
-  });
-
-  it("should classify questions with leading whitespace as PROMPT", () => {
-    const results = formatter.parse("  Would you like to continue?  \n");
-    expect(results[0].type).toBe(OutputType.PROMPT);
-  });
-});
-```
-
-**Buffering Tests:**
 ```typescript
 describe("Buffering", () => {
   it("should buffer incomplete lines", () => {
@@ -176,71 +116,104 @@ describe("Buffering", () => {
 });
 ```
 
+**Patterns:**
+- Inline test data construction (no factory functions)
+- Use actual types from source code (not mocks)
+- Realistic examples that match production behavior
+
+**Location:**
+- Test data defined inline within test cases
+- No separate fixtures directory (not needed for utility tests)
+
+## Coverage
+
+**Requirements:** Not enforced
+
+**View Coverage:**
+```bash
+bun test --coverage           # If configured in bunfig.toml (not observed)
+```
+
+**Observation:** No coverage configuration detected in package.json or Bun config. Coverage reporting not automated.
+
+## Test Types
+
+**Unit Tests:**
+- Scope: Individual class methods and exported functions
+- Approach: Test-driven state verification
+- Example: `OutputFormatter.parse()` tested in isolation with various inputs
+- Each method has dedicated describe block with multiple test cases
+
 **Integration Tests:**
+- Not observed in current codebase
+- Would test component interactions (e.g., SessionManager + SubprocessBridge)
+
+**E2E Tests:**
+- Not present
+- Would require actual Teams API or Hono server mocking
+
+## Common Patterns
+
+**Async Testing:**
 ```typescript
-describe("Integration tests", () => {
-  it("should handle mixed output types", () => {
-    const input = "🚀 Starting process\nProcessing file 1\nWarning: Large file detected\nProcessed successfully\nWould you like to continue?\n";
-    const results = formatter.parse(input);
+export async function validateToken(authHeader: string | undefined): Promise<boolean> {
+  // implementation
+}
+```
 
-    expect(results).toHaveLength(5);
-    expect(results[0].type).toBe(OutputType.STATUS);
-    expect(results[1].type).toBe(OutputType.CONTENT);
-    expect(results[2].type).toBe(OutputType.WARNING);
-    expect(results[3].type).toBe(OutputType.CONTENT);
-    expect(results[4].type).toBe(OutputType.PROMPT);
-  });
+**Pattern:** Use `async` keyword in test function; Bun automatically waits for Promise resolution. No explicit `.then()` or `await` handling needed if test completes naturally.
 
-  it("should handle ANSI codes with buffering", () => {
-    const results1 = formatter.parse("\x1B[32mGreen ");
-    expect(results1).toHaveLength(0);
+**Note:** Current test suite (OutputFormatter) is synchronous. Async tests would follow standard async test patterns if present.
 
-    const results2 = formatter.parse("text\x1B[0m\n");
-    expect(results2).toHaveLength(1);
-    expect(results2[0].text).toBe("Green text");
-  });
+**Error Testing:**
+```typescript
+it("should validate timeout bounds", () => {
+  // If implementation throws on invalid input:
+  const config = {
+    sessionTimeoutMs: -100 // invalid
+  };
+  // Would expect throw or error state
 });
 ```
 
-## Test Count and Coverage Details
+**Pattern:** For error cases, test either:
+- Expected function return (error state)
+- Function throws exception (wrap in try-catch in test if needed)
+- Logged error messages (via console.error spy if mocked)
 
-**Total Tests:** 43 tests in `output-formatter.test.ts`
+**Current codebase:** Most error cases return safe defaults rather than throwing (see `intent-detector.ts`, `output-formatter.ts`).
 
-**Test Categories:**
-- ANSI code stripping: 2 tests
-- Buffering: 4 tests
-- Flush behavior: 5 tests
-- Classification (PROMPT): 2 tests
-- Classification (STATUS): 7 tests
-- Classification (WARNING): 2 tests
-- Classification (ERROR): 5 tests
-- Classification (CONTENT): 2 tests
-- Whitespace preservation: 5 tests
-- Integration tests: 3 tests
+## Comprehensive Example
 
-**Tested Functionality:**
-- Output parsing with newline handling
-- ANSI code stripping (color, bold, reset codes)
-- Line classification (PROMPT, STATUS, WARNING, ERROR, CONTENT)
-- Buffering incomplete lines and flushing
-- Whitespace preservation (leading, trailing, internal)
-- Mixed output type handling
-- Edge cases (empty lines, whitespace-only lines, trailing newlines)
+**Full test suite from codebase** (`src/__tests__/output-formatter.test.ts`):
 
-## Known Testing Limitations
+The OutputFormatter test suite demonstrates best practices:
 
-**Cannot Test Without Mocking:**
-- `bot.ts`: Requires Teams API mocking, session management
-- `session-manager.ts`: Requires file system mocking, process management
-- `subprocess-bridge.ts`: Requires child_process mocking
-- `intent-detector.ts`: Requires Anthropic API mocking
-- `auth.ts`: Requires fetch/JWT mocking, token caching
-- `teams-api.ts`: Requires fetch mocking
+**Structure:**
+- 10+ describe blocks organized by feature (ANSI stripping, Buffering, Classification, Whitespace)
+- 40+ individual test cases
+- Comprehensive coverage of public API and edge cases
 
-**Why Not Mocked:**
-- Tests focus on deterministic, synchronous code (OutputFormatter)
-- Async operations and external dependencies would require significant test infrastructure
-- Bun's test runner supports mocking but no mocks configured in codebase
+**Key Features Tested:**
+- ANSI code removal: `stripAnsiCodes()` internal method tested indirectly
+- State buffering: Incomplete lines retained, complete lines processed
+- Flush behavior: Edge cases for empty/whitespace buffers
+- Classification: All OutputType enums covered (PROMPT, STATUS, WARNING, ERROR, CONTENT)
+- Whitespace handling: Leading/trailing/internal spaces preserved where appropriate
+- Integration scenarios: Mixed output types in single parse call
+
+**Edge Cases:**
+- Empty buffers
+- Whitespace-only content
+- Multi-line input
+- ANSI codes with buffering (split across parse calls)
+- Classification with/without leading/trailing whitespace
+
+**Test Data Quality:**
+- Realistic strings representing actual CLI output
+- Emoji characters in status tests (Unicode handling)
+- Multiple error prefix patterns tested
+- Regression test for "prefix-only limitation" (documents by design behavior)
 
 ---
 
