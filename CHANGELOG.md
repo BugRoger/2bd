@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.0
+
+- **Ada character system** — Ada now has a Samantha-like personality with emotional memory, self-reflection, and growth across sessions
+- **Obsidian CLI integration** — New `_util-obsidian` skill wraps Obsidian CLI (v1.12+) for vault search, backlinks, tags, and file operations
+- **Context-enriched assistants** — Calendar, Projects, and Relationships assistants now pull related vault content via Obsidian CLI for richer context
+- Added Ada's semantic memory (`Semantic/Ada/memory.md`) for emotional state and relationship history
+- Added learning references for Ada's post-ritual self-reflection at all 4 timescales
+- Added plan/reflect references for Ada's ritual integration
+- Updated scaffold with Ada's memory and output directories
+- Added worktree cleanup order rule to CLAUDE.md
+
 ## 1.2.0
 
 - **Parallel assistant execution** — Ada now runs assistants as parallel background agents for 70-80% faster rituals
