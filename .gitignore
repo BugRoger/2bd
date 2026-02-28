@@ -101,3 +101,13 @@ desktop.ini
 03_Resources/Brain/
 .claude/settings.json
 2bd.code-workspace
+
+# Auto Claude data directory
+.auto-claude/
+
+# Auto Claude generated files
+.auto-claude-security.json
+.auto-claude-status
+.claude_settings.json
+.security-key
+logs/security/
