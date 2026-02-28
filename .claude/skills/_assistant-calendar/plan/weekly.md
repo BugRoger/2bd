@@ -7,6 +7,26 @@ Generate week shape draft with placeholders for preparation needs.
 1. Fetch this week's calendar events
 2. Read `vault/00_Brain/Semantic/Assistants/calendar/memory.md` if exists
 
+## Enrich via Obsidian CLI
+
+Check if CLI is available:
+
+```bash
+obsidian version 2>/dev/null
+```
+
+If available (exit code 0):
+
+For key meeting attendees this week:
+
+```bash
+obsidian backlinks file="02_Areas/People/{PersonName}"
+```
+
+Gather context for important 1:1s and stakeholder meetings.
+
+If unavailable, continue without enrichment.
+
 ## Draft Generation
 
 1. Analyze week shape:
@@ -15,7 +35,9 @@ Generate week shape draft with placeholders for preparation needs.
    - Key meetings to identify
    - Energy arc prediction
 
-2. Generate draft with context and placeholders for preparation
+2. For key meetings, include backlink context if available
+
+3. Generate draft with context and placeholders for preparation
 
 ## Output
 
@@ -38,6 +60,7 @@ Write to `vault/00_Brain/Synthetic/Assistants/calendar/weekly-draft.md`:
 ### Key Meetings
 
 {List important meetings with day and context}
+{If CLI enrichment available, add backlink context for attendees}
 
 <!-- ASK:calendar-prep-needs
 Which meetings need preparation this week?

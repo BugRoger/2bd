@@ -5,8 +5,32 @@ Prepare draft with today's meetings and placeholders for unknowns.
 ## Context to Load
 
 1. Fetch today's calendar events using [Fetch Events](../SKILL.md#fetch-events)
-2. Read person dossiers for key attendees from `vault/00_Brain/Semantic/People/`
+2. Read person dossiers for key attendees from `vault/02_Areas/People/`
 3. Read `vault/00_Brain/Semantic/Assistants/calendar/memory.md` if exists
+
+## Enrich via Obsidian CLI
+
+Check if CLI is available:
+
+```bash
+obsidian version 2>/dev/null
+```
+
+If available (exit code 0):
+
+For each important meeting attendee:
+
+```bash
+obsidian backlinks file="02_Areas/People/{PersonName}"
+```
+
+Add backlink context to meeting prep:
+- Recent interactions with this person
+- Shared projects
+- Open threads or follow-ups
+- Related goals or discussions
+
+If unavailable, continue with static dossier context only.
 
 ## Draft Generation
 
@@ -17,6 +41,7 @@ Prepare draft with today's meetings and placeholders for unknowns.
 
 2. For important meetings, gather context:
    - Read attendee dossiers if available
+   - Include backlink context if CLI enrichment available
    - Check for related project files
    - Review previous meeting notes
 
@@ -42,6 +67,8 @@ Do you need to prepare anything specific for Sprint Planning?
 2:00pm - 1:1 with Sarah
 - Attendees: Sarah (Engineering Manager)
 - Context: Regular 1:1 check-in
+{If CLI enrichment available:}
+- Recent context: {backlinks showing recent mentions, shared projects}
 
 <!-- ASK:calendar-sarah-topics
 What do you want to discuss with Sarah today?

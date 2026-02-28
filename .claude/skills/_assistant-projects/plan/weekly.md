@@ -8,11 +8,35 @@ Generate project status draft with placeholders.
 2. Read this week's Major Moves for project alignment
 3. Read `vault/00_Brain/Semantic/Assistants/projects/memory.md` if exists
 
+## Enrich via Obsidian CLI
+
+Check if CLI is available:
+
+```bash
+obsidian version 2>/dev/null
+```
+
+If available (exit code 0):
+
+1. **Discover projects dynamically:**
+   ```bash
+   obsidian search query="path:01_Projects" limit=20
+   ```
+
+2. **Get related context for each active project:**
+   ```bash
+   obsidian backlinks file="01_Projects/{project-name}"
+   ```
+   Surface connections to quarterly goals, team members, blockers.
+
+If unavailable, continue with static context only.
+
 ## Draft Generation
 
-1. Review all active projects from Projects folder
+1. Review all active projects from Projects folder (or CLI search results)
 2. Extract Major Moves for alignment check
-3. Generate draft with project context and placeholders
+3. Include backlink context if available
+4. Generate draft with project context and placeholders
 
 ## Output
 
@@ -26,6 +50,10 @@ Write to `vault/00_Brain/Synthetic/Assistants/projects/weekly-draft.md`:
 
 **This Week's Major Moves:**
 {Extract from Week.md}
+
+{If CLI enrichment available:}
+**Project Connections:**
+{Backlinks showing how projects connect to goals and people}
 
 ### Project Status
 
