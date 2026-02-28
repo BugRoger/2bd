@@ -62,6 +62,11 @@ See all rules in section **## Parallel Execution**
 1. Assistants run as background agents outputting drafts with placeholders
 2. Ada orchestrates via draft collection, question ordering, and placeholder filling
 
+### 10. Version Management
+See all rules in section **## Version Management**
+1. ALWAYS update all version locations when adding a new CHANGELOG.md entry
+2. Versions must stay in sync: CHANGELOG.md, plugin.json, marketplace.json, GitHub tag
+
 ---
 
 ## META - MAINTAINING THIS DOCUMENT
@@ -233,3 +238,27 @@ Skills read as prose, not scripts.
 **Error handling**: Failed agents don't block ritual; partial results still usable
 
 **Feature flag**: Can toggle parallel mode on/off for rollback
+
+---
+
+## Version Management
+
+**Single source of truth**: CHANGELOG.md defines the current version.
+
+**Files that must stay in sync** when adding a new version:
+1. `CHANGELOG.md` — Add version entry with changes
+2. `.claude-plugin/plugin.json` — Update `version` field
+3. `.claude-plugin/marketplace.json` — Update `metadata.version` AND `plugins[0].version`
+4. GitHub tag — Create tag `vX.Y.Z` after committing
+
+**Workflow**:
+```bash
+# After updating CHANGELOG.md with new version X.Y.Z:
+# 1. Update plugin.json version
+# 2. Update marketplace.json version (2 places)
+# 3. Commit all changes
+# 4. Create and push tag
+git tag -a vX.Y.Z -m "Release vX.Y.Z"
+git push origin vX.Y.Z
+```
+
