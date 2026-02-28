@@ -1,54 +1,63 @@
 # Goals: Plan Quarterly
 
-Guide Quests selection aligned with Annual Goals.
+Generate Quests draft with placeholders for user input.
 
 ## Context to Load
 
 1. Read `vault/00_Brain/Captive/Year.md` for Annual Goals
 2. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Show context:
-   - Annual Goals (from Year.md)
-   - Vision for grounding
-
-2. Interactive conversation:
-   - Ask: "Which 3-5 Annual Goals will you advance this quarter?"
-   - For each: "What would meaningful progress look like?"
-   - Ask: "What's the theme for this quarter?"
-
-3. Finalize Quests:
-   - 3-5 goals to advance
-   - Each with success criteria
-   - Quarter theme
+1. Extract Annual Goals from Year.md
+2. Show Vision for grounding
+3. Generate draft with placeholders for Quest selection and theme
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-plan-quarterly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/goals/quarterly-draft.md`:
 
 ```markdown
-# Goals: plan(quarterly) {date}
+## Goals
 
-## Status
-ok
+**From Your Year:**
+{Extract Annual Goals from Year.md}
 
-## Section
+**Vision for Context:**
+{Extract Vision from Year.md if available}
+
 ### Quarterly Quests
 
-**Theme:** {Quarter theme}
+<!-- ASK:goals-quarter-theme
+What's the theme for this quarter?
+-->
 
-**Quest 1:** {Goal name}
-- Success: {What meaningful progress looks like}
+<!-- ASK:goals-quest-1
+Which Annual Goal will you advance as Quest #1? What would meaningful progress look like?
+-->
 
-**Quest 2:** {Goal name}
-- Success: {What meaningful progress looks like}
+<!-- ASK:goals-quest-2
+Which Annual Goal will you advance as Quest #2? What would meaningful progress look like?
+-->
 
-(etc.)
+<!-- ASK:goals-quest-3
+Which Annual Goal will you advance as Quest #3? What would meaningful progress look like?
+-->
 
-## Observations
-- {Any patterns noticed}
+<!-- ASK:goals-quest-4
+(Optional) Any 4th or 5th Quest for this quarter?
+-->
+```
 
-## Timestamp
-{ISO timestamp}
+## Status
+
+Add frontmatter:
+```
+---
+status: ok
+assistant: goals
+action: plan
+timescale: quarterly
+timestamp: {ISO timestamp}
+---
 ```

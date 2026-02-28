@@ -1,67 +1,68 @@
 # Projects: Reflect Daily
 
-Compare planned project focus to actual progress and return findings to Ada.
+Generate reflection draft comparing planned project focus to actual progress with placeholders.
 
 ## Context to Load
 
-1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/projects/daily.md`
-2. Read plan output: `vault/00_Brain/Synthetic/Assistants/projects/{date}-plan-daily.md`
-3. Read capture note `vault/00_Brain/Captive/Today.md` — find `## Project Focus` section by H2 header
-4. Read `vault/00_Brain/Semantic/Assistants/projects/memory.md` if exists
+1. Read plan output: `vault/00_Brain/Synthetic/Assistants/projects/{date}-plan-daily.md` or draft
+2. Read capture note `vault/00_Brain/Captive/Today.md` — find project content
+3. Read `vault/00_Brain/Semantic/Assistants/projects/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Extract planned project focus from plan output (what was intended)
-2. Extract actual project progress from capture note section (what happened)
-3. Generate variance narrative:
-   - What was completed as planned
-   - What was planned but not done
-   - What emerged that wasn't planned
-4. Identify entity learnings (people, projects mentioned with insights)
-5. Generate coaching questions based on patterns
-
-## Return to Ada
-
-Return findings for coaching conversation:
-
-```markdown
-## Findings
-
-### Variance
-- Planned: [Summary of project focus from plan]
-- Actual: [What happened]
-- Gap: [What shifted, notable patterns]
-
-### Coaching Questions
-- [Question exploring the variance]
-- [Question about patterns worth examining]
-
-### Entity Learnings
-- [[Person]]: [Insight discovered]
-- [[Project]]: [Insight discovered]
-```
+1. Extract planned project focus from plan output
+2. Extract actual project progress from capture note if available
+3. Generate draft with placeholders for reflection
 
 ## Output
 
-After coaching, write to `vault/00_Brain/Synthetic/Assistants/projects/{date}-reflect-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/projects/daily-reflect-draft.md`:
 
 ```markdown
-# Projects: reflect(daily) {date}
+## Projects
+
+**Planned Focus:**
+{Extract from plan}
+
+**From Today's Note:**
+{Extract project progress if available}
+
+### Reflection
+
+<!-- ASK:projects-progress
+What progress did you make on projects today?
+-->
+
+<!-- ASK:projects-blockers
+Any blockers or dependencies you encountered?
+-->
+
+<!-- ASK:projects-unplanned
+Any unplanned project work?
+-->
+
+<!-- ASK:projects-learnings
+Any insights about projects from today?
+-->
+
+### Entity Learnings
+
+{Auto-extract projects mentioned}
+
+<!-- ASK:projects-entity-insights
+Any specific insights about individual projects?
+-->
+```
 
 ## Status
-ok
 
-## Section
-### Project Progress
-
-[Variance narrative from coaching conversation]
-
-## Entity Learnings
-- [[Entity]]: [Confirmed insight]
-
-## Observations
-- [Patterns for projects memory]
-
-## Timestamp
-{ISO timestamp}
+Add frontmatter:
+```
+---
+status: ok
+assistant: projects
+action: reflect
+timescale: daily
+timestamp: {ISO timestamp}
+---
 ```

@@ -1,67 +1,68 @@
 # Relationships: Reflect Daily
 
-Compare planned touchpoints to actual interactions and return findings to Ada.
+Generate reflection draft comparing planned touchpoints to actual interactions with placeholders.
 
 ## Context to Load
 
-1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/relationships/daily.md`
-2. Read plan output: `vault/00_Brain/Synthetic/Assistants/relationships/{date}-plan-daily.md`
-3. Read capture note `vault/00_Brain/Captive/Today.md` — find `## People Touchpoints` section by H2 header
-4. Read `vault/00_Brain/Semantic/Assistants/relationships/memory.md` if exists
+1. Read plan output: `vault/00_Brain/Synthetic/Assistants/relationships/{date}-plan-daily.md` or draft
+2. Read capture note `vault/00_Brain/Captive/Today.md` — find relationships content
+3. Read `vault/00_Brain/Semantic/Assistants/relationships/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Extract planned touchpoints from plan output (what was intended)
-2. Extract actual interactions from capture note section (what happened)
-3. Generate variance narrative:
-   - What was completed as planned
-   - What was planned but not done
-   - What emerged that wasn't planned
-4. Identify entity learnings (people, projects mentioned with insights)
-5. Generate coaching questions based on patterns
-
-## Return to Ada
-
-Return findings for coaching conversation:
-
-```markdown
-## Findings
-
-### Variance
-- Planned: [Summary of touchpoints from plan]
-- Actual: [What happened]
-- Gap: [What shifted, notable patterns]
-
-### Coaching Questions
-- [Question exploring the variance]
-- [Question about patterns worth examining]
-
-### Entity Learnings
-- [[Person]]: [Insight discovered]
-- [[Project]]: [Insight discovered]
-```
+1. Extract planned touchpoints from plan output
+2. Extract actual interactions from capture note if available
+3. Generate draft with placeholders for reflection
 
 ## Output
 
-After coaching, write to `vault/00_Brain/Synthetic/Assistants/relationships/{date}-reflect-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/relationships/daily-reflect-draft.md`:
 
 ```markdown
-# Relationships: reflect(daily) {date}
+## Relationships
+
+**Planned Touchpoints:**
+{Extract from plan}
+
+**From Today's Note:**
+{Extract relationship interactions if available}
+
+### Reflection
+
+<!-- ASK:relationships-interactions
+Who did you interact with today? Any meaningful conversations?
+-->
+
+<!-- ASK:relationships-quality
+How was the quality of your interactions?
+-->
+
+<!-- ASK:relationships-missed
+Anyone you planned to connect with but didn't?
+-->
+
+<!-- ASK:relationships-learnings
+Any insights about people or relationships from today?
+-->
+
+### Entity Learnings
+
+{Auto-extract people mentioned}
+
+<!-- ASK:relationships-entity-insights
+Any specific insights about individual people?
+-->
+```
 
 ## Status
-ok
 
-## Section
-### Touchpoint Review
-
-[Variance narrative from coaching conversation]
-
-## Entity Learnings
-- [[Entity]]: [Confirmed insight]
-
-## Observations
-- [Patterns for relationships memory]
-
-## Timestamp
-{ISO timestamp}
+Add frontmatter:
+```
+---
+status: ok
+assistant: relationships
+action: reflect
+timescale: daily
+timestamp: {ISO timestamp}
+---
 ```

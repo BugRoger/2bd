@@ -1,45 +1,27 @@
 # Relationships: Plan Daily
 
-Identify people touchpoints for today.
+Generate touchpoint draft.
 
 ## Context to Load
 
-1. Read today's calendar for meetings
-2. Read `vault/00_Brain/Semantic/People/` for relevant dossiers
-3. Read `vault/00_Brain/Semantic/Assistants/relationships/memory.md` if exists
-
-## Process
-
-1. From calendar:
-   - Who will you interact with today?
-   - Any special context to remember?
-
-2. Proactive outreach:
-   - Anyone you've been meaning to contact?
-   - Any follow-ups due?
+1. Fetch today's calendar events
+2. Read person dossiers from `vault/02_Areas/People/`
+3. Check for birthdays or special dates
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/relationships/{date}-plan-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/relationships/daily-draft.md`:
 
 ```markdown
-# Relationships: plan(daily) {date}
+## Relationships
 
-## Status
-ok
+**Today's Touchpoints:**
+{List people you're meeting with today from calendar}
 
-## Section
-### People Touchpoints
+<!-- ASK:relationships-touchpoints
+Anyone else you want to connect with today?
+-->
 
-**Scheduled:**
-- {Person} — {Context/Meeting}
-
-**Proactive:**
-- {Person} — {Why reach out}
-
-## Observations
-- {Relationship patterns}
-
-## Timestamp
-{ISO timestamp}
+**Birthdays/Special Dates:**
+{If any found from calendar or dossiers}
 ```

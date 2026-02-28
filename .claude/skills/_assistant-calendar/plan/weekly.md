@@ -1,33 +1,29 @@
 # Calendar: Plan Weekly
 
-Analyze the week's calendar shape.
+Generate week shape draft with placeholders for preparation needs.
 
 ## Context to Load
 
 1. Fetch this week's calendar events
 2. Read `vault/00_Brain/Semantic/Assistants/calendar/memory.md` if exists
 
-## Process
+## Draft Generation
 
 1. Analyze week shape:
    - Meeting density by day
    - Focus time availability
-   - Key meetings to prepare for
+   - Key meetings to identify
    - Energy arc prediction
 
-2. Identify preparation needs
+2. Generate draft with context and placeholders for preparation
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/calendar/{date}-plan-weekly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/calendar/weekly-draft.md`:
 
 ```markdown
-# Calendar: plan(weekly) {date}
+## Calendar
 
-## Status
-ok
-
-## Section
 ### Week Shape
 
 **Monday:** {X meetings, Y focus hours}
@@ -40,12 +36,27 @@ ok
 **Best focus day:** {Day}
 
 ### Key Meetings
-- {Meeting 1} — {Day} — {Why important}
-- {Meeting 2} — {Day} — {Why important}
 
-## Observations
-- {Calendar patterns, concerns}
+{List important meetings with day and context}
 
-## Timestamp
-{ISO timestamp}
+<!-- ASK:calendar-prep-needs
+Which meetings need preparation this week?
+-->
+
+<!-- ASK:calendar-concerns
+Any scheduling concerns or conflicts?
+-->
+```
+
+## Status
+
+Add frontmatter:
+```
+---
+status: ok
+assistant: calendar
+action: plan
+timescale: weekly
+timestamp: {ISO timestamp}
+---
 ```

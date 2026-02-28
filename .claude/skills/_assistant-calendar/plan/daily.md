@@ -1,6 +1,6 @@
 # Calendar: Plan Daily
 
-Prepare for today's meetings.
+Prepare draft with today's meetings and placeholders for unknowns.
 
 ## Context to Load
 
@@ -8,42 +8,68 @@ Prepare for today's meetings.
 2. Read person dossiers for key attendees from `vault/00_Brain/Semantic/People/`
 3. Read `vault/00_Brain/Semantic/Assistants/calendar/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. List today's meetings with times
+1. Analyze meetings:
+   - List all meetings with times
+   - Identify important meetings (1:1s, critical decisions)
+   - Calculate focus time available
 
-2. For important meetings:
-   - Who's attending?
-   - What's the purpose?
-   - What prep is needed?
-   - What's your goal for this meeting?
+2. For important meetings, gather context:
+   - Read attendee dossiers if available
+   - Check for related project files
+   - Review previous meeting notes
+
+3. Generate draft section with placeholders for unknowns
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/calendar/{date}-plan-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/calendar/daily-draft.md`:
 
 ```markdown
-# Calendar: plan(daily) {date}
+## Calendar
+
+**Today's Meetings**
+
+9:00am - Sprint Planning
+- Attendees: Team (5 people)
+- Context: Weekly sprint planning session
+
+<!-- ASK:calendar-sprint-prep
+Do you need to prepare anything specific for Sprint Planning?
+-->
+
+2:00pm - 1:1 with Sarah
+- Attendees: Sarah (Engineering Manager)
+- Context: Regular 1:1 check-in
+
+<!-- ASK:calendar-sarah-topics
+What do you want to discuss with Sarah today?
+-->
+
+**Focus Time:** 4 hours available (10am-12pm, 3pm-5pm)
+
+<!-- ASK:calendar-focus-block
+What will you work on during focus time?
+-->
+```
 
 ## Status
-ok
 
-## Section
-### Today's Meetings
-
-**{Time} - {Meeting Title}**
-- Attendees: {List}
-- Purpose: {Why meeting}
-- Prep: {What to prepare}
-- Goal: {What you want from it}
-
-(etc.)
-
-**Focus Time:** {Hours available}
+Write status to draft frontmatter:
+```
+---
+status: ok
+assistant: calendar
+action: plan
+timescale: daily
+timestamp: {ISO timestamp}
+---
+```
 
 ## Observations
-- {Calendar patterns}
 
-## Timestamp
-{ISO timestamp}
-```
+Track patterns in draft under `## Observations` section:
+- Meeting density trends
+- Focus time availability
+- Recurring meeting patterns

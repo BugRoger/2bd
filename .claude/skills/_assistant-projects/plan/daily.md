@@ -1,42 +1,27 @@
 # Projects: Plan Daily
 
-Identify project focus for today.
+Generate project task draft.
 
 ## Context to Load
 
-1. Read `vault/01_Projects/` for active projects
-2. Read today's 1-3-5 for project-related tasks
-3. Read `vault/00_Brain/Semantic/Assistants/projects/memory.md` if exists
-
-## Process
-
-1. Surface active projects:
-   - What projects need attention today?
-   - Any blockers to address?
-   - What's the next action?
+1. Read active project files from `vault/01_Projects/`
+2. Read `vault/00_Brain/Semantic/Assistants/projects/memory.md`
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/projects/{date}-plan-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/projects/daily-draft.md`:
 
 ```markdown
-# Projects: plan(daily) {date}
+## Projects
 
-## Status
-ok
+**Active Projects:**
+{List projects with upcoming deadlines or status=in-progress}
 
-## Section
-### Project Focus
+<!-- ASK:projects-focus
+Which project(s) are you working on today?
+-->
 
-**Active today:**
-- {Project} — {Next action}
-
-**Blockers:**
-- {Project} — {What's blocking}
-
-## Observations
-- {Project patterns}
-
-## Timestamp
-{ISO timestamp}
+<!-- ASK:projects-blockers
+Any blockers or dependencies?
+-->
 ```

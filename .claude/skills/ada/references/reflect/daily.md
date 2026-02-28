@@ -1,25 +1,131 @@
 # Reflect Daily Sequence
 
-Execute these assistants in order:
+## Phase 1: Parallel Draft Generation
 
-1. @_assistant-goals action=reflect timescale=daily
-2. @_assistant-calendar action=reflect timescale=daily
-3. @_assistant-journal action=reflect timescale=daily
-4. @_assistant-achievements action=reflect timescale=daily
-5. @_assistant-relationships action=reflect timescale=daily
-6. @_assistant-projects action=reflect timescale=daily
-7. @ada/references/compose action=reflect timescale=daily
+Launch all assistants as background agents in a single message:
+
+```
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-goals reflect daily in draft mode. Compare plan vs actual, generate draft with findings and placeholders to Synthetic/Assistants/goals/daily-reflect-draft.md"
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-calendar reflect daily in draft mode. Compare plan vs actual, generate draft with findings and placeholders to Synthetic/Assistants/calendar/daily-reflect-draft.md"
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-journal reflect daily in draft mode. Generate draft with reflection and placeholders to Synthetic/Assistants/journal/daily-reflect-draft.md"
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-achievements reflect daily in draft mode. Generate draft with findings and placeholders to Synthetic/Assistants/achievements/daily-reflect-draft.md"
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-relationships reflect daily in draft mode. Generate draft with findings and placeholders to Synthetic/Assistants/relationships/daily-reflect-draft.md"
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-projects reflect daily in draft mode. Generate draft with findings and placeholders to Synthetic/Assistants/projects/daily-reflect-draft.md"
+)
+```
+
+## Phase 2: Wait for Completion
+
+Use TaskOutput to wait for all agents to complete. Timeout: 2 minutes per agent.
+
+## Phase 3: Collect Drafts
+
+Use @ada/references/collect-drafts to gather all drafts and extract placeholders.
+
+## Phase 4: Orchestrate Questions
+
+Order questions intelligently:
+
+1. **Reflection questions first** (journal: how was your day, what went well)
+2. **Achievement questions** (goals: did you hit priorities, achievements: wins to capture)
+3. **Analysis questions** (calendar: meeting insights, projects: progress)
+4. **Learning questions** (relationships: interactions, what did you learn)
+
+Heuristic: journal → achievements → goals → calendar → projects → relationships
+
+Within each assistant, maintain question order from draft.
+
+## Phase 5: Ask Questions
+
+For each question in order:
+- Show context from draft if helpful
+- Ask the question
+- Collect and validate answer
+- Map to placeholder ID
+
+## Phase 6: Fill Placeholders
+
+Use @ada/references/fill-placeholders to replace all placeholders with answers.
+
+## Phase 7: Compose
+
+Use @ada/references/compose/compose action=reflect timescale=daily to assemble final note.
+
+## Phase 8: Learn Phase
 
 After compose, run learn phase:
 
-9. @_assistant-goals action=learn timescale=daily
-10. @_assistant-calendar action=learn timescale=daily
-11. @_assistant-journal action=learn timescale=daily
-12. @_assistant-achievements action=learn timescale=daily
-13. @_assistant-relationships action=learn timescale=daily
-14. @_assistant-projects action=learn timescale=daily
+Launch all assistants as background agents:
 
-## Aggregate Findings
+```
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-goals learn daily. Analyze patterns and update memory."
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-calendar learn daily. Analyze patterns and update memory."
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-journal learn daily. Analyze patterns and update memory."
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-achievements learn daily. Analyze patterns and update memory."
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-relationships learn daily. Analyze patterns and update memory."
+)
+
+Agent(
+  subagent_type: "general-purpose",
+  run_in_background: true,
+  prompt: "Run @_assistant-projects learn daily. Analyze patterns and update memory."
+)
+```
+
+Wait for completion and collect findings.
+
+## Phase 9: Aggregate Findings
 
 After assistants return findings:
 
@@ -30,7 +136,7 @@ After assistants return findings:
    - Ask coaching questions that connect insights
    - Discuss entity learnings with user
 
-## Persist Entity Learnings
+## Phase 10: Persist Entity Learnings
 
 After user confirms insights:
 
@@ -43,7 +149,8 @@ For each confirmed entity learning:
 
 ## Error Handling
 
-If an assistant fails:
+If an assistant agent fails:
 1. Log error with assistant name and message
-2. Continue with next assistant
-3. Note gap in compose step
+2. Continue with other assistants
+3. Report failed sections to user
+4. Note gaps in compose step

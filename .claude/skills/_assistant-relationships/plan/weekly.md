@@ -1,6 +1,6 @@
 # Relationships: Plan Weekly
 
-Set relationship intentions for the week.
+Generate relationship intentions draft with placeholders.
 
 ## Context to Load
 
@@ -8,42 +8,49 @@ Set relationship intentions for the week.
 2. Read `vault/00_Brain/Semantic/People/` for key relationships
 3. Read `vault/00_Brain/Semantic/Assistants/relationships/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Review key relationships:
-   - Direct reports needing attention
-   - Stakeholders to nurture
-   - Network to maintain
-
-2. Set intentions:
-   - Who deserves focused time this week?
-   - Any relationship repairs needed?
+1. Review calendar for scheduled interactions
+2. Identify key relationships from People folder
+3. Generate draft with placeholders for intention setting
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/relationships/{date}-plan-weekly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/relationships/weekly-draft.md`:
 
 ```markdown
-# Relationships: plan(weekly) {date}
+## Relationships
 
-## Status
-ok
+**Scheduled This Week:**
+{List people from calendar}
 
-## Section
+**Key Relationships:**
+{List important people from People folder}
+
 ### Relationship Intentions
 
-**Priority connections:**
-- {Person} — {Intention}
+<!-- ASK:relationships-priority
+Who deserves focused time this week? What's your intention for each?
+-->
 
-**Maintenance:**
-- {Person} — {Quick touchpoint}
+<!-- ASK:relationships-maintenance
+Any quick touchpoints to maintain connections?
+-->
 
-**Watch list:**
-- {Person} — {Concern to monitor}
+<!-- ASK:relationships-repairs
+Any relationship repairs or concerns to address?
+-->
+```
 
-## Observations
-- {Relationship patterns}
+## Status
 
-## Timestamp
-{ISO timestamp}
+Add frontmatter:
+```
+---
+status: ok
+assistant: relationships
+action: plan
+timescale: weekly
+timestamp: {ISO timestamp}
+---
 ```

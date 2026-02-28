@@ -1,6 +1,6 @@
 # Goals: Plan Weekly
 
-Guide Major Moves selection aligned with Quarterly Quests.
+Generate Major Moves draft with placeholders for user input.
 
 ## Context to Load
 
@@ -8,46 +8,63 @@ Guide Major Moves selection aligned with Quarterly Quests.
 2. Read `vault/00_Brain/Captive/Year.md` for Annual Goals (grounding)
 3. Read `vault/00_Brain/Semantic/Assistants/goals/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Show context:
-   - Quarterly Quests (from Quarter.md)
-   - Annual Goals for grounding
-
-2. Interactive conversation:
-   - Ask: "Which 2-3 Quests will you advance this week?"
-   - For each: "What does progress look like by Friday?"
-   - Validate realistic scope given calendar
-
-3. Finalize Major Moves:
-   - 2-3 Quests to advance
-   - Each with progress target
+1. Extract Quarterly Quests from Quarter.md
+2. Show Annual Goals for context
+3. Generate draft with placeholders for Quest selection and targets
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/goals/{date}-plan-weekly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/goals/weekly-draft.md`:
 
 ```markdown
-# Goals: plan(weekly) {date}
+## Goals
 
-## Status
-ok
+**From Your Quarter:**
+- Quest 1: {Extract from Quarter.md}
+- Quest 2: {Extract from Quarter.md}
+- Quest 3: {Extract from Quarter.md}
 
-## Section
+**Annual Goals (Context):**
+- {Extract from Year.md}
+
 ### Major Moves
 
-**Quest 1:** {Quest name}
-- Target: {What progress looks like by Friday}
+<!-- ASK:goals-quest-1
+Which Quest will you advance as Major Move #1 this week?
+-->
 
-**Quest 2:** {Quest name}
-- Target: {What progress looks like by Friday}
+<!-- ASK:goals-target-1
+What does progress look like by Friday for this Quest?
+-->
 
-**Quest 3:** {Quest name} (optional)
-- Target: {What progress looks like by Friday}
+<!-- ASK:goals-quest-2
+Which Quest will you advance as Major Move #2 this week?
+-->
 
-## Observations
-- {Any patterns noticed}
+<!-- ASK:goals-target-2
+What does progress look like by Friday for this Quest?
+-->
 
-## Timestamp
-{ISO timestamp}
+<!-- ASK:goals-quest-3
+(Optional) Any third Quest to advance this week?
+-->
+
+<!-- ASK:goals-target-3
+If yes, what does progress look like by Friday?
+-->
+```
+
+## Status
+
+Add frontmatter:
+```
+---
+status: ok
+assistant: goals
+action: plan
+timescale: weekly
+timestamp: {ISO timestamp}
+---
 ```

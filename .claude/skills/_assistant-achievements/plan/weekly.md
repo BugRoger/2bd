@@ -1,41 +1,51 @@
 # Achievements: Plan Weekly
 
-Identify achievement targets for the week.
+Generate achievement targets draft with placeholders.
 
 ## Context to Load
 
-1. Read this week's Major Moves
+1. Read this week's Major Moves from Week.md
 2. Read `vault/00_Brain/Semantic/Assistants/achievements/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Identify week's targets:
-   - What milestones could be hit?
-   - What impact can you create?
-   - What's worth celebrating?
+1. Extract Major Moves for context
+2. Generate draft with placeholders for milestone and impact identification
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/achievements/{date}-plan-weekly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/achievements/weekly-draft.md`:
 
 ```markdown
-# Achievements: plan(weekly) {date}
+## Achievements
 
-## Status
-ok
+**From Your Week:**
+- {Extract Major Moves from Week.md}
 
-## Section
 ### Achievement Targets
 
-**Milestones:**
-- {Milestone target}
+<!-- ASK:achievements-milestones
+What milestones could you hit this week?
+-->
 
-**Impact opportunities:**
-- {Impact possibility}
+<!-- ASK:achievements-impact
+What impact can you create this week?
+-->
 
-## Observations
-- {Achievement patterns}
+<!-- ASK:achievements-celebrate
+What would be worth celebrating by Friday?
+-->
+```
 
-## Timestamp
-{ISO timestamp}
+## Status
+
+Add frontmatter:
+```
+---
+status: ok
+assistant: achievements
+action: plan
+timescale: weekly
+timestamp: {ISO timestamp}
+---
 ```

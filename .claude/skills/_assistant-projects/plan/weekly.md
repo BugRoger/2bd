@@ -1,6 +1,6 @@
 # Projects: Plan Weekly
 
-Review project status for the week.
+Generate project status draft with placeholders.
 
 ## Context to Load
 
@@ -8,41 +8,49 @@ Review project status for the week.
 2. Read this week's Major Moves for project alignment
 3. Read `vault/00_Brain/Semantic/Assistants/projects/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Review all active projects:
-   - Status (on track / at risk / blocked)
-   - This week's goal
-   - Key milestones
+1. Review all active projects from Projects folder
+2. Extract Major Moves for alignment check
+3. Generate draft with project context and placeholders
 
 ## Output
 
-Write to `vault/00_Brain/Synthetic/Assistants/projects/{date}-plan-weekly.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/projects/weekly-draft.md`:
 
 ```markdown
-# Projects: plan(weekly) {date}
+## Projects
 
-## Status
-ok
+**Active Projects:**
+{List projects from vault/01_Projects/ with status=in-progress}
 
-## Section
+**This Week's Major Moves:**
+{Extract from Week.md}
+
 ### Project Status
 
-**{Project 1}**
-- Status: {On track / At risk / Blocked}
-- This week: {Goal}
-- Milestone: {Next milestone}
+<!-- ASK:projects-status
+For each active project, what's the status and this week's goal?
+-->
 
-**{Project 2}**
-- Status: {On track / At risk / Blocked}
-- This week: {Goal}
-- Milestone: {Next milestone}
+<!-- ASK:projects-milestones
+What are the key milestones coming up?
+-->
 
-(etc.)
+<!-- ASK:projects-risks
+Any projects at risk or blocked?
+-->
+```
 
-## Observations
-- {Project patterns, risks}
+## Status
 
-## Timestamp
-{ISO timestamp}
+Add frontmatter:
+```
+---
+status: ok
+assistant: projects
+action: plan
+timescale: weekly
+timestamp: {ISO timestamp}
+---
 ```

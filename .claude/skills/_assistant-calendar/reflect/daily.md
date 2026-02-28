@@ -1,67 +1,69 @@
 # Calendar: Reflect Daily
 
-Compare planned meetings to actual outcomes and return findings to Ada.
+Generate reflection draft comparing planned meetings to actual outcomes with placeholders for user input.
 
 ## Context to Load
 
-1. Read own template from `vault/00_Brain/Systemic/Templates/Assistants/calendar/daily.md`
-2. Read plan output: `vault/00_Brain/Synthetic/Assistants/calendar/{date}-plan-daily.md`
-3. Read capture note `vault/00_Brain/Captive/Today.md` — find `## Meetings` section by H2 header
-4. Read `vault/00_Brain/Semantic/Assistants/calendar/memory.md` if exists
+1. Read plan output: `vault/00_Brain/Synthetic/Assistants/calendar/{date}-plan-daily.md` or draft
+2. Read capture note `vault/00_Brain/Captive/Today.md` — find `## Calendar` section
+3. Read `vault/00_Brain/Semantic/Assistants/calendar/memory.md` if exists
 
-## Process
+## Draft Generation
 
-1. Extract planned meetings from plan output (what was intended)
-2. Extract actual meeting notes from capture note section (what happened)
-3. Generate variance narrative:
-   - What was completed as planned
-   - What was planned but not done
-   - What emerged that wasn't planned
-4. Identify entity learnings (people, projects mentioned with insights)
-5. Generate coaching questions based on patterns
-
-## Return to Ada
-
-Return findings for coaching conversation:
-
-```markdown
-## Findings
-
-### Variance
-- Planned: [Summary of meetings from plan]
-- Actual: [What happened]
-- Gap: [What shifted, notable patterns]
-
-### Coaching Questions
-- [Question exploring the variance]
-- [Question about patterns worth examining]
-
-### Entity Learnings
-- [[Person]]: [Insight discovered]
-- [[Project]]: [Insight discovered]
-```
+1. Extract planned meetings from plan output
+2. Extract actual meeting notes from capture note if available
+3. Generate variance analysis with placeholders for unknowns
+4. Add placeholders for coaching questions about patterns
 
 ## Output
 
-After coaching, write to `vault/00_Brain/Synthetic/Assistants/calendar/{date}-reflect-daily.md`:
+Write to `vault/00_Brain/Synthetic/Assistants/calendar/daily-reflect-draft.md`:
 
 ```markdown
-# Calendar: reflect(daily) {date}
+## Calendar
+
+**Planned Meetings:**
+{Extract meetings from plan}
+
+**From Today's Note:**
+{Extract meeting notes from Today.md if available}
+
+### Reflection
+
+<!-- ASK:calendar-meetings-happened
+How did your meetings go today? Any key outcomes?
+-->
+
+<!-- ASK:calendar-prep-effective
+Were you adequately prepared for your meetings?
+-->
+
+<!-- ASK:calendar-unplanned
+Any unplanned meetings or interruptions?
+-->
+
+<!-- ASK:calendar-energy
+How was your energy across the day? Did the meeting density work?
+-->
+
+### Entity Learnings
+
+{Auto-extract any people or projects mentioned}
+
+<!-- ASK:calendar-entity-insights
+Any insights about people or projects from today's meetings?
+-->
+```
 
 ## Status
-ok
 
-## Section
-### Meeting Review
-
-[Variance narrative from coaching conversation]
-
-## Entity Learnings
-- [[Entity]]: [Confirmed insight]
-
-## Observations
-- [Patterns for calendar memory]
-
-## Timestamp
-{ISO timestamp}
+Add frontmatter:
+```
+---
+status: ok
+assistant: calendar
+action: reflect
+timescale: daily
+timestamp: {ISO timestamp}
+---
 ```

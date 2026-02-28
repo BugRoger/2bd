@@ -44,6 +44,17 @@ Generate brief section containing:
 - **Top Priorities** — synthesized from goals + calendar + projects
 - **Intention** — one word + explanation
 
+## Draft Mode Support
+
+When assistants ran in draft mode:
+
+1. Drafts are already filled with user answers
+2. Read filled drafts from `Synthetic/Assistants/{name}/{timescale}-draft.md`
+3. Extract `## Section` content (already complete)
+4. Proceed with normal assembly process
+
+No changes needed to assembly logic - filled drafts look like normal assistant outputs.
+
 ## Output
 
 Updates Captive or Periodic files directly.

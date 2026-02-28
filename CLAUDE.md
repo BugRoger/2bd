@@ -57,6 +57,11 @@ See all rules in section **## GitHub Workflow**
 1. Use standard labels: type:epic, type:story, type:task, type:bug, type:chore, type:docs
 2. Use scope labels: scope:skill, scope:ritual, scope:template, scope:integration
 
+### 9. Parallel Execution
+See all rules in section **## Parallel Execution**
+1. Assistants run as background agents outputting drafts with placeholders
+2. Ada orchestrates via draft collection, question ordering, and placeholder filling
+
 ---
 
 ## META - MAINTAINING THIS DOCUMENT
@@ -210,3 +215,21 @@ Skills read as prose, not scripts.
 | `scope:ritual` | Planning or reflection ritual |
 | `scope:template` | Template files |
 | `scope:integration` | External integration |
+
+---
+
+## Parallel Execution
+
+**Agent architecture**: Assistants run as autonomous agents in draft mode.
+
+**Draft output**: Each assistant writes `Synthetic/Assistants/{name}/{timescale}-draft.md`
+
+**Placeholder syntax**: `<!-- ASK:unique-id\nQuestion text?\n-->`
+
+**Ada orchestration**: Launch all → collect drafts → order questions → ask user → fill placeholders → compose
+
+**Configuration**: `vault/00_Brain/Systemic/Config/ada.yaml` with `parallel_execution: true/false`
+
+**Error handling**: Failed agents don't block ritual; partial results still usable
+
+**Feature flag**: Can toggle parallel mode on/off for rollback
