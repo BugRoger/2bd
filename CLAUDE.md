@@ -42,6 +42,7 @@ See all rules in section **## Agent-Specific Notes**
 6. When user says "push": you may `git pull --rebase` to integrate latest changes
 7. When user says "commit": scope to your changes only
 8. When user says "commit all": commit everything in grouped chunks
+9. Worktree cleanup order: remove worktree first, then delete branch
 
 ### 6. Refactoring
 See all rules in section **## Refactoring**
@@ -168,6 +169,7 @@ When modifying timescales, update these locations:
 - **When user says "commit all"**: commit everything in grouped chunks
 - **Unrecognized files**: keep going; focus on your changes and commit only those
 - **Reports**: focus on your edits; avoid guard-rail disclaimers unless truly blocked; end with brief "other files present" note only if relevant
+- **Worktree cleanup order**: remove worktree first (`git worktree remove`), then delete branch (`git branch -d`)
 
 ---
 
