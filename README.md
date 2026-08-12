@@ -1,5 +1,7 @@
 # 2bd (Second Brain Daemon)
 
+[![Skillselion Top 25](https://skillselion.com/badge/marketplace/BugRoger/2bd.svg?award=1)](https://skillselion.com/marketplace/BugRoger/2bd)
+
 ```
 [BOOT_SEQUENCE]
 > BIOMETRIC_SCAN.............. [MATCH]
